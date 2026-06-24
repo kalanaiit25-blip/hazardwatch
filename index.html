@@ -106,9 +106,9 @@
 
   <!-- ===== NAV ===== -->
   <nav class="nav" id="nav">
-    <button class="nav-tab active" data-page="overview"><i class="ti ti-layout-dashboard"></i> Overview</button>
-    <button class="nav-tab" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
+    <button class="nav-tab active" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
     <button class="nav-tab" data-page="predict"><i class="ti ti-target"></i> Predict</button>
+    <button class="nav-tab" data-page="overview"><i class="ti ti-chart-bar"></i> Analytics</button>
     <button class="nav-tab" data-page="models"><i class="ti ti-chart-bar"></i> Models</button>
     <button class="nav-tab" data-page="features"><i class="ti ti-list-numbers"></i> Features</button>
     <button class="nav-tab" data-page="scalability"><i class="ti ti-bolt"></i> Scalability</button>
@@ -120,10 +120,10 @@
   <main class="content">
 
     <!-- ===== OVERVIEW ===== -->
-    <section class="page active" id="page-overview">
+    <section class="page" id="page-overview">
       <div class="page-head">
-        <h1>National hazard overview</h1>
-        <p>Distributed ML framework predicting compound flood &amp; landslide risk across 53,945 grid cells.</p>
+        <h1>Analytics</h1>
+        <p>Model performance summary — AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
@@ -157,7 +157,7 @@
     </section>
 
     <!-- ===== LIVE MAP ===== -->
-    <section class="page" id="page-map">
+    <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
         <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
@@ -174,11 +174,11 @@
                         border-radius:6px;font-size:13px;background:inherit;color:inherit;outline:none;">
         </div>
         <div class="layer-toggle" style="display:flex;gap:4px;">
-          <button class="layer-btn active" id="hw-btn-flood"
+          <button class="layer-btn active" id="hw-btn-flood" data-layer="flood"
                   onclick="hwSetMode('flood',this)">Flood</button>
-          <button class="layer-btn" id="hw-btn-land"
+          <button class="layer-btn" id="hw-btn-land" data-layer="land"
                   onclick="hwSetMode('land',this)">Landslide</button>
-          <button class="layer-btn" id="hw-btn-compound"
+          <button class="layer-btn" id="hw-btn-compound" data-layer="compound"
                   onclick="hwSetMode('compound',this)">Compound</button>
         </div>
       </div>
@@ -542,52 +542,41 @@
   </footer>
 
 
-  <!-- Leaflet JS + HazardWatch engine (loads before app.js) -->
+  <!-- Leaflet JS + HazardWatch engine -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
-  /* district data — all 25 Sri Lanka districts, coords verified */
-  var HW_D=[
-    {n:"Colombo",      lat:6.9271,lng:79.8612,f:.79,l:.15,c:.67},
-    {n:"Gampaha",      lat:7.0913,lng:80.0082,f:.75,l:.12,c:.58},
-    {n:"Kalutara",     lat:6.5854,lng:80.0022,f:.82,l:.34,c:.71},
-    {n:"Kandy",        lat:7.2906,lng:80.6337,f:.51,l:.78,c:.75},
-    {n:"Matale",       lat:7.4675,lng:80.6234,f:.35,l:.71,c:.54},
-    {n:"Nuwara Eliya", lat:6.9497,lng:80.7891,f:.45,l:.92,c:.87},
-    {n:"Galle",        lat:6.0535,lng:80.2210,f:.68,l:.28,c:.52},
-    {n:"Matara",       lat:5.9549,lng:80.5550,f:.65,l:.22,c:.48},
-    {n:"Hambantota",   lat:6.1241,lng:81.1185,f:.55,l:.28,c:.44},
-    {n:"Jaffna",       lat:9.6615,lng:80.0255,f:.62,l:.03,c:.35},
-    {n:"Kilinochchi",  lat:9.3803,lng:80.3770,f:.49,l:.07,c:.30},
-    {n:"Mannar",       lat:8.9785,lng:79.9042,f:.45,l:.08,c:.28},
-    {n:"Vavuniya",     lat:8.7514,lng:80.4997,f:.42,l:.15,c:.30},
-    {n:"Mullaitivu",   lat:9.2671,lng:80.8142,f:.58,l:.10,c:.35},
-    {n:"Batticaloa",   lat:7.7170,lng:81.7003,f:.78,l:.05,c:.43},
-    {n:"Ampara",       lat:7.2995,lng:81.6747,f:.71,l:.08,c:.45},
-    {n:"Trincomalee",  lat:8.5874,lng:81.2152,f:.61,l:.12,c:.40},
-    {n:"Kurunegala",   lat:7.4868,lng:80.3626,f:.52,l:.42,c:.48},
-    {n:"Puttalam",     lat:8.0362,lng:79.8283,f:.55,l:.15,c:.38},
-    {n:"Anuradhapura", lat:8.3114,lng:80.4037,f:.48,l:.25,c:.36},
-    {n:"Polonnaruwa",  lat:7.9403,lng:81.0188,f:.58,l:.18,c:.42},
-    {n:"Badulla",      lat:6.9934,lng:81.0550,f:.42,l:.85,c:.72},
-    {n:"Monaragala",   lat:6.8728,lng:81.3507,f:.48,l:.55,c:.52},
-    {n:"Ratnapura",    lat:6.6828,lng:80.3992,f:.65,l:.81,c:.79},
-    {n:"Kegalle",      lat:7.2513,lng:80.3464,f:.58,l:.74,c:.68}
-  ];
+  /*
+   * HazardWatch — Leaflet map + improved predict UI
+   * Uses real DISTRICTS data from data.js (loaded after this block,
+   * but available by the time DOMContentLoaded fires).
+   */
 
-  var hwMap=null, hwMks=[], hwMode='flood', hwMapInited=false;
+  var hwMap = null, hwMks = [], hwMode = 'flood';
+  // HW_D populated from real DISTRICTS inside hwInitMap()
+  var HW_D = [];
 
-  function hwRCol(v){return v>=.75?'#FF4757':v>=.5?'#FF8C42':v>=.25?'#FFD700':'#2ECC71'}
-  function hwRCls(v){return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'}
-  function hwSc(d,m){return m==='flood'?d.f:m==='land'?d.l:d.c}
+  function hwRCol(v){ return v>=.75?'#d85a30':v>=.5?'#ba7517':v>=.25?'#378add':'#1d9e75'; }
+  function hwRCls(v){ return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'; }
+  function hwSc(d,m){ return m==='flood'?d.f : m==='land'?d.l : d.c; }
 
+  /* ── MAP ── */
   function hwInitMap(){
-    var el=document.getElementById('hwLeafletMap');
-    if(!el||hwMapInited) return;
-    hwMapInited=true;
-    hwMap=L.map('hwLeafletMap',{center:[7.87,80.77],zoom:7,zoomControl:false});
-    L.control.zoom({position:'bottomleft'}).addTo(hwMap);
-    /* OpenStreetMap standard tiles — most reliable, no auth needed */
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    var el = document.getElementById('hwLeafletMap');
+    if(!el){ console.warn('hwLeafletMap not found'); return; }
+
+    // Build district data from real data.js values
+    if(typeof DISTRICTS !== 'undefined' && DISTRICTS.length > 0){
+      HW_D = DISTRICTS.map(function(d){
+        return { n:d.name, lat:d.lat, lng:d.lon, f:d.flood, l:d.land,
+                 c:parseFloat(((d.flood+d.land)/2).toFixed(3)),
+                 province:d.province, rain:d.rain };
+      });
+    }
+    if(HW_D.length === 0){ console.warn('No district data'); return; }
+
+    hwMap = L.map('hwLeafletMap', { center:[7.87,80.77], zoom:7, zoomControl:false });
+    L.control.zoom({ position:'bottomleft' }).addTo(hwMap);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom:19
     }).addTo(hwMap);
@@ -598,213 +587,225 @@
 
   function hwDraw(mode){
     if(!hwMap) return;
-    hwMks.forEach(function(m){hwMap.removeLayer(m)});
-    hwMks=[];
+    hwMks.forEach(function(m){ hwMap.removeLayer(m); });
+    hwMks = [];
     HW_D.forEach(function(d){
-      var v=hwSc(d,mode),col=hwRCol(v),cls=hwRCls(v),sz=22+Math.round(v*16);
-      var icon=L.divIcon({
+      var v = hwSc(d,mode), col = hwRCol(v), cls = hwRCls(v);
+      var sz = 22 + Math.round(v * 16);
+      var icon = L.divIcon({
         className:'',
         html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
             +'<div class="hw-mk-ring"></div>'
             +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.9">'
             +Math.round(v*100)+'</div></div>',
-        iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]
+        iconSize:[sz,sz], iconAnchor:[sz/2,sz/2]
       });
-      var mk=L.marker([d.lat,d.lng],{icon:icon})
+      var mk = L.marker([d.lat,d.lng], {icon:icon})
         .addTo(hwMap)
-        .bindPopup(hwPopup(d),{maxWidth:230})
-        .on('click',function(){hwShowDet(d)});
+        .bindPopup(hwPopup(d), {maxWidth:230})
+        .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
       hwMks.push(mk);
     });
   }
 
   function hwPopup(d){
     function row(lbl,v,col){
-      return '<div class="hw-pop-row"><span class="hw-pop-lbl">'+lbl+'</span>'
-        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100)+'%"></div></div>'
-        +'<span class="hw-pop-num" style="color:'+col+'">'+v.toFixed(2)+'</span></div>';
+      return '<div class="hw-pop-row">'
+        +'<span class="hw-pop-lbl">'+lbl+'</span>'
+        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100).toFixed(0)+'%"></div></div>'
+        +'<span class="hw-pop-num" style="color:'+col+'">'+(v*100).toFixed(0)+'%</span></div>';
     }
-    return '<div class="hw-pop"><div class="hw-pop-name">'+d.n+'</div>'
-      +row('Flood',d.f,'#3B9EFF')+row('Landslide',d.l,'#FF8C42')+row('Compound',d.c,'#FF4757')+'</div>';
+    return '<div class="hw-pop">'
+      +'<div class="hw-pop-name">'+d.n+'</div>'
+      +(d.province ? '<div style="font-size:11px;color:#718096;margin-bottom:8px;">'+d.province+' Province · '+d.rain+' mm rain</div>' : '')
+      +row('Flood',d.f,'#d85a30')
+      +row('Landslide',d.l,'#534ab7')
+      +row('Compound',d.c,'#8b00ff')
+      +'</div>';
   }
 
   function hwShowDet(d){
-    var card=document.getElementById('hw-detail-card');
-    if(card) card.style.display='block';
-    document.getElementById('hw-sel-district').textContent=d.n;
-    document.getElementById('hw-df').textContent=d.f.toFixed(2);
-    document.getElementById('hw-dl').textContent=d.l.toFixed(2);
-    document.getElementById('hw-dc').textContent=d.c.toFixed(2);
-    document.getElementById('hw-dfb').style.width=(d.f*100)+'%';
-    document.getElementById('hw-dlb').style.width=(d.l*100)+'%';
-    document.getElementById('hw-dcb').style.width=(d.c*100)+'%';
+    var card = document.getElementById('hw-detail-card');
+    if(card) card.style.display = 'block';
+    document.getElementById('hw-sel-district').textContent = d.n + (d.province ? ', '+d.province+' Province' : '');
+    document.getElementById('hw-df').textContent = (d.f*100).toFixed(0)+'%';
+    document.getElementById('hw-dl').textContent = (d.l*100).toFixed(0)+'%';
+    document.getElementById('hw-dc').textContent = (d.c*100).toFixed(0)+'%';
+    document.getElementById('hw-dfb').style.width = (d.f*100)+'%';
+    document.getElementById('hw-dlb').style.width = (d.l*100)+'%';
+    document.getElementById('hw-dcb').style.width = (d.c*100)+'%';
   }
 
-  function hwSetMode(mode,btn){
-    hwMode=mode;
+  function hwSetMode(mode, btn){
+    hwMode = mode;
     ['flood','land','compound'].forEach(function(m){
-      var b=document.getElementById('hw-btn-'+m);
+      var b = document.getElementById('hw-btn-'+m);
       if(b) b.classList.remove('active');
     });
     if(btn) btn.classList.add('active');
     hwDraw(mode);
     hwBuildList(mode);
-    var t=document.getElementById('hw-list-title');
-    if(t) t.textContent='Risk-ranked districts — '
-      +(mode==='flood'?'Flood':mode==='land'?'Landslide':'Compound');
+    var t = document.getElementById('hw-list-title');
+    if(t) t.textContent = 'Risk-ranked districts — '
+      + (mode==='flood'?'Flood' : mode==='land'?'Landslide' : 'Compound');
   }
 
   function hwBuildList(mode){
-    var el=document.getElementById('hw-district-list');
+    var el = document.getElementById('hw-district-list');
     if(!el) return;
-    var sorted=HW_D.slice().sort(function(a,b){return hwSc(b,mode)-hwSc(a,mode)});
-    var html='';
+    var sorted = HW_D.slice().sort(function(a,b){ return hwSc(b,mode) - hwSc(a,mode); });
+    var html = '';
     sorted.forEach(function(d,i){
-      var v=hwSc(d,mode),col=hwRCol(v);
-      html+='<div class="hw-ditem" onclick="hwFly(''+d.n+'')">'
-        +'<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
-        +'<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
-        +'<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
-        +'<div class="hw-dinfo"><div class="hw-dname">'+d.n+'</div>'
-        +'<div class="hw-dpills">'
-        +'<span class="hw-pill" style="background:rgba(59,158,255,.12);color:#3B9EFF">F:'+d.f.toFixed(2)+'</span>'
-        +'<span class="hw-pill" style="background:rgba(255,140,66,.12);color:#FF8C42">L:'+d.l.toFixed(2)+'</span>'
-        +'<span class="hw-pill" style="background:rgba(255,71,87,.12);color:#FF4757">C:'+d.c.toFixed(2)+'</span>'
-        +'</div></div></div>';
+      var v = hwSc(d,mode), col = hwRCol(v);
+      html += '<div class="hw-ditem" data-nm="'+d.n+'">'
+        + '<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
+        + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
+        + '<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
+        + '<div class="hw-dinfo">'
+        + '<div class="hw-dname">'+d.n+'</div>'
+        + '<div class="hw-dpills">'
+        + '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+(d.f*100).toFixed(0)+'%</span>'
+        + '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+(d.l*100).toFixed(0)+'%</span>'
+        + '</div></div></div>';
     });
-    el.innerHTML=html;
+    el.innerHTML = html;
+    // Use addEventListener — avoids quoting issues with onclick
+    el.querySelectorAll('.hw-ditem').forEach(function(item){
+      item.addEventListener('click', function(){ hwFly(this.dataset.nm); });
+    });
   }
 
   function hwFly(name){
-    var d=HW_D.find(function(x){return x.n===name});
-    if(d&&hwMap){hwMap.flyTo([d.lat,d.lng],9,{duration:1.2});hwShowDet(d);}
+    var d = HW_D.find(function(x){ return x.n === name; });
+    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 9, {duration:1.2}); hwShowDet(d); }
   }
 
   function hwFilter(q){
-    document.querySelectorAll('.hw-ditem').forEach(function(el){
-      el.style.display=el.querySelector('.hw-dname').textContent.toLowerCase()
-        .includes(q.toLowerCase())?'':'none';
+    document.querySelectorAll('.hw-ditem').forEach(function(item){
+      item.style.display = item.querySelector('.hw-dname').textContent.toLowerCase()
+        .includes(q.toLowerCase()) ? '' : 'none';
     });
   }
 
-  /* ── PREDICTION ENGINE ── */
-  var hwCurModel='xgb';
-  var HW_S={rain:120,elev:250,slope:12,sm:45,rd:8,ndvi:.42};
-  var HW_PRESETS={
-    base:  {rain:120,elev:250, slope:12,sm:45,rd:8, ndvi:.42},
-    ditwah:{rain:350,elev:180, slope:25,sm:85,rd:3, ndvi:.28},
-    low:   {rain:200,elev:15,  slope:3, sm:78,rd:2, ndvi:.35},
-    dry:   {rain:50, elev:1800,slope:8, sm:20,rd:25,ndvi:.55},
-    hill:  {rain:280,elev:900, slope:42,sm:72,rd:12,ndvi:.31}
+  /* ── PREDICT ENGINE ── */
+  var hwCurModel = 'xgb';
+  var HW_S = { rain:120, elev:250, slope:12, sm:45, rd:8, ndvi:.42 };
+  var HW_PRESETS = {
+    base:  { rain:120, elev:250,  slope:12, sm:45, rd:8,  ndvi:.42 },
+    ditwah:{ rain:350, elev:180,  slope:25, sm:85, rd:3,  ndvi:.28 },
+    low:   { rain:200, elev:15,   slope:3,  sm:78, rd:2,  ndvi:.35 },
+    dry:   { rain:50,  elev:1800, slope:8,  sm:20, rd:25, ndvi:.55 },
+    hill:  { rain:280, elev:900,  slope:42, sm:72, rd:12, ndvi:.31 }
   };
-  var HW_MI={
-    xgb:{lbl:'XGBoost',    note:'Best event validation — Cyclone Ditwah AUC 0.9174'},
-    sk: {lbl:'sklearn RF', note:'Highest AUC-ROC (0.9235) — fast centralised baseline'},
-    sp: {lbl:'PySpark RF', note:'Best PR-AUC (0.6651) — optimal for 2.8% imbalance'}
+  var HW_MI = {
+    xgb:{ lbl:'XGBoost',    note:'Best event validation — Cyclone Ditwah AUC 0.9174' },
+    sk: { lbl:'sklearn RF', note:'Highest AUC-ROC (0.9235) — fast centralised baseline' },
+    sp: { lbl:'PySpark RF', note:'Best PR-AUC (0.6651) — optimal for 2.8% imbalance' }
   };
-  function hwN(v,a,b){return Math.max(0,Math.min(1,(v-a)/(b-a)))}
-  function hwSig(x){return 1/(1+Math.exp(-x))}
-  function hwCompute(s,m){
-    var r=hwN(s.rain,0,400),e=hwN(s.elev,0,2500),sl=hwN(s.slope,0,60),
-        sm=hwN(s.sm,0,100),rd=hwN(50-s.rd,0,50),ni=hwN(.8-s.ndvi,-.2,.8);
-    var mb={xgb:{f:0,l:.02},sk:{f:.01,l:0},sp:{f:-.01,l:-.01}}[m]||{f:0,l:0};
-    var fl=Math.min(.97,Math.max(.02,hwSig((r*.30+(1-e)*.22+sm*.22+rd*.18+ni*.08-.45)*5)+mb.f));
-    var la=Math.min(.97,Math.max(.02,hwSig((r*.32+sl*.28+sm*.22+e*.12+ni*.06-.45)*5)+mb.l));
-    var co=Math.min(.97,Math.max(.02,1-(1-fl)*(1-la)*.6));
-    return {flood:fl,land:la,compound:co};
+
+  function hwN(v,a,b){ return Math.max(0, Math.min(1, (v-a)/(b-a))); }
+  function hwSig(x){ return 1/(1+Math.exp(-x)); }
+
+  function hwCompute(s, m){
+    var r=hwN(s.rain,0,400), e=hwN(s.elev,0,2500), sl=hwN(s.slope,0,60),
+        sm=hwN(s.sm,0,100), rd=hwN(50-s.rd,0,50), ni=hwN(.8-s.ndvi,-.2,.8);
+    var mb = { xgb:{f:0,l:.02}, sk:{f:.01,l:0}, sp:{f:-.01,l:-.01} }[m] || {f:0,l:0};
+    var fl = Math.min(.97, Math.max(.02, hwSig((r*.30+(1-e)*.22+sm*.22+rd*.18+ni*.08-.45)*5)+mb.f));
+    var la = Math.min(.97, Math.max(.02, hwSig((r*.32+sl*.28+sm*.22+e*.12+ni*.06-.45)*5)+mb.l));
+    var co = Math.min(.97, Math.max(.02, 1-(1-fl)*(1-la)*.6));
+    return { flood:fl, land:la, compound:co };
   }
-  function hwUpd(k,v,isNDVI){
-    if(isNDVI){HW_S[k]=v/100;document.getElementById('hw-v-'+k).textContent=(v/100).toFixed(2);}
-    else{HW_S[k]=parseFloat(v);document.getElementById('hw-v-'+k).textContent=v;}
-    document.querySelectorAll('.hw-pbtn').forEach(function(b){b.classList.remove('on')});
+
+  function hwUpd(k, v, isNDVI){
+    if(isNDVI){ HW_S[k]=v/100; document.getElementById('hw-v-'+k).textContent=(v/100).toFixed(2); }
+    else       { HW_S[k]=parseFloat(v); document.getElementById('hw-v-'+k).textContent=v; }
+    document.querySelectorAll('.hw-pbtn').forEach(function(b){ b.classList.remove('on'); });
   }
-  function hwPreset(k,btn){
-    var p=HW_PRESETS[k];
-    HW_S.rain=p.rain;HW_S.elev=p.elev;HW_S.slope=p.slope;
-    HW_S.sm=p.sm;HW_S.rd=p.rd;HW_S.ndvi=p.ndvi;
+
+  function hwPreset(k, btn){
+    var p = HW_PRESETS[k];
+    if(!p) return;
+    HW_S.rain=p.rain; HW_S.elev=p.elev; HW_S.slope=p.slope;
+    HW_S.sm=p.sm; HW_S.rd=p.rd; HW_S.ndvi=p.ndvi;
     ['rain','elev','slope','sm','rd'].forEach(function(id){
-      var r=document.getElementById('hw-r-'+id);if(r)r.value=p[id];
-      var v=document.getElementById('hw-v-'+id);if(v)v.textContent=p[id];
+      var r=document.getElementById('hw-r-'+id); if(r) r.value=p[id];
+      var v=document.getElementById('hw-v-'+id); if(v) v.textContent=p[id];
     });
-    var rn=document.getElementById('hw-r-ndvi');if(rn)rn.value=p.ndvi*100;
-    var vn=document.getElementById('hw-v-ndvi');if(vn)vn.textContent=p.ndvi.toFixed(2);
-    document.querySelectorAll('.hw-pbtn').forEach(function(b){b.classList.remove('on')});
-    if(btn)btn.classList.add('on');
+    var rn=document.getElementById('hw-r-ndvi'); if(rn) rn.value=p.ndvi*100;
+    var vn=document.getElementById('hw-v-ndvi'); if(vn) vn.textContent=p.ndvi.toFixed(2);
+    document.querySelectorAll('.hw-pbtn').forEach(function(b){ b.classList.remove('on'); });
+    if(btn) btn.classList.add('on');
   }
-  function hwModel(m,btn){
-    hwCurModel=m;
-    document.querySelectorAll('.hw-mt').forEach(function(b){b.classList.remove('on')});
+
+  function hwModel(m, btn){
+    hwCurModel = m;
+    document.querySelectorAll('.hw-mt').forEach(function(b){ b.classList.remove('on'); });
     btn.classList.add('on');
   }
+
   function hwSevCfg(v){
-    if(v>=.75)return{lbl:'CRITICAL',col:'#c53030',bg:'rgba(197,48,48,.08)'};
-    if(v>=.5) return{lbl:'HIGH',    col:'#c05621',bg:'rgba(192,86,33,.08)'};
-    if(v>=.25)return{lbl:'MEDIUM',  col:'#b7791f',bg:'rgba(183,121,31,.08)'};
-    return          {lbl:'LOW',     col:'#276749',bg:'rgba(39,103,73,.08)'};
+    if(v>=.75) return { lbl:'CRITICAL', col:'#a32d2d', bg:'rgba(226,75,74,.10)' };
+    if(v>=.5)  return { lbl:'HIGH',     col:'#854f0b', bg:'rgba(186,117,23,.10)' };
+    if(v>=.25) return { lbl:'MEDIUM',   col:'#185fa5', bg:'rgba(55,138,221,.10)' };
+    return             { lbl:'LOW',     col:'#0f6e56', bg:'rgba(29,158,117,.10)' };
   }
+
   function hwRun(){
-    var res=hwCompute(HW_S,hwCurModel),mi=HW_MI[hwCurModel];
-    var ph=document.getElementById('hw-res-ph');
-    var gw=document.getElementById('hw-gauges');
-    if(ph)ph.style.display='none';
-    if(gw)gw.style.display='block';
+    var res = hwCompute(HW_S, hwCurModel), mi = HW_MI[hwCurModel];
+    var ph  = document.getElementById('hw-res-ph');
+    var gw  = document.getElementById('hw-gauges');
+    if(ph) ph.style.display = 'none';
+    if(gw) gw.style.display = 'block';
+
     function setG(vi,bi,si,val){
-      var c=hwSevCfg(val);
-      var ve=document.getElementById(vi),be=document.getElementById(bi),se=document.getElementById(si);
-      if(ve){ve.textContent=val.toFixed(3);ve.style.color=c.col;}
-      if(be){be.style.width=(val*100)+'%';be.style.background=c.col;}
-      if(se){se.textContent=c.lbl;se.style.cssText='background:'+c.bg+';color:'+c.col+';';}
+      var c  = hwSevCfg(val);
+      var ve = document.getElementById(vi);
+      var be = document.getElementById(bi);
+      var se = document.getElementById(si);
+      if(ve){ ve.textContent = (val*100).toFixed(0)+'%'; ve.style.color = c.col; }
+      if(be){ be.style.width = (val*100)+'%'; be.style.background = c.col; }
+      if(se){ se.textContent = c.lbl; se.style.cssText = 'background:'+c.bg+';color:'+c.col+';'; }
     }
+
     setTimeout(function(){
-      setG('hw-gv-f','hw-gf-f','hw-gs-f',res.flood);
-      setG('hw-gv-l','hw-gf-l','hw-gs-l',res.land);
-      setG('hw-gv-c','hw-gf-c','hw-gs-c',res.compound);
-      var mb=document.getElementById('hw-mbadge');
-      if(mb)mb.innerHTML='<strong>'+mi.lbl+'</strong> · '+mi.note;
-      var cc=hwSevCfg(res.compound);
-      var dom=res.flood>res.land?'flood':'landslide';
-      var txt=cc.lbl+' compound risk. ';
-      if(res.compound>=.75)txt+='Immediate action advised. ';
-      txt+=dom.charAt(0).toUpperCase()+dom.slice(1)+' dominates (';
-      txt+=(dom==='flood'?res.flood:res.land).toFixed(2)+'). ';
-      if(HW_S.rain>200)txt+='Extreme rainfall ('+HW_S.rain+' mm/day) is primary driver. ';
-      if(HW_S.slope>30)txt+='Steep terrain ('+HW_S.slope+'°) amplifies slope risk. ';
-      if(HW_S.sm>70)txt+='Saturated soils intensify hazard interaction.';
-      var ip=document.getElementById('hw-interp');
-      if(ip){ip.textContent=txt;ip.style.borderColor=cc.col;ip.style.background=cc.bg;}
-    },50);
+      setG('hw-gv-f','hw-gf-f','hw-gs-f', res.flood);
+      setG('hw-gv-l','hw-gf-l','hw-gs-l', res.land);
+      setG('hw-gv-c','hw-gf-c','hw-gs-c', res.compound);
+      var mb = document.getElementById('hw-mbadge');
+      if(mb) mb.innerHTML = '<strong>'+mi.lbl+'</strong> · '+mi.note;
+      var cc  = hwSevCfg(res.compound);
+      var dom = res.flood > res.land ? 'Flood' : 'Landslide';
+      var pct = res.flood > res.land ? res.flood : res.land;
+      var txt = cc.lbl+' compound risk. '
+        + dom+' dominates ('+(pct*100).toFixed(0)+'%). ';
+      if(res.compound>=.75) txt += 'Immediate action advised. ';
+      if(HW_S.rain > 200)  txt += 'Extreme rainfall ('+HW_S.rain+' mm/day) is primary driver. ';
+      if(HW_S.slope > 30)  txt += 'Steep terrain ('+HW_S.slope+'°) amplifies slope risk. ';
+      if(HW_S.sm > 70)     txt += 'Saturated soils intensify hazard interaction.';
+      var ip = document.getElementById('hw-interp');
+      if(ip){ ip.textContent = txt; ip.style.borderColor = cc.col; ip.style.background = cc.bg; }
+    }, 50);
   }
 
   /* ── BOOT ── */
-  document.addEventListener('DOMContentLoaded',function(){
-    hwPreset('base',document.getElementById('hw-p-base'));
+  document.addEventListener('DOMContentLoaded', function(){
+    // Preset selectors
+    hwPreset('base', document.getElementById('hw-p-base'));
 
     /*
-     * Lazy-init: page-map is hidden on load (tab SPA).
-     * Initialise Leaflet only when the tab becomes visible.
-     * Two complementary triggers ensure it always fires.
+     * Live map is the DEFAULT first page (class="page active").
+     * Leaflet can be initialised directly — no lazy init needed.
+     * data.js is synchronous and runs before DOMContentLoaded fires,
+     * so DISTRICTS is available here.
      */
-    function hwEnsureMap(){
-      if(!hwMapInited){
-        /* short delay so the browser has painted the visible div */
-        setTimeout(hwInitMap, 150);
-      } else {
-        setTimeout(function(){if(hwMap)hwMap.invalidateSize();}, 150);
-      }
-    }
+    hwInitMap();
 
-    /* trigger 1 — direct nav-tab click */
+    // When the map tab is re-clicked after leaving, fix tile gaps
     document.querySelectorAll('.nav-tab[data-page="map"]').forEach(function(btn){
-      btn.addEventListener('click', hwEnsureMap);
+      btn.addEventListener('click', function(){
+        setTimeout(function(){ if(hwMap) hwMap.invalidateSize(); }, 120);
+      });
     });
-
-    /* trigger 2 — MutationObserver on page-map (catches any code path) */
-    var pg=document.getElementById('page-map');
-    if(pg){
-      new MutationObserver(function(){
-        if(pg.classList.contains('active')) hwEnsureMap();
-      }).observe(pg,{attributes:true,attributeFilter:['class']});
-    }
   });
   </script>
 

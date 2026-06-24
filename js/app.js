@@ -452,6 +452,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNav();
   initClock();
-  renderOverview();
-  initialized.add('overview');
+  renderMap();
+  initialized.add('map');
 });
