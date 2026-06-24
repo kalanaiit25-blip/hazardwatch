@@ -864,15 +864,40 @@
 
   /* ── BOOT ────────────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function(){
-    hwInitMap();
     hwPreset('base', document.getElementById('hw-p-base'));
 
-    // Re-init map when the "map" tab is clicked (tab-based SPA needs this)
+    /*
+     * WHY LAZY INIT:
+     * This site is a tab-based SPA — page-map starts with display:none.
+     * Leaflet called on a hidden element gets zero dimensions and never
+     * loads tiles. We must wait until the tab is actually visible.
+     */
+    var mapInited = false;
+
+    function hwEnsureMap(){
+      if(!mapInited){
+        mapInited = true;
+        /* small delay so app.js has time to set display:block first */
+        setTimeout(hwInitMap, 120);
+      } else {
+        /* already created — just fix tile gaps from resize/hide */
+        setTimeout(function(){ if(hwMap) hwMap.invalidateSize(); }, 120);
+      }
+    }
+
+    /* 1. Direct click on the Live map nav tab */
     document.querySelectorAll('.nav-tab[data-page="map"]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        setTimeout(function(){ if(hwMap) hwMap.invalidateSize(); }, 150);
-      });
+      btn.addEventListener('click', hwEnsureMap);
     });
+
+    /* 2. MutationObserver watches page-map for the "active" class
+          (covers any code path that shows the tab, not just direct clicks) */
+    var mapPage = document.getElementById('page-map');
+    if(mapPage){
+      new MutationObserver(function(){
+        if(mapPage.classList.contains('active')) hwEnsureMap();
+      }).observe(mapPage, { attributes: true, attributeFilter: ['class'] });
+    }
   });
   </script>
 
