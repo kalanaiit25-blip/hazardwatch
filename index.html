@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HazardWatch · Compound Flood & Landslide Risk Platform — Sri Lanka</title>
+  <meta name="description" content="Distributed machine learning framework for compound flood and landslide risk prediction across Sri Lanka. MSc Big Data Analytics research platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-mark"><i class="ti ti-activity"></i></div>
+      <div class="logo-text">
+        <span class="logo-title">HazardWatch</span>
+        <span class="logo-sub">Compound Risk Intelligence · Sri Lanka</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="live-pill"><span class="live-dot"></span><span id="liveTime">Live · updated now</span></div>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
+      <button class="icon-btn" aria-label="Notifications"><i class="ti ti-bell"></i></button>
+    </div>
+  </header>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav" id="nav">
+    <button class="nav-tab active" data-page="overview"><i class="ti ti-layout-dashboard"></i> Overview</button>
+    <button class="nav-tab" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
+    <button class="nav-tab" data-page="predict"><i class="ti ti-target"></i> Predict</button>
+    <button class="nav-tab" data-page="models"><i class="ti ti-chart-bar"></i> Models</button>
+    <button class="nav-tab" data-page="features"><i class="ti ti-list-numbers"></i> Features</button>
+    <button class="nav-tab" data-page="scalability"><i class="ti ti-bolt"></i> Scalability</button>
+    <button class="nav-tab" data-page="ditwah"><i class="ti ti-wind"></i> Ditwah</button>
+    <button class="nav-tab" data-page="data"><i class="ti ti-database"></i> Data</button>
+    <button class="nav-tab" data-page="research"><i class="ti ti-help-circle"></i> Research</button>
+  </nav>
+
+  <main class="content">
+
+    <!-- ===== OVERVIEW ===== -->
+    <section class="page active" id="page-overview">
+      <div class="page-head">
+        <h1>National hazard overview</h1>
+        <p>Distributed ML framework predicting compound flood &amp; landslide risk across 53,945 grid cells.</p>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
+        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)">1,511</div><div class="kpi-sub">2.8% · weight 34.7</div></div>
+        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)">4,446</div><div class="kpi-sub">8.2% · weight 11.1</div></div>
+        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val">12</div><div class="kpi-sub">6 distributed · 6 centralised</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-trending-up"></i> Flood AUC-ROC by model</div>
+          <div class="chart-box" style="height:220px"><canvas id="ovAuc"></canvas></div>
+          <div class="legend"><span class="lg"><span class="lg-dot" style="background:var(--dist)"></span>Distributed</span><span class="lg"><span class="lg-dot" style="background:var(--cent)"></span>Centralised</span></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC — key metric for 2.8% imbalance</div>
+          <div class="chart-box" style="height:220px"><canvas id="ovPrauc"></canvas></div>
+          <p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) — most relevant for hazard detection.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-clock"></i> Training time comparison</div>
+          <div class="chart-box" style="height:200px"><canvas id="ovTime"></canvas></div>
+          <p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3× — not 157×.</p>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-percentage"></i> 5-fold CV confidence intervals</div>
+          <div id="cvTable"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LIVE MAP ===== -->
+    <section class="page" id="page-map">
+      <div class="page-head">
+        <h1>Live risk map</h1>
+        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
+      </div>
+      <div class="map-toolbar">
+        <div class="search-wrap">
+          <i class="ti ti-search"></i>
+          <input type="text" id="mapSearch" placeholder="Search district or province...">
+          <div id="searchResults" class="search-results"></div>
+        </div>
+        <div class="layer-toggle">
+          <button class="layer-btn active" data-layer="flood">Flood</button>
+          <button class="layer-btn" data-layer="land">Landslide</button>
+          <button class="layer-btn" data-layer="compound">Compound</button>
+        </div>
+      </div>
+      <div class="grid-map">
+        <div class="card map-card">
+          <svg id="mapSvg" viewBox="0 0 360 540" preserveAspectRatio="xMidYMid meet"></svg>
+          <div id="mapTip" class="map-tip"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-list"></i> Risk-ranked districts</div>
+          <div id="districtList" class="district-list"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-map-pin"></i> <span id="selDistrict">Sri Lanka — national overview</span></div>
+        <div class="kpi-grid" id="districtDetail"></div>
+        <div class="chart-box" style="height:200px;margin-top:14px"><canvas id="forecastChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ===== PREDICT ===== -->
+    <section class="page" id="page-predict">
+      <div class="page-head">
+        <h1>Risk prediction</h1>
+        <p>Adjust environmental inputs or load a scenario preset to predict compound risk.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-adjustments"></i> Environmental inputs</div>
+          <div class="control-row">
+            <select id="presetSel">
+              <option value="mean">Mean baseline</option>
+              <option value="ditwah">Cyclone Ditwah zone</option>
+              <option value="flood">Flood-prone lowland</option>
+              <option value="dry">Dry highland</option>
+              <option value="slide">Landslide-prone hill</option>
+            </select>
+            <select id="modelSel">
+              <option value="xgb">XGBoost</option>
+              <option value="rf">sklearn RF</option>
+              <option value="pyspark">PySpark RF</option>
+            </select>
+            <button class="btn-primary" id="predictBtn"><i class="ti ti-player-play"></i> Predict</button>
+          </div>
+          <div id="sliderGrid" class="slider-grid"></div>
+        </div>
+        <div class="card" id="predictResult">
+          <div class="card-head"><i class="ti ti-activity"></i> Risk assessment</div>
+          <p class="muted">Adjust inputs and click predict.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MODELS ===== -->
+    <section class="page" id="page-models">
+      <div class="page-head">
+        <h1>Model comparison</h1>
+        <p>All 12 trained models — distributed PySpark vs centralised scikit-learn.</p>
+      </div>
+      <div class="kpi-grid kpi-3">
+        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)">0.9225</div><div class="kpi-sub">PySpark RF · 1568s w/ CV</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)">0.9235</div><div class="kpi-sub">sklearn RF · 9.9s · Δ=−0.001</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood PR-AUC</div><div class="kpi-val" style="color:var(--ok)">0.6651</div><div class="kpi-sub">PySpark RF leads</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-table"></i> Complete results table</div>
+        <div class="table-scroll"><table class="data-table" id="modelTable"></table></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> AUC-ROC</div><div class="chart-box" style="height:240px"><canvas id="mdlAuc"></canvas></div></div>
+        <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> F1 score</div><div class="chart-box" style="height:240px"><canvas id="mdlF1"></canvas></div></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="page" id="page-features">
+      <div class="page-head">
+        <h1>Feature importance &amp; leakage</h1>
+        <p>PySpark Random Forest Gini importance and the leakage detection pipeline.</p>
+      </div>
+      <div class="control-row">
+        <label class="muted">Target:</label>
+        <select id="fiTarget"><option value="flood">Flood risk</option><option value="land">Landslide risk</option></select>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><i class="ti ti-list-numbers"></i> Feature importance ranking</div><div id="featList"></div></div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers — compound evidence</div>
+          <div id="sharedDrivers"></div>
+          <div class="card-head" style="margin-top:18px"><i class="ti ti-chart-area"></i> Label correlation screen</div>
+          <div id="corrList"></div>
+          <div class="leak-box">
+            <div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence — confirmed leakage</div>
+            <p>Threshold &gt;10 reproduces flood_risk with 99.9% accuracy. Excluded via Cell 1.5. Linear correlation (0.657) alone did not flag it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-flask"></i> Ablation study — jrc_occurrence effect</div>
+        <div class="kpi-grid kpi-3">
+          <div class="kpi"><div class="kpi-label">sklearn RF baseline</div><div class="kpi-val">0.9235</div><div class="kpi-sub">15 clean features</div></div>
+          <div class="kpi danger"><div class="kpi-label">sklearn RF + jrc</div><div class="kpi-val" style="color:var(--danger)">1.0000</div><div class="kpi-sub">16 features (leaky)</div></div>
+          <div class="kpi danger"><div class="kpi-label">Δ AUC</div><div class="kpi-val" style="color:var(--danger)">+0.0765</div><div class="kpi-sub">Leakage confirmed</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SCALABILITY ===== -->
+    <section class="page" id="page-scalability">
+      <div class="page-head"><h1>Scalability analysis · RQ4</h1></div>
+      <div class="rq-banner info">
+        <span class="rq-tag">Research Question 4</span>
+        To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val">−0.0010</div><div class="kpi-sub">Centralised leads marginally</div></div>
+        <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)">+0.0781</div><div class="kpi-sub">Distributed leads</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val">157×</div><div class="kpi-sub">CV overhead</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val">3×</div><div class="kpi-sub">Real comparison</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0×. Crossover needs multi-node cluster.</p></div>
+        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data — both targets</div><div class="sub-head">Flood (Cell 8)</div><div id="scaleFlood"></div><div class="sub-head">Landslide (Cell 14.2)</div><div id="scaleLand"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card framing"><div class="card-head">Why distributed appears slower</div><ul><li>JVM + serialisation overhead on single Colab node</li><li>5-fold × 9-param = 45 Spark fits (sklearn used no CV)</li><li>54K rows below distributed-advantage threshold</li></ul></div>
+        <div class="card framing ok"><div class="card-head">Why distributed is still right</div><ul><li>Spark time grows sub-linearly with data size</li><li>PySpark RF leads on PR-AUC (0.6651 vs 0.5870)</li><li>Enables Structured Streaming for real-time</li><li>Fault-tolerant national-scale deployment</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ===== DITWAH ===== -->
+    <section class="page" id="page-ditwah">
+      <div class="page-head"><h1>Cyclone Ditwah validation · RQ5</h1></div>
+      <div class="rq-banner warn">
+        <span class="rq-tag">Research Question 5 · OO6</span>
+        How robust is the framework when applied to extreme real-world hazard events?
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">PySpark RF flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9282</div><div class="kpi-sub">Northern zone</div></div>
+        <div class="kpi"><div class="kpi-label">XGBoost flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9174</div><div class="kpi-sub">Northern zone</div></div>
+        <div class="kpi"><div class="kpi-label">Landslide AUC</div><div class="kpi-val" style="color:var(--land)">1.0000</div><div class="kpi-sub">n=21 · see caveat</div></div>
+        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val">18,550</div><div class="kpi-sub">lat &gt; 8.0°N</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-wind"></i> Cyclone Ditwah facts</div>
+          <div class="fact-list">
+            <div class="fact"><span>Date</span><span>27–29 Nov 2025</span></div>
+            <div class="fact"><span>People affected</span><span>1.8 million</span></div>
+            <div class="fact"><span>Area inundated</span><span>1.1M hectares</span></div>
+            <div class="fact"><span>Landslides</span><span>&gt;1,200</span></div>
+            <div class="fact"><span>Economic loss</span><span style="color:var(--danger)">US$4.1 billion</span></div>
+            <div class="fact"><span>Districts hit</span><span>All 25</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-table"></i> XGBoost flood report (north)</div>
+          <table class="data-table" id="ditwahReport"></table>
+          <div class="leak-box">
+            <div class="leak-title"><i class="ti ti-alert-triangle"></i> Landslide caveat (n=21)</div>
+            <p>Bootstrap 95% CI = [1.0000, 1.0000]. CI is tight but sample is extremely small — reported as preliminary evidence warranting validation with richer northern inventory data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DATA ===== -->
+    <section class="page" id="page-data">
+      <div class="page-head"><h1>Data provenance</h1><p>All 15 features verified: null=0.0%, zero duplicates, zero train/test overlap (Cell 14.6).</p></div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-database"></i> Feature store sources</div>
+        <div class="table-scroll"><table class="data-table" id="dataTable"></table></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><i class="ti ti-layers"></i> Features by source</div><div class="chart-box" style="height:200px"><canvas id="srcChart"></canvas></div></div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-alert-triangle"></i> Leakage detection pipeline</div>
+          <div class="pipeline">
+            <div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) — did NOT catch jrc_occurrence (corr=0.657)</span></div>
+            <div class="pl-step"><span class="pl-tag ok">2</span><span>Ablation: AUC jump +0.0765 with jrc → red flag triggered</span></div>
+            <div class="pl-step"><span class="pl-tag ok">3</span><span>Threshold test: jrc &gt; 10 → 99.9% match with flood_risk</span></div>
+            <div class="pl-step"><span class="pl-tag danger">Guard</span><span>Cell 1.5 hard-excludes jrc permanently</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESEARCH ===== -->
+    <section class="page" id="page-research">
+      <div class="page-head"><h1>Research questions &amp; answers</h1><p>Evidence-based answers mapped to objectives RO1–RO5.</p></div>
+      <div id="rqList"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>HazardWatch Research Platform · MSc Big Data Analytics · RGU 2506651 · Kalana Rathnayake</span>
+    <span>Models: XGBoost + PySpark RF · Validation: Cyclone Ditwah (Nov 2025)</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
