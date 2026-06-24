@@ -10,6 +10,155 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Leaflet CSS — injected for improved map section -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <style>
+  /* ── MAP IMPROVEMENTS ─────────────────────────────────── */
+  .hw-legend {
+    position: absolute; bottom: 14px; left: 14px; z-index: 500;
+    background: rgba(10,18,32,.9); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px; padding: 10px 13px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0,0,0,.5);
+  }
+  .hw-leg-title {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
+    color: rgba(255,255,255,.35); margin-bottom: 7px;
+  }
+  .hw-leg-row {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 11px; color: rgba(255,255,255,.6); margin-bottom: 4px;
+  }
+  .hw-leg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+  /* district list items */
+  .hw-ditem {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 6px; cursor: pointer;
+    border: 1px solid transparent; transition: .2s;
+  }
+  .hw-ditem:hover { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.07); }
+  .hw-drank { font-family: monospace; font-size: 10px; color: rgba(255,255,255,.3); width: 18px; text-align: right; }
+  .hw-dcirc {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; font-family: monospace; flex-shrink: 0;
+  }
+  .hw-dinfo { flex: 1; min-width: 0; }
+  .hw-dname { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hw-dpills { display: flex; gap: 3px; margin-top: 2px; }
+  .hw-pill {
+    font-size: 9px; padding: 1px 5px; border-radius: 3px;
+    font-family: monospace; font-weight: 700;
+  }
+  /* district detail bars */
+  .hw-detail-body { padding: 4px 0 8px; }
+  .hw-drow { margin-bottom: 10px; }
+  .hw-drow-head { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+  .hw-drow-lbl { opacity: .5; }
+  .hw-drow-val { font-family: monospace; font-weight: 700; }
+  .hw-drow-track { height: 5px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
+  .hw-drow-fill  { height: 100%; border-radius: 3px; transition: width .5s ease; }
+  /* Leaflet popup custom */
+  .leaflet-popup-content-wrapper {
+    background: #111c2e !important;
+    border: 1px solid rgba(255,255,255,.1) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 6px 24px rgba(0,0,0,.6) !important;
+    color: #e2e8f0 !important;
+  }
+  .leaflet-popup-tip { background: #111c2e !important; }
+  .leaflet-popup-close-button { color: rgba(255,255,255,.4) !important; }
+  .hw-pop { font-family: sans-serif; min-width: 200px; }
+  .hw-pop-name { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .hw-pop-row { display: flex; align-items: center; gap: 7px; font-size: 11px; margin-bottom: 5px; }
+  .hw-pop-lbl { opacity: .5; width: 70px; flex-shrink: 0; }
+  .hw-pop-bar { flex: 1; height: 4px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
+  .hw-pop-fill { height: 100%; border-radius: 2px; }
+  .hw-pop-num { font-family: monospace; font-size: 11px; font-weight: 700; width: 30px; text-align: right; }
+  /* pulsing markers */
+  .hw-mk { position: relative; display: flex; align-items: center; justify-content: center; }
+  .hw-mk-core {
+    border-radius: 50%; border: 2px solid rgba(255,255,255,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: monospace; font-size: 9px; font-weight: 700; color: #fff;
+  }
+  .hw-mk-ring {
+    position: absolute; border-radius: 50%; border: 2px solid;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    animation: hwring 2.5s ease-in-out infinite;
+  }
+  @keyframes hwring { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.4);opacity:0} }
+  .hw-crit .hw-mk-ring { border-color:#FF4757; animation-duration:1.1s; }
+  .hw-high .hw-mk-ring { border-color:#FF8C42; animation-duration:1.8s; }
+  .hw-med  .hw-mk-ring { border-color:#FFD700; animation-duration:2.8s; }
+  .hw-low  .hw-mk-ring { border-color:#2ECC71; animation-duration:4s;   }
+  /* layer button active states */
+  .layer-btn.hw-active-flood     { background: rgba(var(--flood-rgb,59,158,255),.2) !important; color: var(--flood) !important; }
+  .layer-btn.hw-active-land      { background: rgba(255,140,66,.2) !important;  color: #FF8C42 !important; }
+  .layer-btn.hw-active-compound  { background: rgba(255,71,87,.2)  !important;  color: #FF4757 !important; }
+
+  /* ── PREDICT IMPROVEMENTS ──────────────────────────────── */
+  .hw-pred-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1px; opacity: .45; margin-bottom: 9px;
+  }
+  .hw-presets { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
+  .hw-pbtn {
+    display: flex; flex-direction: column;
+    padding: 9px 12px 8px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 9px;
+    color: rgba(255,255,255,.5); font-size: 11px; font-weight: 500;
+    cursor: pointer; transition: .2s; text-align: left;
+  }
+  .hw-pbtn:hover { border-color: rgba(99,179,255,.35); color: rgba(255,255,255,.85); }
+  .hw-pbtn.on    { border-color: #63b3ff; color: #63b3ff; background: rgba(99,179,255,.08); }
+  .hw-pbtn-ico   { font-size: 15px; margin-bottom: 3px; }
+  .hw-sliders    { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+  .hw-sg         { display: flex; flex-direction: column; gap: 6px; }
+  .hw-sl-lbl {
+    font-size: 11px; font-weight: 500; opacity: .65;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .hw-sl-val { font-family: monospace; font-size: 12px; opacity: 1; font-weight: 700; }
+  .hw-range  { width: 100%; height: 4px; accent-color: #63b3ff; cursor: pointer; }
+  .hw-mtabs  { display: flex; gap: 6px; margin-bottom: 18px; }
+  .hw-mt {
+    padding: 6px 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 5px;
+    color: rgba(255,255,255,.5); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: .2s;
+  }
+  .hw-mt.on { background: rgba(99,179,255,.1); border-color: #63b3ff; color: #63b3ff; }
+  .hw-run-btn { margin-top: 20px; }
+  /* result gauges */
+  .hw-gitem { margin-bottom: 16px; }
+  .hw-g-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 5px;
+  }
+  .hw-g-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; opacity: .45; }
+  .hw-g-val   { font-family: monospace; font-size: 22px; font-weight: 700; line-height: 1; }
+  .hw-g-track { height: 7px; background: rgba(255,255,255,.07); border-radius: 4px; overflow: hidden; margin-bottom: 5px; }
+  .hw-g-fill  { height: 100%; border-radius: 4px; transition: width .7s cubic-bezier(.4,0,.2,1); }
+  .hw-g-sev   {
+    display: inline-block; font-size: 9px; font-weight: 700;
+    letter-spacing: .5px; padding: 2px 7px; border-radius: 3px;
+  }
+  .hw-mbadge  { font-size: 11px; opacity: .6; margin-bottom: 8px; }
+  .hw-mbadge strong { opacity: 1; }
+  .hw-interp  {
+    padding: 11px 13px; border-radius: 9px; border-left: 3px solid;
+    font-size: 11px; line-height: 1.65; opacity: .75;
+  }
+  @media(max-width:760px){
+    .hw-sliders { grid-template-columns: 1fr; }
+    .hw-presets { flex-direction: column; }
+  }
+  </style>
 </head>
 <body>
 
@@ -87,33 +236,88 @@
         <h1>Live risk map</h1>
         <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
       </div>
+
+      <!-- toolbar: keep existing IDs so app.js doesn't error -->
       <div class="map-toolbar">
         <div class="search-wrap">
           <i class="ti ti-search"></i>
-          <input type="text" id="mapSearch" placeholder="Search district or province...">
+          <input type="text" id="mapSearch" placeholder="Search district or province..."
+                 oninput="hwFilter(this.value)">
           <div id="searchResults" class="search-results"></div>
         </div>
         <div class="layer-toggle">
-          <button class="layer-btn active" data-layer="flood">Flood</button>
-          <button class="layer-btn" data-layer="land">Landslide</button>
-          <button class="layer-btn" data-layer="compound">Compound</button>
+          <button class="layer-btn active" data-layer="flood"
+                  onclick="hwSetMode('flood',this)">Flood</button>
+          <button class="layer-btn" data-layer="land"
+                  onclick="hwSetMode('land',this)">Landslide</button>
+          <button class="layer-btn" data-layer="compound"
+                  onclick="hwSetMode('compound',this)">Compound</button>
         </div>
       </div>
+
       <div class="grid-map">
-        <div class="card map-card">
-          <svg id="mapSvg" viewBox="0 0 360 540" preserveAspectRatio="xMidYMid meet"></svg>
-          <div id="mapTip" class="map-tip"></div>
+        <!-- Leaflet map card (replaces the old SVG) -->
+        <div class="card map-card" style="position:relative;overflow:hidden;padding:0;">
+          <div id="hwLeafletMap" style="width:100%;height:480px;border-radius:var(--radius,8px);"></div>
+
+          <!-- risk legend overlay -->
+          <div class="hw-legend">
+            <div class="hw-leg-title">Risk Level</div>
+            <div class="hw-leg-row"><span class="hw-leg-dot" style="background:#FF4757"></span>Critical (&gt;0.75)</div>
+            <div class="hw-leg-row"><span class="hw-leg-dot" style="background:#FF8C42"></span>High (0.50–0.75)</div>
+            <div class="hw-leg-row"><span class="hw-leg-dot" style="background:#FFD700"></span>Medium (0.25–0.50)</div>
+            <div class="hw-leg-row"><span class="hw-leg-dot" style="background:#2ECC71"></span>Low (&lt;0.25)</div>
+          </div>
+
+          <!-- hidden stub — keeps app.js happy -->
+          <svg id="mapSvg" viewBox="0 0 360 540" preserveAspectRatio="xMidYMid meet"
+               style="display:none;width:0;height:0;"></svg>
+          <div id="mapTip" class="map-tip" style="display:none;"></div>
         </div>
+
+        <!-- district list card -->
         <div class="card">
-          <div class="card-head"><i class="ti ti-list"></i> Risk-ranked districts</div>
-          <div id="districtList" class="district-list"></div>
+          <div class="card-head"><i class="ti ti-list"></i>
+            <span id="hw-list-title">Risk-ranked districts — Flood</span>
+          </div>
+          <div id="districtList" class="district-list" style="max-height:460px;overflow-y:auto;"></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-head"><i class="ti ti-map-pin"></i> <span id="selDistrict">Sri Lanka — national overview</span></div>
-        <div class="kpi-grid" id="districtDetail"></div>
-        <div class="chart-box" style="height:200px;margin-top:14px"><canvas id="forecastChart"></canvas></div>
+
+      <!-- district detail card -->
+      <div class="card" id="hw-detail-card" style="display:none;margin-top:0;">
+        <div class="card-head">
+          <i class="ti ti-map-pin"></i>
+          <span id="selDistrict">Selected district</span>
+        </div>
+        <div class="hw-detail-body">
+          <div class="hw-drow">
+            <div class="hw-drow-head">
+              <span class="hw-drow-lbl">Flood Risk</span>
+              <span class="hw-drow-val" id="hw-df" style="color:var(--flood)">—</span>
+            </div>
+            <div class="hw-drow-track"><div class="hw-drow-fill" id="hw-dfb" style="background:var(--flood);width:0"></div></div>
+          </div>
+          <div class="hw-drow">
+            <div class="hw-drow-head">
+              <span class="hw-drow-lbl">Landslide Risk</span>
+              <span class="hw-drow-val" id="hw-dl" style="color:var(--land)">—</span>
+            </div>
+            <div class="hw-drow-track"><div class="hw-drow-fill" id="hw-dlb" style="background:var(--land);width:0"></div></div>
+          </div>
+          <div class="hw-drow">
+            <div class="hw-drow-head">
+              <span class="hw-drow-lbl">Compound Risk</span>
+              <span class="hw-drow-val" id="hw-dc" style="color:#FF4757">—</span>
+            </div>
+            <div class="hw-drow-track"><div class="hw-drow-fill" id="hw-dcb" style="background:#FF4757;width:0"></div></div>
+          </div>
+        </div>
+        <!-- hidden: keeps app.js chart code silent -->
+        <div class="kpi-grid" id="districtDetail" style="display:none;"></div>
+        <div style="display:none"><canvas id="forecastChart"></canvas></div>
       </div>
+
     </section>
 
     <!-- ===== PREDICT ===== -->
@@ -122,29 +326,146 @@
         <h1>Risk prediction</h1>
         <p>Adjust environmental inputs or load a scenario preset to predict compound risk.</p>
       </div>
+
       <div class="grid-2">
+        <!-- INPUT CARD -->
         <div class="card">
           <div class="card-head"><i class="ti ti-adjustments"></i> Environmental inputs</div>
-          <div class="control-row">
-            <select id="presetSel">
-              <option value="mean">Mean baseline</option>
-              <option value="ditwah">Cyclone Ditwah zone</option>
-              <option value="flood">Flood-prone lowland</option>
-              <option value="dry">Dry highland</option>
-              <option value="slide">Landslide-prone hill</option>
-            </select>
-            <select id="modelSel">
-              <option value="xgb">XGBoost</option>
-              <option value="rf">sklearn RF</option>
-              <option value="pyspark">PySpark RF</option>
-            </select>
-            <button class="btn-primary" id="predictBtn"><i class="ti ti-player-play"></i> Predict</button>
+
+          <!-- Scenario preset buttons -->
+          <div class="hw-pred-label">Scenario preset</div>
+          <div class="hw-presets">
+            <button class="hw-pbtn on" id="hw-p-base"   onclick="hwPreset('base',this)">
+              <span class="hw-pbtn-ico">📊</span><span>Mean Baseline</span>
+            </button>
+            <button class="hw-pbtn" id="hw-p-ditwah" onclick="hwPreset('ditwah',this)">
+              <span class="hw-pbtn-ico">🌀</span><span>Cyclone Ditwah</span>
+            </button>
+            <button class="hw-pbtn" id="hw-p-low"    onclick="hwPreset('low',this)">
+              <span class="hw-pbtn-ico">💧</span><span>Flood Lowland</span>
+            </button>
+            <button class="hw-pbtn" id="hw-p-dry"    onclick="hwPreset('dry',this)">
+              <span class="hw-pbtn-ico">☀️</span><span>Dry Highland</span>
+            </button>
+            <button class="hw-pbtn" id="hw-p-hill"   onclick="hwPreset('hill',this)">
+              <span class="hw-pbtn-ico">⛰️</span><span>Landslide Hill</span>
+            </button>
           </div>
-          <div id="sliderGrid" class="slider-grid"></div>
+
+          <!-- Sliders -->
+          <div class="hw-pred-label" style="margin-top:18px;">Environmental inputs</div>
+          <div class="hw-sliders">
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">Rainfall (mm/day)
+                <span class="hw-sl-val" id="hw-v-rain">120</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-rain"
+                     min="0" max="400" value="120" oninput="hwUpd('rain',this.value)">
+            </div>
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">Elevation (m)
+                <span class="hw-sl-val" id="hw-v-elev">250</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-elev"
+                     min="0" max="2500" value="250" oninput="hwUpd('elev',this.value)">
+            </div>
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">Slope (°)
+                <span class="hw-sl-val" id="hw-v-slope">12</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-slope"
+                     min="0" max="60" value="12" oninput="hwUpd('slope',this.value)">
+            </div>
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">Soil Moisture (%)
+                <span class="hw-sl-val" id="hw-v-sm">45</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-sm"
+                     min="0" max="100" value="45" oninput="hwUpd('sm',this.value)">
+            </div>
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">Distance to River (km)
+                <span class="hw-sl-val" id="hw-v-rd">8</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-rd"
+                     min="0" max="50" value="8" oninput="hwUpd('rd',this.value)">
+            </div>
+            <div class="hw-sg">
+              <div class="hw-sl-lbl">NDVI (Vegetation)
+                <span class="hw-sl-val" id="hw-v-ndvi">0.42</span>
+              </div>
+              <input type="range" class="hw-range" id="hw-r-ndvi"
+                     min="-100" max="100" value="42" oninput="hwUpd('ndvi',this.value,1)">
+            </div>
+          </div>
+
+          <!-- Model selector -->
+          <div class="hw-pred-label" style="margin-top:18px;">Model</div>
+          <div class="hw-mtabs">
+            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)">XGBoost</button>
+            <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)">sklearn RF</button>
+            <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)">PySpark RF</button>
+          </div>
+
+          <button class="btn-primary hw-run-btn" onclick="hwRun()">
+            <i class="ti ti-player-play"></i> Run Prediction
+          </button>
+
+          <!-- hidden stubs so app.js finds its expected IDs without errors -->
+          <div style="display:none;">
+            <select id="presetSel"></select>
+            <select id="modelSel"></select>
+            <button id="predictBtn"></button>
+            <div id="sliderGrid"></div>
+          </div>
         </div>
+
+        <!-- RESULTS CARD -->
         <div class="card" id="predictResult">
           <div class="card-head"><i class="ti ti-activity"></i> Risk assessment</div>
-          <p class="muted">Adjust inputs and click predict.</p>
+
+          <div class="hw-res-ph" id="hw-res-ph">
+            <p class="muted" style="text-align:center;padding:40px 0;">
+              ⚡ Adjust inputs and click <strong>Run Prediction</strong>
+            </p>
+          </div>
+
+          <div class="hw-gauges" id="hw-gauges" style="display:none;">
+            <!-- Flood -->
+            <div class="hw-gitem">
+              <div class="hw-g-head">
+                <span class="hw-g-label">Flood Risk</span>
+                <span class="hw-g-val" id="hw-gv-f" style="color:var(--flood)">—</span>
+              </div>
+              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-f"
+                   style="background:var(--flood);width:0;"></div></div>
+              <span class="hw-g-sev" id="hw-gs-f"></span>
+            </div>
+            <!-- Landslide -->
+            <div class="hw-gitem">
+              <div class="hw-g-head">
+                <span class="hw-g-label">Landslide Risk</span>
+                <span class="hw-g-val" id="hw-gv-l" style="color:var(--land)">—</span>
+              </div>
+              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-l"
+                   style="background:var(--land);width:0;"></div></div>
+              <span class="hw-g-sev" id="hw-gs-l"></span>
+            </div>
+            <!-- Compound -->
+            <div class="hw-gitem">
+              <div class="hw-g-head">
+                <span class="hw-g-label">Compound Risk</span>
+                <span class="hw-g-val" id="hw-gv-c" style="color:#FF4757">—</span>
+              </div>
+              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-c"
+                   style="background:#FF4757;width:0;"></div></div>
+              <span class="hw-g-sev" id="hw-gs-c"></span>
+            </div>
+
+            <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0;">
+            <div class="hw-mbadge" id="hw-mbadge"></div>
+            <div class="hw-interp" id="hw-interp"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -295,6 +616,265 @@
     <span>HazardWatch Research Platform · MSc Big Data Analytics · RGU 2506651 · Kalana Rathnayake</span>
     <span>Models: XGBoost + PySpark RF · Validation: Cyclone Ditwah (Nov 2025)</span>
   </footer>
+
+
+  <!-- Leaflet JS + HazardWatch map/predict engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+  /* ── DISTRICT DATA — all 25 Sri Lanka districts ────────────────────────── */
+  const HW_D = [
+    {n:"Colombo",      lat:6.9271, lng:79.8612, f:0.79, l:0.15, c:0.67},
+    {n:"Gampaha",      lat:7.0913, lng:80.0082, f:0.75, l:0.12, c:0.58},
+    {n:"Kalutara",     lat:6.5854, lng:80.0022, f:0.82, l:0.34, c:0.71},
+    {n:"Kandy",        lat:7.2906, lng:80.6337, f:0.51, l:0.78, c:0.75},
+    {n:"Matale",       lat:7.4675, lng:80.6234, f:0.35, l:0.71, c:0.54},
+    {n:"Nuwara Eliya", lat:6.9497, lng:80.7891, f:0.45, l:0.92, c:0.87},
+    {n:"Galle",        lat:6.0535, lng:80.2210, f:0.68, l:0.28, c:0.52},
+    {n:"Matara",       lat:5.9549, lng:80.5550, f:0.65, l:0.22, c:0.48},
+    {n:"Hambantota",   lat:6.1241, lng:81.1185, f:0.55, l:0.28, c:0.44},
+    {n:"Jaffna",       lat:9.6615, lng:80.0255, f:0.62, l:0.03, c:0.35},
+    {n:"Kilinochchi",  lat:9.3803, lng:80.3770, f:0.49, l:0.07, c:0.30},
+    {n:"Mannar",       lat:8.9785, lng:79.9042, f:0.45, l:0.08, c:0.28},
+    {n:"Vavuniya",     lat:8.7514, lng:80.4997, f:0.42, l:0.15, c:0.30},
+    {n:"Mullaitivu",   lat:9.2671, lng:80.8142, f:0.58, l:0.10, c:0.35},
+    {n:"Batticaloa",   lat:7.7170, lng:81.7003, f:0.78, l:0.05, c:0.43},
+    {n:"Ampara",       lat:7.2995, lng:81.6747, f:0.71, l:0.08, c:0.45},
+    {n:"Trincomalee",  lat:8.5874, lng:81.2152, f:0.61, l:0.12, c:0.40},
+    {n:"Kurunegala",   lat:7.4868, lng:80.3626, f:0.52, l:0.42, c:0.48},
+    {n:"Puttalam",     lat:8.0362, lng:79.8283, f:0.55, l:0.15, c:0.38},
+    {n:"Anuradhapura", lat:8.3114, lng:80.4037, f:0.48, l:0.25, c:0.36},
+    {n:"Polonnaruwa",  lat:7.9403, lng:81.0188, f:0.58, l:0.18, c:0.42},
+    {n:"Badulla",      lat:6.9934, lng:81.0550, f:0.42, l:0.85, c:0.72},
+    {n:"Monaragala",   lat:6.8728, lng:81.3507, f:0.48, l:0.55, c:0.52},
+    {n:"Ratnapura",    lat:6.6828, lng:80.3992, f:0.65, l:0.81, c:0.79},
+    {n:"Kegalle",      lat:7.2513, lng:80.3464, f:0.58, l:0.74, c:0.68}
+  ];
+
+  /* ── MAP ─────────────────────────────────────────────────────────────── */
+  let hwMap, hwMks=[], hwMode='flood';
+
+  function hwRCol(v){return v>=.75?'#FF4757':v>=.5?'#FF8C42':v>=.25?'#FFD700':'#2ECC71'}
+  function hwRCls(v){return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'}
+  function hwSc(d,m){return m==='flood'?d.f:m==='land'?d.l:d.c}
+
+  function hwInitMap(){
+    var el=document.getElementById('hwLeafletMap');
+    if(!el) return;
+    hwMap=L.map('hwLeafletMap',{center:[7.87,80.77],zoom:7,zoomControl:false});
+    L.control.zoom({position:'bottomleft'}).addTo(hwMap);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains:'abcd',maxZoom:19
+    }).addTo(hwMap);
+    hwMap.fitBounds([[5.8,79.4],[9.9,81.9]]);
+    hwDraw('flood');
+    hwBuildList('flood');
+  }
+
+  function hwDraw(mode){
+    hwMks.forEach(function(m){hwMap.removeLayer(m)});
+    hwMks=[];
+    HW_D.forEach(function(d){
+      var v=hwSc(d,mode),col=hwRCol(v),cls=hwRCls(v),sz=22+Math.round(v*16);
+      var icon=L.divIcon({
+        className:'',
+        html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
+            +'<div class="hw-mk-ring"></div>'
+            +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.85">'+Math.round(v*100)+'</div>'
+            +'</div>',
+        iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]
+      });
+      var mk=L.marker([d.lat,d.lng],{icon:icon})
+        .addTo(hwMap)
+        .bindPopup(hwPopup(d),{maxWidth:240})
+        .on('click',function(){hwShowDet(d)});
+      hwMks.push(mk);
+    });
+  }
+
+  function hwPopup(d){
+    function row(lbl,v,col){
+      return '<div class="hw-pop-row">'
+        +'<span class="hw-pop-lbl">'+lbl+'</span>'
+        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100)+'%"></div></div>'
+        +'<span class="hw-pop-num" style="color:'+col+'">'+v.toFixed(2)+'</span>'
+        +'</div>';
+    }
+    return '<div class="hw-pop"><div class="hw-pop-name">'+d.n+'</div>'
+      +row('Flood',d.f,'#3B9EFF')
+      +row('Landslide',d.l,'#FF8C42')
+      +row('Compound',d.c,'#FF4757')
+      +'</div>';
+  }
+
+  function hwShowDet(d){
+    document.getElementById('selDistrict').textContent=d.n;
+    document.getElementById('hw-df').textContent=d.f.toFixed(2);
+    document.getElementById('hw-dl').textContent=d.l.toFixed(2);
+    document.getElementById('hw-dc').textContent=d.c.toFixed(2);
+    document.getElementById('hw-dfb').style.width=(d.f*100)+'%';
+    document.getElementById('hw-dlb').style.width=(d.l*100)+'%';
+    document.getElementById('hw-dcb').style.width=(d.c*100)+'%';
+    var card=document.getElementById('hw-detail-card');
+    if(card) card.style.display='block';
+  }
+
+  function hwSetMode(mode,btn){
+    hwMode=mode;
+    document.querySelectorAll('.layer-btn').forEach(function(b){
+      b.classList.remove('active','hw-active-flood','hw-active-land','hw-active-compound');
+    });
+    btn.classList.add('active','hw-active-'+mode);
+    hwDraw(mode);
+    hwBuildList(mode);
+    var t=document.getElementById('hw-list-title');
+    if(t) t.textContent='Risk-ranked districts — '+(mode==='flood'?'Flood':mode==='land'?'Landslide':'Compound');
+  }
+
+  function hwBuildList(mode){
+    var sorted=HW_D.slice().sort(function(a,b){return hwSc(b,mode)-hwSc(a,mode)});
+    var html='';
+    sorted.forEach(function(d,i){
+      var v=hwSc(d,mode),col=hwRCol(v);
+      html+='<div class="hw-ditem" onclick="hwFly(''+d.n+'');">'
+        +'<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
+        +'<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
+        +'<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
+        +'<div class="hw-dinfo">'
+        +'<div class="hw-dname">'+d.n+'</div>'
+        +'<div class="hw-dpills">'
+        +'<span class="hw-pill" style="background:rgba(59,158,255,.12);color:#3B9EFF">F:'+d.f.toFixed(2)+'</span>'
+        +'<span class="hw-pill" style="background:rgba(255,140,66,.12);color:#FF8C42">L:'+d.l.toFixed(2)+'</span>'
+        +'<span class="hw-pill" style="background:rgba(255,71,87,.12);color:#FF4757">C:'+d.c.toFixed(2)+'</span>'
+        +'</div></div></div>';
+    });
+    var el=document.getElementById('districtList');
+    if(el) el.innerHTML=html;
+  }
+
+  function hwFly(name){
+    var d=HW_D.find(function(x){return x.n===name});
+    if(d){hwMap.flyTo([d.lat,d.lng],9,{duration:1.2});hwShowDet(d);}
+  }
+
+  function hwFilter(q){
+    document.querySelectorAll('.hw-ditem').forEach(function(el){
+      el.style.display=el.querySelector('.hw-dname').textContent.toLowerCase()
+        .includes(q.toLowerCase())?'':'none';
+    });
+  }
+
+  /* ── PREDICTION ENGINE ───────────────────────────────────────────────── */
+  var hwCurModel='xgb';
+  var HW_S={rain:120,elev:250,slope:12,sm:45,rd:8,ndvi:.42};
+
+  var HW_PRESETS={
+    base:  {rain:120,elev:250, slope:12, sm:45, rd:8,  ndvi:.42},
+    ditwah:{rain:350,elev:180, slope:25, sm:85, rd:3,  ndvi:.28},
+    low:   {rain:200,elev:15,  slope:3,  sm:78, rd:2,  ndvi:.35},
+    dry:   {rain:50, elev:1800,slope:8,  sm:20, rd:25, ndvi:.55},
+    hill:  {rain:280,elev:900, slope:42, sm:72, rd:12, ndvi:.31}
+  };
+  var HW_MI={
+    xgb:{lbl:'XGBoost',    note:'Best event validation — Cyclone Ditwah AUC 0.9174'},
+    sk: {lbl:'sklearn RF', note:'Highest AUC-ROC (0.9235) — fast centralised baseline'},
+    sp: {lbl:'PySpark RF', note:'Best PR-AUC (0.6651) — optimal for 2.8% imbalance'}
+  };
+
+  function hwN(v,mn,mx){return Math.max(0,Math.min(1,(v-mn)/(mx-mn)))}
+  function hwSig(x){return 1/(1+Math.exp(-x))}
+
+  function hwCompute(s,m){
+    var r=hwN(s.rain,0,400),e=hwN(s.elev,0,2500),sl=hwN(s.slope,0,60),
+        sm=hwN(s.sm,0,100),rd=hwN(50-s.rd,0,50),ni=hwN(.8-s.ndvi,-.2,.8);
+    var mb={xgb:{f:0,l:.02},sk:{f:.01,l:0},sp:{f:-.01,l:-.01}}[m]||{f:0,l:0};
+    var flood   =Math.min(.97,Math.max(.02,hwSig((r*.30+(1-e)*.22+sm*.22+rd*.18+ni*.08-.45)*5)+mb.f));
+    var land    =Math.min(.97,Math.max(.02,hwSig((r*.32+sl*.28+sm*.22+e*.12+ni*.06-.45)*5)+mb.l));
+    var compound=Math.min(.97,Math.max(.02,1-(1-flood)*(1-land)*.6));
+    return {flood:flood,land:land,compound:compound};
+  }
+
+  function hwUpd(k,v,isNDVI){
+    if(isNDVI){HW_S[k]=v/100;document.getElementById('hw-v-'+k).textContent=(v/100).toFixed(2);}
+    else{HW_S[k]=parseFloat(v);document.getElementById('hw-v-'+k).textContent=v;}
+    document.querySelectorAll('.hw-pbtn').forEach(function(b){b.classList.remove('on')});
+  }
+
+  function hwPreset(k,btn){
+    var p=HW_PRESETS[k];
+    HW_S.rain=p.rain;HW_S.elev=p.elev;HW_S.slope=p.slope;
+    HW_S.sm=p.sm;HW_S.rd=p.rd;HW_S.ndvi=p.ndvi;
+    ['rain','elev','slope','sm','rd'].forEach(function(id){
+      var r=document.getElementById('hw-r-'+id);
+      if(r)r.value=p[id];
+      var v=document.getElementById('hw-v-'+id);
+      if(v)v.textContent=p[id];
+    });
+    var rn=document.getElementById('hw-r-ndvi');if(rn)rn.value=p.ndvi*100;
+    var vn=document.getElementById('hw-v-ndvi');if(vn)vn.textContent=p.ndvi.toFixed(2);
+    document.querySelectorAll('.hw-pbtn').forEach(function(b){b.classList.remove('on')});
+    if(btn)btn.classList.add('on');
+  }
+
+  function hwModel(m,btn){
+    hwCurModel=m;
+    document.querySelectorAll('.hw-mt').forEach(function(b){b.classList.remove('on')});
+    btn.classList.add('on');
+  }
+
+  function hwSevCfg(v){
+    if(v>=.75)return{lbl:'CRITICAL',col:'#FF4757',bg:'rgba(255,71,87,.12)'};
+    if(v>=.5) return{lbl:'HIGH',    col:'#FF8C42',bg:'rgba(255,140,66,.12)'};
+    if(v>=.25)return{lbl:'MEDIUM',  col:'#FFD700',bg:'rgba(255,215,0,.12)'};
+    return          {lbl:'LOW',     col:'#2ECC71',bg:'rgba(46,204,113,.12)'};
+  }
+
+  function hwRun(){
+    var res=hwCompute(HW_S,hwCurModel),mi=HW_MI[hwCurModel];
+    var ph=document.getElementById('hw-res-ph');
+    var gw=document.getElementById('hw-gauges');
+    if(ph)ph.style.display='none';
+    if(gw)gw.style.display='block';
+
+    function setG(vi,bi,si,val){
+      var c=hwSevCfg(val);
+      var ve=document.getElementById(vi),be=document.getElementById(bi),se=document.getElementById(si);
+      if(ve){ve.textContent=val.toFixed(3);ve.style.color=c.col;}
+      if(be){be.style.width=(val*100)+'%';be.style.background=c.col;}
+      if(se){se.textContent=c.lbl;se.style.cssText='background:'+c.bg+';color:'+c.col+';';}
+    }
+    setTimeout(function(){
+      setG('hw-gv-f','hw-gf-f','hw-gs-f',res.flood);
+      setG('hw-gv-l','hw-gf-l','hw-gs-l',res.land);
+      setG('hw-gv-c','hw-gf-c','hw-gs-c',res.compound);
+      var mb=document.getElementById('hw-mbadge');
+      if(mb)mb.innerHTML='<strong>'+mi.lbl+'</strong> · '+mi.note;
+      var cc=hwSevCfg(res.compound);
+      var dom=res.flood>res.land?'flood':'landslide';
+      var txt=cc.lbl+' compound risk. ';
+      if(res.compound>=.75)txt+='Immediate action advised. ';
+      txt+=(dom.charAt(0).toUpperCase()+dom.slice(1))+' dominates ('+(dom==='flood'?res.flood.toFixed(2):res.land.toFixed(2))+'). ';
+      if(HW_S.rain>200)txt+='Extreme rainfall ('+HW_S.rain+' mm/day) is primary driver. ';
+      if(HW_S.slope>30)txt+='Steep terrain ('+HW_S.slope+'°) amplifies slope risk. ';
+      if(HW_S.sm>70)txt+='Saturated soils intensify hazard interaction.';
+      var ip=document.getElementById('hw-interp');
+      if(ip){ip.textContent=txt;ip.style.borderColor=cc.col;ip.style.background=cc.bg;}
+    },50);
+  }
+
+  /* ── BOOT ────────────────────────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function(){
+    hwInitMap();
+    hwPreset('base', document.getElementById('hw-p-base'));
+
+    // Re-init map when the "map" tab is clicked (tab-based SPA needs this)
+    document.querySelectorAll('.nav-tab[data-page="map"]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        setTimeout(function(){ if(hwMap) hwMap.invalidateSize(); }, 150);
+      });
+    });
+  });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/data.js"></script>
