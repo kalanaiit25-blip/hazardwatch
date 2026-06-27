@@ -332,6 +332,86 @@ input[type=range]::-moz-range-thumb {
 .pl-tag.ok { background: rgba(29,158,117,0.15); color: var(--brand-dark); }
 .pl-tag.danger { background: rgba(226,75,74,0.15); color: #a32d2d; }
 
+
+/* ===== DS RISK RANKINGS (Geography subtab) ===== */
+/* All selectors prefixed .dsr- to guarantee zero collision */
+.dsr-wrap         { display:flex; height:560px; border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.dsr-table-col    { flex:1; overflow-y:auto; border-right:1px solid var(--border); }
+.dsr-detail-col   { width:300px; flex-shrink:0; overflow-y:auto; background:var(--surface); }
+
+.dsr-ctrl         { display:flex; flex-wrap:wrap; gap:8px; padding:10px 12px;
+                    border-bottom:1px solid var(--border); background:var(--surface);
+                    position:sticky; top:0; z-index:5; }
+.dsr-mode-group   { display:flex; border:1px solid var(--border); border-radius:5px; overflow:hidden; }
+.dsr-mode         { padding:4px 12px; font-size:11px; cursor:pointer; background:var(--surface);
+                    color:var(--text-2); border:none; font-family:var(--font);
+                    transition:background .12s, color .12s; }
+.dsr-mode.active  { background:var(--flood); color:#fff; }
+.dsr-mode.land.active  { background:var(--land); }
+.dsr-mode.compound.active { background:var(--compound); color:#fff; }
+.dsr-search-inp   { background:var(--surface); border:1px solid var(--border); border-radius:5px;
+                    padding:4px 9px; color:var(--text); font-size:12px; width:170px;
+                    font-family:var(--font); }
+.dsr-search-inp:focus { outline:none; border-color:var(--brand); }
+.dsr-stat-group   { display:flex; gap:6px; margin-left:auto; align-items:center; }
+.dsr-stat         { font-size:10px; padding:2px 8px; border-radius:10px;
+                    background:var(--surface-2); border:1px solid var(--border);
+                    font-family:var(--mono); }
+.dsr-stat b       { font-weight:600; }
+
+.dsr-th           { position:sticky; top:0; background:var(--surface-2); z-index:4; }
+.dsr-th th        { padding:7px 10px; text-align:left; font-size:10px; font-weight:500;
+                    color:var(--text-2); text-transform:uppercase; letter-spacing:.04em;
+                    border-bottom:1px solid var(--border); white-space:nowrap; cursor:pointer;
+                    user-select:none; }
+.dsr-th th:hover  { color:var(--text); }
+.dsr-th th.dsr-sorted { color:var(--brand); }
+
+.dsr-row          { border-bottom:1px solid rgba(0,0,0,.04); cursor:pointer;
+                    transition:background .08s; }
+.dsr-row:hover    { background:var(--surface-2); }
+.dsr-row.dsr-selected { background:rgba(55,138,221,.07); }
+.dsr-row td       { padding:7px 10px; font-size:12px; vertical-align:middle; }
+.dsr-rank         { font-family:var(--mono); font-size:11px; color:var(--text-2);
+                    width:32px; text-align:right; }
+.dsr-ds-name      { font-weight:500; max-width:160px; }
+.dsr-ds-sub       { font-size:10px; color:var(--text-2); font-weight:400; }
+.dsr-bar-cell     { width:110px; }
+.dsr-bar-wrap     { display:flex; align-items:center; gap:5px; }
+.dsr-bar-track    { flex:1; height:5px; background:var(--surface-2); border-radius:3px; overflow:hidden; }
+.dsr-bar-fill     { height:100%; border-radius:3px; }
+.dsr-bar-val      { font-family:var(--mono); font-size:10px; width:36px; text-align:right; }
+
+.dsr-empty-row td { text-align:center; color:var(--text-2); padding:32px; font-size:13px; }
+
+/* Detail panel */
+.dsr-det-hd       { padding:14px 16px 10px; border-bottom:1px solid var(--border); }
+.dsr-det-hd h3    { font-size:14px; font-weight:600; }
+.dsr-det-hd p     { font-size:11px; color:var(--text-2); margin-top:2px; }
+.dsr-det-sec      { padding:12px 16px; border-bottom:1px solid var(--border); }
+.dsr-det-sec-lbl  { font-size:10px; text-transform:uppercase; letter-spacing:.06em;
+                    color:var(--text-2); font-weight:600; margin-bottom:8px; }
+.dsr-metric       { margin-bottom:10px; }
+.dsr-metric-row   { display:flex; align-items:center; margin-bottom:3px; }
+.dsr-metric-lbl   { font-size:11px; color:var(--text-2); flex:1; }
+.dsr-metric-val   { font-family:var(--mono); font-size:12px; font-weight:600; }
+.dsr-bg-bar       { height:7px; background:var(--surface-2); border-radius:3px; overflow:hidden; }
+.dsr-fg-bar       { height:100%; border-radius:3px; }
+.dsr-geo-grid     { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.dsr-geo-item     { background:var(--surface-2); border-radius:5px; padding:7px 9px; }
+.dsr-geo-item .gl { font-size:10px; color:var(--text-2); }
+.dsr-geo-item .gv { font-family:var(--mono); font-size:12px; font-weight:500; margin-top:2px; }
+.dsr-det-empty    { display:flex; flex-direction:column; align-items:center;
+                    justify-content:center; height:100%; gap:8px;
+                    color:var(--text-2); font-size:13px; }
+.dsr-det-empty span { font-size:28px; opacity:.3; }
+
+@media (max-width:900px) {
+  .dsr-wrap       { flex-direction:column; height:auto; }
+  .dsr-detail-col { width:100%; border-right:none; border-top:1px solid var(--border); height:auto; }
+  .dsr-stat-group { display:none; }
+}
+
 /* ===== FOOTER ===== */
 .footer {
   max-width: 1280px; margin: 0 auto; padding: 20px 24px;
