@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HazardWatch &middot; Compound Flood &amp; Landslide Risk Platform &mdash; Sri Lanka</title>
-  <meta name="description" content="Distributed ML framework for compound hazard prediction. MSc Big Data Analytics RGU 2506651.">
+  <title>HazardWatch · Compound Flood & Landslide Risk Platform — Sri Lanka</title>
+  <meta name="description" content="Distributed machine learning framework for compound flood and landslide risk prediction across Sri Lanka. MSc Big Data Analytics research platform.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -469,25 +469,28 @@ input[type=range]::-moz-range-thumb {
 </head>
 <body>
 
+
+  <!-- ===== TOP BAR ===== -->
   <header class="topbar">
     <div class="logo">
       <div class="logo-mark"><i class="ti ti-activity"></i></div>
       <div class="logo-text">
         <span class="logo-title">HazardWatch</span>
-        <span class="logo-sub">Compound Risk Intelligence &middot; Sri Lanka</span>
+        <span class="logo-sub">Compound Risk Intelligence · Sri Lanka</span>
       </div>
     </div>
     <div class="topbar-right">
-      <div class="live-pill"><span class="live-dot"></span><span id="liveTime">Live &middot; updated now</span></div>
+      <div class="live-pill"><span class="live-dot"></span><span id="liveTime">Live · updated now</span></div>
       <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
       <button class="icon-btn" aria-label="Notifications"><i class="ti ti-bell"></i></button>
     </div>
   </header>
 
+  <!-- ===== NAV ===== -->
   <nav class="nav" id="nav">
     <button class="nav-tab active" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
     <button class="nav-tab" data-page="predict"><i class="ti ti-target"></i> Predict</button>
-    <button class="nav-tab" data-page="overview"><i class="ti ti-layout-dashboard"></i> Analytics</button>
+    <button class="nav-tab" data-page="overview"><i class="ti ti-chart-bar"></i> Analytics</button>
     <button class="nav-tab" data-page="models"><i class="ti ti-chart-bar"></i> Models</button>
     <button class="nav-tab" data-page="features"><i class="ti ti-list-numbers"></i> Features</button>
     <button class="nav-tab" data-page="scalability"><i class="ti ti-bolt"></i> Scalability</button>
@@ -499,13 +502,45 @@ input[type=range]::-moz-range-thumb {
 
   <main class="content">
 
-    <!-- LIVE MAP (default active) -->
-    <section class="page active" id="page-map">
+    <!-- ===== OVERVIEW ===== -->
+    <section class="page" id="page-overview">
       <div class="page-head">
-        <h1>Live risk map</h1>
-        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
+        <h1>Analytics</h1>
+        <p>Model performance summary — AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
       </div>
-<section class="page active" id="page-map">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
+        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)">1,511</div><div class="kpi-sub">2.8% · weight 34.7</div></div>
+        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)">4,446</div><div class="kpi-sub">8.2% · weight 11.1</div></div>
+        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val">12</div><div class="kpi-sub">6 distributed · 6 centralised</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-trending-up"></i> Flood AUC-ROC by model</div>
+          <div class="chart-box" style="height:220px"><canvas id="ovAuc"></canvas></div>
+          <div class="legend"><span class="lg"><span class="lg-dot" style="background:var(--dist)"></span>Distributed</span><span class="lg"><span class="lg-dot" style="background:var(--cent)"></span>Centralised</span></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC — key metric for 2.8% imbalance</div>
+          <div class="chart-box" style="height:220px"><canvas id="ovPrauc"></canvas></div>
+          <p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) — most relevant for hazard detection.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><i class="ti ti-clock"></i> Training time comparison</div>
+          <div class="chart-box" style="height:200px"><canvas id="ovTime"></canvas></div>
+          <p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3× — not 157×.</p>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-percentage"></i> 5-fold CV confidence intervals</div>
+          <div id="cvTable"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LIVE MAP ===== -->
+    <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
         <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
@@ -621,15 +656,9 @@ input[type=range]::-moz-range-thumb {
       </div>
 
     </section>
-    </section>
 
-    <!-- PREDICT -->
+    <!-- ===== PREDICT ===== -->
     <section class="page" id="page-predict">
-      <div class="page-head">
-        <h1>Risk prediction</h1>
-        <p>Adjust environmental inputs or load a scenario preset to predict compound risk.</p>
-      </div>
-<section class="page" id="page-predict">
       <div class="page-head">
         <h1>Risk prediction</h1>
         <p>Adjust environmental inputs or load a scenario preset to predict compound risk.</p>
@@ -747,95 +776,117 @@ input[type=range]::-moz-range-thumb {
         </div>
       </div>
     </section>
-    </section>
 
-    <!-- ANALYTICS -->
-    <section class="page" id="page-overview">
-      <div class="page-head"><h1>Analytics</h1><p>Model performance &mdash; AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p></div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells &times; 15 features</div></div>
-        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)">1,511</div><div class="kpi-sub">2.8% &middot; weight 34.7</div></div>
-        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)">4,446</div><div class="kpi-sub">8.2% &middot; weight 11.1</div></div>
-        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val">12</div><div class="kpi-sub">6 distributed &middot; 6 centralised</div></div>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-trending-up"></i> Flood AUC-ROC by model</div><div class="chart-box" style="height:220px"><canvas id="ovAuc"></canvas></div><div class="legend"><span class="lg"><span class="lg-dot" style="background:var(--dist)"></span>Distributed</span><span class="lg"><span class="lg-dot" style="background:var(--cent)"></span>Centralised</span></div></div>
-        <div class="card"><div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC &mdash; key metric for 2.8% imbalance</div><div class="chart-box" style="height:220px"><canvas id="ovPrauc"></canvas></div><p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) &mdash; most relevant for hazard detection.</p></div>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-clock"></i> Training time comparison</div><div class="chart-box" style="height:200px"><canvas id="ovTime"></canvas></div><p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3&times; &mdash; not 157&times;.</p></div>
-        <div class="card"><div class="card-head"><i class="ti ti-percentage"></i> 5-fold CV confidence intervals</div><div id="cvTable"></div></div>
-      </div>
-    </section>
-
-    <!-- MODELS -->
+    <!-- ===== MODELS ===== -->
     <section class="page" id="page-models">
-      <div class="page-head"><h1>Model comparison</h1><p>All 12 trained models &mdash; distributed PySpark vs centralised scikit-learn.</p></div>
+      <div class="page-head">
+        <h1>Model comparison</h1>
+        <p>All 12 trained models — distributed PySpark vs centralised scikit-learn.</p>
+      </div>
       <div class="kpi-grid kpi-3">
-        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)">0.9225</div><div class="kpi-sub">PySpark RF &middot; 1568s w/ CV</div></div>
-        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)">0.9235</div><div class="kpi-sub">sklearn RF &middot; 9.9s &middot; &Delta;=&minus;0.001</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)">0.9225</div><div class="kpi-sub">PySpark RF · 1568s w/ CV</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)">0.9235</div><div class="kpi-sub">sklearn RF · 9.9s · Δ=−0.001</div></div>
         <div class="kpi"><div class="kpi-label">Best flood PR-AUC</div><div class="kpi-val" style="color:var(--ok)">0.6651</div><div class="kpi-sub">PySpark RF leads</div></div>
       </div>
-      <div class="card"><div class="card-head"><i class="ti ti-table"></i> Complete results table</div><div class="table-scroll"><table class="data-table" id="modelTable"></table></div></div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-table"></i> Complete results table</div>
+        <div class="table-scroll"><table class="data-table" id="modelTable"></table></div>
+      </div>
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> AUC-ROC</div><div class="chart-box" style="height:240px"><canvas id="mdlAuc"></canvas></div></div>
         <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> F1 score</div><div class="chart-box" style="height:240px"><canvas id="mdlF1"></canvas></div></div>
       </div>
     </section>
 
-    <!-- FEATURES -->
+    <!-- ===== FEATURES ===== -->
     <section class="page" id="page-features">
-      <div class="page-head"><h1>Feature importance &amp; leakage</h1><p>PySpark Random Forest Gini importance and the leakage detection pipeline.</p></div>
-      <div class="control-row"><label class="muted">Target:</label><select id="fiTarget"><option value="flood">Flood risk</option><option value="land">Landslide risk</option></select></div>
+      <div class="page-head">
+        <h1>Feature importance &amp; leakage</h1>
+        <p>PySpark Random Forest Gini importance and the leakage detection pipeline.</p>
+      </div>
+      <div class="control-row">
+        <label class="muted">Target:</label>
+        <select id="fiTarget"><option value="flood">Flood risk</option><option value="land">Landslide risk</option></select>
+      </div>
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-list-numbers"></i> Feature importance ranking</div><div id="featList"></div></div>
         <div class="card">
-          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers &mdash; compound evidence</div><div id="sharedDrivers"></div>
-          <div class="card-head" style="margin-top:18px"><i class="ti ti-chart-area"></i> Label correlation screen</div><div id="corrList"></div>
-          <div class="leak-box"><div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence &mdash; confirmed leakage</div><p>Threshold &gt;10 reproduces flood_risk with 99.9% accuracy. Excluded via Cell 1.5.</p></div>
+          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers — compound evidence</div>
+          <div id="sharedDrivers"></div>
+          <div class="card-head" style="margin-top:18px"><i class="ti ti-chart-area"></i> Label correlation screen</div>
+          <div id="corrList"></div>
+          <div class="leak-box">
+            <div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence — confirmed leakage</div>
+            <p>Threshold &gt;10 reproduces flood_risk with 99.9% accuracy. Excluded via Cell 1.5. Linear correlation (0.657) alone did not flag it.</p>
+          </div>
         </div>
       </div>
-      <div class="card"><div class="card-head"><i class="ti ti-flask"></i> Ablation study &mdash; jrc_occurrence effect</div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-flask"></i> Ablation study — jrc_occurrence effect</div>
         <div class="kpi-grid kpi-3">
           <div class="kpi"><div class="kpi-label">sklearn RF baseline</div><div class="kpi-val">0.9235</div><div class="kpi-sub">15 clean features</div></div>
           <div class="kpi danger"><div class="kpi-label">sklearn RF + jrc</div><div class="kpi-val" style="color:var(--danger)">1.0000</div><div class="kpi-sub">16 features (leaky)</div></div>
-          <div class="kpi danger"><div class="kpi-label">&Delta; AUC</div><div class="kpi-val" style="color:var(--danger)">+0.0765</div><div class="kpi-sub">Leakage confirmed</div></div>
-        </div></div>
+          <div class="kpi danger"><div class="kpi-label">Δ AUC</div><div class="kpi-val" style="color:var(--danger)">+0.0765</div><div class="kpi-sub">Leakage confirmed</div></div>
+        </div>
+      </div>
     </section>
 
-    <!-- SCALABILITY -->
+    <!-- ===== SCALABILITY ===== -->
     <section class="page" id="page-scalability">
-      <div class="page-head"><h1>Scalability analysis &middot; RQ4</h1></div>
-      <div class="rq-banner info"><span class="rq-tag">Research Question 4</span> To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?</div>
+      <div class="page-head"><h1>Scalability analysis · RQ4</h1></div>
+      <div class="rq-banner info">
+        <span class="rq-tag">Research Question 4</span>
+        To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?
+      </div>
       <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val">&minus;0.0010</div><div class="kpi-sub">Centralised leads marginally</div></div>
+        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val">−0.0010</div><div class="kpi-sub">Centralised leads marginally</div></div>
         <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)">+0.0781</div><div class="kpi-sub">Distributed leads</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val">157&times;</div><div class="kpi-sub">CV overhead</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val">3&times;</div><div class="kpi-sub">Real comparison</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val">157×</div><div class="kpi-sub">CV overhead</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val">3×</div><div class="kpi-sub">Real comparison</div></div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0&times;.</p></div>
-        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data &mdash; both targets</div><div class="sub-head">Flood</div><div id="scaleFlood"></div><div class="sub-head">Landslide</div><div id="scaleLand"></div></div>
+        <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0×. Crossover needs multi-node cluster.</p></div>
+        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data — both targets</div><div class="sub-head">Flood (Cell 8)</div><div id="scaleFlood"></div><div class="sub-head">Landslide (Cell 14.2)</div><div id="scaleLand"></div></div>
       </div>
       <div class="grid-2">
-        <div class="card framing"><div class="card-head">Why distributed appears slower</div><ul><li>JVM + serialisation overhead on single Colab node</li><li>5-fold &times; 9-param = 45 Spark fits (sklearn used no CV)</li><li>54K rows below distributed-advantage threshold</li></ul></div>
-        <div class="card framing ok"><div class="card-head">Why distributed is still right</div><ul><li>Spark time grows sub-linearly with data size</li><li>PySpark RF leads on PR-AUC (0.6651 vs 0.5870)</li><li>Enables Structured Streaming for real-time alerts</li><li>Fault-tolerant national-scale deployment</li></ul></div>
+        <div class="card framing"><div class="card-head">Why distributed appears slower</div><ul><li>JVM + serialisation overhead on single Colab node</li><li>5-fold × 9-param = 45 Spark fits (sklearn used no CV)</li><li>54K rows below distributed-advantage threshold</li></ul></div>
+        <div class="card framing ok"><div class="card-head">Why distributed is still right</div><ul><li>Spark time grows sub-linearly with data size</li><li>PySpark RF leads on PR-AUC (0.6651 vs 0.5870)</li><li>Enables Structured Streaming for real-time</li><li>Fault-tolerant national-scale deployment</li></ul></div>
       </div>
     </section>
 
-    <!-- DITWAH -->
+    <!-- ===== DITWAH ===== -->
     <section class="page" id="page-ditwah">
-      <div class="page-head"><h1>Cyclone Ditwah validation &middot; RQ5</h1></div>
-      <div class="rq-banner warn"><span class="rq-tag">Research Question 5 &middot; OO6</span> How robust is the framework when applied to extreme real-world hazard events?</div>
+      <div class="page-head"><h1>Cyclone Ditwah validation · RQ5</h1></div>
+      <div class="rq-banner warn">
+        <span class="rq-tag">Research Question 5 · OO6</span>
+        How robust is the framework when applied to extreme real-world hazard events?
+      </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">PySpark RF flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9282</div><div class="kpi-sub">Northern zone</div></div>
         <div class="kpi"><div class="kpi-label">XGBoost flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9174</div><div class="kpi-sub">Northern zone</div></div>
-        <div class="kpi"><div class="kpi-label">Landslide AUC</div><div class="kpi-val" style="color:var(--land)">1.0000</div><div class="kpi-sub">n=21 &middot; see caveat</div></div>
-        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val">18,550</div><div class="kpi-sub">lat &gt; 8.0&deg;N</div></div>
+        <div class="kpi"><div class="kpi-label">Landslide AUC</div><div class="kpi-val" style="color:var(--land)">1.0000</div><div class="kpi-sub">n=21 · see caveat</div></div>
+        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val">18,550</div><div class="kpi-sub">lat &gt; 8.0°N</div></div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-wind"></i> Cyclone Ditwah facts</div><div class="fact-list"><div class="fact"><span>Date</span><span>27&ndash;29 Nov 2025</span></div><div class="fact"><span>People affected</span><span>1.8 million</span></div><div class="fact"><span>Area inundated</span><span>1.1M hectares</span></div><div class="fact"><span>Landslides</span><span>&gt;1,200</span></div><div class="fact"><span>Economic loss</span><span style="color:var(--danger)">US$4.1 billion</span></div><div class="fact"><span>Districts hit</span><span>All 25</span></div></div></div>
-        <div class="card"><div class="card-head"><i class="ti ti-table"></i> XGBoost flood report (north)</div><table class="data-table" id="ditwahReport"></table><div class="leak-box"><div class="leak-title"><i class="ti ti-alert-triangle"></i> Landslide caveat (n=21)</div><p>Bootstrap 95% CI = [1.0000, 1.0000]. Sample is extremely small &mdash; reported as preliminary evidence.</p></div></div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-wind"></i> Cyclone Ditwah facts</div>
+          <div class="fact-list">
+            <div class="fact"><span>Date</span><span>27–29 Nov 2025</span></div>
+            <div class="fact"><span>People affected</span><span>1.8 million</span></div>
+            <div class="fact"><span>Area inundated</span><span>1.1M hectares</span></div>
+            <div class="fact"><span>Landslides</span><span>&gt;1,200</span></div>
+            <div class="fact"><span>Economic loss</span><span style="color:var(--danger)">US$4.1 billion</span></div>
+            <div class="fact"><span>Districts hit</span><span>All 25</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-table"></i> XGBoost flood report (north)</div>
+          <table class="data-table" id="ditwahReport"></table>
+          <div class="leak-box">
+            <div class="leak-title"><i class="ti ti-alert-triangle"></i> Landslide caveat (n=21)</div>
+            <p>Bootstrap 95% CI = [1.0000, 1.0000]. CI is tight but sample is extremely small — reported as preliminary evidence warranting validation with richer northern inventory data.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -871,38 +922,45 @@ input[type=range]::-moz-range-thumb {
         <div class="table-scroll"><table class="data-table"><thead><tr><th>Admin District</th><th>Province</th><th>DS Divs</th><th>Cells</th><th>Flood</th><th>Flood %</th><th>Landslide</th><th>LS %</th><th>Compound</th><th>Risk Category</th></tr></thead><tbody id="admTableBody"></tbody></table></div>
       </div>
     </section>
-
-    <!-- DATA -->
+    <!-- ===== DATA ===== -->
     <section class="page" id="page-data">
-      <div class="page-head"><h1>Data provenance</h1><p>All 15 features verified: null=0.0%, zero duplicates, zero train/test overlap.</p></div>
-      <div class="card"><div class="card-head"><i class="ti ti-database"></i> Feature store sources</div><div class="table-scroll"><table class="data-table" id="dataTable"></table></div></div>
+      <div class="page-head"><h1>Data provenance</h1><p>All 15 features verified: null=0.0%, zero duplicates, zero train/test overlap (Cell 14.6).</p></div>
+      <div class="card">
+        <div class="card-head"><i class="ti ti-database"></i> Feature store sources</div>
+        <div class="table-scroll"><table class="data-table" id="dataTable"></table></div>
+      </div>
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-layers"></i> Features by source</div><div class="chart-box" style="height:200px"><canvas id="srcChart"></canvas></div></div>
-        <div class="card"><div class="card-head"><i class="ti ti-alert-triangle"></i> Leakage detection pipeline</div><div class="pipeline"><div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) &mdash; did NOT catch jrc_occurrence (corr=0.657)</span></div><div class="pl-step"><span class="pl-tag ok">2</span><span>Ablation: AUC jump +0.0765 with jrc &rarr; red flag</span></div><div class="pl-step"><span class="pl-tag ok">3</span><span>Threshold test: jrc &gt; 10 &rarr; 99.9% match with flood_risk</span></div><div class="pl-step"><span class="pl-tag danger">Guard</span><span>Cell 1.5 hard-excludes jrc permanently</span></div></div></div>
+        <div class="card">
+          <div class="card-head"><i class="ti ti-alert-triangle"></i> Leakage detection pipeline</div>
+          <div class="pipeline">
+            <div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) — did NOT catch jrc_occurrence (corr=0.657)</span></div>
+            <div class="pl-step"><span class="pl-tag ok">2</span><span>Ablation: AUC jump +0.0765 with jrc → red flag triggered</span></div>
+            <div class="pl-step"><span class="pl-tag ok">3</span><span>Threshold test: jrc &gt; 10 → 99.9% match with flood_risk</span></div>
+            <div class="pl-step"><span class="pl-tag danger">Guard</span><span>Cell 1.5 hard-excludes jrc permanently</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- RESEARCH -->
+    <!-- ===== RESEARCH ===== -->
     <section class="page" id="page-research">
-      <div class="page-head"><h1>Research questions &amp; answers</h1><p>Evidence-based answers mapped to objectives RO1&ndash;RO5.</p></div>
+      <div class="page-head"><h1>Research questions &amp; answers</h1><p>Evidence-based answers mapped to objectives RO1–RO5.</p></div>
       <div id="rqList"></div>
     </section>
 
   </main>
 
   <footer class="footer">
-    <span>HazardWatch Research Platform &middot; MSc Big Data Analytics &middot; RGU 2506651 &middot; Kalana Rathnayake</span>
-    <span>Models: XGBoost + PySpark RF &middot; Validation: Cyclone Ditwah (Nov 2025)</span>
+    <span>HazardWatch Research Platform · MSc Big Data Analytics · RGU 2506651 · Kalana Rathnayake</span>
+    <span>Models: XGBoost + PySpark RF · Validation: Cyclone Ditwah (Nov 2025)</span>
   </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script>
-/* == data.js == */
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
 /* ═══════════════════════════════════════════════════════════════════
    data.js — Auto-generated by generate_data_js.py
-   Source: Dashboard_2.ipynb (RGU MSc 2506651) · All values from notebook cell outputs
-   Verified against: feature_store.parquet (53,945 rows × 32 cols)
+   Source: Dashboard.ipynb model outputs · RGU MSc 2506651
    ═══════════════════════════════════════════════════════════════════ */
 
 const MODELS = [
@@ -912,8 +970,8 @@ const MODELS = [
     "arch": "centralised",
     "auc": 0.9235,
     "f1": 0.9635,
-    "prec": 0.9712,
-    "rec": 0.9562,
+    "prec": 0.9648,
+    "rec": 0.9625,
     "time": 9.9,
     "prauc": 0.587
   },
@@ -923,8 +981,8 @@ const MODELS = [
     "arch": "distributed",
     "auc": 0.9225,
     "f1": 0.9699,
-    "prec": 0.9773,
-    "rec": 0.9627,
+    "prec": 0.9697,
+    "rec": 0.9731,
     "time": 1567.8,
     "prauc": 0.6651
   },
@@ -934,10 +992,10 @@ const MODELS = [
     "arch": "distributed",
     "auc": 0.9216,
     "f1": 0.9673,
-    "prec": 0.975,
-    "rec": 0.9597,
+    "prec": 0.9662,
+    "rec": 0.9694,
     "time": 1570.8,
-    "prauc": 0.0
+    "prauc": NaN
   },
   {
     "model": "sklearn_GBT",
@@ -945,8 +1003,8 @@ const MODELS = [
     "arch": "centralised",
     "auc": 0.9198,
     "f1": 0.9626,
-    "prec": 0.97,
-    "rec": 0.9553,
+    "prec": 0.9633,
+    "rec": 0.962,
     "time": 37.3,
     "prauc": 0.4271
   },
@@ -956,21 +1014,21 @@ const MODELS = [
     "arch": "centralised",
     "auc": 0.9174,
     "f1": 0.9531,
-    "prec": 0.9611,
-    "rec": 0.9454,
+    "prec": 0.9635,
+    "rec": 0.9463,
     "time": 2.8,
     "prauc": 0.6641
   },
   {
     "model": "LogisticRegression",
     "target": "flood_risk",
-    "arch": "distributed",
+    "arch": "centralised",
     "auc": 0.9146,
     "f1": 0.8657,
-    "prec": 0.875,
-    "rec": 0.8567,
+    "prec": 0.9606,
+    "rec": 0.8091,
     "time": 26.6,
-    "prauc": 0.0
+    "prauc": NaN
   },
   {
     "model": "PySpark_RF",
@@ -978,7 +1036,7 @@ const MODELS = [
     "arch": "distributed",
     "auc": 1.0,
     "f1": 0.9999,
-    "prec": 0.9998,
+    "prec": 0.9999,
     "rec": 0.9999,
     "time": 1765.5,
     "prauc": 0.917
@@ -989,10 +1047,10 @@ const MODELS = [
     "arch": "distributed",
     "auc": 1.0,
     "f1": 0.9997,
-    "prec": 0.9996,
-    "rec": 0.9998,
+    "prec": 0.9998,
+    "rec": 0.9997,
     "time": 1594.3,
-    "prauc": 0.0
+    "prauc": NaN
   },
   {
     "model": "sklearn_RF",
@@ -1019,13 +1077,13 @@ const MODELS = [
   {
     "model": "LogisticRegression",
     "target": "landslide_risk",
-    "arch": "distributed",
+    "arch": "centralised",
     "auc": 0.9995,
     "f1": 0.9969,
-    "prec": 0.9968,
-    "rec": 0.997,
+    "prec": 0.9991,
+    "rec": 0.9954,
     "time": 10.3,
-    "prauc": 0.0
+    "prauc": NaN
   },
   {
     "model": "sklearn_GBT",
@@ -1033,8 +1091,8 @@ const MODELS = [
     "arch": "centralised",
     "auc": 0.9994,
     "f1": 0.9995,
-    "prec": 0.9994,
-    "rec": 0.9996,
+    "prec": 0.9996,
+    "rec": 0.9994,
     "time": 36.6,
     "prauc": 0.456
   }
@@ -1048,7 +1106,7 @@ const DISTRICTS = [
     "lon": 80.01,
     "flood": 0.312,
     "land": 0.0,
-    "rain": 28.2,
+    "rain": 26.8,
     "pop": 88000,
     "x": 158,
     "y": 55
@@ -1060,7 +1118,7 @@ const DISTRICTS = [
     "lon": 81.7,
     "flood": 0.185,
     "land": 0.003,
-    "rain": 33.0,
+    "rain": 30.3,
     "pop": 93000,
     "x": 255,
     "y": 250
@@ -1072,7 +1130,7 @@ const DISTRICTS = [
     "lon": 81.12,
     "flood": 0.139,
     "land": 0.009,
-    "rain": 37.5,
+    "rain": 27.2,
     "pop": 12000,
     "x": 220,
     "y": 445
@@ -1084,7 +1142,7 @@ const DISTRICTS = [
     "lon": 81.23,
     "flood": 0.102,
     "land": 0.005,
-    "rain": 31.9,
+    "rain": 33.6,
     "pop": 80000,
     "x": 230,
     "y": 150
@@ -1096,7 +1154,7 @@ const DISTRICTS = [
     "lon": 79.86,
     "flood": 0.099,
     "land": 0.029,
-    "rain": 52.3,
+    "rain": 56.4,
     "pop": 752000,
     "x": 130,
     "y": 355
@@ -1108,7 +1166,7 @@ const DISTRICTS = [
     "lon": 80.53,
     "flood": 0.083,
     "land": 0.063,
-    "rain": 59.4,
+    "rain": 35.6,
     "pop": 75000,
     "x": 170,
     "y": 460
@@ -1120,7 +1178,7 @@ const DISTRICTS = [
     "lon": 80.4,
     "flood": 0.067,
     "land": 0.002,
-    "rain": 24.2,
+    "rain": 30.1,
     "pop": 56000,
     "x": 165,
     "y": 165
@@ -1132,7 +1190,7 @@ const DISTRICTS = [
     "lon": 80.36,
     "flood": 0.056,
     "land": 0.059,
-    "rain": 47.5,
+    "rain": 39.1,
     "pop": 31000,
     "x": 160,
     "y": 265
@@ -1144,7 +1202,7 @@ const DISTRICTS = [
     "lon": 80.63,
     "flood": 0.034,
     "land": 0.512,
-    "rain": 45.4,
+    "rain": 47.4,
     "pop": 125000,
     "x": 175,
     "y": 295
@@ -1156,7 +1214,7 @@ const DISTRICTS = [
     "lon": 80.22,
     "flood": 0.033,
     "land": 0.227,
-    "rain": 67.1,
+    "rain": 58.5,
     "pop": 99000,
     "x": 148,
     "y": 445
@@ -1168,7 +1226,7 @@ const DISTRICTS = [
     "lon": 81.05,
     "flood": 0.018,
     "land": 0.552,
-    "rain": 41.0,
+    "rain": 42.1,
     "pop": 35000,
     "x": 215,
     "y": 330
@@ -1180,7 +1238,7 @@ const DISTRICTS = [
     "lon": 80.4,
     "flood": 0.012,
     "land": 0.336,
-    "rain": 66.5,
+    "rain": 63.5,
     "pop": 47000,
     "x": 165,
     "y": 380
@@ -1194,16 +1252,16 @@ const FI = {
         "bulk_density": 0.1075,
         "org_carbon": 0.0914,
         "spi": 0.0816,
-        "ndvi": 0.0737,
-        "clay_pct": 0.0688,
-        "sand_pct": 0.0636,
-        "land_cover": 0.0476,
+        "ndvi": 0.0745,
+        "clay_pct": 0.0685,
+        "sand_pct": 0.0637,
+        "land_cover": 0.0477,
         "elevation": 0.0314,
-        "soil_moisture": 0.025,
-        "rain_7d_mean": 0.0233,
-        "rain_max_mean": 0.0217,
-        "rain_3d_mean": 0.022,
-        "aspect": 0.0156
+        "soil_moisture": 0.0245,
+        "rain_7d_mean": 0.0226,
+        "rain_max_mean": 0.0222,
+        "rain_3d_mean": 0.0216,
+        "aspect": 0.016
     },
     "land": {
         "slope": 0.4702,
@@ -1211,20 +1269,19 @@ const FI = {
         "spi": 0.1038,
         "twi": 0.0922,
         "bulk_density": 0.029,
-        "rain_7d_mean": 0.023,
-        "rain_3d_mean": 0.022,
-        "soil_moisture": 0.021,
-        "clay_pct": 0.021,
-        "rain_max_mean": 0.021,
-        "land_cover": 0.019,
-        "ndvi": 0.015,
-        "org_carbon": 0.012,
-        "sand_pct": 0.009,
-        "aspect": 0.006
+        "rain_7d_mean": 0.0231,
+        "rain_3d_mean": 0.0222,
+        "soil_moisture": 0.0214,
+        "clay_pct": 0.0213,
+        "rain_max_mean": 0.0206,
+        "land_cover": 0.0186,
+        "ndvi": 0.0146,
+        "org_carbon": 0.0119,
+        "sand_pct": 0.0093,
+        "aspect": 0.0064
     }
 };
 
-// ── Feature metadata for sliders & sources ──
 const FEAT_META = {
   elevation:    { label:'Elevation (m)',   src:'SRTM',      min:0,   max:2500, step:1,    def:177,  desc:'Digital elevation model (30m → 1km)' },
   slope:        { label:'Slope (°)',        src:'SRTM',      min:0,   max:60,   step:0.5,  def:5.3,  desc:'Terrain slope derived from DEM' },
@@ -1243,17 +1300,11 @@ const FEAT_META = {
   rain_max_mean:{ label:'Rain max (mm)',    src:'CHIRPS',    min:0,   max:300,  step:1,    def:30.2, desc:'Maximum daily mean rainfall' },
 };
 
-// ── Feature means & stds (Cell 14.6 provenance) ──
 const FEAT_STATS = {
-  means: { elevation:177, slope:5.3, twi:5.9, spi:0.4, aspect:176, clay_pct:31.2, sand_pct:35.4,
-           bulk_density:1.13, org_carbon:55.7, land_cover:9, ndvi:0.81, soil_moisture:0.32,
-           rain_3d_mean:16.6, rain_7d_mean:38.6, rain_max_mean:30.2 },
-  stds:  { elevation:305, slope:7.6, twi:4.9, spi:0.8, aspect:106, clay_pct:7.9, sand_pct:9.3,
-           bulk_density:0.28, org_carbon:19.5, land_cover:3.4, ndvi:0.074, soil_moisture:0.069,
-           rain_3d_mean:5.1, rain_7d_mean:12.1, rain_max_mean:8.1 }
+  means: { rain_7d_mean:38.6 },
+  stds:  { rain_7d_mean:12.1 }
 };
 
-// ── Scenario presets ──
 const PRESETS = {
   mean:   { elevation:177, slope:5.3,  twi:5.9,  spi:0.4,  aspect:176, clay_pct:31.2, sand_pct:35.4, bulk_density:1.13, org_carbon:55.7, land_cover:9,  ndvi:0.81, soil_moisture:0.32, rain_3d_mean:16.6, rain_7d_mean:38.6,  rain_max_mean:30.2 },
   ditwah: { elevation:80,  slope:12.5, twi:8.2,  spi:1.8,  aspect:195, clay_pct:28,   sand_pct:42,   bulk_density:0.95, org_carbon:48,   land_cover:7,  ndvi:0.62, soil_moisture:0.48, rain_3d_mean:85,   rain_7d_mean:210,   rain_max_mean:145 },
@@ -1262,88 +1313,10 @@ const PRESETS = {
   slide:  { elevation:620, slope:32,   twi:3.1,  spi:0.8,  aspect:290, clay_pct:22,   sand_pct:48,   bulk_density:1.05, org_carbon:38,   land_cover:5,  ndvi:0.71, soil_moisture:0.41, rain_3d_mean:58,   rain_7d_mean:155,   rain_max_mean:120 },
 };
 
-// ── Scalability data (Cell 8 flood + Cell 14.2 landslide) ──
-const SCALABILITY = {
-  flood: [
-    { frac:25,  n:13486, sparkT:17.9, sklT:2.5,  sparkAuc:0.9133, sklAuc:0.9141 },
-    { frac:50,  n:26972, sparkT:24.4, sklT:4.6,  sparkAuc:0.9342, sklAuc:0.9533 },
-    { frac:100, n:53945, sparkT:38.2, sklT:12.9, sparkAuc:0.9480, sklAuc:0.9451 },
-  ],
-  land: [
-    { frac:25,  n:13486, sparkT:25.5, sklT:2.0,  sparkAuc:0.9853, sklAuc:0.9875 },
-    { frac:50,  n:26972, sparkT:25.2, sklT:4.1,  sparkAuc:0.9847, sklAuc:0.9856 },
-    { frac:100, n:53945, sparkT:40.4, sklT:9.9,  sparkAuc:0.9877, sklAuc:0.9899 },
-  ]
-};
-
-// ── 5-fold CV results (Cell 14.5) ──
-const CV_RESULTS = [
-  { model:'sklearn RF · flood',     aucMean:0.9446, aucStd:0.0043, ciLo:0.9362, ciHi:0.9530, apMean:0.6720 },
-  { model:'XGBoost · flood',        aucMean:0.9474, aucStd:0.0037, ciLo:0.9400, ciHi:0.9547, apMean:0.7222 },
-  { model:'sklearn RF · landslide', aucMean:0.9901, aucStd:0.0012, ciLo:0.9878, ciHi:0.9924, apMean:0.9340 },
-  { model:'XGBoost · landslide',    aucMean:0.9935, aucStd:0.0011, ciLo:0.9915, ciHi:0.9956, apMean:0.9522 },
-];
-
-// ── Label correlations (Cell 12.5) ──
-const CORRELATIONS = {
-  flood: { slope:0.694, jrc_occurrence:0.657, log_org_carbon:0.430, log_bulk_density:0.420, clay_pct:0.408 },
-  land:  { slope:0.694, log_slope:0.523, elevation:0.475, log_spi:0.337, log_rain_3d_mean:0.293 }
-};
-
-// ── Ditwah classification report (Cell 12) ──
-const DITWAH_REPORT = [
-  { cls:'No Risk', prec:0.99, rec:0.96, f1:0.97, support:'17,822' },
-  { cls:'Risk',    prec:0.39, rec:0.69, f1:0.50, support:'728' },
-];
-
-// ── Data source provenance (Cell 14.6) ──
-const DATA_SOURCES = [
-  { f:'elevation',     desc:'Digital elevation model (30m → 1km)', src:'SRTM',      null:'0.0%' },
-  { f:'slope',         desc:'Terrain slope from DEM',              src:'SRTM',      null:'0.0%' },
-  { f:'twi',           desc:'Topographic wetness index',          src:'SRTM',      null:'0.0%' },
-  { f:'spi',           desc:'Stream power index',                 src:'SRTM',      null:'0.0%' },
-  { f:'aspect',        desc:'Slope aspect direction',             src:'SRTM',      null:'0.0%' },
-  { f:'clay_pct',      desc:'Clay content %',                     src:'SoilGrids', null:'0.0%' },
-  { f:'sand_pct',      desc:'Sand content %',                     src:'SoilGrids', null:'0.0%' },
-  { f:'bulk_density',  desc:'Bulk density (g/cm³)',               src:'SoilGrids', null:'0.0%' },
-  { f:'org_carbon',    desc:'Organic carbon (g/kg)',              src:'SoilGrids', null:'0.0%' },
-  { f:'land_cover',    desc:'Land cover class',                   src:'ESA',       null:'0.0%' },
-  { f:'ndvi',          desc:'Vegetation index (500m)',            src:'MODIS',     null:'0.0%' },
-  { f:'soil_moisture', desc:'Volumetric soil moisture',          src:'SMAP',      null:'0.0%' },
-  { f:'rain_3d_mean',  desc:'3-day mean rainfall (mm)',           src:'CHIRPS',    null:'0.0%' },
-  { f:'rain_7d_mean',  desc:'7-day mean rainfall (mm)',           src:'CHIRPS',    null:'0.0%' },
-  { f:'rain_max_mean', desc:'Max daily mean (mm)',                src:'CHIRPS',    null:'0.0%' },
-];
-
-// ── Research questions & answers ──
-const RESEARCH_QS = [
-  { n:'RQ1', obj:'RO1', status:'answered',
-    q:'How do existing flood and landslide modelling approaches perform under non-stationary climate conditions?',
-    a:'Physically-based models (HEC-RAS, TOPMODEL) assume stationary rainfall-runoff relationships invalidated by climate change. Threshold-based landslide systems rely on empirical values that break under novel extremes like Cyclone Ditwah. ML approaches (Mosavi 2018; Reichenbach 2018) improve accuracy but prioritise algorithmic performance over scalability and compound representation.' },
-  { n:'RQ2', obj:'RO2', status:'answered',
-    q:'What architectural and computational limitations restrict scalability of current ML hazard models?',
-    a:'Three key limitations identified: (1) hazard isolation — most studies model flood and landslide independently; (2) centralised design — single-machine sklearn cannot scale to national datasets; (3) no event-based validation — cross-validation only, no stress testing against historical extreme events.' },
-  { n:'RQ3', obj:'RO3', status:'answered',
-    q:'How can a distributed ML framework integrate heterogeneous geospatial data for compound hazard prediction?',
-    a:'Designed a PySpark 3.5.3 pipeline integrating 5 data sources (SRTM, SoilGrids, ESA WorldCover, SMAP, CHIRPS) into a 53,945-cell feature store. Spatial train/test split at 8°N prevents autocorrelation leakage. A leakage detection pipeline (correlation screen → ablation → threshold test) identifies and excludes jrc_occurrence.' },
-  { n:'RQ4', obj:'RO4', status:'answered',
-    q:'To what extent does distributed architecture improve performance and efficiency vs centralised approaches?',
-    a:'AUC-ROC: comparable (PySpark RF 0.9225 vs sklearn RF 0.9235, Δ=−0.0010). PR-AUC: distributed leads (PySpark RF 0.6651 vs sklearn RF 0.5870, Δ=+0.0781). Training time: 3× slower at 54K rows without CV (38s vs 13s) — not 157× as raw CV figures suggest. Crossover to distributed advantage requires multi-node cluster with millions of rows.' },
-  { n:'RQ5', obj:'RO5', status:'partial',
-    q:'How robust is the distributed framework against extreme real-world hazard events?',
-    a:'Validated on Cyclone Ditwah northern zone (18,550 test cells, lat>8°N). Flood: PySpark RF AUC=0.9282, XGBoost AUC=0.9174. Landslide: AUC=1.0000 but only 21 positives — bootstrap CI=[1.0,1.0], reported as preliminary. Framework demonstrates operational robustness for flood prediction; landslide northern validation requires richer inventory data.' },
-];
-
-
-const FEAT_STATS = {
-  means: { elevation:177.0, slope:5.3, twi:5.9, spi:0.4, aspect:175.8, clay_pct:31.2, sand_pct:35.4, bulk_density:1.1, org_carbon:55.7, land_cover:8.7, ndvi:0.8, soil_moisture:0.3, rain_3d_mean:16.6, rain_7d_mean:38.6, rain_max_mean:30.2 },
-  stds:  { elevation:305.0, slope:7.6, twi:4.9, spi:0.8, aspect:105.6, clay_pct:7.9, sand_pct:9.3, bulk_density:0.3, org_carbon:19.5, land_cover:3.4, ndvi:0.1, soil_moisture:0.1, rain_3d_mean:5.1, rain_7d_mean:12.1, rain_max_mean:8.1 }
-};
-
 const SCALABILITY = {
   flood: [
     {
-        "frac": 25,
+        "frac": 0,
         "n": 13486,
         "sparkT": 17.9,
         "sklT": 2.5,
@@ -1351,7 +1324,7 @@ const SCALABILITY = {
         "sklAuc": 0.9141
     },
     {
-        "frac": 50,
+        "frac": 0,
         "n": 26972,
         "sparkT": 24.4,
         "sklT": 4.6,
@@ -1359,7 +1332,7 @@ const SCALABILITY = {
         "sklAuc": 0.9533
     },
     {
-        "frac": 100,
+        "frac": 1,
         "n": 53945,
         "sparkT": 38.2,
         "sklT": 12.9,
@@ -1369,28 +1342,28 @@ const SCALABILITY = {
 ],
   land: [
     {
-        "frac": 25,
+        "frac": 0,
         "n": 13486,
-        "sparkT": 18.1,
-        "sklT": 2.4,
-        "sparkAuc": 0.989,
-        "sklAuc": 0.9912
+        "sparkT": 25.5,
+        "sklT": 2.0,
+        "sparkAuc": 0.9853,
+        "sklAuc": 0.9875
     },
     {
-        "frac": 50,
+        "frac": 0,
         "n": 26972,
         "sparkT": 25.2,
-        "sklT": 4.7,
-        "sparkAuc": 0.9944,
-        "sklAuc": 0.9953
+        "sklT": 4.1,
+        "sparkAuc": 0.9847,
+        "sklAuc": 0.9856
     },
     {
-        "frac": 100,
+        "frac": 1,
         "n": 53945,
-        "sparkT": 39.5,
-        "sklT": 9.5,
-        "sparkAuc": 1.0,
-        "sklAuc": 1.0
+        "sparkT": 40.4,
+        "sklT": 9.9,
+        "sparkAuc": 0.9877,
+        "sklAuc": 0.9899
     }
 ]
 };
@@ -1398,7 +1371,6 @@ const SCALABILITY = {
 const CV_RESULTS = [
   {
     "model": "sklearn_RF",
-    "target": "flood_risk",
     "aucMean": 0.9446,
     "aucStd": 0.0043,
     "ciLo": 0.9362,
@@ -1407,29 +1379,26 @@ const CV_RESULTS = [
   },
   {
     "model": "XGBoost",
-    "target": "flood_risk",
     "aucMean": 0.9474,
     "aucStd": 0.0037,
-    "ciLo": 0.94,
+    "ciLo": 0.9401,
     "ciHi": 0.9547,
     "apMean": 0.7222
   },
   {
     "model": "sklearn_RF",
-    "target": "landslide_risk",
     "aucMean": 0.9901,
     "aucStd": 0.0012,
-    "ciLo": 0.9878,
-    "ciHi": 0.9924,
+    "ciLo": 0.9877,
+    "ciHi": 0.9925,
     "apMean": 0.934
   },
   {
     "model": "XGBoost",
-    "target": "landslide_risk",
     "aucMean": 0.9935,
     "aucStd": 0.0011,
-    "ciLo": 0.9915,
-    "ciHi": 0.9956,
+    "ciLo": 0.9913,
+    "ciHi": 0.9957,
     "apMean": 0.9522
   }
 ];
@@ -1468,9 +1437,44 @@ const DITWAH_REPORT = [
   }
 ];
 
+const DATA_SOURCES = [
+  { f:'elevation',     desc:'Digital elevation model (30m → 1km)', src:'SRTM',      null:'0.0%' },
+  { f:'slope',         desc:'Terrain slope from DEM',              src:'SRTM',      null:'0.0%' },
+  { f:'twi',           desc:'Topographic wetness index',           src:'SRTM',      null:'0.0%' },
+  { f:'spi',           desc:'Stream power index',                  src:'SRTM',      null:'0.0%' },
+  { f:'aspect',        desc:'Slope aspect direction',              src:'SRTM',      null:'0.0%' },
+  { f:'clay_pct',      desc:'Clay content %',                      src:'SoilGrids', null:'0.0%' },
+  { f:'sand_pct',      desc:'Sand content %',                      src:'SoilGrids', null:'0.0%' },
+  { f:'bulk_density',  desc:'Bulk density (g/cm³)',                src:'SoilGrids', null:'0.0%' },
+  { f:'org_carbon',    desc:'Organic carbon (g/kg)',               src:'SoilGrids', null:'0.0%' },
+  { f:'land_cover',    desc:'Land cover class',                    src:'ESA',       null:'0.0%' },
+  { f:'ndvi',          desc:'Vegetation index (500m)',             src:'MODIS',     null:'0.0%' },
+  { f:'soil_moisture', desc:'Volumetric soil moisture',            src:'SMAP',      null:'0.0%' },
+  { f:'rain_3d_mean',  desc:'3-day mean rainfall (mm)',            src:'CHIRPS',    null:'0.0%' },
+  { f:'rain_7d_mean',  desc:'7-day mean rainfall (mm)',            src:'CHIRPS',    null:'0.0%' },
+  { f:'rain_max_mean', desc:'Max daily mean (mm)',                  src:'CHIRPS',    null:'0.0%' },
+];
 
-/* == geo data == */
-/* GEO ENRICHMENT DATA */
+const RESEARCH_QS = [
+  { n:'RQ1', obj:'RO1', status:'answered',
+    q:'How do existing flood and landslide modelling approaches perform under non-stationary climate conditions?',
+    a:'Physically-based models (HEC-RAS, TOPMODEL) assume stationary rainfall-runoff relationships invalidated by climate change. Threshold-based landslide systems rely on empirical values that break under novel extremes like Cyclone Ditwah. ML approaches (Mosavi 2018; Reichenbach 2018) improve accuracy but prioritise algorithmic performance over scalability and compound representation.' },
+  { n:'RQ2', obj:'RO2', status:'answered',
+    q:'What architectural and computational limitations restrict scalability of current ML hazard models?',
+    a:'Three key limitations identified: (1) hazard isolation — most studies model flood and landslide independently; (2) centralised design — single-machine sklearn cannot scale to national datasets; (3) no event-based validation — cross-validation only, no stress testing against historical extreme events.' },
+  { n:'RQ3', obj:'RO3', status:'answered',
+    q:'How can a distributed ML framework integrate heterogeneous geospatial data for compound hazard prediction?',
+    a:'Designed a PySpark 3.5.3 pipeline integrating 5 data sources (SRTM, SoilGrids, ESA WorldCover, SMAP, CHIRPS) into a 53,945-cell feature store. Spatial train/test split at 8°N prevents autocorrelation leakage. A leakage detection pipeline (correlation screen → ablation → threshold test) identifies and excludes jrc_occurrence.' },
+  { n:'RQ4', obj:'RO4', status:'answered',
+    q:'To what extent does distributed architecture improve performance and efficiency vs centralised approaches?',
+    a:'AUC-ROC: comparable (PySpark RF 0.9225 vs sklearn RF 0.9235, Δ=−0.0010). PR-AUC: distributed leads (PySpark RF 0.6651 vs sklearn RF 0.5870, Δ=+0.0781). Training time: 3× slower at 54K rows without CV (38s vs 13s) — not 157× as raw CV figures suggest. Crossover to distributed advantage requires multi-node cluster with millions of rows.' },
+  { n:'RQ5', obj:'RO5', status:'partial',
+    q:'How robust is the distributed framework against extreme real-world hazard events?',
+    a:'Validated on Cyclone Ditwah northern zone (18,550 test cells, lat>8°N). Flood: PySpark RF AUC=0.9282, XGBoost AUC=0.9174. Landslide: AUC=1.0000 but only 21 positives — bootstrap CI=[1.0,1.0], reported as preliminary. Framework demonstrates operational robustness for flood prediction; landslide northern validation requires richer inventory data.' },
+];
+
+</script>
+<script>
 const DS_DIVISIONS = [
   {
     "district": "Addalachchenai",
@@ -7287,6 +7291,7 @@ const DS_DIVISIONS = [
     "risk_category": "Moderate Risk"
   }
 ];
+
 const ADM_DISTRICTS = [
   {
     "admin_district": "Ampara",
@@ -7614,6 +7619,7 @@ const ADM_DISTRICTS = [
     "risk_category": "Low Risk"
   }
 ];
+
 const HAZARD_CATEGORIES = [
   { cls:'Compound Hazard',         count:12,    color:'#8b00ff', desc:'Both flood AND landslide risk active in same 1 km cell' },
   { cls:'Flood Risk - High',        count:598,   color:'#d85a30', desc:'JRC occurrence >= 75% or 7-day rainfall > 80 mm' },
@@ -7624,10 +7630,8 @@ const HAZARD_CATEGORIES = [
   { cls:'Landslide Risk - Low',     count:287,   color:'#afa9ec', desc:'Positive landslide_risk label, gentle terrain' },
   { cls:'No Observed Risk',         count:47974, color:'#8b949e', desc:'Neither flood_risk nor landslide_risk label active' },
 ];
-  </script>
-  <script>
-/* == charts.js == */
-
+</script>
+<script>
 /* ===================================================================
    charts.js — Chart.js rendering for all dashboard pages
    =================================================================== */
@@ -7847,493 +7851,9 @@ function redrawAllCharts() {
   });
 }
 
-  
-  </script>
-  <script>
-/* == app.js (patched) == */
-
-/* ===================================================================
-   app.js — Application logic: navigation, rendering, prediction, map
-   =================================================================== */
-
-let currentLayer = 'flood';
-let selectedDistrict = null;
-const initialized = new Set();
-
-// ── Helpers ──
-function riskLevel(v) {
-  if (v >= 0.75) return { txt: 'Critical', bg: 'rgba(226,75,74,0.12)', c: '#a32d2d', solid: '#d85a30' };
-  if (v >= 0.50) return { txt: 'High', bg: 'rgba(186,117,23,0.12)', c: '#854f0b', solid: '#ba7517' };
-  if (v >= 0.25) return { txt: 'Medium', bg: 'rgba(55,138,221,0.12)', c: '#185fa5', solid: '#378add' };
-  return { txt: 'Low', bg: 'rgba(29,158,117,0.12)', c: '#0f6e56', solid: '#1d9e75' };
-}
-function layerColor(v) {
-  if (currentLayer === 'flood') return riskLevel(v).solid;
-  if (currentLayer === 'land') {
-    if (v >= 0.75) return '#534ab7'; if (v >= 0.5) return '#7f77dd';
-    if (v >= 0.25) return '#afa9ec'; return '#cecbf6';
-  }
-  if (v >= 0.5) return '#8b00ff'; if (v >= 0.25) return '#b950a0'; return '#e6a0d2';
-}
-function layerVal(d) {
-  if (currentLayer === 'flood') return d.flood;
-  if (currentLayer === 'land') return d.land;
-  return (d.flood + d.land) / 2;
-}
-
-// ── Navigation ──
-function initNav() {
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const page = tab.dataset.page;
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('page-' + page).classList.add('active');
-      if (!initialized.has(page)) { renderPage(page); initialized.add(page); }
-    });
-  });
-}
-
-function renderPage(page) {
-  switch (page) {
-    case 'overview': renderOverview(); break;
-    case 'map': renderMap(); break;
-    case 'predict': renderPredict(); break;
-    case 'models': renderModels(); break;
-    case 'features': renderFeatures(); break;
-    case 'scalability': renderScalability(); break;
-    case 'ditwah': renderDitwah(); break;
-    case 'data': renderData(); break;
-    case 'research': renderResearch(); break;
-  }
-}
-
-// ── Overview ──
-function renderOverview() {
-  chartOverviewAuc(); chartOverviewPrauc(); chartOverviewTime();
-  const rows = CV_RESULTS.map((r, i) => `
-    <tr${i % 2 ? ' style="background:var(--surface-2)"' : ''}>
-      <td>${r.model}</td>
-      <td style="text-align:right">${r.aucMean.toFixed(4)}</td>
-      <td style="text-align:right">±${r.aucStd.toFixed(4)}</td>
-      <td style="text-align:right">[${r.ciLo.toFixed(4)}, ${r.ciHi.toFixed(4)}]</td>
-      <td style="text-align:right">${r.apMean.toFixed(4)}</td>
-    </tr>`).join('');
-  document.getElementById('cvTable').innerHTML = `
-    <table><tr><th>Model</th><th style="text-align:right">AUC</th><th style="text-align:right">±std</th><th style="text-align:right">95% CI</th><th style="text-align:right">AP</th></tr>${rows}</table>`;
-}
-
-// ── Map ──
-function renderMap() {
-  // Leaflet map is managed by the HW engine (hwInitMap/hwDraw).
-  // This SVG-based renderMap is not used — redirect to HW engine instead.
-  if (typeof hwDraw === 'function' && typeof HW_D !== 'undefined' && HW_D.length > 0) {
-    hwDraw(typeof hwMode !== 'undefined' ? hwMode : 'flood');
-    if (typeof hwBuildList === 'function') hwBuildList(typeof hwMode !== 'undefined' ? hwMode : 'flood');
-    if (typeof hwMap !== 'undefined' && hwMap) setTimeout(function(){ hwMap.invalidateSize(); }, 100);
-    return; // Don't run SVG code below
-  }
-  drawMap(); buildDistrictList(); showOverviewDetail(); chartForecast(null); initMapSearch();
-  document.querySelectorAll('.layer-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentLayer = btn.dataset.layer;
-      document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      drawMap(); buildDistrictList();
-    });
-  });
-}
-
-const SL_OUTLINE = [[170,12],[182,32],[210,48],[232,75],[242,105],[245,140],[236,170],[242,200],[248,235],[252,278],[250,318],[236,348],[218,376],[204,402],[184,428],[160,452],[136,466],[116,460],[98,444],[80,422],[66,396],[56,366],[50,336],[46,306],[50,276],[57,246],[64,216],[68,186],[64,156],[58,126],[68,98],[86,72],[108,48],[136,26],[158,14],[170,12]];
-
-function drawMap() {
-  const svg = document.getElementById('mapSvg');
-  if (!svg) return;
-  const dark = isDark();
-  const bg = dark ? '#0b1117' : '#e8f4f8';
-  const land = dark ? '#1a2530' : '#f0f7f0';
-  const stroke = dark ? '#2e3f50' : '#c8dde8';
-  const txt = dark ? '#9aa7b2' : '#6b8a9a';
-
-  let html = `<rect width="360" height="540" fill="${bg}" rx="8"/>`;
-  html += `<text x="12" y="22" fill="${txt}" font-size="10" font-family="Inter">Indian Ocean</text>`;
-  html += `<text x="258" y="510" fill="${txt}" font-size="10" font-family="Inter">Bay of Bengal</text>`;
-  html += `<polygon points="${SL_OUTLINE.map(p => p.join(',')).join(' ')}" fill="${land}" stroke="${stroke}" stroke-width="1.2"/>`;
-
-  DISTRICTS.forEach(d => {
-    const v = layerVal(d);
-    const r = Math.sqrt(d.pop / 752000) * 22 + 9;
-    const c = layerColor(v);
-    const sel = selectedDistrict && selectedDistrict.name === d.name;
-    const cRgba = hexToRgba(c, 0.18);
-    html += `
-      <circle cx="${d.x}" cy="${d.y}" r="${r + 4}" fill="${cRgba}"/>
-      <circle cx="${d.x}" cy="${d.y}" r="${r}" fill="${c}" stroke="${sel ? '#fff' : 'rgba(255,255,255,0.5)'}" stroke-width="${sel ? 2.5 : 1}"
-        class="map-dot" data-name="${d.name}" style="cursor:pointer"/>
-      <text x="${d.x}" y="${d.y + 3.5}" text-anchor="middle" fill="#fff" font-size="9" font-weight="500" font-family="Inter" pointer-events="none">${d.name.substring(0, 3)}</text>`;
-  });
-
-  const legendColors = currentLayer === 'land'
-    ? [['#534ab7','Crit'],['#7f77dd','High'],['#afa9ec','Med'],['#cecbf6','Low']]
-    : currentLayer === 'compound'
-    ? [['#8b00ff','Crit'],['#b950a0','High'],['#e6a0d2','Med'],['#f0d0e8','Low']]
-    : [['#d85a30','Crit'],['#ba7517','High'],['#378add','Med'],['#1d9e75','Low']];
-  html += `<text x="14" y="470" fill="${txt}" font-size="9" font-family="Inter">${currentLayer} risk</text>`;
-  legendColors.forEach((lc, i) => {
-    html += `<rect x="${14 + i * 42}" y="478" width="18" height="11" rx="2" fill="${lc[0]}"/>
-      <text x="${14 + i * 42 + 9}" y="500" text-anchor="middle" fill="${txt}" font-size="8" font-family="Inter">${lc[1]}</text>`;
-  });
-  html += `<text x="180" y="528" text-anchor="middle" fill="${txt}" font-size="8.5" font-family="Inter">XGBoost + PySpark RF · RGU 2506651</text>`;
-
-  svg.innerHTML = html;
-
-  svg.querySelectorAll('.map-dot').forEach(dot => {
-    dot.addEventListener('click', () => selectDistrict(dot.dataset.name));
-    dot.addEventListener('mouseenter', e => showMapTip(e, dot.dataset.name));
-    dot.addEventListener('mouseleave', hideMapTip);
-  });
-}
-
-function hexToRgba(hex, a) {
-  if (hex.startsWith('rgb')) return hex;
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-}
-
-function showMapTip(e, name) {
-  const d = DISTRICTS.find(x => x.name === name);
-  const tip = document.getElementById('mapTip');
-  const fl = riskLevel(d.flood), ll = riskLevel(d.land);
-  tip.innerHTML = `
-    <div style="font-weight:600;margin-bottom:6px">${d.name}</div>
-    <div style="font-size:11px;color:var(--text-2);margin-bottom:6px">${d.province} Province</div>
-    <div style="display:flex;justify-content:space-between;gap:16px"><span style="color:var(--text-2)">Flood</span><span style="color:${fl.c};font-weight:500">${(d.flood*100).toFixed(0)}% ${fl.txt}</span></div>
-    <div style="display:flex;justify-content:space-between;gap:16px"><span style="color:var(--text-2)">Landslide</span><span style="color:${ll.c};font-weight:500">${(d.land*100).toFixed(0)}% ${ll.txt}</span></div>
-    <div style="display:flex;justify-content:space-between;gap:16px"><span style="color:var(--text-2)">Rainfall</span><span>${d.rain} mm</span></div>`;
-  const card = e.target.closest('.map-card');
-  const rect = card.getBoundingClientRect();
-  const dotRect = e.target.getBoundingClientRect();
-  tip.style.left = (dotRect.left - rect.left + 20) + 'px';
-  tip.style.top = (dotRect.top - rect.top) + 'px';
-  tip.style.display = 'block';
-}
-function hideMapTip() { document.getElementById('mapTip').style.display = 'none'; }
-
-function buildDistrictList() {
-  const sorted = [...DISTRICTS].sort((a, b) => layerVal(b) - layerVal(a));
-  document.getElementById('districtList').innerHTML = sorted.map(d => {
-    const fl = riskLevel(d.flood), ll = riskLevel(d.land);
-    const sel = selectedDistrict && selectedDistrict.name === d.name;
-    const tag = d.flood > 0.5 && d.land > 0.5 ? 'Compound' : d.flood >= 0.5 ? 'Flood risk' : d.land >= 0.5 ? 'Slide risk' : 'Moderate';
-    const tagCls = d.flood > 0.5 && d.land > 0.5 ? 'b-purple' : d.flood >= 0.5 ? 'b-red' : d.land >= 0.5 ? 'b-amber' : 'b-blue';
-    return `<div class="dist-item ${sel ? 'active' : ''}" data-name="${d.name}">
-      <div class="dist-head"><span class="dist-name">${d.name}</span><span class="badge ${tagCls}">${tag}</span></div>
-      <div class="dist-bars">
-        <div class="bar-row"><span class="bar-lbl">Flood</span><div class="bar-track"><div class="bar-fill" style="width:${d.flood*100}%;background:${fl.solid}"></div></div><span class="bar-val">${(d.flood*100).toFixed(0)}%</span></div>
-        <div class="bar-row"><span class="bar-lbl">Landslide</span><div class="bar-track"><div class="bar-fill" style="width:${d.land*100}%;background:${ll.solid}"></div></div><span class="bar-val">${(d.land*100).toFixed(0)}%</span></div>
-      </div>
-    </div>`;
-  }).join('');
-  document.querySelectorAll('.dist-item').forEach(item => {
-    item.addEventListener('click', () => selectDistrict(item.dataset.name));
-  });
-}
-
-function selectDistrict(name) {
-  selectedDistrict = DISTRICTS.find(d => d.name === name);
-  document.getElementById('selDistrict').textContent = `${selectedDistrict.name}, ${selectedDistrict.province} Province`;
-  showDistrictDetail(selectedDistrict);
-  chartForecast(selectedDistrict);
-  drawMap(); buildDistrictList();
-}
-
-function showDistrictDetail(d) {
-  const fl = riskLevel(d.flood), ll = riskLevel(d.land);
-  const comp = (d.flood + d.land) / 2; const cl = riskLevel(comp);
-  document.getElementById('districtDetail').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Flood risk</div><div class="kpi-val" style="color:${fl.c}">${(d.flood*100).toFixed(0)}%</div><div class="kpi-sub">${fl.txt}</div></div>
-    <div class="kpi"><div class="kpi-label">Landslide risk</div><div class="kpi-val" style="color:${ll.c}">${(d.land*100).toFixed(0)}%</div><div class="kpi-sub">${ll.txt}</div></div>
-    <div class="kpi"><div class="kpi-label">7-day rainfall</div><div class="kpi-val">${d.rain}</div><div class="kpi-sub">mm</div></div>
-    <div class="kpi"><div class="kpi-label">Compound risk</div><div class="kpi-val" style="color:${cl.c}">${(comp*100).toFixed(0)}%</div><div class="kpi-sub">${d.flood>0.5&&d.land>0.5?'Active':'Inactive'}</div></div>`;
-}
-
-function showOverviewDetail() {
-  const floodCells = Math.round(53945 * 0.028);
-  const landCells = Math.round(53945 * 0.082);
-  document.getElementById('districtDetail').innerHTML = `
-    <div class="kpi"><div class="kpi-label">Flood-risk cells</div><div class="kpi-val" style="color:var(--flood)">${floodCells.toLocaleString()}</div><div class="kpi-sub">2.8% of grid</div></div>
-    <div class="kpi"><div class="kpi-label">Landslide-risk cells</div><div class="kpi-val" style="color:var(--land)">${landCells.toLocaleString()}</div><div class="kpi-sub">8.2% of grid</div></div>
-    <div class="kpi"><div class="kpi-label">Active alerts</div><div class="kpi-val" style="color:#a32d2d">5</div><div class="kpi-sub">2 critical · 2 warning</div></div>
-    <div class="kpi"><div class="kpi-label">Model AUC</div><div class="kpi-val">0.922</div><div class="kpi-sub">PR-AUC 0.665</div></div>`;
-}
-
-function initMapSearch() {
-  const input = document.getElementById('mapSearch');
-  const results = document.getElementById('searchResults');
-  input.addEventListener('input', () => {
-    const q = input.value.trim().toLowerCase();
-    if (!q) { results.style.display = 'none'; return; }
-    const matches = DISTRICTS.filter(d => d.name.toLowerCase().includes(q) || d.province.toLowerCase().includes(q)).slice(0, 5);
-    if (!matches.length) { results.style.display = 'none'; return; }
-    results.style.display = 'block';
-    results.innerHTML = matches.map(d => {
-      const fl = riskLevel(d.flood);
-      return `<div class="search-item" data-name="${d.name}">
-        <i class="ti ti-map-pin" style="color:var(--text-2)"></i>
-        <div style="flex:1"><div style="font-size:13px">${d.name}</div><div style="font-size:11px;color:var(--text-2)">${d.province} · Flood ${(d.flood*100).toFixed(0)}%</div></div>
-        <span class="badge ${fl.txt==='Critical'?'b-red':fl.txt==='High'?'b-amber':'b-blue'}">${fl.txt}</span>
-      </div>`;
-    }).join('');
-    results.querySelectorAll('.search-item').forEach(item => {
-      item.addEventListener('click', () => {
-        input.value = item.dataset.name;
-        results.style.display = 'none';
-        selectDistrict(item.dataset.name);
-      });
-    });
-  });
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.search-wrap')) results.style.display = 'none';
-  });
-}
-
-// ── Predict ──
-function renderPredict() {
-  // HW engine already built the predict UI in the HTML.
-  // The hidden stub #sliderGrid exists but is never visible.
-  // Skip renderPredict entirely to avoid overwriting HW predict HTML.
-  if (document.getElementById('hw-gauges')) return; // HW predict is present
-  const grid = document.getElementById('sliderGrid');
-  grid.innerHTML = Object.keys(FEAT_META).map(f => {
-    const m = FEAT_META[f];
-    const dp = m.step < 1 ? 2 : 0;
-    return `<div class="slider-item">
-      <div class="slider-top"><label>${m.label}</label><span id="sv-${f}">${m.def.toFixed(dp)}</span></div>
-      <input type="range" id="sl-${f}" min="${m.min}" max="${m.max}" step="${m.step}" value="${m.def}">
-    </div>`;
-  }).join('');
-  Object.keys(FEAT_META).forEach(f => {
-    const sl = document.getElementById('sl-' + f);
-    const dp = FEAT_META[f].step < 1 ? 2 : 0;
-    sl.addEventListener('input', () => { document.getElementById('sv-' + f).textContent = parseFloat(sl.value).toFixed(dp); });
-  });
-  document.getElementById('presetSel').addEventListener('change', loadPreset);
-  document.getElementById('predictBtn').addEventListener('click', runPredict);
-}
-
-function loadPreset() {
-  const p = PRESETS[document.getElementById('presetSel').value];
-  Object.keys(FEAT_META).forEach(f => {
-    const sl = document.getElementById('sl-' + f);
-    if (sl && p[f] !== undefined) {
-      sl.value = p[f];
-      const dp = FEAT_META[f].step < 1 ? 2 : 0;
-      document.getElementById('sv-' + f).textContent = parseFloat(p[f]).toFixed(dp);
-    }
-  });
-}
-
-function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
-
-function runPredict() {
-  const vals = {};
-  Object.keys(FEAT_META).forEach(f => { vals[f] = parseFloat(document.getElementById('sl-' + f).value); });
-  let sF = 0, sL = 0;
-  Object.keys(FEAT_META).forEach(f => {
-    const z = (vals[f] - FEAT_STATS.means[f]) / FEAT_STATS.stds[f];
-    sF += (FI.flood[f] || 0) * z;
-    sL += (FI.land[f] || 0) * z;
-  });
-  const fp = clamp(sigmoid(sF * 3 + 0.1));
-  const lp = clamp(sigmoid(sL * 3 - 0.2));
-  const compound = fp > 0.5 && lp > 0.5;
-  const fl = riskLevel(fp), ll = riskLevel(lp);
-  const modelName = document.getElementById('modelSel').selectedOptions[0].text;
-
-  document.getElementById('predictResult').innerHTML = `
-    <div class="card-head"><i class="ti ti-activity"></i> Risk assessment — ${modelName}</div>
-    ${compound ? '<div class="compound-alert"><i class="ti ti-alert-triangle"></i> Compound hazard — both thresholds exceeded</div>' : ''}
-    <div class="risk-grid">
-      <div class="risk-cell" style="background:${fl.bg}"><div class="risk-cell-lbl" style="color:${fl.c}">Flood risk</div><div class="risk-cell-val" style="color:${fl.c}">${(fp*100).toFixed(0)}%</div><div class="risk-cell-tag" style="color:${fl.c}">${fl.txt}</div></div>
-      <div class="risk-cell" style="background:${ll.bg}"><div class="risk-cell-lbl" style="color:${ll.c}">Landslide risk</div><div class="risk-cell-val" style="color:${ll.c}">${(lp*100).toFixed(0)}%</div><div class="risk-cell-tag" style="color:${ll.c}">${ll.txt}</div></div>
-    </div>
-    <div class="driver-box">
-      <div style="margin-bottom:5px"><b>Top flood drivers:</b> slope (16.2%) · TWI (12.8%) · bulk density (11.8%)</div>
-      <div><b>Top landslide drivers:</b> slope (28.2%) · elevation (17.8%) · SPI (9.6%)</div>
-    </div>`;
-}
-
-// ── Models ──
-function renderModels() {
-  const header = `<tr><th>Model</th><th>Target</th><th>AUC</th><th>F1</th><th>Prec</th><th>Recall</th><th>Arch</th><th>Time (s)</th></tr>`;
-  const maxPrauc = Math.max(...MODELS.filter(m => m.target === 'flood_risk').map(m => m.prauc));
-  const rows = MODELS.map(m => {
-    const hi = m.target === 'flood_risk' && m.prauc === maxPrauc;
-    return `<tr class="${hi ? 'highlight' : ''}">
-      <td>${m.model}</td>
-      <td><span class="badge ${m.target === 'flood_risk' ? 'b-blue' : 'b-purple'}">${m.target === 'flood_risk' ? 'flood' : 'slide'}</span></td>
-      <td>${m.auc.toFixed(4)}</td><td>${m.f1.toFixed(4)}</td><td>${m.prec.toFixed(4)}</td><td>${m.rec.toFixed(4)}</td>
-      <td class="${m.arch === 'distributed' ? 'arch-dist' : 'arch-cent'}">${m.arch === 'distributed' ? 'dist' : 'cent'}</td>
-      <td>${m.time.toFixed(1)}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('modelTable').innerHTML = header + rows;
-  chartModelMetric('mdlAuc', 'auc', 0.88, 0.935);
-  chartModelMetric('mdlF1', 'f1', 0.85, 0.975);
-}
-
-// ── Features ──
-function renderFeatures() {
-  const sel = document.getElementById('fiTarget');
-  if (!sel.dataset.bound) { sel.addEventListener('change', renderFeatures); sel.dataset.bound = '1'; }
-  const tgt = sel.value;
-  const fi = FI[tgt];
-  const sorted = Object.entries(fi).sort((a, b) => b[1] - a[1]);
-  const maxV = sorted[0][1];
-  const main = tgt === 'flood' ? '#d85a30' : '#534ab7';
-  const lite = tgt === 'flood' ? '#f0997b' : '#afa9ec';
-  document.getElementById('featList').innerHTML = sorted.map(([k, v], i) => `
-    <div class="feat-row">
-      <span class="feat-name">${FEAT_META[k] ? FEAT_META[k].label : k}</span>
-      <span class="feat-src"><span class="badge b-blue">${FEAT_META[k] ? FEAT_META[k].src : '—'}</span></span>
-      <div class="feat-track"><div class="feat-bar" style="width:${(v/maxV*100).toFixed(0)}%;background:${i < 5 ? main : lite}"></div></div>
-      <span class="feat-val">${(v*100).toFixed(1)}%</span>
-    </div>`).join('');
-
-  const top5F = new Set(Object.entries(FI.flood).sort((a, b) => b[1] - a[1]).slice(0, 5).map(x => x[0]));
-  const top5L = new Set(Object.entries(FI.land).sort((a, b) => b[1] - a[1]).slice(0, 5).map(x => x[0]));
-  const shared = [...top5F].filter(x => top5L.has(x));
-  document.getElementById('sharedDrivers').innerHTML = `
-    <div class="chips">${shared.map(k => `<span class="chip"><i class="ti ti-star"></i> ${k}</span>`).join('')}</div>
-    <p class="muted">Shared top-5 drivers: <b>${shared.join(', ')}</b>. slope and bulk_density appear in both — confirms shared physical triggers underpinning compound hazard co-occurrence.</p>`;
-
-  const cd = CORRELATIONS[tgt] || CORRELATIONS.flood;
-  document.getElementById('corrList').innerHTML = Object.entries(cd).map(([k, v]) => {
-    const leak = k === 'jrc_occurrence';
-    return `<div class="feat-row" ${leak ? 'style="background:rgba(226,75,74,0.08);border-radius:5px;padding:4px 6px"' : ''}>
-      <span class="feat-name" ${leak ? 'style="color:#a32d2d;font-weight:500"' : ''}>${leak ? '⚠ ' + k : k}</span>
-      <div class="feat-track"><div class="feat-bar" style="width:${(v*100).toFixed(0)}%;background:${v > 0.65 ? '#e24b4a' : '#378add'}"></div></div>
-      <span class="feat-val">${v.toFixed(3)}</span>
-    </div>`;
-  }).join('');
-}
-
-// ── Scalability ──
-function renderScalability() {
-  chartScalability();
-  const mkRows = arr => arr.map((d, i) => `
-    <div class="scale-row">
-      <span style="width:42px;flex-shrink:0;font-weight:500">${d.frac}%</span>
-      <span style="width:58px;flex-shrink:0;color:var(--text-2)">${d.n.toLocaleString()}</span>
-      <span style="width:58px;flex-shrink:0;color:var(--dist)">${d.sparkT}s</span>
-      <span style="width:58px;flex-shrink:0;color:var(--cent)">${d.sklT}s</span>
-      <span style="width:54px;flex-shrink:0">${d.sparkAuc.toFixed(4)}</span>
-      <span style="width:54px;color:var(--cent)">${d.sklAuc.toFixed(4)}</span>
-      <span class="badge ${(d.sparkT/d.sklT) < 5 ? 'b-amber' : 'b-red'}">${(d.sparkT/d.sklT).toFixed(1)}×</span>
-    </div>`).join('');
-  const head = `<div class="scale-row head"><span style="width:42px">%</span><span style="width:58px">N</span><span style="width:58px;color:var(--dist)">Spark</span><span style="width:58px;color:var(--cent)">sklearn</span><span style="width:54px">S-AUC</span><span style="width:54px">SK-AUC</span><span>ratio</span></div>`;
-  document.getElementById('scaleFlood').innerHTML = head + mkRows(SCALABILITY.flood);
-  document.getElementById('scaleLand').innerHTML = head + mkRows(SCALABILITY.land);
-}
-
-// ── Ditwah ──
-function renderDitwah() {
-  const header = `<tr><th>Class</th><th style="text-align:right">Prec</th><th style="text-align:right">Recall</th><th style="text-align:right">F1</th><th style="text-align:right">Support</th></tr>`;
-  const rows = DITWAH_REPORT.map((r, i) => `
-    <tr${i % 2 ? ' style="background:var(--surface-2)"' : ''}>
-      <td style="font-weight:${r.cls === 'Risk' ? '500' : '400'}">${r.cls}</td>
-      <td style="text-align:right;${r.cls === 'Risk' ? 'color:var(--flood);font-weight:500' : ''}">${r.prec.toFixed(2)}</td>
-      <td style="text-align:right;${r.cls === 'Risk' ? 'color:var(--flood);font-weight:500' : ''}">${r.rec.toFixed(2)}</td>
-      <td style="text-align:right;${r.cls === 'Risk' ? 'color:var(--flood);font-weight:500' : ''}">${r.f1.toFixed(2)}</td>
-      <td style="text-align:right">${r.support}</td>
-    </tr>`).join('');
-  document.getElementById('ditwahReport').innerHTML = header + rows;
-}
-
-// ── Data ──
-function renderData() {
-  const header = `<tr><th>Feature</th><th>Description</th><th>Source</th><th>Null %</th></tr>`;
-  const rows = DATA_SOURCES.map((r, i) => `
-    <tr${i % 2 ? ' style="background:var(--surface-2)"' : ''}>
-      <td style="font-family:var(--mono);font-size:11px">${r.f}</td>
-      <td style="color:var(--text-2)">${r.desc}</td>
-      <td><span class="badge b-blue">${r.src}</span></td>
-      <td><span class="badge b-green">${r.null}</span></td>
-    </tr>`).join('');
-  document.getElementById('dataTable').innerHTML = header + rows;
-  chartDataSrc();
-}
-
-// ── Research ──
-function renderResearch() {
-  document.getElementById('rqList').innerHTML = RESEARCH_QS.map(r => `
-    <div class="rq-card">
-      <div class="rq-num">${r.n} · Objective ${r.obj}</div>
-      <div class="rq-q">${r.q}</div>
-      <div class="rq-a">${r.a}</div>
-      <div class="rq-foot">
-        <span class="rq-status ${r.status === 'answered' ? 'b-green' : 'b-amber'}">
-          <i class="ti ti-${r.status === 'answered' ? 'check' : 'alert-circle'}"></i>
-          ${r.status === 'answered' ? 'Fully answered' : 'Partially answered — n=21 caveat'}
-        </span>
-      </div>
-    </div>`).join('');
-}
-
-// ── Theme toggle ──
-function initTheme() {
-  const saved = 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-  document.getElementById('themeToggle').addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    document.getElementById('themeToggle').innerHTML = next === 'dark'
-      ? '<i class="ti ti-sun"></i>' : '<i class="ti ti-moon"></i>';
-    // redraw active page charts
-    initialized.forEach(p => {
-      const active = document.getElementById('page-' + p).classList.contains('active');
-      if (active) renderPage(p);
-    });
-    if (document.getElementById('page-map').classList.contains('active')) drawMap();
-  });
-}
-
-// ── Live clock ──
-function initClock() {
-  const update = () => {
-    const t = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('liveTime').textContent = `Live · updated ${t}`;
-  };
-  update(); setInterval(update, 60000);
-}
-
-// ── Boot ──
-document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
-  initNav();
-  initClock();
-  // 'map' is the default page - hwInitMap() handles Leaflet init in its own DOMContentLoaded.
-  // Mark 'map' as initialized so initNav never calls renderMap() (which would draw the SVG).
-  initialized.add('map');
-  // Render the overview charts immediately (they are hidden until user clicks Analytics tab)
-  // but only pre-render if their canvas elements are in DOM
-  if (document.getElementById('ovAuc')) {
-    renderOverview();
-    initialized.add('overview');
-  }
-});
-
-
-
-  
-  </script>
-  <script>
-/* == HazardWatch Leaflet engine == */
-
-  /*
-   * HazardWatch — Leaflet map + improved predict UI
+</script>
+<script>
+/* HazardWatch — Leaflet map + improved predict UI
    * Uses real DISTRICTS data from data.js (loaded after this block,
    * but available by the time DOMContentLoaded fires).
    */
@@ -8595,71 +8115,226 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  
-  </script>
-  <script>
-/* == Geography page == */
-/* Geography page + renderPage patch */
-function showGeoTab(tab) {
-  var ds=document.getElementById('geoPane-ds'),adm=document.getElementById('geoPane-adm');
-  if(ds)ds.style.display=(tab==='ds')?'block':'none';
-  if(adm)adm.style.display=(tab==='adm')?'block':'none';
-  document.querySelectorAll('.geo-subtab').forEach(function(b){b.classList.toggle('active',b.dataset.tab===tab);});
-}
-function renderClassification(){
-  var el=document.getElementById('hazardClassList');if(!el)return;
-  var total=53917;
-  el.innerHTML=HAZARD_CATEGORIES.map(function(h){
-    var pct=(h.count/total*100).toFixed(2);
-    var barW=Math.max(0.5,h.count/total*100).toFixed(1);
-    return '<div class="cls-row"><span class="cls-dot" style="background:'+h.color+'"></span><span class="cls-name">'+h.cls+'</span><div class="cls-track"><div class="cls-bar" style="width:'+barW+'%;background:'+h.color+'"></div></div><span class="cls-count">'+h.count.toLocaleString()+'</span><span class="cls-pct">'+pct+'%</span><span class="cls-desc">'+h.desc+'</span></div>';
-  }).join('');
-}
-function _riskBadge(r){
-  var c=r==='Compound Hazard'?'badge-compound':r==='High Risk'?'badge-high':r==='Moderate Risk'?'badge-moderate':r==='Low Risk'?'badge-low':'badge-none';
-  return '<span class="risk-cat-badge '+c+'">'+r+'</span>';
-}
-function renderDSTable(){
-  var rows=DS_DIVISIONS.slice();
-  var q=(document.getElementById('dsSearch')||{value:''}).value.toLowerCase();
-  var rf=(document.getElementById('dsRisk')||{value:''}).value;
-  var pf=(document.getElementById('dsProv')||{value:''}).value;
-  var af=(document.getElementById('dsAdm')||{value:''}).value;
-  var sf=(document.getElementById('dsSort')||{value:'flood'}).value;
-  if(q)rows=rows.filter(function(r){return(r.district||'').toLowerCase().includes(q)||(r.admin_district||'').toLowerCase().includes(q)||(r.province||'').toLowerCase().includes(q);});
-  if(rf)rows=rows.filter(function(r){return r.risk_category===rf;});
-  if(pf)rows=rows.filter(function(r){return r.province===pf;});
-  if(af)rows=rows.filter(function(r){return r.admin_district===af;});
-  rows.sort(function(a,b){return(parseFloat(b[sf])||0)-(parseFloat(a[sf])||0);});
-  function sev(f,l){var fv=parseFloat(f)||0,lv=parseFloat(l)||0;var fc=fv>0?(fv>=10?'sev-high':fv>=5?'sev-med':'sev-low'):'sev-none';var lc=lv>0?(lv>=30?'sev-high':lv>=10?'sev-med':'sev-low'):'sev-none';return'<span class="'+fc+'">'+(fv>0?'F:'+fv:'&ndash;')+'</span> <span class="'+lc+'">'+(lv>0?'L:'+lv:'&ndash;')+'</span>';}
-  var tb=rows.map(function(r){return'<tr><td><b>'+(r.district||'')+'</b></td><td>'+(r.admin_district||'&mdash;')+'</td><td>'+(r.province||'&mdash;')+'</td><td>'+(r.cells||0).toLocaleString()+'</td><td>'+sev(r.flood,r.landslide)+'</td><td>'+(r.flood_rate||0)+'%</td><td>'+(r.ls_rate||0)+'%</td><td>'+(r.compound>0?'<span style="color:#8b00ff;font-weight:700">&#x26A1;</span>':'&mdash;')+'</td><td>'+_riskBadge(r.risk_category)+'</td><td>'+((r.elevation||0)).toFixed(0)+'m</td><td>'+((r.slope||0)).toFixed(1)+'&deg;</td><td>'+((r.rain||0)).toFixed(0)+'mm</td></tr>';}).join('');
-  var el=document.getElementById('dsTableBody');if(el)el.innerHTML=tb;
-  var cnt=document.getElementById('dsCount');if(cnt)cnt.textContent=rows.length+' divisions';
-}
-function renderAdmTable(){
-  var rows=ADM_DISTRICTS.slice();
-  var q=(document.getElementById('admSearch')||{value:''}).value.toLowerCase();
-  var pf=(document.getElementById('admProv')||{value:''}).value;
-  if(q)rows=rows.filter(function(r){return(r.admin_district||'').toLowerCase().includes(q)||(r.province||'').toLowerCase().includes(q);});
-  if(pf)rows=rows.filter(function(r){return r.province===pf;});
-  rows.sort(function(a,b){return(parseFloat(b.flood)||0)-(parseFloat(a.flood)||0);});
-  var tb=rows.map(function(r){return'<tr><td><b>'+(r.admin_district||'')+'</b></td><td>'+(r.province||'')+'</td><td>'+(r.ds_divs||0)+'</td><td>'+(r.cells||0).toLocaleString()+'</td><td>'+(r.flood||0)+'</td><td>'+(r.flood_rate||0)+'%</td><td>'+(r.landslide||0)+'</td><td>'+(r.ls_rate||0)+'%</td><td>'+(r.compound>0?'<span style="color:#8b00ff;font-weight:700">&#x26A1;</span>':'&mdash;')+'</td><td>'+_riskBadge(r.risk_category)+'</td></tr>';}).join('');
-  var el=document.getElementById('admTableBody');if(el)el.innerHTML=tb;
-  var cnt=document.getElementById('admCount');if(cnt)cnt.textContent=rows.length+' districts';
-}
-document.addEventListener('DOMContentLoaded',function(){
-  var sel=document.getElementById('dsAdm');
-  if(sel&&sel.options.length<=1){
-    Array.from(new Set(DS_DIVISIONS.map(function(r){return r.admin_district;}).filter(Boolean))).sort().forEach(function(a){var o=document.createElement('option');o.value=a;o.textContent=a;sel.appendChild(o);});
-  }
-});
+</script>
+<script>
+
+/* Corrected dashboard renderer — replaces corrupted app.js */
 (function(){
-  var _orig=window.renderPage;
-  window.renderPage=function(page){
-    if(page==='geography'){renderClassification();renderDSTable();renderAdmTable();}
-    else if(typeof _orig==='function'){_orig(page);}
+  const initializedPages = new Set(['map']);
+
+  function esc(v){ return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function pct(v, dp=0){ return ((Number(v)||0)*100).toFixed(dp) + '%'; }
+  function riskBadge(cat){
+    const c = String(cat || 'No Observed Risk');
+    const cls = c.includes('Compound') ? 'badge-compound' : c.includes('High') ? 'badge-high' : c.includes('Moderate') ? 'badge-moderate' : c.includes('Low') ? 'badge-low' : 'badge-none';
+    return `<span class="risk-cat-badge ${cls}">${esc(c)}</span>`;
+  }
+
+  window.renderPage = function(page){
+    switch(page){
+      case 'overview': return renderOverview();
+      case 'models': return renderModels();
+      case 'features': return renderFeatures();
+      case 'scalability': return renderScalability();
+      case 'ditwah': return renderDitwah();
+      case 'geography': return renderGeography();
+      case 'data': return renderData();
+      case 'research': return renderResearch();
+      case 'map': setTimeout(() => { if(window.hwMap) window.hwMap.invalidateSize(); }, 120); return;
+      case 'predict': return;
+    }
   };
+
+  function initNav(){
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const page = tab.dataset.page;
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        const pageEl = document.getElementById('page-' + page);
+        if(pageEl) pageEl.classList.add('active');
+        if(!initializedPages.has(page)){
+          window.renderPage(page);
+          initializedPages.add(page);
+        } else if(page === 'map') {
+          window.renderPage(page);
+        }
+      });
+    });
+  }
+
+  function initTheme(){
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('hw-theme') || 'light');
+    const btn = document.getElementById('themeToggle');
+    if(!btn) return;
+    const syncIcon = () => { btn.innerHTML = document.documentElement.getAttribute('data-theme') === 'dark' ? '<i class="ti ti-sun"></i>' : '<i class="ti ti-moon"></i>'; };
+    syncIcon();
+    btn.addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('hw-theme', next);
+      syncIcon();
+      const active = document.querySelector('.page.active');
+      if(active){
+        const page = active.id.replace('page-','');
+        if(['overview','models','scalability','data'].includes(page)) window.renderPage(page);
+      }
+      if(window.hwMap) setTimeout(() => window.hwMap.invalidateSize(), 80);
+    });
+  }
+
+  function initClock(){
+    const update = () => {
+      const el = document.getElementById('liveTime');
+      if(el) el.textContent = 'Live · updated ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+    };
+    update(); setInterval(update, 60000);
+  }
+
+  window.renderOverview = function(){
+    if(typeof chartOverviewAuc === 'function') chartOverviewAuc();
+    if(typeof chartOverviewPrauc === 'function') chartOverviewPrauc();
+    if(typeof chartOverviewTime === 'function') chartOverviewTime();
+    const rows = (window.CV_RESULTS || CV_RESULTS || []).map(r => `
+      <tr><td>${esc(r.model)}${r.target ? ' · ' + esc(String(r.target).replace('_risk','')) : ''}</td><td>${Number(r.aucMean).toFixed(4)}</td><td>±${Number(r.aucStd).toFixed(4)}</td><td>[${Number(r.ciLo).toFixed(4)}, ${Number(r.ciHi).toFixed(4)}]</td><td>${Number(r.apMean).toFixed(4)}</td></tr>`).join('');
+    const el = document.getElementById('cvTable');
+    if(el) el.innerHTML = `<table><thead><tr><th>Model</th><th>AUC</th><th>±std</th><th>95% CI</th><th>AP</th></tr></thead><tbody>${rows}</tbody></table>`;
+  };
+
+  window.renderModels = function(){
+    const el = document.getElementById('modelTable');
+    if(el){
+      const rows = MODELS.map(m => `<tr><td>${esc(m.model)}</td><td>${esc(m.target === 'flood_risk' ? 'Flood' : 'Landslide')}</td><td>${Number(m.auc).toFixed(4)}</td><td>${Number(m.f1).toFixed(4)}</td><td>${Number(m.prec).toFixed(4)}</td><td>${Number(m.rec).toFixed(4)}</td><td><span class="${m.arch==='distributed'?'arch-dist':'arch-cent'}">${esc(m.arch)}</span></td><td>${Number(m.time).toFixed(1)}</td></tr>`).join('');
+      el.innerHTML = `<thead><tr><th>Model</th><th>Target</th><th>AUC</th><th>F1</th><th>Prec</th><th>Recall</th><th>Arch</th><th>Time (s)</th></tr></thead><tbody>${rows}</tbody>`;
+    }
+    if(typeof chartModelMetric === 'function') { chartModelMetric('mdlAuc','auc',0.88,0.935); chartModelMetric('mdlF1','f1',0.85,0.975); }
+  };
+
+  window.renderFeatures = function(){
+    const sel = document.getElementById('fiTarget');
+    if(!sel) return;
+    if(!sel.dataset.bound){ sel.addEventListener('change', renderFeatures); sel.dataset.bound='1'; }
+    const tgt = sel.value;
+    const sorted = Object.entries(FI[tgt] || {}).sort((a,b)=>b[1]-a[1]);
+    const maxV = sorted.length ? sorted[0][1] : 1;
+    const color = tgt === 'flood' ? '#d85a30' : '#534ab7';
+    const featList = document.getElementById('featList');
+    if(featList){
+      featList.innerHTML = sorted.map(([k,v]) => `<div class="feat-row"><div class="feat-name">${esc(FEAT_META[k]?.label || k)}</div><div class="feat-src"><span class="badge b-blue">${esc(FEAT_META[k]?.src || '—')}</span></div><div class="feat-track"><div class="feat-bar" style="width:${(v/maxV*100).toFixed(1)}%;background:${color}"></div></div><div class="feat-val">${(v*100).toFixed(1)}%</div></div>`).join('');
+    }
+    const top5F = new Set(Object.entries(FI.flood || {}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]));
+    const top5L = new Set(Object.entries(FI.land || {}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]));
+    const shared = [...top5F].filter(x=>top5L.has(x));
+    const sh = document.getElementById('sharedDrivers');
+    if(sh) sh.innerHTML = `<div class="chips">${shared.map(k=>`<span class="chip">${esc(k)}</span>`).join('')}</div><p class="muted">Shared top-5 drivers: <b>${esc(shared.join(', ') || 'None')}</b>.</p>`;
+    const corr = document.getElementById('corrList');
+    if(corr){
+      corr.innerHTML = Object.entries(CORRELATIONS[tgt] || {}).map(([k,v]) => `<div class="scale-row"><span>${k === 'jrc_occurrence' ? '⚠ ' : ''}${esc(k)}</span><b>${Number(v).toFixed(3)}</b></div>`).join('');
+    }
+  };
+
+  window.renderScalability = function(){
+    if(typeof chartScalability === 'function') chartScalability();
+    const mk = (arr) => `<table class="data-table"><thead><tr><th>%</th><th>N</th><th>Spark</th><th>sklearn</th><th>S-AUC</th><th>SK-AUC</th><th>Ratio</th></tr></thead><tbody>${arr.map(d=>`<tr><td>${d.frac}%</td><td>${Number(d.n).toLocaleString()}</td><td>${d.sparkT}s</td><td>${d.sklT}s</td><td>${Number(d.sparkAuc).toFixed(4)}</td><td>${Number(d.sklAuc).toFixed(4)}</td><td>${(d.sparkT/d.sklT).toFixed(1)}×</td></tr>`).join('')}</tbody></table>`;
+    const f = document.getElementById('scaleFlood'), l = document.getElementById('scaleLand');
+    if(f) f.innerHTML = mk(SCALABILITY.flood || []);
+    if(l) l.innerHTML = mk(SCALABILITY.land || []);
+  };
+
+  window.renderDitwah = function(){
+    const el = document.getElementById('ditwahReport');
+    if(el) el.innerHTML = `<thead><tr><th>Class</th><th>Prec</th><th>Recall</th><th>F1</th><th>Support</th></tr></thead><tbody>${DITWAH_REPORT.map(r=>`<tr><td>${esc(r.cls)}</td><td>${Number(r.prec).toFixed(2)}</td><td>${Number(r.rec).toFixed(2)}</td><td>${Number(r.f1).toFixed(2)}</td><td>${esc(r.support)}</td></tr>`).join('')}</tbody>`;
+  };
+
+  window.renderData = function(){
+    const el = document.getElementById('dataTable');
+    if(el) el.innerHTML = `<thead><tr><th>Feature</th><th>Description</th><th>Source</th><th>Null %</th></tr></thead><tbody>${DATA_SOURCES.map(r=>`<tr><td>${esc(r.f)}</td><td>${esc(r.desc)}</td><td><span class="badge b-blue">${esc(r.src)}</span></td><td>${esc(r.null)}</td></tr>`).join('')}</tbody>`;
+    if(typeof chartDataSrc === 'function') chartDataSrc();
+  };
+
+  window.renderResearch = function(){
+    const el = document.getElementById('rqList');
+    if(el) el.innerHTML = RESEARCH_QS.map(r => `<div class="rq-card"><div class="rq-num">${esc(r.n)} · Objective ${esc(r.obj)}</div><div class="rq-q">${esc(r.q)}</div><div class="rq-a">${esc(r.a)}</div><div class="rq-foot"><span class="rq-status ${r.status==='answered'?'b-green':'b-amber'}">${r.status === 'answered' ? 'Fully answered' : 'Partially answered — n=21 caveat'}</span></div></div>`).join('');
+  };
+
+  window.showGeoTab = function(tab){
+    document.querySelectorAll('.geo-subtab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    const ds = document.getElementById('geoPane-ds'), adm = document.getElementById('geoPane-adm');
+    if(ds) ds.style.display = tab === 'ds' ? '' : 'none';
+    if(adm) adm.style.display = tab === 'adm' ? '' : 'none';
+    if(tab === 'ds') renderDSTable(); else renderAdmTable();
+  };
+
+  window.renderGeography = function(){
+    renderHazardClasses();
+    populateAdminFilter();
+    renderDSTable();
+    renderAdmTable();
+  };
+
+  function renderHazardClasses(){
+    const el = document.getElementById('hazardClassList');
+    if(!el) return;
+    const cats = (typeof HAZARD_CATEGORIES !== 'undefined' && HAZARD_CATEGORIES.length) ? HAZARD_CATEGORIES : Object.entries((DS_DIVISIONS||[]).reduce((a,d)=>{a[d.risk_category]=(a[d.risk_category]||0)+1; return a;},{})).map(([cls,count])=>({cls,count,color:'#378add',desc:'DS division count'}));
+    const max = Math.max(...cats.map(c=>Number(c.count)||0),1);
+    el.innerHTML = cats.map(c => `<div class="cls-row"><span class="cls-dot" style="background:${c.color || '#378add'}"></span><span class="cls-name">${esc(c.cls)}</span><div class="cls-track"><div class="cls-bar" style="width:${((c.count/max)*100).toFixed(1)}%;background:${c.color || '#378add'}"></div></div><span class="cls-count">${Number(c.count).toLocaleString()}</span><span class="cls-desc">${esc(c.desc || '')}</span></div>`).join('');
+  }
+
+  function populateAdminFilter(){
+    const sel = document.getElementById('dsAdm');
+    if(!sel || sel.dataset.loaded) return;
+    const names = [...new Set((DS_DIVISIONS || []).map(d=>d.admin_district).filter(Boolean))].sort();
+    sel.insertAdjacentHTML('beforeend', names.map(n=>`<option>${esc(n)}</option>`).join(''));
+    sel.dataset.loaded = '1';
+  }
+
+  window.renderDSTable = function(){
+    const body = document.getElementById('dsTableBody'); if(!body || typeof DS_DIVISIONS === 'undefined') return;
+    const q = (document.getElementById('dsSearch')?.value || '').toLowerCase();
+    const risk = document.getElementById('dsRisk')?.value || '';
+    const prov = document.getElementById('dsProv')?.value || '';
+    const adm = document.getElementById('dsAdm')?.value || '';
+    const sort = document.getElementById('dsSort')?.value || 'flood';
+    let rows = DS_DIVISIONS.filter(d => (!q || [d.district,d.admin_district,d.province].join(' ').toLowerCase().includes(q)) && (!risk || d.risk_category === risk) && (!prov || d.province === prov) && (!adm || d.admin_district === adm));
+    rows.sort((a,b)=>(Number(b[sort])||0)-(Number(a[sort])||0));
+    const count = document.getElementById('dsCount'); if(count) count.textContent = `${rows.length.toLocaleString()} divisions`;
+    body.innerHTML = rows.slice(0, 500).map(d => `<tr><td>${esc(d.district)}</td><td>${esc(d.admin_district)}</td><td>${esc(d.province)}</td><td>${Number(d.cells).toLocaleString()}</td><td>${Number(d.flood).toLocaleString()} / ${Number(d.landslide).toLocaleString()}</td><td>${Number(d.flood_rate).toFixed(1)}%</td><td>${Number(d.ls_rate).toFixed(1)}%</td><td>${Number(d.compound).toLocaleString()}</td><td>${riskBadge(d.risk_category)}</td><td>${Number(d.elevation).toFixed(1)}</td><td>${Number(d.slope).toFixed(1)}</td><td>${Number(d.rain).toFixed(1)}</td></tr>`).join('');
+  };
+
+  window.renderAdmTable = function(){
+    const body = document.getElementById('admTableBody'); if(!body) return;
+    const q = (document.getElementById('admSearch')?.value || '').toLowerCase();
+    const prov = document.getElementById('admProv')?.value || '';
+    let rows = (typeof ADM_DISTRICTS !== 'undefined' && ADM_DISTRICTS.length) ? ADM_DISTRICTS.slice() : aggregateAdm();
+    rows = rows.filter(d => (!q || [d.admin_district || d.district, d.province].join(' ').toLowerCase().includes(q)) && (!prov || d.province === prov));
+    rows.sort((a,b)=>(Number(b.flood)+Number(b.landslide))-(Number(a.flood)+Number(a.landslide)));
+    const count = document.getElementById('admCount'); if(count) count.textContent = `${rows.length.toLocaleString()} districts`;
+    body.innerHTML = rows.map(d => {
+      const name = d.admin_district || d.district;
+      const cells = Number(d.cells)||0, flood=Number(d.flood)||0, land=Number(d.landslide)||0;
+      const fr = d.flood_rate ?? (cells ? flood/cells*100 : 0), lr = d.ls_rate ?? (cells ? land/cells*100 : 0);
+      const comp = Number(d.compound)||0;
+      const cat = d.risk_category || (comp>0?'Compound Hazard':fr>=15||lr>=40?'High Risk':fr>=5||lr>=20?'Moderate Risk':fr>0||lr>0?'Low Risk':'No Observed Risk');
+      return `<tr><td>${esc(name)}</td><td>${esc(d.province)}</td><td>${Number(d.ds_count || d.ds || 0).toLocaleString()}</td><td>${cells.toLocaleString()}</td><td>${flood.toLocaleString()}</td><td>${Number(fr).toFixed(1)}%</td><td>${land.toLocaleString()}</td><td>${Number(lr).toFixed(1)}%</td><td>${comp.toLocaleString()}</td><td>${riskBadge(cat)}</td></tr>`;
+    }).join('');
+  };
+
+  function aggregateAdm(){
+    const map = new Map();
+    (DS_DIVISIONS || []).forEach(d => {
+      const k = d.admin_district;
+      if(!map.has(k)) map.set(k,{admin_district:k,province:d.province,ds_count:0,cells:0,flood:0,landslide:0,compound:0});
+      const r = map.get(k); r.ds_count++; r.cells+=Number(d.cells)||0; r.flood+=Number(d.flood)||0; r.landslide+=Number(d.landslide)||0; r.compound+=Number(d.compound)||0;
+    });
+    return [...map.values()];
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme(); initClock(); initNav();
+  });
 })();
-  </script>
+
+</script>
 </body>
 </html>
