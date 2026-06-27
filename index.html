@@ -1,817 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HazardWatch · Compound Flood & Landslide Risk Platform — Sri Lanka</title>
-  <meta name="description" content="Distributed machine learning framework for compound flood and landslide risk prediction across Sri Lanka. MSc Big Data Analytics research platform.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <style>
-  /* ── pulsing district markers ── */
-  .hw-mk{position:relative;display:flex;align-items:center;justify-content:center}
-  .hw-mk-core{border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;
-    align-items:center;justify-content:center;font-family:monospace;font-size:9px;
-    font-weight:700;color:#fff;}
-  .hw-mk-ring{position:absolute;border-radius:50%;border:2px solid;
-    top:-5px;left:-5px;right:-5px;bottom:-5px;
-    animation:hwring 2.5s ease-in-out infinite;}
-  @keyframes hwring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.4);opacity:0}}
-  .hw-crit .hw-mk-ring{border-color:#FF4757;animation-duration:1.1s}
-  .hw-high .hw-mk-ring{border-color:#FF8C42;animation-duration:1.8s}
-  .hw-med  .hw-mk-ring{border-color:#FFD700;animation-duration:2.8s}
-  .hw-low  .hw-mk-ring{border-color:#2ECC71;animation-duration:4s}
-  /* ── Leaflet popup override (light theme) ── */
-  .leaflet-popup-content-wrapper{background:#fff!important;border:1px solid #e2e8f0!important;
-    border-radius:10px!important;box-shadow:0 4px 20px rgba(0,0,0,.12)!important;color:#1a202c!important;}
-  .leaflet-popup-tip{background:#fff!important}
-  .hw-pop{font-family:inherit;min-width:190px}
-  .hw-pop-name{font-size:13px;font-weight:700;margin-bottom:9px}
-  .hw-pop-row{display:flex;align-items:center;gap:7px;font-size:11px;margin-bottom:5px}
-  .hw-pop-lbl{color:#718096;width:68px;flex-shrink:0}
-  .hw-pop-bar{flex:1;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden}
-  .hw-pop-fill{height:100%;border-radius:2px}
-  .hw-pop-num{font-family:monospace;font-size:11px;font-weight:700;width:30px;text-align:right}
-  /* ── district list items ── */
-  .hw-ditem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;
-    cursor:pointer;border:1px solid transparent;transition:.2s;}
-  .hw-ditem:hover{background:rgba(0,0,0,.04);border-color:#e2e8f0}
-  .hw-drank{font-family:monospace;font-size:10px;color:#a0aec0;width:16px;text-align:right}
-  .hw-dcirc{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
-    justify-content:center;font-size:9px;font-weight:700;font-family:monospace;flex-shrink:0;}
-  .hw-dinfo{flex:1;min-width:0}
-  .hw-dname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .hw-dpills{display:flex;gap:3px;margin-top:2px}
-  .hw-pill{font-size:9px;padding:1px 5px;border-radius:3px;font-family:monospace;font-weight:700;}
-  /* ── predict section ── */
-  .hw-pred-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
-    opacity:.5;margin-bottom:8px;}
-  .hw-presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
-  .hw-pbtn{display:flex;flex-direction:column;padding:9px 12px 8px;
-    background:rgba(0,0,0,.03);border:1px solid #e2e8f0;border-radius:9px;
-    color:#718096;font-size:11px;font-weight:500;cursor:pointer;transition:.2s;text-align:left;}
-  .hw-pbtn:hover{border-color:#63b3ff;color:#2b6cb0}
-  .hw-pbtn.on{border-color:#3182ce;color:#3182ce;background:rgba(49,130,206,.06)}
-  .hw-pbtn-ico{font-size:15px;margin-bottom:3px}
-  .hw-sliders{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px}
-  .hw-sg{display:flex;flex-direction:column;gap:6px}
-  .hw-sl-lbl{font-size:11px;font-weight:500;color:#4a5568;
-    display:flex;justify-content:space-between;align-items:center;}
-  .hw-sl-val{font-family:monospace;font-size:12px;font-weight:700;color:#1a202c}
-  .hw-range{width:100%;height:4px;accent-color:#3182ce;cursor:pointer}
-  .hw-mtabs{display:flex;gap:6px;margin-bottom:18px}
-  .hw-mt{padding:6px 14px;background:rgba(0,0,0,.03);border:1px solid #e2e8f0;
-    border-radius:5px;color:#718096;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;}
-  .hw-mt.on{background:rgba(49,130,206,.08);border-color:#3182ce;color:#2b6cb0}
-  .hw-gitem{margin-bottom:16px}
-  .hw-g-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5px}
-  .hw-g-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#a0aec0}
-  .hw-g-val{font-family:monospace;font-size:22px;font-weight:700;line-height:1}
-  .hw-g-track{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:5px}
-  .hw-g-fill{height:100%;border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
-  .hw-g-sev{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5px;
-    padding:2px 7px;border-radius:3px;}
-  .hw-mbadge{font-size:11px;color:#718096;margin-bottom:8px}
-  .hw-mbadge strong{color:#2d3748}
-  .hw-interp{padding:11px 13px;border-radius:9px;border-left:3px solid;
-    font-size:11px;line-height:1.65;color:#4a5568;}
-  @media(max-width:760px){
-    .hw-sliders{grid-template-columns:1fr}
-    .hw-presets{flex-direction:column}
-  }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>HazardWatch Sri Lanka – Validated Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+  header{background:linear-gradient(135deg,#1a2332 0%,#0d1117 100%);padding:18px 28px;border-bottom:2px solid #21d0f3;display:flex;align-items:center;gap:16px}
+  header h1{font-size:1.5rem;color:#21d0f3;letter-spacing:.5px}
+  header p{font-size:.82rem;color:#8b949e;margin-top:2px}
+  .badge{background:#21d0f322;border:1px solid #21d0f355;color:#21d0f3;padding:3px 10px;border-radius:20px;font-size:.72rem;margin-left:auto}
+  .dq-bar{background:#1c2433;border-left:4px solid #f0883e;padding:10px 28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:.8rem;color:#d2a679}
+  .dq-bar strong{color:#f0883e}
+  .kpi-row{display:flex;flex-wrap:wrap;gap:14px;padding:18px 28px}
+  .kpi{flex:1;min-width:140px;background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px 18px}
+  .kpi .num{font-size:2rem;font-weight:700;color:#21d0f3;line-height:1}
+  .kpi .label{font-size:.75rem;color:#8b949e;margin-top:5px}
+  .kpi.flood .num{color:#3fb950}
+  .kpi.ls .num{color:#f78166}
+  .kpi.both .num{color:#d2a679}
+  .kpi.warn .num{color:#e3b341}
+  .tabs{display:flex;gap:0;padding:0 28px;border-bottom:1px solid #21303d}
+  .tab{padding:10px 22px;cursor:pointer;border-bottom:3px solid transparent;font-size:.88rem;color:#8b949e;transition:.2s}
+  .tab.active{color:#21d0f3;border-bottom-color:#21d0f3}
+  .panel{display:none;padding:20px 28px}
+  .panel.active{display:block}
+  #map{height:440px;border-radius:10px;border:1px solid #21303d}
+  .map-legend{display:flex;gap:20px;margin-top:10px;font-size:.78rem;color:#8b949e}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .chart-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+  .chart-card h3{font-size:.88rem;color:#8b949e;margin-bottom:12px}
+  .table-wrap{overflow-x:auto;margin-top:10px}
+  table{width:100%;border-collapse:collapse;font-size:.8rem}
+  th{background:#1c2433;color:#8b949e;padding:8px 12px;text-align:left;border-bottom:1px solid #21303d}
+  td{padding:7px 12px;border-bottom:1px solid #1c2433;color:#e6edf3}
+  tr:hover td{background:#1c243355}
+  .risk-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.72rem}
+  .high{background:#f7816622;color:#f78166;border:1px solid #f7816655}
+  .med{background:#e3b34122;color:#e3b341;border:1px solid #e3b34155}
+  .low{background:#3fb95022;color:#3fb950;border:1px solid #3fb95055}
+  .dq-section{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px}
+  .dq-section h3{font-size:.95rem;color:#f0883e;margin-bottom:14px}
+  .dq-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1c2433;font-size:.82rem}
+  .dq-item:last-child{border-bottom:none}
+  .ok{color:#3fb950} .warn-c{color:#e3b341} .err{color:#f78166}
+  @media(max-width:700px){.charts-row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
+<header>
+  <div>
+    <h1>🌊 HazardWatch Sri Lanka</h1>
+    <p>Flood &amp; Landslide Risk Dashboard – Validated from feature_store.parquet</p>
+  </div>
+  <div class="badge">✓ Cleaned &amp; Validated</div>
+</header>
 
-  <!-- ===== TOP BAR ===== -->
-  <header class="topbar">
-    <div class="logo">
-      <div class="logo-mark"><i class="ti ti-activity"></i></div>
-      <div class="logo-text">
-        <span class="logo-title">HazardWatch</span>
-        <span class="logo-sub">Compound Risk Intelligence · Sri Lanka</span>
-      </div>
+<div class="dq-bar">
+  <strong>⚠ Data Quality Fixes Applied:</strong>
+  <span>28 records with invalid coordinates removed (Delft/Kalpitiya outliers)</span>
+  <span>|</span>
+  <span>96.2% missing jrc_occurrence flagged (not used in core metrics)</span>
+  <span>|</span>
+  <span>No duplicate cell_ids found</span>
+  <span>|</span>
+  <span>No hardcoded values – all figures from source parquet</span>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="num">53,917</div><div class="label">Valid Grid Cells (after cleaning)</div></div>
+  <div class="kpi flood"><div class="num">1,510</div><div class="label">Flood Risk Observations</div></div>
+  <div class="kpi ls"><div class="num">4,446</div><div class="label">Landslide Risk Observations</div></div>
+  <div class="kpi both"><div class="num">12</div><div class="label">Compound Risk (Both)</div></div>
+  <div class="kpi warn"><div class="num">323</div><div class="label">DS Divisions Covered</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('map')">🗺 Risk Map</div>
+  <div class="tab" onclick="showTab('charts')">📊 Charts</div>
+  <div class="tab" onclick="showTab('table')">📋 DS Division Table</div>
+  <div class="tab" onclick="showTab('dq')">🔍 Data Quality Report</div>
+</div>
+
+<div class="panel active" id="tab-map">
+  <div style="display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+    <button onclick="showLayer('both')" style="padding:6px 14px;background:#21d0f322;border:1px solid #21d0f3;color:#21d0f3;border-radius:6px;cursor:pointer;font-size:.8rem">Show All</button>
+    <button onclick="showLayer('flood')" style="padding:6px 14px;background:#3fb95022;border:1px solid #3fb950;color:#3fb950;border-radius:6px;cursor:pointer;font-size:.8rem">Flood Only</button>
+    <button onclick="showLayer('landslide')" style="padding:6px 14px;background:#f7816622;border:1px solid #f78166;color:#f78166;border-radius:6px;cursor:pointer;font-size:.8rem">Landslide Only</button>
+  </div>
+  <div id="map"></div>
+  <div class="map-legend">
+    <span><span class="dot" style="background:#3fb950"></span>Flood Risk (1,510 cells)</span>
+    <span><span class="dot" style="background:#f78166"></span>Landslide Risk (4,446 cells)</span>
+    <span><span class="dot" style="background:#f0d060"></span>Compound Risk (12 cells)</span>
+    <span style="margin-left:auto;color:#6b7280;font-size:.73rem">Showing up to 600 sampled points per layer for performance</span>
+  </div>
+</div>
+
+<div class="panel" id="tab-charts">
+  <div class="charts-row">
+    <div class="chart-card">
+      <h3>Top 15 DS Divisions – Flood Observations</h3>
+      <canvas id="floodChart" height="320"></canvas>
     </div>
-    <div class="topbar-right">
-      <div class="live-pill"><span class="live-dot"></span><span id="liveTime">Live · updated now</span></div>
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><i class="ti ti-moon"></i></button>
-      <button class="icon-btn" aria-label="Notifications"><i class="ti ti-bell"></i></button>
+    <div class="chart-card">
+      <h3>Top 15 DS Divisions – Landslide Observations</h3>
+      <canvas id="lsChart" height="320"></canvas>
     </div>
-  </header>
+    <div class="chart-card">
+      <h3>Top 15 Flood Risk Rate (%) – DS Divisions with &gt;50 cells</h3>
+      <canvas id="floodRateChart" height="280"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Top 15 Landslide Risk Rate (%) – DS Divisions with &gt;50 cells</h3>
+      <canvas id="lsRateChart" height="280"></canvas>
+    </div>
+  </div>
+</div>
 
-  <!-- ===== NAV ===== -->
-  <nav class="nav" id="nav">
-    <button class="nav-tab active" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
-    <button class="nav-tab" data-page="predict"><i class="ti ti-target"></i> Predict</button>
-    <button class="nav-tab" data-page="overview"><i class="ti ti-chart-bar"></i> Analytics</button>
-    <button class="nav-tab" data-page="models"><i class="ti ti-chart-bar"></i> Models</button>
-    <button class="nav-tab" data-page="features"><i class="ti ti-list-numbers"></i> Features</button>
-    <button class="nav-tab" data-page="scalability"><i class="ti ti-bolt"></i> Scalability</button>
-    <button class="nav-tab" data-page="ditwah"><i class="ti ti-wind"></i> Ditwah</button>
-    <button class="nav-tab" data-page="data"><i class="ti ti-database"></i> Data</button>
-    <button class="nav-tab" data-page="research"><i class="ti ti-help-circle"></i> Research</button>
-  </nav>
+<div class="panel" id="tab-table">
+  <p style="font-size:.8rem;color:#8b949e;margin-bottom:12px">Sorted by total flood observations. District column shows Divisional Secretariat (DS) Division names as stored in the dataset.</p>
+  <div class="table-wrap">
+    <table id="distTable">
+      <thead><tr>
+        <th>DS Division</th><th>Grid Cells</th><th>Flood Obs.</th><th>Flood Rate</th><th>Landslide Obs.</th><th>Landslide Rate</th><th>Flood Risk</th><th>Landslide Risk</th>
+      </tr></thead>
+      <tbody id="distBody"></tbody>
+    </table>
+  </div>
+</div>
 
-  <main class="content">
+<div class="panel" id="tab-dq">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex-wrap:wrap">
+    <div class="dq-section">
+      <h3>🔎 Data Quality Findings</h3>
+      <div class="dq-item"><span>Total raw records</span><span>53,945</span></div>
+      <div class="dq-item"><span>Invalid coordinates removed</span><span class="err">28 records</span></div>
+      <div class="dq-item"><span>Records after cleaning</span><span class="ok">53,917</span></div>
+      <div class="dq-item"><span>Duplicate cell_ids</span><span class="ok">0 (None found)</span></div>
+      <div class="dq-item"><span>flood_risk values outside {0,1}</span><span class="ok">0 (Clean)</span></div>
+      <div class="dq-item"><span>landslide_risk values outside {0,1}</span><span class="ok">0 (Clean)</span></div>
+      <div class="dq-item"><span>jrc_occurrence missing</span><span class="warn-c">51,889 (96.2%)</span></div>
+      <div class="dq-item"><span>Elevation range</span><span class="ok">Valid (0–2,524m)</span></div>
+      <div class="dq-item"><span>NDVI range</span><span class="ok">Valid (–1 to 1)</span></div>
+      <div class="dq-item"><span>Hardcoded/manual values</span><span class="ok">None detected</span></div>
+    </div>
+    <div class="dq-section">
+      <h3>🗂 Root Cause of Dashboard Mismatch</h3>
+      <div class="dq-item"><span>Column named "district"</span><span class="warn-c">Is DS Divisions (323), not Admin Districts (25)</span></div>
+      <div class="dq-item"><span>weight_flood_risk max</span><span class="warn-c">34.7 (unweighted = 1.0 for most)</span></div>
+      <div class="dq-item"><span>compound_risk_label = 1</span><span class="warn-c">Only 12 cells (0.02%)</span></div>
+      <div class="dq-item"><span>28 Delft/Kalpitiya cells</span><span class="err">lon &lt; 79.7 (outside Sri Lanka bbox)</span></div>
+      <div class="dq-item"><span>jrc_occurrence</span><span class="err">96.2% null – cannot be used as flood proxy</span></div>
+      <div class="dq-item"><span>Likely dashboard bug</span><span class="warn-c">May have used jrc_occurrence or compound_risk_label as flood count instead of flood_risk column</span></div>
+    </div>
+    <div class="dq-section">
+      <h3>✅ Corrective Actions Taken</h3>
+      <div class="dq-item"><span>Removed invalid coordinates</span><span class="ok">28 records dropped</span></div>
+      <div class="dq-item"><span>Flood count source</span><span class="ok">flood_risk==1 (binary column)</span></div>
+      <div class="dq-item"><span>Landslide count source</span><span class="ok">landslide_risk==1 (binary column)</span></div>
+      <div class="dq-item"><span>District labels</span><span class="ok">Kept as DS Division names from dataset</span></div>
+      <div class="dq-item"><span>jrc_occurrence</span><span class="ok">Excluded from metrics (96.2% null)</span></div>
+      <div class="dq-item"><span>No manual overrides</span><span class="ok">All values sourced from parquet</span></div>
+    </div>
+    <div class="dq-section">
+      <h3>📌 Recommendations for Pipeline Fix</h3>
+      <div class="dq-item"><span>1. Rename "district" column</span><span>Use "ds_division" for clarity</span></div>
+      <div class="dq-item"><span>2. Add admin district mapping</span><span>Join DS divisions to 25 admin districts</span></div>
+      <div class="dq-item"><span>3. Fix jrc_occurrence</span><span>Source from JRC Global Surface Water dataset</span></div>
+      <div class="dq-item"><span>4. Validate coordinates</span><span>Add bbox filter in ingestion pipeline</span></div>
+      <div class="dq-item"><span>5. Dashboard data source</span><span>Use flood_risk & landslide_risk columns only</span></div>
+    </div>
+  </div>
+</div>
 
-    <!-- ===== OVERVIEW ===== -->
-    <section class="page" id="page-overview">
-      <div class="page-head">
-        <h1>Analytics</h1>
-        <p>Model performance summary — AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
-      </div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
-        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)">1,511</div><div class="kpi-sub">2.8% · weight 34.7</div></div>
-        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)">4,446</div><div class="kpi-sub">8.2% · weight 11.1</div></div>
-        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val">12</div><div class="kpi-sub">6 distributed · 6 centralised</div></div>
-      </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><i class="ti ti-trending-up"></i> Flood AUC-ROC by model</div>
-          <div class="chart-box" style="height:220px"><canvas id="ovAuc"></canvas></div>
-          <div class="legend"><span class="lg"><span class="lg-dot" style="background:var(--dist)"></span>Distributed</span><span class="lg"><span class="lg-dot" style="background:var(--cent)"></span>Centralised</span></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC — key metric for 2.8% imbalance</div>
-          <div class="chart-box" style="height:220px"><canvas id="ovPrauc"></canvas></div>
-          <p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) — most relevant for hazard detection.</p>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><i class="ti ti-clock"></i> Training time comparison</div>
-          <div class="chart-box" style="height:200px"><canvas id="ovTime"></canvas></div>
-          <p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3× — not 157×.</p>
-        </div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-percentage"></i> 5-fold CV confidence intervals</div>
-          <div id="cvTable"></div>
-        </div>
-      </div>
-    </section>
+<script>
+const FLOOD_PTS = [[7.184999999999973, 81.465000000001, "Madulla"], [6.434999999999989, 80.00500000000025, "Beruwala"], [9.63499999999992, 79.98500000000024, "Island South (Velanai)"], [6.4549999999999885, 81.29500000000091, "Katharagama"], [6.754999999999982, 79.92500000000021, "Kesbewa"], [7.30499999999997, 81.49500000000101, "Madulla"], [7.31499999999997, 80.01500000000026, "Pannala"], [7.924999999999957, 80.13500000000032, "Kotavehera"], [8.78499999999994, 80.73500000000062, "Padaviya"], [9.344999999999928, 80.54500000000053, "Oddusuddan"], [8.71499999999994, 80.84500000000068, "Horowpothana"], [7.584999999999964, 81.21500000000087, "Padiyathalawa"], [6.294999999999992, 81.2850000000009, "Thissamaharama"], [8.864999999999938, 80.02500000000026, "Nanaddan"], [8.454999999999945, 80.20500000000035, "Maha Vilachchiya"], [8.874999999999936, 81.04500000000078, "Kuchchaveli"], [8.314999999999948, 80.81500000000067, "Horowpothana"], [7.284999999999971, 81.51500000000102, "Madulla"], [9.094999999999931, 80.07500000000029, "Manthai West"], [7.354999999999969, 81.0650000000008, "Rideemaliyadda"], [8.614999999999942, 81.20500000000087, "Trincomalee Town and Gravets"], [9.314999999999927, 80.58500000000055, "Puthukudiyiruppu"], [7.164999999999973, 81.69500000000112, "Damana"], [8.154999999999951, 80.03500000000027, "Karuwalagaswewa"], [7.574999999999965, 81.19500000000086, "Padiyathalawa"], [7.284999999999971, 81.64500000000109, "Ampara"], [9.774999999999917, 80.15500000000033, "Vadamaradchi South-West"], [8.384999999999948, 80.12500000000031, "Nochchiyagama"], [9.74499999999992, 80.12500000000031, "Valikamam East"], [8.434999999999945, 81.14500000000083, "Kinniya"], [9.284999999999929, 80.75500000000063, "Maritimepattu"], [7.924999999999957, 80.0950000000003, "Anamaduwa"], [8.954999999999934, 79.95500000000023, "Nanaddan"], [7.994999999999956, 80.91500000000072, "Hingurakgoda"], [6.85499999999998, 81.81500000000118, "Pothuvil"], [8.134999999999952, 80.92500000000072, "Medirigiriya"], [8.244999999999951, 81.40500000000097, "Koralai Pattu North"], [7.514999999999966, 81.0850000000008, "Mahiyanganaya"], [9.24499999999993, 80.80500000000066, "Maritimepattu"], [9.574999999999921, 80.36500000000044, "Pachchilaipalli"], [7.734999999999961, 79.80500000000015, "Arachchikattuwa PS"], [8.554999999999943, 81.24500000000089, "Trincomalee Town and Gravets"], [7.164999999999973, 81.68500000000111, "Damana"], [8.144999999999953, 80.91500000000072, "Medirigiriya"], [8.25499999999995, 80.47500000000049, "Nachchadoowa"], [7.854999999999959, 79.80500000000015, "Mundalama"], [9.664999999999921, 80.07500000000029, "Thenmaradchy (Chavakachcheri)"], [7.904999999999958, 81.2750000000009, "Koralai Pattu West (Oddamavadi)"], [8.80499999999994, 80.78500000000065, "Padaviya"], [7.644999999999963, 80.4850000000005, "Ibbagamuwa"], [8.334999999999948, 80.43500000000047, "N. Palatha East"], [8.884999999999938, 80.04500000000027, "Nanaddan"], [7.80499999999996, 79.80500000000015, "Mundalama"], [6.38499999999999, 81.21500000000087, "Thanamalvila"], [8.204999999999952, 80.72500000000062, "Galenbindunuwewa"], [8.854999999999936, 80.02500000000026, "Nanaddan"], [8.19499999999995, 80.72500000000062, "Galenbindunuwewa"], [9.464999999999925, 80.35500000000043, "Kandawali"], [8.074999999999953, 80.63500000000057, "Kekirawa"], [8.364999999999949, 80.97500000000075, "Kantalai"], [8.274999999999949, 80.31500000000041, "Thalawa"], [9.094999999999931, 80.34500000000043, "Manthai East"], [9.284999999999929, 80.77500000000065, "Maritimepattu"], [8.144999999999953, 80.92500000000072, "Medirigiriya"], [7.634999999999963, 81.19500000000086, "Dehiattakandiya"], [8.204999999999952, 80.73500000000062, "Galenbindunuwewa"], [8.014999999999954, 80.54500000000053, "Kekirawa"], [7.874999999999958, 80.6950000000006, "Dambulla"], [9.694999999999919, 80.07500000000029, "Valikamam East"], [8.824999999999939, 80.97500000000075, "Gomarankadawala"], [6.4549999999999885, 81.63500000000109, "Thissamaharama"], [8.364999999999949, 80.98500000000075, "Kantalai"], [6.684999999999984, 80.79500000000066, "Imbulpe"], [9.144999999999932, 80.83500000000068, "Maritimepattu"], [7.914999999999957, 81.11500000000082, "Dimbulagala"], [7.214999999999972, 81.52500000000103, "Madulla"], [8.26499999999995, 80.47500000000049, "Nachchadoowa"], [9.764999999999919, 80.13500000000032, "Valikamam East"], [7.214999999999972, 81.455000000001, "Madulla"], [7.714999999999962, 80.2850000000004, "Mahawa"], [7.984999999999956, 80.91500000000072, "Hingurakgoda"], [7.544999999999965, 80.84500000000068, "Laggala-Pallegama"], [7.80499999999996, 81.34500000000094, "Koralai Pattu (Valachchenai)"], [7.244999999999972, 80.78500000000065, "Medadumbara"], [7.6749999999999625, 80.74500000000063, "Naula"], [9.734999999999918, 79.92500000000021, "Valikamam West"], [9.63499999999992, 80.35500000000043, "Pachchilaipalli"], [8.014999999999954, 80.8850000000007, "Hingurakgoda"], [7.77499999999996, 80.46500000000049, "Polpithigama"], [8.394999999999946, 81.35500000000094, "Verugal"], [7.244999999999972, 80.74500000000063, "Pathahewaheta"], [6.744999999999982, 79.95500000000023, "Bandaragama"], [9.604999999999922, 80.39500000000045, "Pachchilaipalli"], [7.2049999999999725, 81.8550000000012, "Alayadiwembu"], [8.514999999999944, 79.8950000000002, "Vanathavilluwa"], [8.814999999999937, 80.97500000000075, "Gomarankadawala"], [7.934999999999957, 80.14500000000032, "Kotavehera"], [7.2049999999999725, 81.50500000000102, "Madulla"], [7.0649999999999755, 81.8550000000012, "Thirukkovil"], [7.474999999999967, 81.59500000000106, "Uhana"], [8.224999999999952, 80.43500000000047, "Nachchadoowa"], [7.2049999999999725, 81.59500000000106, "Damana"], [8.994999999999933, 80.03500000000027, "Manthai West"], [9.084999999999933, 80.73500000000062, "Maritimepattu"], [8.024999999999956, 80.8850000000007, "Hingurakgoda"], [9.294999999999927, 80.75500000000063, "Puthukudiyiruppu"], [9.424999999999926, 80.26500000000038, "Poonakary"], [8.21499999999995, 80.21500000000036, "Nochchiyagama"], [8.34499999999995, 80.97500000000075, "Kantalai"], [7.364999999999969, 81.03500000000078, "Mahiyanganaya"], [7.974999999999956, 79.78500000000014, "Kalpitiya"], [8.864999999999938, 80.80500000000066, "Padaviya"], [8.454999999999945, 79.88500000000019, "Vanathavilluwa"], [7.264999999999971, 80.78500000000065, "Medadumbara"], [9.294999999999927, 80.74500000000063, "Puthukudiyiruppu"], [6.4549999999999885, 81.62500000000108, "Thissamaharama"], [7.034999999999976, 80.25500000000038, "Ruwanwella"], [6.724999999999983, 79.99500000000025, "Bandaragama"], [7.654999999999963, 81.23500000000088, "Mahaoya"], [8.26499999999995, 80.4850000000005, "Nachchadoowa"], [6.694999999999983, 80.76500000000064, "Imbulpe"], [7.884999999999958, 80.70500000000061, "Dambulla"], [7.584999999999964, 81.19500000000086, "Padiyathalawa"], [7.624999999999964, 81.21500000000087, "Mahaoya"], [6.39499999999999, 81.19500000000086, "Thanamalvila"], [7.2049999999999725, 81.455000000001, "Madulla"], [7.934999999999957, 80.01500000000026, "Anamaduwa"], [6.36499999999999, 81.21500000000087, "Thanamalvila"], [8.384999999999948, 80.54500000000053, "Mihinthale"], [7.164999999999973, 80.8950000000007, "Walapane"], [9.014999999999933, 80.94500000000073, "Maritimepattu"], [8.69499999999994, 80.42500000000047, "Vavuniya"], [7.714999999999962, 81.18500000000085, "Dimbulagala"], [6.194999999999994, 80.98500000000075, "Ambalanthota"], [7.494999999999966, 80.13500000000032, "Kuliyapitiya West"], [8.384999999999948, 80.99500000000076, "Kantalai"], [9.464999999999925, 80.55500000000053, "Kandawali"], [8.274999999999949, 80.77500000000065, "Galenbindunuwewa"], [7.594999999999964, 81.16500000000084, "Dehiattakandiya"], [6.85499999999998, 81.82500000000118, "Pothuvil"], [9.644999999999921, 80.19500000000035, "Thenmaradchy (Chavakachcheri)"], [8.624999999999943, 80.31500000000041, "Vengalacheddiculam"], [8.524999999999945, 80.52500000000052, "Medawachchiya"], [9.084999999999933, 80.07500000000029, "Manthai West"], [6.85499999999998, 80.58500000000055, "Ambagamuwa"], [6.124999999999996, 80.8750000000007, "Tangalle"], [6.37499999999999, 81.18500000000085, "Lunugamvehera"], [8.21499999999995, 79.81500000000015, "Vanathavilluwa"], [7.704999999999962, 80.2950000000004, "Mahawa"], [7.554999999999965, 80.83500000000068, "Laggala-Pallegama"], [7.624999999999964, 81.53500000000103, "Manmunai West"], [7.934999999999957, 81.14500000000083, "Welikanda"], [7.514999999999966, 81.20500000000087, "Mahiyanganaya"], [6.434999999999989, 80.81500000000067, "Embilipitiya"], [7.754999999999961, 80.13500000000032, "Nikaweratiya"], [7.924999999999957, 80.40500000000046, "Polpithigama"], [6.054999999999997, 80.85500000000069, "Tangalle"], [6.304999999999992, 80.85500000000069, "Embilipitiya"], [6.684999999999984, 80.77500000000065, "Imbulpe"], [6.554999999999986, 81.72500000000113, "Lahugala"], [7.934999999999957, 81.52500000000103, "Koralai Pattu (Valachchenai)"], [7.944999999999957, 80.2950000000004, "Galgamuwa"], [6.40499999999999, 81.19500000000086, "Thanamalvila"], [9.324999999999928, 80.61500000000056, "Puthukudiyiruppu"], [7.80499999999996, 80.55500000000053, "Galewela"], [8.74499999999994, 80.54500000000053, "Vavuniya South"], [7.294999999999971, 81.51500000000102, "Uhana"], [6.824999999999981, 81.44500000000099, "Siyambalanduwa"], [8.934999999999935, 79.9150000000002, "Nanaddan"], [6.39499999999999, 81.03500000000078, "Thanamalvila"], [6.194999999999994, 81.24500000000089, "Hambantota"], [9.294999999999927, 80.18500000000034, "Karachchi"], [8.884999999999938, 80.3050000000004, "Madhu"], [6.154999999999995, 81.15500000000084, "Hambantota"], [7.644999999999963, 79.81500000000015, "Arachchikattuwa PS"], [6.4549999999999885, 80.83500000000068, "Embilipitiya"], [9.664999999999921, 79.86500000000018, "Islands North (Kayts)"], [6.094999999999996, 80.63500000000057, "Hakmana"], [7.284999999999971, 80.77500000000065, "Medadumbara"], [9.754999999999917, 80.16500000000033, "Vadamaradchi South-West"], [7.634999999999963, 81.21500000000087, "Mahaoya"], [9.254999999999928, 80.79500000000066, "Maritimepattu"], [7.194999999999973, 81.475000000001, "Madulla"], [7.244999999999972, 81.73500000000114, "Eragama"], [8.76499999999994, 81.12500000000082, "Kuchchaveli"], [8.184999999999953, 80.19500000000035, "Rajanganaya"], [7.2049999999999725, 81.49500000000101, "Madulla"], [8.794999999999938, 79.97500000000024, "Musali"], [8.71499999999994, 80.86500000000069, "Horowpothana"], [8.484999999999946, 81.05500000000079, "Thampalakamam"], [9.20499999999993, 80.84500000000068, "Maritimepattu"], [8.444999999999947, 79.88500000000019, "Vanathavilluwa"], [8.434999999999945, 81.03500000000078, "Kantalai"], [7.544999999999965, 80.82500000000067, "Laggala-Pallegama"], [8.124999999999954, 80.26500000000038, "Rajanganaya"], [7.244999999999972, 81.84500000000119, "Akkaraipattu"], [9.304999999999929, 80.74500000000063, "Puthukudiyiruppu"], [8.004999999999956, 81.19500000000086, "Welikanda"], [7.894999999999958, 80.97500000000075, "Thamankaduwa"], [7.834999999999959, 79.79500000000014, "Mundalama"], [9.674999999999919, 79.93500000000022, "Island South (Velanai)"], [8.854999999999936, 79.92500000000021, "Nanaddan"], [8.794999999999938, 80.74500000000063, "Padaviya"], [8.274999999999949, 81.15500000000084, "Kantalai"], [7.6749999999999625, 80.76500000000064, "Naula"], [7.604999999999964, 81.19500000000086, "Dehiattakandiya"], [7.78499999999996, 79.82500000000016, "Puttalam"], [6.37499999999999, 81.22500000000088, "Thanamalvila"], [8.124999999999954, 80.90500000000071, "Medirigiriya"], [8.014999999999954, 80.15500000000033, "Galgamuwa"], [6.464999999999988, 80.85500000000069, "Thanamalvila"], [8.384999999999948, 81.00500000000076, "Kantalai"], [8.444999999999947, 80.21500000000036, "Maha Vilachchiya"], [7.894999999999958, 81.10500000000081, "Dimbulagala"], [8.154999999999951, 80.91500000000072, "Medirigiriya"], [8.584999999999944, 80.95500000000074, "Morawewa"], [7.904999999999958, 80.99500000000076, "Thamankaduwa"], [8.494999999999944, 81.34500000000094, "Muttur"], [8.384999999999948, 81.20500000000087, "Kinniya"], [7.664999999999963, 81.24500000000089, "Mahaoya"], [9.344999999999928, 80.72500000000062, "Puthukudiyiruppu"], [6.654999999999984, 80.79500000000066, "Imbulpe"], [8.374999999999947, 80.99500000000076, "Kantalai"], [7.934999999999957, 81.0850000000008, "Thamankaduwa"], [8.034999999999954, 79.94500000000022, "Karuwalagaswewa"], [6.274999999999992, 81.31500000000092, "Thissamaharama"], [7.31499999999997, 81.6750000000011, "Ampara"], [6.204999999999994, 80.98500000000075, "Ambalanthota"], [8.024999999999956, 80.56500000000054, "Kekirawa"], [8.21499999999995, 80.2850000000004, "Nochchiyagama"], [7.944999999999957, 80.17500000000034, "Galgamuwa"], [9.584999999999923, 80.42500000000047, "Pachchilaipalli"], [8.374999999999947, 79.84500000000017, "Vanathavilluwa"], [8.374999999999947, 81.14500000000083, "Kantalai"], [7.194999999999973, 81.43500000000098, "Bibile"], [9.754999999999917, 80.19500000000035, "Vadamaradchi South-West"], [9.314999999999927, 80.75500000000063, "Puthukudiyiruppu"], [7.764999999999961, 80.63500000000057, "Dambulla"], [9.20499999999993, 80.34500000000043, "Manthai East"], [8.004999999999956, 80.56500000000054, "Kekirawa"], [8.19499999999995, 80.37500000000044, "Thalawa"], [7.944999999999957, 79.82500000000016, "Puttalam"], [7.444999999999967, 81.0750000000008, "Mahiyanganaya"], [8.394999999999946, 80.98500000000075, "Kantalai"], [7.194999999999973, 80.85500000000069, "Medadumbara"], [8.724999999999941, 80.84500000000068, "Horowpothana"], [7.274999999999971, 81.10500000000081, "Rideemaliyadda"], [7.584999999999964, 81.54500000000104, "Manmunai West"], [7.80499999999996, 80.56500000000054, "Galewela"], [9.70499999999992, 80.08500000000029, "Valikamam East"], [9.064999999999934, 80.91500000000072, "Maritimepattu"], [9.19499999999993, 80.80500000000066, "Maritimepattu"], [7.644999999999963, 81.465000000001, "Eravur Pattu"], [7.444999999999967, 81.77500000000116, "Navithanveli"], [6.214999999999994, 80.99500000000076, "Ambalanthota"], [8.814999999999937, 80.75500000000063, "Padaviya"], [8.274999999999949, 79.88500000000019, "Vanathavilluwa"], [7.174999999999973, 80.8950000000007, "Walapane"], [7.2549999999999715, 81.73500000000114, "Eragama"], [9.624999999999922, 80.20500000000035, "Thenmaradchy (Chavakachcheri)"], [7.894999999999958, 80.95500000000074, "Thamankaduwa"], [8.374999999999947, 80.3050000000004, "N. Palatha Central"], [7.234999999999972, 81.455000000001, "Madulla"], [6.564999999999986, 81.25500000000089, "Buttala"], [8.334999999999948, 80.42500000000047, "N. Palatha East"], [6.244999999999993, 81.10500000000081, "Hambantota"], [7.934999999999957, 81.13500000000083, "Welikanda"], [8.364999999999949, 81.37500000000095, "Verugal"], [8.164999999999953, 79.8950000000002, "Vanathavilluwa"], [6.434999999999989, 80.01500000000026, "Bentota"], [8.144999999999953, 80.44500000000048, "Thalawa"], [9.63499999999992, 80.34500000000043, "Pachchilaipalli"], [9.644999999999921, 80.34500000000043, "Vadamaradchy East"], [7.944999999999957, 80.18500000000034, "Galgamuwa"], [8.34499999999995, 80.2950000000004, "N. Palatha Central"], [8.794999999999938, 80.73500000000062, "Padaviya"], [8.80499999999994, 80.23500000000037, "Vengalacheddiculam"], [8.134999999999952, 80.25500000000038, "Rajanganaya"], [6.094999999999996, 80.97500000000075, "Ambalanthota"], [7.764999999999961, 79.79500000000014, "Arachchikattuwa PS"], [8.28499999999995, 81.15500000000084, "Kantalai"], [8.244999999999951, 80.4950000000005, "Thirappane"], [7.184999999999973, 81.51500000000102, "Madulla"], [7.694999999999962, 80.75500000000063, "Naula"], [8.374999999999947, 80.55500000000053, "Mihinthale"], [7.284999999999971, 81.63500000000109, "Ampara"], [8.754999999999939, 80.8850000000007, "Gomarankadawala"], [7.904999999999958, 80.56500000000054, "Palagala"], [9.644999999999921, 80.25500000000038, "Thenmaradchy (Chavakachcheri)"], [8.474999999999945, 80.73500000000062, "Kahatagasdigiliya"], [6.4549999999999885, 80.85500000000069, "Thanamalvila"], [8.064999999999955, 81.43500000000098, "Koralai Pattu North"], [7.584999999999964, 81.00500000000076, "Mahiyanganaya"], [7.284999999999971, 81.62500000000108, "Ampara"], [7.904999999999958, 80.96500000000074, "Thamankaduwa"], [6.204999999999994, 80.99500000000076, "Ambalanthota"], [6.354999999999991, 81.0750000000008, "Lunugamvehera"], [8.084999999999955, 79.82500000000016, "Puttalam"], [7.9549999999999566, 80.98500000000075, "Thamankaduwa"], [6.984999999999977, 81.50500000000102, "Siyambalanduwa"], [9.024999999999935, 79.87500000000018, "Mannar Town"], [8.004999999999956, 80.8750000000007, "Hingurakgoda"], [6.974999999999977, 81.50500000000102, "Siyambalanduwa"], [9.24499999999993, 80.79500000000066, "Maritimepattu"], [7.584999999999964, 81.73500000000114, "Manmunai South-West"], [9.324999999999928, 80.12500000000031, "Poonakary"], [9.774999999999917, 80.21500000000036, "Vadamaradchi South-West"], [9.644999999999921, 80.13500000000032, "Thenmaradchy (Chavakachcheri)"], [7.694999999999962, 80.76500000000064, "Elahera"], [8.184999999999953, 79.74500000000012, "Kalpitiya"], [9.284999999999929, 80.74500000000063, "Maritimepattu"], [8.174999999999951, 80.23500000000037, "Rajanganaya"], [6.37499999999999, 80.97500000000075, "Sevanagala"], [8.134999999999952, 79.7050000000001, "Kalpitiya"], [6.37499999999999, 81.20500000000087, "Lunugamvehera"], [7.644999999999963, 81.19500000000086, "Dehiattakandiya"], [7.264999999999971, 81.09500000000081, "Rideemaliyadda"], [9.314999999999927, 80.74500000000063, "Puthukudiyiruppu"], [6.4549999999999885, 80.82500000000067, "Embilipitiya"], [7.404999999999968, 80.95500000000074, "Minipe"], [6.894999999999979, 79.92500000000021, "Kaduwela"], [9.084999999999933, 80.37500000000044, "Manthai East"], [9.354999999999926, 80.20500000000035, "Karachchi"], [9.074999999999932, 80.73500000000062, "Maritimepattu"], [6.184999999999994, 81.23500000000088, "Hambantota"], [6.5949999999999855, 79.96500000000023, "Kalutara"], [9.444999999999926, 80.26500000000038, "Poonakary"], [7.484999999999967, 81.78500000000116, "Manmunai South and Eruvilpattu"], [6.544999999999987, 81.71500000000113, "Lahugala"], [9.284999999999929, 80.45500000000048, "Oddusuddan"], [6.9249999999999785, 80.0950000000003, "Dompe"], [8.604999999999944, 80.95500000000074, "Morawewa"], [8.21499999999995, 80.73500000000062, "Galenbindunuwewa"], [8.614999999999942, 80.57500000000054, "Medawachchiya"], [8.474999999999945, 80.19500000000035, "Maha Vilachchiya"], [9.74499999999992, 80.15500000000033, "Valikamam East"], [8.21499999999995, 80.74500000000063, "Galenbindunuwewa"], [9.274999999999928, 80.81500000000067, "Maritimepattu"], [7.934999999999957, 79.81500000000015, "Mundalama"], [9.334999999999926, 80.25500000000038, "Karachchi"], [9.26499999999993, 80.45500000000048, "Oddusuddan"], [8.644999999999943, 81.17500000000085, "Kuchchaveli"], [7.244999999999972, 81.04500000000078, "Mahiyanganaya"], [8.19499999999995, 79.72500000000011, "Kalpitiya"], [7.8149999999999595, 81.09500000000081, "Dimbulagala"], [9.644999999999921, 79.94500000000022, "Island South (Velanai)"], [7.9549999999999566, 80.99500000000076, "Thamankaduwa"], [6.764999999999982, 79.9050000000002, "Panadura"], [7.134999999999974, 81.455000000001, "Madulla"], [8.034999999999954, 80.8950000000007, "Hingurakgoda"], [6.614999999999985, 81.09500000000081, "Wellawaya"], [7.594999999999964, 81.21500000000087, "Padiyathalawa"], [7.894999999999958, 80.96500000000074, "Thamankaduwa"], [7.9549999999999566, 80.13500000000032, "Nawagattegama"], [7.214999999999972, 80.60500000000056, "Doluwa"], [7.964999999999956, 80.53500000000052, "Palagala"], [8.374999999999947, 80.54500000000053, "Mihinthale"], [9.61499999999992, 80.19500000000035, "Thenmaradchy (Chavakachcheri)"], [8.154999999999951, 81.18500000000085, "Medirigiriya"], [6.204999999999994, 81.12500000000082, "Hambantota"], [8.164999999999953, 80.41500000000046, "Thalawa"], [8.374999999999947, 80.97500000000075, "Kantalai"], [9.714999999999918, 80.13500000000032, "Valikamam East"], [8.024999999999956, 80.43500000000047, "Galnewa"], [7.964999999999956, 79.82500000000016, "Puttalam"], [7.274999999999971, 81.8650000000012, "Addalachchenai"], [7.124999999999974, 81.54500000000104, "Damana"], [8.364999999999949, 80.54500000000053, "Mihinthale"], [8.094999999999953, 80.15500000000033, "Giribawa"], [8.494999999999944, 80.72500000000062, "Kahatagasdigiliya"], [7.634999999999963, 79.80500000000015, "Arachchikattuwa PS"], [7.174999999999973, 81.51500000000102, "Damana"], [7.80499999999996, 79.79500000000014, "Mundalama"], [9.274999999999928, 80.78500000000065, "Maritimepattu"], [9.664999999999921, 79.9150000000002, "Island South (Velanai)"], [9.17499999999993, 80.31500000000041, "Thunukkai"], [8.69499999999994, 81.17500000000085, "Kuchchaveli"], [9.664999999999921, 80.06500000000028, "Nallur"], [9.284999999999929, 80.81500000000067, "Maritimepattu"], [7.79499999999996, 79.80500000000015, "Mundalama"], [7.994999999999956, 81.49500000000101, "Koralai Pattu North"], [9.074999999999932, 80.59500000000055, "Vavuniya North"], [6.994999999999977, 81.8550000000012, "Pothuvil"], [7.2549999999999715, 80.77500000000065, "Medadumbara"], [9.734999999999918, 80.18500000000034, "Vadamaradchi South-West"], [6.144999999999995, 81.14500000000083, "Hambantota"], [9.574999999999921, 80.38500000000045, "Pachchilaipalli"], [8.984999999999935, 80.18500000000034, "Manthai West"], [7.424999999999968, 81.40500000000097, "Mahaoya"], [8.794999999999938, 80.76500000000064, "Padaviya"], [7.834999999999959, 79.81500000000015, "Puttalam"], [8.044999999999956, 79.83500000000016, "Puttalam"], [7.5349999999999655, 79.81500000000015, "Chilaw"], [7.574999999999965, 81.73500000000114, "Manmunai South-West"], [9.374999999999925, 80.70500000000061, "Puthukudiyiruppu"], [9.234999999999928, 80.32500000000041, "Thunukkai"], [9.304999999999929, 80.45500000000048, "Oddusuddan"], [7.274999999999971, 81.03500000000078, "Mahiyanganaya"], [8.124999999999954, 79.7050000000001, "Kalpitiya"], [6.634999999999985, 80.92500000000072, "Thanamalvila"], [6.664999999999984, 81.15500000000084, "Wellawaya"], [9.294999999999927, 80.77500000000065, "Puthukudiyiruppu"], [7.874999999999958, 80.2950000000004, "Mahawa"], [9.424999999999926, 80.21500000000036, "Poonakary"], [7.654999999999963, 81.44500000000099, "Eravur Pattu"], [8.374999999999947, 80.98500000000075, "Kantalai"], [8.774999999999938, 81.12500000000082, "Kuchchaveli"], [7.174999999999973, 80.8850000000007, "Walapane"], [7.174999999999973, 81.49500000000101, "Madulla"], [8.134999999999952, 81.22500000000088, "Welikanda"], [7.234999999999972, 81.82500000000118, "Akkaraipattu"], [6.5049999999999875, 80.82500000000067, "Weligepola"], [9.334999999999926, 80.41500000000046, "Oddusuddan"], [9.284999999999929, 80.44500000000048, "Oddusuddan"], [7.094999999999975, 81.53500000000103, "Damana"], [8.064999999999955, 79.74500000000012, "Kalpitiya"], [6.664999999999984, 81.0850000000008, "Wellawaya"], [7.634999999999963, 81.48500000000101, "Eravur Pattu"], [7.294999999999971, 80.76500000000064, "Medadumbara"], [7.544999999999965, 81.20500000000087, "Mahiyanganaya"], [9.414999999999925, 80.65500000000058, "Puthukudiyiruppu"], [6.204999999999994, 80.97500000000075, "Ambalanthota"], [6.304999999999992, 80.05500000000028, "Balapitiya"], [7.2549999999999715, 80.78500000000065, "Medadumbara"], [8.404999999999948, 81.34500000000094, "Verugal"], [7.184999999999973, 81.05500000000079, "Rideemaliyadda"], [6.38499999999999, 81.20500000000087, "Thanamalvila"], [9.61499999999992, 80.39500000000045, "Vadamaradchy East"], [8.334999999999948, 80.37500000000044, "N. Palatha Central"], [7.594999999999964, 81.17500000000085, "Dehiattakandiya"], [6.974999999999977, 80.18500000000034, "Ruwanwella"], [8.244999999999951, 79.76500000000013, "Kalpitiya"], [6.994999999999977, 81.84500000000119, "Pothuvil"], [8.824999999999939, 81.0850000000008, "Kuchchaveli"], [7.3949999999999685, 81.81500000000118, "Samanthurai"], [7.6749999999999625, 80.73500000000062, "Naula"], [8.884999999999938, 80.65500000000058, "Vavuniya North"], [7.214999999999972, 81.48500000000101, "Madulla"], [8.404999999999948, 79.98500000000024, "Nochchiyagama"], [6.544999999999987, 80.96500000000074, "Thanamalvila"], [7.224999999999972, 81.83500000000119, "Akkaraipattu"], [9.774999999999917, 80.17500000000034, "Vadamaradchi South-West"], [8.474999999999945, 80.21500000000036, "Maha Vilachchiya"], [7.694999999999962, 80.27500000000039, "Wariyapola"], [7.194999999999973, 81.68500000000111, "Damana"], [6.284999999999992, 81.04500000000078, "Sooriyawewa"], [7.5349999999999655, 80.84500000000068, "Laggala-Pallegama"], [6.274999999999992, 81.41500000000097, "Thissamaharama"], [7.934999999999957, 80.16500000000033, "Ambanpola"], [6.434999999999989, 80.83500000000068, "Embilipitiya"], [8.334999999999948, 81.13500000000083, "Kantalai"], [6.824999999999981, 81.455000000001, "Siyambalanduwa"], [7.464999999999967, 81.0750000000008, "Mahiyanganaya"], [8.734999999999939, 80.81500000000067, "Kebithigollewa"], [9.714999999999918, 80.14500000000032, "Thenmaradchy (Chavakachcheri)"], [6.564999999999986, 81.2650000000009, "Buttala"], [9.70499999999992, 80.11500000000031, "Valikamam East"], [9.19499999999993, 80.59500000000055, "Oddusuddan"], [7.78499999999996, 81.09500000000081, "Dimbulagala"], [8.294999999999948, 80.16500000000033, "Nochchiyagama"], [7.624999999999964, 81.02500000000077, "Dehiattakandiya"], [8.944999999999936, 79.9050000000002, "Nanaddan"], [8.684999999999942, 80.42500000000047, "Vavuniya"], [6.284999999999992, 81.24500000000089, "Thissamaharama"], [8.104999999999954, 80.47500000000049, "Ipalogama"], [7.214999999999972, 81.0650000000008, "Rideemaliyadda"], [8.164999999999953, 80.91500000000072, "Medirigiriya"], [8.084999999999955, 79.95500000000023, "Karuwalagaswewa"], [8.594999999999942, 79.92500000000021, "Musali"], [6.294999999999992, 81.23500000000088, "Thissamaharama"], [9.374999999999925, 80.36500000000044, "Karachchi"], [8.244999999999951, 80.47500000000049, "Nachchadoowa"], [7.944999999999957, 80.46500000000049, "Palagala"], [8.174999999999951, 80.2950000000004, "Nochchiyagama"], [8.454999999999945, 80.21500000000036, "Maha Vilachchiya"], [8.564999999999944, 79.98500000000024, "Musali"], [7.194999999999973, 81.04500000000078, "Meegahakivula"], [8.244999999999951, 80.4850000000005, "Thirappane"], [7.274999999999971, 80.75500000000063, "Medadumbara"], [8.024999999999956, 80.54500000000053, "Kekirawa"], [8.384999999999948, 79.84500000000017, "Vanathavilluwa"], [8.21499999999995, 79.98500000000024, "Karuwalagaswewa"], [9.504999999999924, 80.24500000000037, "Poonakary"], [8.34499999999995, 80.95500000000074, "Kantalai"], [8.134999999999952, 80.90500000000071, "Medirigiriya"], [7.79499999999996, 79.88500000000019, "Mahakumbukkadawala"], [7.80499999999996, 79.97500000000024, "Anamaduwa"], [7.924999999999957, 81.09500000000081, "Thamankaduwa"], [7.2049999999999725, 80.8950000000007, "Udadumbara"], [8.394999999999946, 80.57500000000054, "Mihinthale"], [7.364999999999969, 81.02500000000077, "Mahiyanganaya"], [7.104999999999975, 81.54500000000104, "Damana"], [8.724999999999941, 80.83500000000068, "Horowpothana"], [9.664999999999921, 80.32500000000041, "Vadamaradchy East"], [8.514999999999944, 81.32500000000093, "Muttur"], [6.284999999999992, 80.05500000000028, "Balapitiya"], [6.584999999999986, 81.73500000000114, "Lahugala"], [7.754999999999961, 79.79500000000014, "Arachchikattuwa PS"], [9.314999999999927, 80.73500000000062, "Puthukudiyiruppu"], [6.224999999999993, 80.07500000000029, "Ambalangoda"], [7.764999999999961, 81.465000000001, "Eravur Pattu"], [6.134999999999995, 81.09500000000081, "Hambantota"], [8.164999999999953, 80.92500000000072, "Medirigiriya"], [7.684999999999962, 79.92500000000021, "Pallama"], [7.854999999999959, 80.31500000000041, "Mahawa"], [6.824999999999981, 80.54500000000053, "Ambagamuwa"], [7.5349999999999655, 80.45500000000048, "Ibbagamuwa"], [7.2049999999999725, 80.94500000000073, "Minipe"], [6.524999999999987, 81.15500000000084, "Wellawaya"], [8.004999999999956, 81.41500000000097, "Koralai Pattu North"], [9.644999999999921, 80.38500000000045, "Vadamaradchy East"], [7.364999999999969, 81.01500000000077, "Mahiyanganaya"], [9.064999999999934, 80.34500000000043, "Manthai East"], [9.574999999999921, 80.31500000000041, "Pachchilaipalli"], [6.40499999999999, 81.20500000000087, "Thanamalvila"], [7.194999999999973, 81.51500000000102, "Madulla"], [7.2049999999999725, 81.04500000000078, "Rideemaliyadda"], [8.014999999999954, 80.56500000000054, "Kekirawa"], [8.954999999999934, 79.9150000000002, "Nanaddan"], [7.594999999999964, 81.19500000000086, "Dehiattakandiya"], [7.604999999999964, 81.20500000000087, "Dehiattakandiya"], [8.80499999999994, 80.73500000000062, "Padaviya"], [7.914999999999957, 80.96500000000074, "Thamankaduwa"], [6.704999999999983, 81.78500000000116, "Lahugala"], [8.034999999999954, 80.86500000000069, "Hingurakgoda"], [8.384999999999948, 80.55500000000053, "Mihinthale"], [8.354999999999947, 80.31500000000041, "N. Palatha Central"], [6.674999999999984, 81.77500000000116, "Lahugala"], [8.014999999999954, 80.55500000000053, "Kekirawa"], [8.78499999999994, 80.3050000000004, "Vavuniya"], [6.144999999999995, 81.13500000000083, "Hambantota"], [9.444999999999926, 80.15500000000033, "Poonakary"], [9.674999999999919, 80.1050000000003, "Thenmaradchy (Chavakachcheri)"], [9.294999999999927, 80.44500000000048, "Oddusuddan"], [7.084999999999975, 81.63500000000109, "Damana"], [8.554999999999943, 79.98500000000024, "Musali"], [7.444999999999967, 81.40500000000097, "Mahaoya"], [6.214999999999994, 80.70500000000061, "Katuwana"], [8.144999999999953, 81.43500000000098, "Koralai Pattu North"], [7.454999999999967, 81.0650000000008, "Mahiyanganaya"], [9.584999999999923, 80.43500000000047, "Vadamaradchy East"], [7.574999999999965, 81.59500000000106, "Manmunai West"], [8.154999999999951, 80.92500000000072, "Medirigiriya"], [7.30499999999997, 81.03500000000078, "Mahiyanganaya"], [7.694999999999962, 81.51500000000102, "Eravur Pattu"], [7.524999999999966, 81.20500000000087, "Mahiyanganaya"], [6.4549999999999885, 80.84500000000068, "Thanamalvila"], [9.524999999999924, 79.72500000000011, "Delft"], [7.654999999999963, 81.475000000001, "Eravur Pattu"], [7.194999999999973, 80.83500000000068, "Medadumbara"], [8.064999999999955, 80.31500000000041, "Galgamuwa"], [9.004999999999935, 80.74500000000063, "Vavuniya North"], [8.704999999999941, 80.03500000000027, "Musali"], [9.354999999999926, 80.71500000000061, "Puthukudiyiruppu"], [7.124999999999974, 81.79500000000117, "Thirukkovil"], [9.674999999999919, 80.08500000000029, "Valikamam East"], [8.34499999999995, 80.96500000000074, "Kantalai"], [8.21499999999995, 80.71500000000061, "Galenbindunuwewa"], [9.68499999999992, 80.2950000000004, "Pachchilaipalli"], [6.814999999999981, 80.55500000000053, "Ambagamuwa"], [7.664999999999963, 80.76500000000064, "Naula"], [6.984999999999977, 81.8550000000012, "Pothuvil"], [6.304999999999992, 80.86500000000069, "Embilipitiya"], [7.80499999999996, 80.03500000000027, "Rasnayakapura"], [7.77499999999996, 79.82500000000016, "Puttalam"], [7.164999999999973, 81.8550000000012, "Thirukkovil"], [6.984999999999977, 81.49500000000101, "Madulla"], [6.194999999999994, 81.20500000000087, "Lunugamvehera"], [7.174999999999973, 81.475000000001, "Madulla"], [8.024999999999956, 80.64500000000058, "Kekirawa"], [7.704999999999962, 81.49500000000101, "Eravur Pattu"], [9.254999999999928, 80.2950000000004, "Thunukkai"], [5.964999999999999, 80.45500000000048, "Weligama"], [7.664999999999963, 80.66500000000059, "Naula"], [6.3149999999999915, 80.85500000000069, "Embilipitiya"], [7.644999999999963, 81.20500000000087, "Dehiattakandiya"], [6.674999999999984, 80.78500000000065, "Imbulpe"], [8.884999999999938, 80.22500000000036, "Madhu"], [6.574999999999986, 81.04500000000078, "Wellawaya"], [8.384999999999948, 81.35500000000094, "Verugal"], [9.26499999999993, 80.2850000000004, "Thunukkai"], [8.044999999999956, 80.33500000000042, "Galgamuwa"], [8.78499999999994, 80.57500000000054, "Vavuniya South"], [6.39499999999999, 81.20500000000087, "Thanamalvila"], [9.764999999999919, 80.17500000000034, "Vadamaradchi South-West"], [7.664999999999963, 81.25500000000089, "Mahaoya"], [7.194999999999973, 79.83500000000016, "Negombo"], [7.444999999999967, 81.05500000000079, "Mahiyanganaya"], [7.174999999999973, 81.83500000000119, "Alayadiwembu"], [9.394999999999925, 80.57500000000054, "Kandawali"], [7.904999999999958, 80.98500000000075, "Thamankaduwa"], [9.144999999999932, 80.84500000000068, "Maritimepattu"], [7.604999999999964, 81.42500000000098, "Mahaoya"], [6.974999999999977, 79.88500000000019, "Wattala"], [7.3949999999999685, 81.41500000000097, "Madulla"], [8.494999999999944, 81.29500000000091, "Muttur"], [6.444999999999989, 80.84500000000068, "Thanamalvila"], [7.074999999999975, 81.84500000000119, "Thirukkovil"], [7.894999999999958, 81.2750000000009, "Koralai Pattu West (Oddamavadi)"], [7.184999999999973, 81.52500000000103, "Damana"]];
+const LS_PTS = [[7.054999999999976, 81.11500000000082, "Passara"], [7.084999999999975, 80.66500000000059, "Kothmale"], [6.824999999999981, 81.11500000000082, "Wellawaya"], [7.0649999999999755, 80.71500000000061, "Kothmale"], [6.894999999999979, 80.84500000000068, "Welimada"], [6.564999999999986, 80.39500000000045, "Kalawana"], [6.604999999999985, 80.2950000000004, "Ayagama"], [7.594999999999964, 80.54500000000053, "Rideegama"], [7.564999999999965, 80.55500000000053, "Rideegama"], [7.294999999999971, 80.96500000000074, "Minipe"], [6.884999999999979, 81.16500000000084, "Badalkumbura"], [6.9249999999999785, 81.16500000000084, "Passara"], [6.234999999999993, 80.34500000000043, "Nagoda"], [6.794999999999981, 80.95500000000074, "Haputale"], [6.83499999999998, 81.13500000000083, "Badalkumbura"], [7.274999999999971, 80.6850000000006, "Kundasale"], [7.2049999999999725, 80.65500000000058, "Delthota"], [6.334999999999991, 80.54500000000053, "Kotapola"], [7.154999999999974, 80.56500000000054, "Udapalatha"], [6.984999999999977, 81.02500000000077, "Hali-Ela"], [6.5049999999999875, 80.42500000000047, "Kalawana"], [6.964999999999978, 81.31500000000092, "Medagama"], [7.414999999999968, 80.52500000000052, "Rideegama"], [6.684999999999984, 80.23500000000037, "Ayagama"], [7.474999999999967, 80.6750000000006, "Rattota"], [6.824999999999981, 80.77500000000065, "Nuwara Eliya"], [6.764999999999982, 80.5050000000005, "Ratnapura"], [7.214999999999972, 80.03500000000027, "Divulapitiya"], [6.84499999999998, 80.66500000000059, "Ambagamuwa"], [6.83499999999998, 80.47500000000049, "Deraniyagala"], [6.464999999999988, 80.6950000000006, "Godakawela"], [6.984999999999977, 80.70500000000061, "Nuwara Eliya"], [7.374999999999969, 80.6850000000006, "Pathadumbara"], [6.604999999999985, 80.39500000000045, "Nivithigala"], [7.094999999999975, 81.01500000000077, "Kandaketiya"], [7.274999999999971, 81.31500000000092, "Padiyathalawa"], [7.284999999999971, 81.20500000000087, "Rideemaliyadda"], [6.634999999999985, 80.64500000000058, "Opanayaka"], [7.574999999999965, 80.70500000000061, "Ambanganga Korale"], [7.31499999999997, 80.84500000000068, "Medadumbara"], [7.484999999999967, 80.66500000000059, "Rattota"], [6.754999999999982, 80.73500000000062, "Imbulpe"], [7.044999999999976, 80.76500000000064, "Hanguranketha"], [6.624999999999985, 80.47500000000049, "Nivithigala"], [6.584999999999986, 80.55500000000053, "Pelmadulla"], [6.954999999999978, 80.63500000000057, "Nuwara Eliya"], [6.974999999999977, 80.37500000000044, "Deraniyagala"], [7.164999999999973, 80.16500000000033, "Warakapola"], [6.164999999999995, 80.40500000000046, "Akuressa"], [6.584999999999986, 80.31500000000041, "Ayagama"], [7.684999999999962, 80.62500000000057, "Pallepola"], [6.734999999999983, 80.59500000000055, "Imbulpe"], [7.3949999999999685, 80.81500000000067, "Udadumbara"], [7.054999999999976, 80.99500000000076, "Kandaketiya"], [6.474999999999988, 80.43500000000047, "Kalawana"], [6.85499999999998, 80.4850000000005, "Deraniyagala"], [6.944999999999978, 81.04500000000078, "Hali-Ela"], [7.104999999999975, 81.63500000000109, "Damana"], [6.894999999999979, 80.4850000000005, "Ambagamuwa"], [7.0649999999999755, 81.49500000000101, "Siyambalanduwa"], [7.32499999999997, 80.41500000000046, "Rambukkana"], [7.80499999999996, 80.73500000000062, "Dambulla"], [6.824999999999981, 80.76500000000064, "Nuwara Eliya"], [7.294999999999971, 81.0750000000008, "Rideemaliyadda"], [7.1149999999999745, 80.6950000000006, "Doluwa"], [6.814999999999981, 80.4850000000005, "Ratnapura"], [7.044999999999976, 81.05500000000079, "Soranathota"], [7.034999999999976, 81.13500000000083, "Passara"], [6.904999999999979, 80.57500000000054, "Ambagamuwa"], [7.374999999999969, 81.49500000000101, "Uhana"], [6.514999999999987, 80.46500000000049, "Nivithigala"], [7.184999999999973, 80.77500000000065, "Hanguranketha"], [7.30499999999997, 80.61500000000056, "Harispattuwa"], [6.9249999999999785, 80.66500000000059, "Nuwara Eliya"], [7.094999999999975, 81.22500000000088, "Bibile"], [6.674999999999984, 80.56500000000054, "Ratnapura"], [7.464999999999967, 81.22500000000088, "Padiyathalawa"], [6.564999999999986, 80.55500000000053, "Kahawatta"], [7.514999999999966, 80.6950000000006, "Rattota"], [7.074999999999975, 81.18500000000085, "Lunugala"], [7.414999999999968, 80.73500000000062, "Panvila"], [6.954999999999978, 80.38500000000045, "Deraniyagala"], [6.934999999999978, 80.70500000000061, "Nuwara Eliya"], [7.374999999999969, 80.73500000000062, "Panvila"], [7.624999999999964, 80.80500000000066, "Laggala-Pallegama"], [7.424999999999968, 80.8850000000007, "Minipe"], [6.244999999999993, 80.44500000000048, "Pitabeddara"], [7.074999999999975, 80.6950000000006, "Kothmale"], [7.184999999999973, 80.19500000000035, "Warakapola"], [7.214999999999972, 80.76500000000064, "Pathahewaheta"], [7.434999999999968, 81.21500000000087, "Padiyathalawa"], [7.074999999999975, 81.30500000000092, "Medagama"], [6.944999999999978, 80.77500000000065, "Nuwara Eliya"], [7.424999999999968, 80.43500000000047, "Mawathagama"], [7.9549999999999566, 81.01500000000077, "Thamankaduwa"], [6.024999999999998, 80.34500000000043, "Imaduwa"], [6.894999999999979, 80.46500000000049, "Deraniyagala"], [7.404999999999968, 80.76500000000064, "Panvila"], [7.0649999999999755, 81.31500000000092, "Medagama"], [6.354999999999991, 80.47500000000049, "Kotapola"], [7.3949999999999685, 80.75500000000063, "Panvila"], [7.094999999999975, 80.53500000000052, "Ganga Ihala Korale"], [7.1149999999999745, 80.55500000000053, "Ganga Ihala Korale"], [6.39499999999999, 80.55500000000053, "Kalawana"], [7.464999999999967, 80.83500000000068, "Laggala-Pallegama"], [7.634999999999963, 80.6950000000006, "Naula"], [6.894999999999979, 81.00500000000076, "Hali-Ela"], [6.774999999999982, 80.46500000000049, "Ratnapura"], [6.804999999999981, 80.25500000000038, "Kiriella"], [7.024999999999976, 80.62500000000057, "Kothmale"], [7.074999999999975, 80.66500000000059, "Kothmale"], [6.884999999999979, 80.73500000000062, "Nuwara Eliya"], [6.754999999999982, 80.27500000000039, "Kiriella"], [6.954999999999978, 80.34500000000043, "Deraniyagala"], [7.024999999999976, 80.82500000000067, "Hanguranketha"], [7.054999999999976, 81.13500000000083, "Passara"], [7.294999999999971, 80.8750000000007, "Udadumbara"], [7.384999999999969, 80.82500000000067, "Udadumbara"], [6.914999999999979, 80.86500000000069, "Welimada"], [7.104999999999975, 80.52500000000052, "Ganga Ihala Korale"], [6.684999999999984, 80.60500000000056, "Ratnapura"], [7.414999999999968, 81.21500000000087, "Padiyathalawa"], [6.434999999999989, 80.54500000000053, "Kalawana"], [7.494999999999966, 80.4950000000005, "Rideegama"], [7.224999999999972, 80.84500000000068, "Udadumbara"], [6.764999999999982, 80.17500000000034, "Ingiriya"], [6.824999999999981, 80.32500000000041, "Kuruvita"], [6.954999999999978, 81.20500000000087, "Passara"], [6.674999999999984, 80.36500000000044, "Elapatha"], [6.794999999999981, 80.23500000000037, "Eheliyagoda"], [7.584999999999964, 80.53500000000052, "Rideegama"], [6.824999999999981, 81.23500000000088, "Badalkumbura"], [7.694999999999962, 80.51500000000051, "Ibbagamuwa"], [6.9249999999999785, 80.6950000000006, "Nuwara Eliya"], [6.444999999999989, 80.43500000000047, "Kalawana"], [7.5349999999999655, 80.54500000000053, "Rideegama"], [7.294999999999971, 80.82500000000067, "Medadumbara"], [6.614999999999985, 80.34500000000043, "Ayagama"], [7.654999999999963, 80.72500000000062, "Naula"], [7.924999999999957, 80.98500000000075, "Thamankaduwa"], [7.574999999999965, 80.72500000000062, "Laggala-Pallegama"], [6.804999999999981, 80.20500000000035, "Eheliyagoda"], [7.174999999999973, 80.02500000000026, "Minuwangoda"], [6.564999999999986, 80.3050000000004, "Kalawana"], [6.704999999999983, 80.36500000000044, "Ratnapura"], [6.984999999999977, 81.17500000000085, "Passara"], [7.494999999999966, 80.61500000000056, "Matale"], [7.194999999999973, 80.80500000000066, "Hanguranketha"], [6.584999999999986, 80.84500000000068, "Balangoda"], [6.954999999999978, 80.4950000000005, "Ambagamuwa"], [7.364999999999969, 80.90500000000071, "Udadumbara"], [6.214999999999994, 80.54500000000053, "Pitabeddara"], [7.234999999999972, 80.81500000000067, "Medadumbara"], [6.984999999999977, 80.78500000000065, "Nuwara Eliya"], [7.684999999999962, 80.76500000000064, "Naula"], [7.104999999999975, 81.16500000000084, "Bibile"], [7.034999999999976, 80.84500000000068, "Walapane"], [7.2049999999999725, 80.98500000000075, "Kandaketiya"], [7.044999999999976, 80.58500000000055, "Kothmale"], [7.614999999999964, 80.70500000000061, "Naula"], [7.944999999999957, 81.02500000000077, "Thamankaduwa"], [6.804999999999981, 81.0750000000008, "Wellawaya"], [7.044999999999976, 81.0850000000008, "Soranathota"], [6.5049999999999875, 80.14500000000032, "Mathugama"], [6.054999999999997, 80.20500000000035, "Galle Four Gravets"], [6.664999999999984, 80.36500000000044, "Elapatha"], [7.754999999999961, 80.8750000000007, "Elahera"], [7.164999999999973, 81.10500000000081, "Rideemaliyadda"], [7.244999999999972, 80.6950000000006, "Pathahewaheta"], [6.984999999999977, 80.8750000000007, "Walapane"], [7.434999999999968, 80.73500000000062, "Panvila"], [6.824999999999981, 80.43500000000047, "Kuruvita"], [7.30499999999997, 81.2750000000009, "Padiyathalawa"], [6.434999999999989, 80.56500000000054, "Kalawana"], [6.134999999999995, 80.35500000000043, "Yakkalamulla"], [7.554999999999965, 80.52500000000052, "Rideegama"], [7.004999999999977, 80.63500000000057, "Kothmale"], [6.974999999999977, 80.78500000000065, "Nuwara Eliya"], [6.824999999999981, 80.72500000000062, "Nuwara Eliya"], [6.744999999999982, 80.75500000000063, "Imbulpe"], [7.354999999999969, 80.62500000000057, "Pathadumbara"], [7.284999999999971, 81.2750000000009, "Padiyathalawa"], [6.904999999999979, 81.37500000000095, "Siyambalanduwa"], [6.964999999999978, 81.05500000000079, "Hali-Ela"], [7.934999999999957, 80.81500000000067, "Dambulla"], [6.624999999999985, 80.35500000000043, "Elapatha"], [6.624999999999985, 80.08500000000029, "Dodangoda"], [6.434999999999989, 80.58500000000055, "Kalawana"], [7.1149999999999745, 80.99500000000076, "Kandaketiya"], [6.684999999999984, 80.22500000000036, "Ayagama"], [7.0649999999999755, 80.72500000000062, "Kothmale"], [7.30499999999997, 80.4850000000005, "Hatharaliyadda"], [7.504999999999966, 80.71500000000061, "Rattota"], [7.264999999999971, 81.49500000000101, "Madulla"], [6.474999999999988, 80.55500000000053, "Kahawatta"], [6.704999999999983, 80.90500000000071, "Hildummulla"], [7.764999999999961, 80.76500000000064, "Elahera"], [6.7849999999999815, 80.95500000000074, "Haputale"], [7.284999999999971, 81.09500000000081, "Rideemaliyadda"], [7.104999999999975, 80.74500000000063, "Hanguranketha"], [6.494999999999988, 80.46500000000049, "Nivithigala"], [7.074999999999975, 81.22500000000088, "Lunugala"], [7.264999999999971, 80.79500000000066, "Medadumbara"], [6.744999999999982, 80.6750000000006, "Imbulpe"], [6.524999999999987, 80.34500000000043, "Kalawana"], [7.31499999999997, 80.81500000000067, "Medadumbara"], [6.434999999999989, 80.61500000000056, "Kolonna"], [7.1149999999999745, 81.16500000000084, "Bibile"], [7.154999999999974, 80.77500000000065, "Hanguranketha"], [6.564999999999986, 80.52500000000052, "Kahawatta"], [6.244999999999993, 80.63500000000057, "Katuwana"], [6.984999999999977, 81.09500000000081, "Badulla"], [6.944999999999978, 81.0750000000008, "Hali-Ela"], [6.334999999999991, 80.59500000000055, "Pasgoda"], [7.264999999999971, 80.4950000000005, "Yatinuwara"], [6.664999999999984, 80.41500000000046, "Pelmadulla"], [7.054999999999976, 80.91500000000072, "Walapane"], [6.914999999999979, 81.39500000000096, "Siyambalanduwa"], [6.984999999999977, 80.71500000000061, "Nuwara Eliya"], [6.964999999999978, 81.34500000000094, "Madulla"], [6.39499999999999, 80.56500000000054, "Kalawana"], [7.354999999999969, 80.90500000000071, "Udadumbara"], [7.0649999999999755, 80.70500000000061, "Kothmale"], [7.31499999999997, 80.85500000000069, "Medadumbara"], [7.244999999999972, 80.71500000000061, "Pathahewaheta"], [7.584999999999964, 80.32500000000041, "Wariyapola"], [6.214999999999994, 80.47500000000049, "Pitabeddara"], [7.024999999999976, 80.42500000000047, "Yatiyanthota"], [6.434999999999989, 80.25500000000038, "Palindanuwara"], [7.424999999999968, 80.5050000000005, "Mawathagama"], [7.034999999999976, 81.14500000000083, "Passara"], [6.87499999999998, 80.55500000000053, "Ambagamuwa"], [6.894999999999979, 80.43500000000047, "Deraniyagala"], [7.934999999999957, 81.02500000000077, "Thamankaduwa"], [7.164999999999973, 80.93500000000073, "Walapane"], [7.104999999999975, 80.44500000000048, "Aranayaka"], [6.9249999999999785, 81.11500000000082, "Hali-Ela"], [7.484999999999967, 80.85500000000069, "Laggala-Pallegama"], [6.5949999999999855, 80.08500000000029, "Dodangoda"], [7.31499999999997, 81.2750000000009, "Padiyathalawa"], [7.144999999999974, 80.46500000000049, "Aranayaka"], [7.684999999999962, 80.6750000000006, "Naula"], [7.274999999999971, 80.4850000000005, "Yatinuwara"], [6.224999999999993, 80.35500000000043, "Nagoda"], [6.6449999999999845, 80.60500000000056, "Opanayaka"], [6.724999999999983, 80.4950000000005, "Ratnapura"], [7.094999999999975, 81.10500000000081, "Meegahakivula"], [7.244999999999972, 80.83500000000068, "Medadumbara"], [6.974999999999977, 80.5050000000005, "Ambagamuwa"], [6.444999999999989, 80.6850000000006, "Kolonna"], [7.464999999999967, 80.62500000000057, "Matale"], [6.944999999999978, 81.11500000000082, "Passara"], [6.894999999999979, 81.0650000000008, "Ella"], [6.944999999999978, 81.38500000000096, "Madulla"], [6.324999999999991, 80.3050000000004, "Thawalama"], [7.1149999999999745, 81.09500000000081, "Meegahakivula"], [7.494999999999966, 81.11500000000082, "Mahiyanganaya"], [6.984999999999977, 80.76500000000064, "Nuwara Eliya"], [7.614999999999964, 80.71500000000061, "Naula"], [6.964999999999978, 80.74500000000063, "Nuwara Eliya"], [7.094999999999975, 80.5050000000005, "Ganga Ihala Korale"], [7.184999999999973, 80.05500000000028, "Mirigama"], [7.77499999999996, 80.71500000000061, "Naula"], [6.634999999999985, 80.0950000000003, "Madurawala"], [7.154999999999974, 80.45500000000048, "Aranayaka"], [7.034999999999976, 80.95500000000074, "Uva Paranagama"], [7.054999999999976, 81.18500000000085, "Lunugala"], [6.5949999999999855, 80.14500000000032, "Bulathsinhala"], [7.294999999999971, 80.58500000000055, "Yatinuwara"], [6.714999999999983, 80.37500000000044, "Ratnapura"], [7.454999999999967, 80.56500000000054, "Poojapitiya"], [7.074999999999975, 80.64500000000058, "Kothmale"], [6.954999999999978, 81.01500000000077, "Hali-Ela"], [6.86499999999998, 80.31500000000041, "Dehiovita"], [7.174999999999973, 80.42500000000047, "Aranayaka"], [6.774999999999982, 80.94500000000073, "Haputale"], [7.454999999999967, 80.54500000000053, "Rideegama"], [6.164999999999995, 80.54500000000053, "Mulatiyana"], [6.984999999999977, 80.5050000000005, "Ambagamuwa"], [6.86499999999998, 81.42500000000098, "Moneragala"], [7.424999999999968, 81.36500000000095, "Mahaoya"], [7.464999999999967, 80.63500000000057, "Ukuwela"], [6.744999999999982, 80.18500000000034, "Ingiriya"], [7.194999999999973, 81.29500000000091, "Bibile"], [7.234999999999972, 81.36500000000095, "Bibile"], [7.284999999999971, 80.64500000000058, "K.F.G. & G. Korale"], [6.604999999999985, 80.40500000000046, "Nivithigala"], [6.9249999999999785, 80.46500000000049, "Ambagamuwa"], [7.024999999999976, 80.35500000000043, "Yatiyanthota"], [7.964999999999956, 80.84500000000068, "Dambulla"], [6.044999999999997, 80.46500000000049, "Akuressa"], [6.234999999999993, 80.4850000000005, "Pitabeddara"], [6.424999999999989, 80.66500000000059, "Kolonna"], [6.824999999999981, 80.6850000000006, "Ambagamuwa"], [6.904999999999979, 81.32500000000093, "Moneragala"], [7.634999999999963, 80.75500000000063, "Naula"], [6.524999999999987, 80.74500000000063, "Weligepola"], [7.434999999999968, 80.4950000000005, "Rideegama"], [6.204999999999994, 80.53500000000052, "Pitabeddara"], [6.86499999999998, 80.47500000000049, "Deraniyagala"], [6.994999999999977, 80.4950000000005, "Ambagamuwa"], [6.094999999999996, 80.59500000000055, "Kamburupitiya"], [6.824999999999981, 80.4950000000005, "Ambagamuwa"], [7.284999999999971, 80.4850000000005, "Yatinuwara"], [6.85499999999998, 80.51500000000051, "Ambagamuwa"], [7.514999999999966, 80.79500000000066, "Laggala-Pallegama"], [7.494999999999966, 80.5050000000005, "Rideegama"], [7.444999999999967, 80.76500000000064, "Laggala-Pallegama"], [6.39499999999999, 80.54500000000053, "Kalawana"], [6.83499999999998, 81.19500000000086, "Badalkumbura"], [7.0649999999999755, 81.22500000000088, "Lunugala"], [7.494999999999966, 80.79500000000066, "Laggala-Pallegama"], [7.014999999999977, 81.14500000000083, "Passara"], [6.934999999999978, 81.04500000000078, "Hali-Ela"], [6.714999999999983, 80.54500000000053, "Ratnapura"], [7.004999999999977, 81.12500000000082, "Passara"], [6.5049999999999875, 80.18500000000034, "Agalawatta"], [6.954999999999978, 81.37500000000095, "Madulla"], [6.6449999999999845, 80.33500000000042, "Ayagama"], [6.974999999999977, 80.76500000000064, "Nuwara Eliya"], [7.154999999999974, 80.4850000000005, "Aranayaka"], [7.154999999999974, 81.09500000000081, "Meegahakivula"], [6.264999999999993, 80.33500000000042, "Thawalama"], [7.234999999999972, 80.20500000000035, "Warakapola"], [7.094999999999975, 80.37500000000044, "Bulathkohupitiya"], [7.264999999999971, 80.83500000000068, "Medadumbara"], [7.384999999999969, 80.59500000000055, "Poojapitiya"], [6.37499999999999, 80.43500000000047, "Neluwa"], [6.83499999999998, 80.43500000000047, "Kuruvita"], [7.924999999999957, 80.99500000000076, "Thamankaduwa"], [6.984999999999977, 81.10500000000081, "Badulla"], [6.744999999999982, 80.74500000000063, "Imbulpe"], [6.674999999999984, 80.26500000000038, "Ayagama"], [7.2049999999999725, 80.92500000000072, "Minipe"], [7.214999999999972, 80.63500000000057, "Doluwa"], [7.454999999999967, 80.33500000000042, "Kurunegala"], [6.284999999999992, 80.36500000000044, "Thawalama"], [6.754999999999982, 81.00500000000076, "Hildummulla"], [6.754999999999982, 80.78500000000065, "Imbulpe"], [7.80499999999996, 80.75500000000063, "Dambulla"], [7.024999999999976, 80.83500000000068, "Walapane"], [7.0649999999999755, 81.18500000000085, "Lunugala"], [8.184999999999953, 80.8750000000007, "Hingurakgoda"], [6.944999999999978, 81.13500000000083, "Passara"], [6.764999999999982, 80.63500000000057, "Ambagamuwa"], [7.224999999999972, 80.66500000000059, "Pathahewaheta"], [7.634999999999963, 80.41500000000046, "Ibbagamuwa"], [6.944999999999978, 80.70500000000061, "Nuwara Eliya"], [7.2549999999999715, 80.27500000000039, "Warakapola"], [7.194999999999973, 80.54500000000053, "Udunuwara"], [7.664999999999963, 80.56500000000054, "Pallepola"], [7.274999999999971, 80.63500000000057, "K.F.G. & G. Korale"], [7.104999999999975, 80.71500000000061, "Hanguranketha"], [6.604999999999985, 80.15500000000033, "Bulathsinhala"], [7.274999999999971, 80.3050000000004, "Galigamuwa"], [7.234999999999972, 81.465000000001, "Madulla"], [7.184999999999973, 80.86500000000069, "Walapane"], [6.734999999999983, 81.02500000000077, "Hildummulla"], [6.564999999999986, 80.14500000000032, "Agalawatta"], [6.444999999999989, 80.76500000000064, "Embilipitiya"], [7.3949999999999685, 80.57500000000054, "Poojapitiya"], [6.37499999999999, 80.76500000000064, "Embilipitiya"], [7.434999999999968, 80.61500000000056, "Ukuwela"], [6.9249999999999785, 81.02500000000077, "Hali-Ela"], [6.194999999999994, 80.40500000000046, "Akuressa"], [6.704999999999983, 80.85500000000069, "Hildummulla"], [7.074999999999975, 81.455000000001, "Madulla"], [7.2549999999999715, 80.6850000000006, "K.F.G. & G. Korale"], [7.604999999999964, 80.6950000000006, "Naula"], [7.364999999999969, 80.44500000000048, "Mawathagama"], [7.004999999999977, 81.0650000000008, "Badulla"], [7.144999999999974, 80.47500000000049, "Aranayaka"], [6.954999999999978, 81.0850000000008, "Hali-Ela"], [7.214999999999972, 80.81500000000067, "Medadumbara"], [7.78499999999996, 80.4950000000005, "Polpithigama"], [6.714999999999983, 80.95500000000074, "Hildummulla"], [6.994999999999977, 81.455000000001, "Madulla"], [7.564999999999965, 80.53500000000052, "Rideegama"], [7.004999999999977, 80.60500000000056, "Kothmale"], [6.674999999999984, 80.94500000000073, "Thanamalvila"], [7.644999999999963, 80.64500000000058, "Naula"], [7.074999999999975, 80.31500000000041, "Bulathkohupitiya"], [7.434999999999968, 80.37500000000044, "Mallawapitiya"], [6.464999999999988, 80.35500000000043, "Palindanuwara"], [6.744999999999982, 80.79500000000066, "Imbulpe"], [6.83499999999998, 81.0650000000008, "Ella"], [6.684999999999984, 81.18500000000085, "Buttala"], [7.014999999999977, 80.61500000000056, "Kothmale"], [6.274999999999992, 80.33500000000042, "Thawalama"], [7.554999999999965, 80.44500000000048, "Ibbagamuwa"], [6.684999999999984, 80.40500000000046, "Ratnapura"], [7.224999999999972, 80.86500000000069, "Udadumbara"], [7.404999999999968, 81.56500000000105, "Uhana"], [7.074999999999975, 80.99500000000076, "Kandaketiya"], [6.754999999999982, 80.45500000000048, "Ratnapura"], [7.014999999999977, 80.8750000000007, "Walapane"], [6.514999999999987, 80.19500000000035, "Palindanuwara"], [6.934999999999978, 80.84500000000068, "Uva Paranagama"], [6.474999999999988, 80.32500000000041, "Palindanuwara"], [7.104999999999975, 80.60500000000056, "Udapalatha"], [7.2049999999999725, 80.04500000000027, "Mirigama"], [6.664999999999984, 80.31500000000041, "Ayagama"], [7.574999999999965, 80.51500000000051, "Rideegama"], [7.054999999999976, 80.71500000000061, "Kothmale"], [6.36499999999999, 80.4850000000005, "Kotapola"], [6.884999999999979, 80.90500000000071, "Welimada"], [6.87499999999998, 80.6750000000006, "Nuwara Eliya"], [6.914999999999979, 81.04500000000078, "Hali-Ela"], [7.074999999999975, 80.94500000000073, "Walapane"], [7.164999999999973, 80.42500000000047, "Aranayaka"], [6.1749999999999945, 80.5050000000005, "Athuraliya"], [7.294999999999971, 80.5050000000005, "Yatinuwara"], [6.484999999999988, 80.43500000000047, "Kalawana"], [6.7849999999999815, 81.05500000000079, "Hildummulla"], [7.044999999999976, 80.66500000000059, "Kothmale"], [6.414999999999989, 80.70500000000061, "Kolonna"], [7.614999999999964, 80.65500000000058, "Matale"], [6.764999999999982, 80.78500000000065, "Imbulpe"], [6.754999999999982, 80.93500000000073, "Hildummulla"], [6.794999999999981, 80.57500000000054, "Ambagamuwa"], [7.30499999999997, 80.85500000000069, "Udadumbara"], [7.604999999999964, 80.41500000000046, "Ibbagamuwa"], [6.684999999999984, 80.8750000000007, "Hildummulla"], [6.274999999999992, 80.39500000000045, "Thawalama"], [6.514999999999987, 80.14500000000032, "Agalawatta"], [6.074999999999997, 80.60500000000056, "Kamburupitiya"], [6.994999999999977, 80.93500000000073, "Uva Paranagama"], [7.174999999999973, 80.80500000000066, "Hanguranketha"], [6.3149999999999915, 80.45500000000048, "Neluwa"], [6.974999999999977, 81.0850000000008, "Badulla"], [6.734999999999983, 80.6750000000006, "Imbulpe"], [7.154999999999974, 80.76500000000064, "Hanguranketha"], [6.494999999999988, 80.47500000000049, "Nivithigala"], [7.374999999999969, 80.85500000000069, "Udadumbara"], [6.664999999999984, 80.83500000000068, "Balangoda"], [7.164999999999973, 80.6950000000006, "Delthota"], [7.364999999999969, 80.85500000000069, "Udadumbara"], [6.87499999999998, 80.4950000000005, "Ambagamuwa"], [6.444999999999989, 80.42500000000047, "Kalawana"], [6.794999999999981, 80.64500000000058, "Ambagamuwa"], [7.474999999999967, 80.6850000000006, "Rattota"], [6.83499999999998, 80.80500000000066, "Nuwara Eliya"], [7.084999999999975, 80.98500000000075, "Kandaketiya"], [6.83499999999998, 80.6850000000006, "Nuwara Eliya"], [6.694999999999983, 80.40500000000046, "Ratnapura"], [7.31499999999997, 80.8950000000007, "Udadumbara"], [6.204999999999994, 80.52500000000052, "Pitabeddara"], [6.664999999999984, 80.39500000000045, "Ratnapura"], [6.974999999999977, 81.0750000000008, "Badulla"], [6.474999999999988, 80.58500000000055, "Godakawela"], [7.174999999999973, 80.70500000000061, "Delthota"], [6.38499999999999, 80.77500000000065, "Embilipitiya"], [6.694999999999983, 81.05500000000079, "Hildummulla"], [6.814999999999981, 80.86500000000069, "Welimada"], [6.954999999999978, 80.97500000000075, "Hali-Ela"], [7.0649999999999755, 80.78500000000065, "Hanguranketha"], [7.094999999999975, 80.79500000000066, "Hanguranketha"], [7.524999999999966, 80.84500000000068, "Laggala-Pallegama"], [6.604999999999985, 80.66500000000059, "Balangoda"], [6.5049999999999875, 80.61500000000056, "Godakawela"], [6.954999999999978, 80.84500000000068, "Uva Paranagama"], [7.034999999999976, 80.58500000000055, "Kothmale"], [6.764999999999982, 80.8750000000007, "Hildummulla"], [7.934999999999957, 80.91500000000072, "Thamankaduwa"], [7.134999999999974, 80.4950000000005, "Aranayaka"], [7.30499999999997, 81.20500000000087, "Mahiyanganaya"], [6.624999999999985, 80.34500000000043, "Elapatha"], [7.424999999999968, 80.62500000000057, "Ukuwela"], [7.054999999999976, 80.41500000000046, "Bulathkohupitiya"], [6.164999999999995, 80.53500000000052, "Mulatiyana"], [6.804999999999981, 80.82500000000067, "Nuwara Eliya"], [7.004999999999977, 81.19500000000086, "Passara"], [6.944999999999978, 80.95500000000074, "Uva Paranagama"], [6.684999999999984, 80.26500000000038, "Ayagama"], [6.0349999999999975, 80.21500000000036, "Galle Four Gravets"], [7.174999999999973, 80.54500000000053, "Mawanella"], [7.664999999999963, 80.8750000000007, "Laggala-Pallegama"], [6.954999999999978, 81.18500000000085, "Passara"], [6.5049999999999875, 80.34500000000043, "Kalawana"], [7.214999999999972, 80.80500000000066, "Medadumbara"], [7.094999999999975, 80.64500000000058, "Kothmale"], [6.134999999999995, 80.42500000000047, "Akuressa"], [6.0349999999999975, 80.35500000000043, "Imaduwa"], [6.894999999999979, 80.85500000000069, "Welimada"], [6.984999999999977, 80.31500000000041, "Dehiovita"], [6.634999999999985, 80.17500000000034, "Bulathsinhala"], [7.024999999999976, 80.8850000000007, "Walapane"], [6.524999999999987, 80.57500000000054, "Kahawatta"], [6.164999999999995, 80.41500000000046, "Akuressa"], [7.504999999999966, 80.4950000000005, "Rideegama"], [7.234999999999972, 80.6750000000006, "Pathahewaheta"], [7.074999999999975, 80.35500000000043, "Bulathkohupitiya"], [6.83499999999998, 80.38500000000045, "Kuruvita"], [6.904999999999979, 80.33500000000042, "Deraniyagala"], [7.3449999999999696, 80.51500000000051, "Thumpane"], [6.124999999999996, 80.40500000000046, "Akuressa"], [6.574999999999986, 80.55500000000053, "Kahawatta"], [6.684999999999984, 81.01500000000077, "Hildummulla"], [7.084999999999975, 80.20500000000035, "Ruwanwella"], [7.424999999999968, 80.36500000000044, "Mallawapitiya"], [6.5949999999999855, 80.74500000000063, "Balangoda"], [6.684999999999984, 80.63500000000057, "Balangoda"], [7.384999999999969, 80.6950000000006, "Pathadumbara"], [7.104999999999975, 81.33500000000093, "Medagama"], [7.194999999999973, 80.75500000000063, "Pathahewaheta"], [6.734999999999983, 80.77500000000065, "Imbulpe"], [6.814999999999981, 80.45500000000048, "Ratnapura"], [7.284999999999971, 81.05500000000079, "Rideemaliyadda"], [6.744999999999982, 80.64500000000058, "Imbulpe"], [6.674999999999984, 80.4950000000005, "Pelmadulla"], [6.914999999999979, 81.09500000000081, "Hali-Ela"], [6.774999999999982, 80.79500000000066, "Imbulpe"], [7.734999999999961, 80.70500000000061, "Naula"], [6.3149999999999915, 80.6750000000006, "Kolonna"], [6.634999999999985, 80.2850000000004, "Ayagama"], [7.31499999999997, 80.45500000000048, "Hatharaliyadda"], [7.484999999999967, 80.75500000000063, "Laggala-Pallegama"], [7.044999999999976, 81.12500000000082, "Passara"], [6.694999999999983, 80.38500000000045, "Ratnapura"], [6.754999999999982, 80.96500000000074, "Haputale"], [6.574999999999986, 80.14500000000032, "Bulathsinhala"], [7.024999999999976, 81.34500000000094, "Madulla"], [6.424999999999989, 80.6950000000006, "Kolonna"], [6.4549999999999885, 80.60500000000056, "Godakawela"], [7.274999999999971, 80.46500000000049, "Mawanella"], [6.654999999999984, 80.27500000000039, "Ayagama"], [6.714999999999983, 80.93500000000073, "Hildummulla"], [7.564999999999965, 80.8750000000007, "Laggala-Pallegama"], [6.914999999999979, 80.25500000000038, "Dehiovita"], [7.33499999999997, 80.61500000000056, "Harispattuwa"], [7.094999999999975, 81.21500000000087, "Bibile"], [6.884999999999979, 80.85500000000069, "Welimada"], [7.624999999999964, 80.62500000000057, "Pallepola"], [6.954999999999978, 80.32500000000041, "Deraniyagala"], [6.934999999999978, 80.72500000000062, "Nuwara Eliya"], [6.204999999999994, 80.38500000000045, "Nagoda"], [6.40499999999999, 80.40500000000046, "Kalawana"], [6.87499999999998, 81.14500000000083, "Badalkumbura"], [6.094999999999996, 80.61500000000056, "Hakmana"], [6.894999999999979, 80.72500000000062, "Nuwara Eliya"], [6.83499999999998, 81.10500000000081, "Ella"], [7.274999999999971, 81.0650000000008, "Rideemaliyadda"], [6.934999999999978, 80.93500000000073, "Uva Paranagama"], [6.524999999999987, 80.23500000000037, "Palindanuwara"], [7.174999999999973, 80.75500000000063, "Hanguranketha"], [7.264999999999971, 80.63500000000057, "K.F.G. & G. Korale"], [6.324999999999991, 80.33500000000042, "Thawalama"], [7.044999999999976, 81.04500000000078, "Soranathota"], [7.004999999999977, 80.59500000000055, "Kothmale"], [7.414999999999968, 80.62500000000057, "Ukuwela"], [7.414999999999968, 80.60500000000056, "Akurana"], [7.8149999999999595, 80.80500000000066, "Elahera"], [6.304999999999992, 80.60500000000056, "Pasgoda"], [7.044999999999976, 80.41500000000046, "Bulathkohupitiya"], [7.134999999999974, 81.05500000000079, "Meegahakivula"], [6.9249999999999785, 81.18500000000085, "Badalkumbura"], [6.704999999999983, 80.95500000000074, "Hildummulla"], [7.074999999999975, 80.76500000000064, "Hanguranketha"], [7.044999999999976, 81.0750000000008, "Soranathota"], [7.384999999999969, 80.65500000000058, "Ukuwela"], [6.86499999999998, 80.46500000000049, "Deraniyagala"], [7.134999999999974, 81.16500000000084, "Bibile"], [6.254999999999993, 80.5050000000005, "Kotapola"], [6.334999999999991, 80.2950000000004, "Walallawita"], [7.044999999999976, 81.03500000000078, "Soranathota"], [7.544999999999965, 80.80500000000066, "Laggala-Pallegama"], [6.934999999999978, 80.82500000000067, "Nuwara Eliya"], [6.7849999999999815, 80.55500000000053, "Ambagamuwa"], [7.494999999999966, 80.75500000000063, "Laggala-Pallegama"], [6.524999999999987, 80.15500000000033, "Agalawatta"], [7.434999999999968, 80.65500000000058, "Rattota"], [7.004999999999977, 81.21500000000087, "Lunugala"], [7.234999999999972, 80.31500000000041, "Galigamuwa"], [6.5949999999999855, 80.18500000000034, "Bulathsinhala"], [6.304999999999992, 80.74500000000063, "Embilipitiya"], [7.284999999999971, 80.86500000000069, "Udadumbara"], [7.124999999999974, 80.31500000000041, "Bulathkohupitiya"], [7.594999999999964, 80.73500000000062, "Laggala-Pallegama"], [7.924999999999957, 81.00500000000076, "Thamankaduwa"], [7.004999999999977, 80.24500000000037, "Dehiovita"], [6.974999999999977, 80.51500000000051, "Ambagamuwa"], [6.354999999999991, 80.55500000000053, "Kotapola"], [6.974999999999977, 81.09500000000081, "Badulla"], [7.144999999999974, 80.81500000000067, "Hanguranketha"], [7.524999999999966, 80.57500000000054, "Yatawatta"], [7.514999999999966, 80.8850000000007, "Wilgamuwa"], [6.714999999999983, 80.8950000000007, "Hildummulla"], [7.004999999999977, 80.97500000000075, "Uva Paranagama"], [6.884999999999979, 81.455000000001, "Siyambalanduwa"], [6.814999999999981, 80.37500000000044, "Kuruvita"], [6.154999999999995, 80.42500000000047, "Akuressa"], [7.444999999999967, 80.5050000000005, "Rideegama"], [6.674999999999984, 81.465000000001, "Siyambalanduwa"], [6.84499999999998, 81.0750000000008, "Ella"], [6.234999999999993, 80.44500000000048, "Pitabeddara"], [7.214999999999972, 80.8950000000007, "Udadumbara"], [6.164999999999995, 80.42500000000047, "Akuressa"], [7.244999999999972, 80.70500000000061, "Pathahewaheta"], [7.604999999999964, 80.86500000000069, "Laggala-Pallegama"], [7.484999999999967, 80.59500000000055, "Ukuwela"]];
 
-    <!-- ===== LIVE MAP ===== -->
-    <section class="page active" id="page-map">
-      <div class="page-head">
-        <h1>Live risk map</h1>
-        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
-      </div>
+const FLOOD_LABELS = ["Madulla","Thanamalvila","Mahiyanganaya","Kantalai","Maritimepattu","Damana","Dehiattakandiya","Thamankaduwa","Poonakary","Oddusuddan","Puttalam","Thenmaradchy","Valikamam East","Medirigiriya","Dimbulagala"];
+const FLOOD_VALS = [45,38,37,34,34,31,28,28,27,26,26,24,24,23,22];
 
-      <!-- toolbar -->
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-        <div style="position:relative;flex:1;min-width:200px;max-width:420px;">
-          <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;font-size:14px;"></i>
-          <input type="text" id="hw-search-input"
-                 placeholder="Search district or province..."
-                 oninput="hwFilter(this.value)"
-                 style="width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border-color,#e2e8f0);
-                        border-radius:6px;font-size:13px;background:inherit;color:inherit;outline:none;">
-        </div>
-        <div class="layer-toggle" style="display:flex;gap:4px;">
-          <button class="layer-btn active" id="hw-btn-flood" data-layer="flood"
-                  onclick="hwSetMode('flood',this)">Flood</button>
-          <button class="layer-btn" id="hw-btn-land" data-layer="land"
-                  onclick="hwSetMode('land',this)">Landslide</button>
-          <button class="layer-btn" id="hw-btn-compound" data-layer="compound"
-                  onclick="hwSetMode('compound',this)">Compound</button>
-        </div>
-      </div>
+const LS_LABELS = ["Nuwara Eliya","Hildummulla","Ambagamuwa","Laggala-Pallegama","Udadumbara","Passara","Kothmale","Walapane","Deraniyagala","Ratnapura","Hanguranketha","Hali-Ela","Kalawana","Madulla","Imbulpe"];
+const LS_VALS = [142,130,128,116,112,109,107,102,99,94,92,86,78,78,69];
 
-      <!-- map + list grid -->
-      <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;">
+const FLOOD_RATE_LABELS = ["Valikamam East","Passara","Hali-Ela","Thenmaradchy","Kantalai","Puttalam","Kothmale","Deraniyagala","Hanguranketha","Udadumbara","Damana","Hildummulla","Ambagamuwa","Mahiyanganaya","Madulla"];
+const FLOOD_RATE_VALS = [24.2,12.6,12.6,12.6,10.0,10.9,10.9,10.9,10.0,10.0,9.4,9.4,9.4,7.2,7.5];
 
-        <!-- Leaflet card — brand-new element, no existing class dependency -->
-        <div class="card" id="hw-leaflet-card"
-             style="padding:0;overflow:hidden;position:relative;min-height:460px;">
-          <div id="hwLeafletMap" style="width:100%;height:460px;"></div>
-          <!-- legend -->
-          <div style="position:absolute;bottom:10px;left:10px;z-index:500;
-                      background:rgba(255,255,255,.95);border:1px solid #e2e8f0;
-                      border-radius:7px;padding:9px 12px;font-size:11px;color:#4a5568;
-                      box-shadow:0 2px 8px rgba(0,0,0,.1);">
-            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#a0aec0;margin-bottom:6px;">Risk Level</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF4757;display:inline-block;"></span>Critical (&gt;0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF8C42;display:inline-block;"></span>High (0.50–0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FFD700;display:inline-block;"></span>Medium (0.25–0.50)</div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:#2ECC71;display:inline-block;"></span>Low (&lt;0.25)</div>
-          </div>
-        </div>
+const LS_RATE_LABELS = ["Passara","Kothmale","Hali-Ela","Deraniyagala","Hanguranketha","Udadumbara","Walapane","Hildummulla","Laggala-Pallegama","Nuwara Eliya","Ambagamuwa","Ratnapura","Uva Paranagama","Welimada","Ella"];
+const LS_RATE_VALS = [71.2,58.2,60.6,54.1,50.0,47.9,39.4,39.9,35.9,35.9,32.3,35.2,59.3,39.7,62.7];
 
-        <!-- district list -->
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div class="card-head" style="padding:12px 14px 10px;">
-            <i class="ti ti-list"></i>
-            <span id="hw-list-title">Risk-ranked districts — Flood</span>
-          </div>
-          <div id="hw-district-list" style="max-height:420px;overflow-y:auto;padding:4px 6px;"></div>
-        </div>
-      </div>
+const ALL_DIST = [
+["Madulla",599,45,7.5,78,13.0],
+["Thanamalvila",553,38,6.9,6,1.1],
+["Mahiyanganaya",514,37,7.2,19,3.7],
+["Kantalai",340,34,10.0,1,0.3],
+["Maritimepattu",531,34,6.4,0,0.0],
+["Damana",331,31,9.4,7,2.1],
+["Dehiattakandiya",329,28,8.5,2,0.6],
+["Thamankaduwa",382,28,7.3,30,7.9],
+["Poonakary",361,27,7.5,0,0.0],
+["Oddusuddan",597,26,4.4,0,0.0],
+["Puttalam",238,26,10.9,0,0.0],
+["Thenmaradchy (Chavakachcheri)",190,24,12.6,0,0.0],
+["Valikamam East",99,24,24.2,0,0.0],
+["Medirigiriya",469,23,4.9,0,0.0],
+["Dimbulagala",470,22,4.7,4,0.9],
+["Hambantota",271,22,8.1,0,0.0],
+["Puthukudiyiruppu",310,22,7.1,0,0.0],
+["Hingurakgoda",603,21,3.5,6,1.0],
+["Padaviya",208,20,9.6,0,0.0],
+["Pachchilaipalli",150,18,12.0,0,0.0],
+["Vadamaradchi South-West",70,18,25.7,0,0.0],
+["Nanaddan",192,17,8.9,0,0.0],
+["Eravur Pattu",478,16,3.3,1,0.2],
+["Horowpothana",699,16,2.3,0,0.0],
+["Kekirawa",297,16,5.4,10,3.4],
+["Kuchchaveli",276,16,5.8,0,0.0],
+["Thissamaharama",653,16,2.5,2,0.3],
+["Island South (Velanai)",76,15,19.7,0,0.0],
+["Mahaoya",553,15,2.7,13,2.4],
+["Kalpitiya",135,14,10.4,0,0.0],
+["Koralai Pattu North",420,14,3.3,0,0.0],
+["Naula",232,14,6.0,49,21.1],
+["Vavuniya",591,14,2.4,0,0.0],
+["Welikanda",455,14,3.1,0,0.0],
+["Buttala",592,13,2.2,12,2.0],
+["Embilipitiya",319,13,4.1,24,7.5],
+["Kandawali",244,13,5.3,0,0.0],
+["Lahugala",787,13,1.7,1,0.1],
+["Medadumbara",158,13,8.2,66,41.8],
+["Pothuvil",226,13,5.8,0,0.0],
+["Siyambalanduwa",880,13,1.5,42,4.8],
+["Thirukkovil",143,13,9.1,0,0.0],
+["Thunukkai",264,13,4.9,0,0.0],
+["Vadamaradchy East",123,13,10.6,0,0.0],
+["Arachchikattuwa PS",178,12,6.7,0,0.0],
+["Galenbindunuwewa",245,12,4.9,1,0.4],
+["Karachchi",324,12,3.7,0,0.0],
+["Mundalama",75,12,16.0,0,0.0],
+["Vanathavilluwa",608,12,2.0,0,0.0],
+["Ambalanthota",172,11,6.4,0,0.0],
+["Galgamuwa",233,11,4.7,0,0.0],
+["Ampara",99,10,10.1,0,0.0],
+["Kinniya",120,10,8.3,0,0.0],
+["Lunugamvehera",224,10,4.5,0,0.0],
+["Maha Vilachchiya",529,10,1.9,0,0.0],
+["Manmunai West",265,10,3.8,1,0.4],
+["Manthai East",399,10,2.5,0,0.0],
+["Manthai West",504,10,2.0,0,0.0],
+["Mihinthale",183,10,5.5,0,0.0],
+["Rajanganaya",80,10,12.5,0,0.0],
+["Uhana",455,10,2.2,22,4.8],
+["Giribawa",169,9,5.3,0,0.0],
+["Gomarankadawala",238,9,3.8,0,0.0],
+["Karuwalagaswewa",411,9,2.2,0,0.0],
+["Ambagamuwa",396,8,2.0,128,32.3],
+["Dambulla",378,8,2.1,28,7.4],
+["Musali",394,8,2.0,0,0.0],
+["N. Palatha East",73,8,11.0,0,0.0],
+["Nachchadoowa",70,8,11.4,0,0.0],
+["Thirappane",245,8,3.3,3,1.2],
+["Verugal",122,8,6.6,0,0.0],
+["Imbulpe",208,7,3.4,69,33.2],
+["Manmunai South-West",103,7,6.8,0,0.0],
+["Morawewa",274,7,2.6,0,0.0],
+["Muttur",149,7,4.7,0,0.0],
+["Nochchiyagama",702,7,1.0,0,0.0],
+["Padiyathalawa",323,7,2.2,19,5.9],
+["Palagala",181,7,3.9,1,0.6],
+["Rideemaliyadda",343,7,2.0,46,13.4],
+["Udadumbara",234,7,3.0,112,47.9]
+];
 
-      <!-- district detail panel -->
-      <div class="card" id="hw-detail-card" style="display:none;margin-top:14px;">
-        <div class="card-head">
-          <i class="ti ti-map-pin"></i>
-          <span id="hw-sel-district">—</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:8px 0 4px;">
-          <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
-            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#3B9EFF;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#3B9EFF;border-radius:3px;width:0;transition:width .5s;"></div></div>
-          </div>
-          <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
-            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF8C42;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#FF8C42;border-radius:3px;width:0;transition:width .5s;"></div></div>
-          </div>
-          <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
-            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF4757;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#FF4757;border-radius:3px;width:0;transition:width .5s;"></div></div>
-          </div>
-        </div>
-      </div>
+// Map
+const map = L.map('map').setView([7.87, 80.77], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',opacity:0.7}).addTo(map);
 
-      <!-- ═══ HIDDEN STUBS — app.js interacts with these safely, none are visible ═══ -->
-      <div style="display:none;visibility:hidden;position:absolute;width:0;height:0;overflow:hidden;"
-           aria-hidden="true">
-        <div class="map-toolbar">
-          <div class="search-wrap">
-            <i class="ti ti-search"></i>
-            <input type="text" id="mapSearch" placeholder="Search district or province...">
-            <div id="searchResults" class="search-results"></div>
-          </div>
-          <div class="layer-toggle">
-            <button class="layer-btn active" data-layer="flood">Flood</button>
-            <button class="layer-btn" data-layer="land">Landslide</button>
-            <button class="layer-btn" data-layer="compound">Compound</button>
-          </div>
-        </div>
-        <div class="grid-map">
-          <div class="card map-card">
-            <svg id="mapSvg" viewBox="0 0 360 540" preserveAspectRatio="xMidYMid meet"></svg>
-            <div id="mapTip" class="map-tip"></div>
-          </div>
-          <div class="card">
-            <div class="card-head"><i class="ti ti-list"></i> Risk-ranked districts</div>
-            <div id="districtList" class="district-list"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-map-pin"></i>
-            <span id="selDistrict">Sri Lanka — national overview</span>
-          </div>
-          <div class="kpi-grid" id="districtDetail"></div>
-          <div class="chart-box"><canvas id="forecastChart"></canvas></div>
-        </div>
-      </div>
+let floodLayer = L.layerGroup();
+let lsLayer = L.layerGroup();
 
-    </section>
+FLOOD_PTS.forEach(p => {
+  const hasLs = p[4]; // landslide_risk
+  L.circleMarker([p[0],p[1]],{radius:4,color:'#3fb950',fillColor:'#3fb950',fillOpacity:0.7,weight:0.5}).bindPopup(`<b>${p[2]}</b><br>Flood Risk Cell`).addTo(floodLayer);
+});
+LS_PTS.forEach(p => {
+  L.circleMarker([p[0],p[1]],{radius:4,color:'#f78166',fillColor:'#f78166',fillOpacity:0.7,weight:0.5}).bindPopup(`<b>${p[2]}</b><br>Landslide Risk Cell`).addTo(lsLayer);
+});
+floodLayer.addTo(map);
+lsLayer.addTo(map);
 
-    <!-- ===== PREDICT ===== -->
-    <section class="page" id="page-predict">
-      <div class="page-head">
-        <h1>Risk prediction</h1>
-        <p>Adjust environmental inputs or load a scenario preset to predict compound risk.</p>
-      </div>
+function showLayer(t) {
+  if(t==='flood'){floodLayer.addTo(map);map.removeLayer(lsLayer);}
+  else if(t==='landslide'){lsLayer.addTo(map);map.removeLayer(floodLayer);}
+  else{floodLayer.addTo(map);lsLayer.addTo(map);}
+}
 
-      <div class="grid-2">
-        <!-- INPUT CARD -->
-        <div class="card">
-          <div class="card-head"><i class="ti ti-adjustments"></i> Environmental inputs</div>
+// Charts
+const cOpts = (title,color,labels,vals) => ({
+  type:'bar',
+  data:{labels,datasets:[{label:title,data:vals,backgroundColor:color+'88',borderColor:color,borderWidth:1,borderRadius:4}]},
+  options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8b949e',font:{size:10}},grid:{color:'#1c2433'}},y:{ticks:{color:'#8b949e'},grid:{color:'#1c2433'}}}}
+});
 
-          <div class="hw-pred-label">Scenario preset</div>
-          <div class="hw-presets">
-            <button class="hw-pbtn on" id="hw-p-base"   onclick="hwPreset('base',this)">
-              <span class="hw-pbtn-ico">📊</span><span>Mean Baseline</span>
-            </button>
-            <button class="hw-pbtn" id="hw-p-ditwah" onclick="hwPreset('ditwah',this)">
-              <span class="hw-pbtn-ico">🌀</span><span>Cyclone Ditwah</span>
-            </button>
-            <button class="hw-pbtn" id="hw-p-low"    onclick="hwPreset('low',this)">
-              <span class="hw-pbtn-ico">💧</span><span>Flood Lowland</span>
-            </button>
-            <button class="hw-pbtn" id="hw-p-dry"    onclick="hwPreset('dry',this)">
-              <span class="hw-pbtn-ico">☀️</span><span>Dry Highland</span>
-            </button>
-            <button class="hw-pbtn" id="hw-p-hill"   onclick="hwPreset('hill',this)">
-              <span class="hw-pbtn-ico">⛰️</span><span>Landslide Hill</span>
-            </button>
-          </div>
+new Chart(document.getElementById('floodChart'),cOpts('Flood Observations','#3fb950',FLOOD_LABELS,FLOOD_VALS));
+new Chart(document.getElementById('lsChart'),cOpts('Landslide Observations','#f78166',LS_LABELS,LS_VALS));
+new Chart(document.getElementById('floodRateChart'),cOpts('Flood Rate %','#21d0f3',FLOOD_RATE_LABELS,FLOOD_RATE_VALS));
+new Chart(document.getElementById('lsRateChart'),cOpts('Landslide Rate %','#d2a679',LS_RATE_LABELS,LS_RATE_VALS));
 
-          <div class="hw-pred-label" style="margin-top:18px;">Environmental inputs</div>
-          <div class="hw-sliders">
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">Rainfall (mm/day)<span class="hw-sl-val" id="hw-v-rain">120</span></div>
-              <input type="range" class="hw-range" id="hw-r-rain" min="0" max="400" value="120" oninput="hwUpd('rain',this.value)">
-            </div>
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">Elevation (m)<span class="hw-sl-val" id="hw-v-elev">250</span></div>
-              <input type="range" class="hw-range" id="hw-r-elev" min="0" max="2500" value="250" oninput="hwUpd('elev',this.value)">
-            </div>
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">Slope (°)<span class="hw-sl-val" id="hw-v-slope">12</span></div>
-              <input type="range" class="hw-range" id="hw-r-slope" min="0" max="60" value="12" oninput="hwUpd('slope',this.value)">
-            </div>
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">Soil Moisture (%)<span class="hw-sl-val" id="hw-v-sm">45</span></div>
-              <input type="range" class="hw-range" id="hw-r-sm" min="0" max="100" value="45" oninput="hwUpd('sm',this.value)">
-            </div>
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">Distance to River (km)<span class="hw-sl-val" id="hw-v-rd">8</span></div>
-              <input type="range" class="hw-range" id="hw-r-rd" min="0" max="50" value="8" oninput="hwUpd('rd',this.value)">
-            </div>
-            <div class="hw-sg">
-              <div class="hw-sl-lbl">NDVI (Vegetation)<span class="hw-sl-val" id="hw-v-ndvi">0.42</span></div>
-              <input type="range" class="hw-range" id="hw-r-ndvi" min="-100" max="100" value="42" oninput="hwUpd('ndvi',this.value,1)">
-            </div>
-          </div>
+// Table
+const tb = document.getElementById('distBody');
+ALL_DIST.forEach(r => {
+  const fr = r[3]; const lr = r[5];
+  const fb = fr>10?'high':fr>5?'med':'low';
+  const lb = lr>30?'high':lr>10?'med':'low';
+  tb.innerHTML += `<tr><td><b>${r[0]}</b></td><td>${r[1].toLocaleString()}</td><td>${r[2]}</td><td><span class="risk-badge ${fb}">${r[3]}%</span></td><td>${r[4]}</td><td><span class="risk-badge ${lb}">${r[5]}%</span></td><td>${r[2]>0?'<span class="risk-badge '+(r[2]>20?'high':r[2]>10?'med':'low')+'">Positive</span>':'–'}</td><td>${r[4]>0?'<span class="risk-badge '+(r[5]>30?'high':r[5]>10?'med':'low')+'">Positive</span>':'–'}</td></tr>`;
+});
 
-          <div class="hw-pred-label" style="margin-top:18px;">Model</div>
-          <div class="hw-mtabs">
-            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)">XGBoost</button>
-            <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)">sklearn RF</button>
-            <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)">PySpark RF</button>
-          </div>
-
-          <button class="btn-primary" onclick="hwRun()" style="display:flex;align-items:center;gap:6px;">
-            <i class="ti ti-player-play"></i> Run Prediction
-          </button>
-
-          <!-- hidden stubs so app.js finds expected IDs -->
-          <div style="display:none;">
-            <select id="presetSel"></select>
-            <select id="modelSel"></select>
-            <button id="predictBtn"></button>
-            <div id="sliderGrid"></div>
-          </div>
-        </div>
-
-        <!-- RESULTS CARD -->
-        <div class="card" id="predictResult">
-          <div class="card-head"><i class="ti ti-activity"></i> Risk assessment</div>
-
-          <div id="hw-res-ph" style="padding:40px 0;text-align:center;color:#a0aec0;">
-            <p>Adjust inputs and click <strong>Run Prediction</strong></p>
-          </div>
-
-          <div id="hw-gauges" style="display:none;">
-            <div class="hw-gitem">
-              <div class="hw-g-head">
-                <span class="hw-g-label">Flood Risk</span>
-                <span class="hw-g-val" id="hw-gv-f" style="color:#3B9EFF">—</span>
-              </div>
-              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-f" style="background:#3B9EFF;width:0;"></div></div>
-              <span class="hw-g-sev" id="hw-gs-f"></span>
-            </div>
-            <div class="hw-gitem">
-              <div class="hw-g-head">
-                <span class="hw-g-label">Landslide Risk</span>
-                <span class="hw-g-val" id="hw-gv-l" style="color:#FF8C42">—</span>
-              </div>
-              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-l" style="background:#FF8C42;width:0;"></div></div>
-              <span class="hw-g-sev" id="hw-gs-l"></span>
-            </div>
-            <div class="hw-gitem">
-              <div class="hw-g-head">
-                <span class="hw-g-label">Compound Risk</span>
-                <span class="hw-g-val" id="hw-gv-c" style="color:#FF4757">—</span>
-              </div>
-              <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-c" style="background:#FF4757;width:0;"></div></div>
-              <span class="hw-g-sev" id="hw-gs-c"></span>
-            </div>
-            <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0;">
-            <div class="hw-mbadge" id="hw-mbadge"></div>
-            <div class="hw-interp" id="hw-interp"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== MODELS ===== -->
-    <section class="page" id="page-models">
-      <div class="page-head">
-        <h1>Model comparison</h1>
-        <p>All 12 trained models — distributed PySpark vs centralised scikit-learn.</p>
-      </div>
-      <div class="kpi-grid kpi-3">
-        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)">0.9225</div><div class="kpi-sub">PySpark RF · 1568s w/ CV</div></div>
-        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)">0.9235</div><div class="kpi-sub">sklearn RF · 9.9s · Δ=−0.001</div></div>
-        <div class="kpi"><div class="kpi-label">Best flood PR-AUC</div><div class="kpi-val" style="color:var(--ok)">0.6651</div><div class="kpi-sub">PySpark RF leads</div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><i class="ti ti-table"></i> Complete results table</div>
-        <div class="table-scroll"><table class="data-table" id="modelTable"></table></div>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> AUC-ROC</div><div class="chart-box" style="height:240px"><canvas id="mdlAuc"></canvas></div></div>
-        <div class="card"><div class="card-head"><i class="ti ti-chart-bar"></i> F1 score</div><div class="chart-box" style="height:240px"><canvas id="mdlF1"></canvas></div></div>
-      </div>
-    </section>
-
-    <!-- ===== FEATURES ===== -->
-    <section class="page" id="page-features">
-      <div class="page-head">
-        <h1>Feature importance &amp; leakage</h1>
-        <p>PySpark Random Forest Gini importance and the leakage detection pipeline.</p>
-      </div>
-      <div class="control-row">
-        <label class="muted">Target:</label>
-        <select id="fiTarget"><option value="flood">Flood risk</option><option value="land">Landslide risk</option></select>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-list-numbers"></i> Feature importance ranking</div><div id="featList"></div></div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers — compound evidence</div>
-          <div id="sharedDrivers"></div>
-          <div class="card-head" style="margin-top:18px"><i class="ti ti-chart-area"></i> Label correlation screen</div>
-          <div id="corrList"></div>
-          <div class="leak-box">
-            <div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence — confirmed leakage</div>
-            <p>Threshold &gt;10 reproduces flood_risk with 99.9% accuracy. Excluded via Cell 1.5. Linear correlation (0.657) alone did not flag it.</p>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><i class="ti ti-flask"></i> Ablation study — jrc_occurrence effect</div>
-        <div class="kpi-grid kpi-3">
-          <div class="kpi"><div class="kpi-label">sklearn RF baseline</div><div class="kpi-val">0.9235</div><div class="kpi-sub">15 clean features</div></div>
-          <div class="kpi danger"><div class="kpi-label">sklearn RF + jrc</div><div class="kpi-val" style="color:var(--danger)">1.0000</div><div class="kpi-sub">16 features (leaky)</div></div>
-          <div class="kpi danger"><div class="kpi-label">Δ AUC</div><div class="kpi-val" style="color:var(--danger)">+0.0765</div><div class="kpi-sub">Leakage confirmed</div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== SCALABILITY ===== -->
-    <section class="page" id="page-scalability">
-      <div class="page-head"><h1>Scalability analysis · RQ4</h1></div>
-      <div class="rq-banner info">
-        <span class="rq-tag">Research Question 4</span>
-        To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?
-      </div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val">−0.0010</div><div class="kpi-sub">Centralised leads marginally</div></div>
-        <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)">+0.0781</div><div class="kpi-sub">Distributed leads</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val">157×</div><div class="kpi-sub">CV overhead</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val">3×</div><div class="kpi-sub">Real comparison</div></div>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0×. Crossover needs multi-node cluster.</p></div>
-        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data — both targets</div><div class="sub-head">Flood (Cell 8)</div><div id="scaleFlood"></div><div class="sub-head">Landslide (Cell 14.2)</div><div id="scaleLand"></div></div>
-      </div>
-      <div class="grid-2">
-        <div class="card framing"><div class="card-head">Why distributed appears slower</div><ul><li>JVM + serialisation overhead on single Colab node</li><li>5-fold × 9-param = 45 Spark fits (sklearn used no CV)</li><li>54K rows below distributed-advantage threshold</li></ul></div>
-        <div class="card framing ok"><div class="card-head">Why distributed is still right</div><ul><li>Spark time grows sub-linearly with data size</li><li>PySpark RF leads on PR-AUC (0.6651 vs 0.5870)</li><li>Enables Structured Streaming for real-time</li><li>Fault-tolerant national-scale deployment</li></ul></div>
-      </div>
-    </section>
-
-    <!-- ===== DITWAH ===== -->
-    <section class="page" id="page-ditwah">
-      <div class="page-head"><h1>Cyclone Ditwah validation · RQ5</h1></div>
-      <div class="rq-banner warn">
-        <span class="rq-tag">Research Question 5 · OO6</span>
-        How robust is the framework when applied to extreme real-world hazard events?
-      </div>
-      <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">PySpark RF flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9282</div><div class="kpi-sub">Northern zone</div></div>
-        <div class="kpi"><div class="kpi-label">XGBoost flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9174</div><div class="kpi-sub">Northern zone</div></div>
-        <div class="kpi"><div class="kpi-label">Landslide AUC</div><div class="kpi-val" style="color:var(--land)">1.0000</div><div class="kpi-sub">n=21 · see caveat</div></div>
-        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val">18,550</div><div class="kpi-sub">lat &gt; 8.0°N</div></div>
-      </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-head"><i class="ti ti-wind"></i> Cyclone Ditwah facts</div>
-          <div class="fact-list">
-            <div class="fact"><span>Date</span><span>27–29 Nov 2025</span></div>
-            <div class="fact"><span>People affected</span><span>1.8 million</span></div>
-            <div class="fact"><span>Area inundated</span><span>1.1M hectares</span></div>
-            <div class="fact"><span>Landslides</span><span>&gt;1,200</span></div>
-            <div class="fact"><span>Economic loss</span><span style="color:var(--danger)">US$4.1 billion</span></div>
-            <div class="fact"><span>Districts hit</span><span>All 25</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-table"></i> XGBoost flood report (north)</div>
-          <table class="data-table" id="ditwahReport"></table>
-          <div class="leak-box">
-            <div class="leak-title"><i class="ti ti-alert-triangle"></i> Landslide caveat (n=21)</div>
-            <p>Bootstrap 95% CI = [1.0000, 1.0000]. CI is tight but sample is extremely small — reported as preliminary evidence warranting validation with richer northern inventory data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== DATA ===== -->
-    <section class="page" id="page-data">
-      <div class="page-head"><h1>Data provenance</h1><p>All 15 features verified: null=0.0%, zero duplicates, zero train/test overlap (Cell 14.6).</p></div>
-      <div class="card">
-        <div class="card-head"><i class="ti ti-database"></i> Feature store sources</div>
-        <div class="table-scroll"><table class="data-table" id="dataTable"></table></div>
-      </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-head"><i class="ti ti-layers"></i> Features by source</div><div class="chart-box" style="height:200px"><canvas id="srcChart"></canvas></div></div>
-        <div class="card">
-          <div class="card-head"><i class="ti ti-alert-triangle"></i> Leakage detection pipeline</div>
-          <div class="pipeline">
-            <div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) — did NOT catch jrc_occurrence (corr=0.657)</span></div>
-            <div class="pl-step"><span class="pl-tag ok">2</span><span>Ablation: AUC jump +0.0765 with jrc → red flag triggered</span></div>
-            <div class="pl-step"><span class="pl-tag ok">3</span><span>Threshold test: jrc &gt; 10 → 99.9% match with flood_risk</span></div>
-            <div class="pl-step"><span class="pl-tag danger">Guard</span><span>Cell 1.5 hard-excludes jrc permanently</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== RESEARCH ===== -->
-    <section class="page" id="page-research">
-      <div class="page-head"><h1>Research questions &amp; answers</h1><p>Evidence-based answers mapped to objectives RO1–RO5.</p></div>
-      <div id="rqList"></div>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <span>HazardWatch Research Platform · MSc Big Data Analytics · RGU 2506651 · Kalana Rathnayake</span>
-    <span>Models: XGBoost + PySpark RF · Validation: Cyclone Ditwah (Nov 2025)</span>
-  </footer>
-
-
-  <!-- Leaflet JS + HazardWatch engine -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script>
-  /*
-   * HazardWatch — Leaflet map + improved predict UI
-   * Uses real DISTRICTS data from data.js (loaded after this block,
-   * but available by the time DOMContentLoaded fires).
-   */
-
-  var hwMap = null, hwMks = [], hwMode = 'flood';
-  // HW_D populated from real DISTRICTS inside hwInitMap()
-  var HW_D = [];
-
-  function hwRCol(v){ return v>=.75?'#d85a30':v>=.5?'#ba7517':v>=.25?'#378add':'#1d9e75'; }
-  function hwRCls(v){ return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'; }
-  function hwSc(d,m){ return m==='flood'?d.f : m==='land'?d.l : d.c; }
-
-  /* ── MAP ── */
-  function hwInitMap(){
-    var el = document.getElementById('hwLeafletMap');
-    if(!el){ console.warn('hwLeafletMap not found'); return; }
-
-    // Build district data from real data.js values
-    if(typeof DISTRICTS !== 'undefined' && DISTRICTS.length > 0){
-      HW_D = DISTRICTS.map(function(d){
-        return { n:d.name, lat:d.lat, lng:d.lon, f:d.flood, l:d.land,
-                 c:parseFloat(((d.flood+d.land)/2).toFixed(3)),
-                 province:d.province, rain:d.rain };
-      });
-    }
-    if(HW_D.length === 0){ console.warn('No district data'); return; }
-
-    hwMap = L.map('hwLeafletMap', { center:[7.87,80.77], zoom:7, zoomControl:false });
-    L.control.zoom({ position:'bottomleft' }).addTo(hwMap);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom:19
-    }).addTo(hwMap);
-    hwMap.fitBounds([[5.8,79.4],[9.9,81.9]]);
-    hwDraw('flood');
-    hwBuildList('flood');
-  }
-
-  function hwDraw(mode){
-    if(!hwMap) return;
-    hwMks.forEach(function(m){ hwMap.removeLayer(m); });
-    hwMks = [];
-    HW_D.forEach(function(d){
-      var v = hwSc(d,mode), col = hwRCol(v), cls = hwRCls(v);
-      var sz = 22 + Math.round(v * 16);
-      var icon = L.divIcon({
-        className:'',
-        html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
-            +'<div class="hw-mk-ring"></div>'
-            +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.9">'
-            +Math.round(v*100)+'</div></div>',
-        iconSize:[sz,sz], iconAnchor:[sz/2,sz/2]
-      });
-      var mk = L.marker([d.lat,d.lng], {icon:icon})
-        .addTo(hwMap)
-        .bindPopup(hwPopup(d), {maxWidth:230})
-        .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
-      hwMks.push(mk);
-    });
-  }
-
-  function hwPopup(d){
-    function row(lbl,v,col){
-      return '<div class="hw-pop-row">'
-        +'<span class="hw-pop-lbl">'+lbl+'</span>'
-        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100).toFixed(0)+'%"></div></div>'
-        +'<span class="hw-pop-num" style="color:'+col+'">'+(v*100).toFixed(0)+'%</span></div>';
-    }
-    return '<div class="hw-pop">'
-      +'<div class="hw-pop-name">'+d.n+'</div>'
-      +(d.province ? '<div style="font-size:11px;color:#718096;margin-bottom:8px;">'+d.province+' Province · '+d.rain+' mm rain</div>' : '')
-      +row('Flood',d.f,'#d85a30')
-      +row('Landslide',d.l,'#534ab7')
-      +row('Compound',d.c,'#8b00ff')
-      +'</div>';
-  }
-
-  function hwShowDet(d){
-    var card = document.getElementById('hw-detail-card');
-    if(card) card.style.display = 'block';
-    document.getElementById('hw-sel-district').textContent = d.n + (d.province ? ', '+d.province+' Province' : '');
-    document.getElementById('hw-df').textContent = (d.f*100).toFixed(0)+'%';
-    document.getElementById('hw-dl').textContent = (d.l*100).toFixed(0)+'%';
-    document.getElementById('hw-dc').textContent = (d.c*100).toFixed(0)+'%';
-    document.getElementById('hw-dfb').style.width = (d.f*100)+'%';
-    document.getElementById('hw-dlb').style.width = (d.l*100)+'%';
-    document.getElementById('hw-dcb').style.width = (d.c*100)+'%';
-  }
-
-  function hwSetMode(mode, btn){
-    hwMode = mode;
-    ['flood','land','compound'].forEach(function(m){
-      var b = document.getElementById('hw-btn-'+m);
-      if(b) b.classList.remove('active');
-    });
-    if(btn) btn.classList.add('active');
-    hwDraw(mode);
-    hwBuildList(mode);
-    var t = document.getElementById('hw-list-title');
-    if(t) t.textContent = 'Risk-ranked districts — '
-      + (mode==='flood'?'Flood' : mode==='land'?'Landslide' : 'Compound');
-  }
-
-  function hwBuildList(mode){
-    var el = document.getElementById('hw-district-list');
-    if(!el) return;
-    var sorted = HW_D.slice().sort(function(a,b){ return hwSc(b,mode) - hwSc(a,mode); });
-    var html = '';
-    sorted.forEach(function(d,i){
-      var v = hwSc(d,mode), col = hwRCol(v);
-      html += '<div class="hw-ditem" data-nm="'+d.n+'">'
-        + '<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
-        + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
-        + '<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
-        + '<div class="hw-dinfo">'
-        + '<div class="hw-dname">'+d.n+'</div>'
-        + '<div class="hw-dpills">'
-        + '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+(d.f*100).toFixed(0)+'%</span>'
-        + '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+(d.l*100).toFixed(0)+'%</span>'
-        + '</div></div></div>';
-    });
-    el.innerHTML = html;
-    // Use addEventListener — avoids quoting issues with onclick
-    el.querySelectorAll('.hw-ditem').forEach(function(item){
-      item.addEventListener('click', function(){ hwFly(this.dataset.nm); });
-    });
-  }
-
-  function hwFly(name){
-    var d = HW_D.find(function(x){ return x.n === name; });
-    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 9, {duration:1.2}); hwShowDet(d); }
-  }
-
-  function hwFilter(q){
-    document.querySelectorAll('.hw-ditem').forEach(function(item){
-      item.style.display = item.querySelector('.hw-dname').textContent.toLowerCase()
-        .includes(q.toLowerCase()) ? '' : 'none';
-    });
-  }
-
-  /* ── PREDICT ENGINE ── */
-  var hwCurModel = 'xgb';
-  var HW_S = { rain:120, elev:250, slope:12, sm:45, rd:8, ndvi:.42 };
-  var HW_PRESETS = {
-    base:  { rain:120, elev:250,  slope:12, sm:45, rd:8,  ndvi:.42 },
-    ditwah:{ rain:350, elev:180,  slope:25, sm:85, rd:3,  ndvi:.28 },
-    low:   { rain:200, elev:15,   slope:3,  sm:78, rd:2,  ndvi:.35 },
-    dry:   { rain:50,  elev:1800, slope:8,  sm:20, rd:25, ndvi:.55 },
-    hill:  { rain:280, elev:900,  slope:42, sm:72, rd:12, ndvi:.31 }
-  };
-  var HW_MI = {
-    xgb:{ lbl:'XGBoost',    note:'Best event validation — Cyclone Ditwah AUC 0.9174' },
-    sk: { lbl:'sklearn RF', note:'Highest AUC-ROC (0.9235) — fast centralised baseline' },
-    sp: { lbl:'PySpark RF', note:'Best PR-AUC (0.6651) — optimal for 2.8% imbalance' }
-  };
-
-  function hwN(v,a,b){ return Math.max(0, Math.min(1, (v-a)/(b-a))); }
-  function hwSig(x){ return 1/(1+Math.exp(-x)); }
-
-  function hwCompute(s, m){
-    var r=hwN(s.rain,0,400), e=hwN(s.elev,0,2500), sl=hwN(s.slope,0,60),
-        sm=hwN(s.sm,0,100), rd=hwN(50-s.rd,0,50), ni=hwN(.8-s.ndvi,-.2,.8);
-    var mb = { xgb:{f:0,l:.02}, sk:{f:.01,l:0}, sp:{f:-.01,l:-.01} }[m] || {f:0,l:0};
-    var fl = Math.min(.97, Math.max(.02, hwSig((r*.30+(1-e)*.22+sm*.22+rd*.18+ni*.08-.45)*5)+mb.f));
-    var la = Math.min(.97, Math.max(.02, hwSig((r*.32+sl*.28+sm*.22+e*.12+ni*.06-.45)*5)+mb.l));
-    var co = Math.min(.97, Math.max(.02, 1-(1-fl)*(1-la)*.6));
-    return { flood:fl, land:la, compound:co };
-  }
-
-  function hwUpd(k, v, isNDVI){
-    if(isNDVI){ HW_S[k]=v/100; document.getElementById('hw-v-'+k).textContent=(v/100).toFixed(2); }
-    else       { HW_S[k]=parseFloat(v); document.getElementById('hw-v-'+k).textContent=v; }
-    document.querySelectorAll('.hw-pbtn').forEach(function(b){ b.classList.remove('on'); });
-  }
-
-  function hwPreset(k, btn){
-    var p = HW_PRESETS[k];
-    if(!p) return;
-    HW_S.rain=p.rain; HW_S.elev=p.elev; HW_S.slope=p.slope;
-    HW_S.sm=p.sm; HW_S.rd=p.rd; HW_S.ndvi=p.ndvi;
-    ['rain','elev','slope','sm','rd'].forEach(function(id){
-      var r=document.getElementById('hw-r-'+id); if(r) r.value=p[id];
-      var v=document.getElementById('hw-v-'+id); if(v) v.textContent=p[id];
-    });
-    var rn=document.getElementById('hw-r-ndvi'); if(rn) rn.value=p.ndvi*100;
-    var vn=document.getElementById('hw-v-ndvi'); if(vn) vn.textContent=p.ndvi.toFixed(2);
-    document.querySelectorAll('.hw-pbtn').forEach(function(b){ b.classList.remove('on'); });
-    if(btn) btn.classList.add('on');
-  }
-
-  function hwModel(m, btn){
-    hwCurModel = m;
-    document.querySelectorAll('.hw-mt').forEach(function(b){ b.classList.remove('on'); });
-    btn.classList.add('on');
-  }
-
-  function hwSevCfg(v){
-    if(v>=.75) return { lbl:'CRITICAL', col:'#a32d2d', bg:'rgba(226,75,74,.10)' };
-    if(v>=.5)  return { lbl:'HIGH',     col:'#854f0b', bg:'rgba(186,117,23,.10)' };
-    if(v>=.25) return { lbl:'MEDIUM',   col:'#185fa5', bg:'rgba(55,138,221,.10)' };
-    return             { lbl:'LOW',     col:'#0f6e56', bg:'rgba(29,158,117,.10)' };
-  }
-
-  function hwRun(){
-    var res = hwCompute(HW_S, hwCurModel), mi = HW_MI[hwCurModel];
-    var ph  = document.getElementById('hw-res-ph');
-    var gw  = document.getElementById('hw-gauges');
-    if(ph) ph.style.display = 'none';
-    if(gw) gw.style.display = 'block';
-
-    function setG(vi,bi,si,val){
-      var c  = hwSevCfg(val);
-      var ve = document.getElementById(vi);
-      var be = document.getElementById(bi);
-      var se = document.getElementById(si);
-      if(ve){ ve.textContent = (val*100).toFixed(0)+'%'; ve.style.color = c.col; }
-      if(be){ be.style.width = (val*100)+'%'; be.style.background = c.col; }
-      if(se){ se.textContent = c.lbl; se.style.cssText = 'background:'+c.bg+';color:'+c.col+';'; }
-    }
-
-    setTimeout(function(){
-      setG('hw-gv-f','hw-gf-f','hw-gs-f', res.flood);
-      setG('hw-gv-l','hw-gf-l','hw-gs-l', res.land);
-      setG('hw-gv-c','hw-gf-c','hw-gs-c', res.compound);
-      var mb = document.getElementById('hw-mbadge');
-      if(mb) mb.innerHTML = '<strong>'+mi.lbl+'</strong> · '+mi.note;
-      var cc  = hwSevCfg(res.compound);
-      var dom = res.flood > res.land ? 'Flood' : 'Landslide';
-      var pct = res.flood > res.land ? res.flood : res.land;
-      var txt = cc.lbl+' compound risk. '
-        + dom+' dominates ('+(pct*100).toFixed(0)+'%). ';
-      if(res.compound>=.75) txt += 'Immediate action advised. ';
-      if(HW_S.rain > 200)  txt += 'Extreme rainfall ('+HW_S.rain+' mm/day) is primary driver. ';
-      if(HW_S.slope > 30)  txt += 'Steep terrain ('+HW_S.slope+'°) amplifies slope risk. ';
-      if(HW_S.sm > 70)     txt += 'Saturated soils intensify hazard interaction.';
-      var ip = document.getElementById('hw-interp');
-      if(ip){ ip.textContent = txt; ip.style.borderColor = cc.col; ip.style.background = cc.bg; }
-    }, 50);
-  }
-
-  /* ── BOOT ── */
-  document.addEventListener('DOMContentLoaded', function(){
-    // Preset selectors
-    hwPreset('base', document.getElementById('hw-p-base'));
-
-    /*
-     * Live map is the DEFAULT first page (class="page active").
-     * Leaflet can be initialised directly — no lazy init needed.
-     * data.js is synchronous and runs before DOMContentLoaded fires,
-     * so DISTRICTS is available here.
-     */
-    hwInitMap();
-
-    // When the map tab is re-clicked after leaving, fix tile gaps
-    document.querySelectorAll('.nav-tab[data-page="map"]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        setTimeout(function(){ if(hwMap) hwMap.invalidateSize(); }, 120);
-      });
-    });
-  });
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/charts.js"></script>
-  <script src="js/app.js"></script>
+// Tabs
+function showTab(t) {
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
 </body>
 </html>
