@@ -10,462 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <style>
-/* ===================================================================
-   HazardWatch — Compound Hazard Risk Platform
-   MSc Big Data Analytics · RGU 2506651
-   =================================================================== */
-
-:root {
-  --bg: #f7f8f9;
-  --surface: #ffffff;
-  --surface-2: #f1f3f5;
-  --border: rgba(15, 25, 35, 0.10);
-  --border-2: rgba(15, 25, 35, 0.18);
-  --text: #16202b;
-  --text-2: #5b6770;
-  --text-3: #8b959c;
-
-  --brand: #1d9e75;
-  --brand-dark: #0f6e56;
-  --dist: #378add;   /* distributed */
-  --cent: #d85a30;   /* centralised */
-  --flood: #d85a30;
-  --land: #534ab7;
-  --compound: #8b00ff;
-  --ok: #1d9e75;
-  --warn: #ba7517;
-  --danger: #e24b4a;
-  --info: #378add;
-
-  --radius: 8px;
-  --radius-lg: 12px;
-  --shadow: 0 1px 3px rgba(15,25,35,0.06), 0 1px 2px rgba(15,25,35,0.04);
-  --font: 'Inter', system-ui, -apple-system, sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-}
-
-[data-theme="dark"] {
-  --bg: #0b1117;
-  --surface: #131c25;
-  --surface-2: #1a2530;
-  --border: rgba(255,255,255,0.08);
-  --border-2: rgba(255,255,255,0.15);
-  --text: #e8edf2;
-  --text-2: #9aa7b2;
-  --text-3: #6b7681;
-  --shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ===== TOP BAR ===== */
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 24px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 100;
-}
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo-mark {
-  width: 36px; height: 36px; background: var(--brand);
-  border-radius: 9px; display: flex; align-items: center; justify-content: center;
-}
-.logo-mark i { color: #fff; font-size: 20px; }
-.logo-text { display: flex; flex-direction: column; }
-.logo-title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
-.logo-sub { font-size: 11px; color: var(--text-2); }
-.topbar-right { display: flex; align-items: center; gap: 10px; }
-.live-pill {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: var(--text-2);
-  border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px;
-}
-.live-dot {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--brand);
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.icon-btn {
-  width: 34px; height: 34px; border: 1px solid var(--border);
-  background: var(--surface); border-radius: var(--radius);
-  cursor: pointer; color: var(--text-2); font-size: 17px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.icon-btn:hover { background: var(--surface-2); color: var(--text); }
-
-/* ===== NAV ===== */
-.nav {
-  display: flex; gap: 2px; padding: 0 16px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto; position: sticky; top: 61px; z-index: 90;
-}
-.nav::-webkit-scrollbar { height: 0; }
-.nav-tab {
-  display: flex; align-items: center; gap: 7px;
-  padding: 12px 16px; font-size: 13px; font-family: var(--font);
-  color: var(--text-2); background: none; border: none;
-  border-bottom: 2px solid transparent; cursor: pointer;
-  white-space: nowrap; transition: color 0.15s;
-}
-.nav-tab i { font-size: 16px; }
-.nav-tab:hover { color: var(--text); }
-.nav-tab.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 500; }
-
-/* ===== CONTENT ===== */
-.content { max-width: 1280px; margin: 0 auto; padding: 24px; }
-.page { display: none; animation: fade 0.3s; }
-.page.active { display: block; }
-@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.page-head { margin-bottom: 20px; }
-.page-head h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
-.page-head p { font-size: 14px; color: var(--text-2); margin-top: 4px; }
-
-/* ===== KPI ===== */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
-.kpi-grid.kpi-3 { grid-template-columns: repeat(3, 1fr); }
-.kpi {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 16px 18px;
-}
-.kpi.danger { border-color: rgba(226,75,74,0.3); }
-.kpi-label { font-size: 11px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-.kpi-val { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
-.kpi-sub { font-size: 11px; color: var(--text-2); margin-top: 4px; }
-
-/* ===== CARDS ===== */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 18px;
-  margin-bottom: 16px; box-shadow: var(--shadow);
-}
-.card-head {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 600; margin-bottom: 14px;
-}
-.card-head i { font-size: 17px; color: var(--text-2); }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.grid-map { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 16px; }
-.chart-box { position: relative; width: 100%; }
-.note { font-size: 12px; color: var(--text-2); margin-top: 10px; }
-.note i { color: var(--warn); }
-.muted { color: var(--text-2); font-size: 13px; }
-.sub-head { font-size: 11px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 8px; }
-
-/* ===== LEGEND ===== */
-.legend { display: flex; gap: 18px; margin-top: 12px; }
-.lg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); }
-.lg-dot { width: 9px; height: 9px; border-radius: 2px; }
-
-/* ===== TABLES ===== */
-.table-scroll { overflow-x: auto; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.data-table th {
-  text-align: left; padding: 9px 10px; font-weight: 500;
-  color: var(--text-2); background: var(--surface-2);
-  border-bottom: 1px solid var(--border); text-transform: uppercase;
-  font-size: 10px; letter-spacing: 0.04em; white-space: nowrap;
-}
-.data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
-.data-table tr:hover td { background: var(--surface-2); }
-.data-table tr.highlight td { background: rgba(29,158,117,0.08); }
-
-/* ===== BADGES ===== */
-.badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 8px; font-weight: 500; }
-.b-green { background: rgba(29,158,117,0.15); color: var(--brand-dark); }
-.b-red { background: rgba(226,75,74,0.15); color: #a32d2d; }
-.b-amber { background: rgba(186,117,23,0.15); color: #854f0b; }
-.b-blue { background: rgba(55,138,221,0.15); color: #185fa5; }
-.b-purple { background: rgba(83,74,183,0.15); color: #3c3489; }
-.arch-dist { color: var(--dist); font-weight: 500; }
-.arch-cent { color: var(--cent); font-weight: 500; }
-
-/* ===== MAP ===== */
-.map-toolbar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-.search-wrap { position: relative; flex: 1; min-width: 240px; }
-.search-wrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-2); font-size: 16px; }
-.search-wrap input {
-  width: 100%; padding: 10px 12px 10px 36px;
-  border: 1px solid var(--border); border-radius: var(--radius);
-  background: var(--surface); color: var(--text); font-size: 13px; font-family: var(--font);
-}
-.search-wrap input:focus { outline: none; border-color: var(--brand); }
-.search-results {
-  position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px;
-  background: var(--surface); border: 1px solid var(--border-2);
-  border-radius: var(--radius); overflow: hidden; z-index: 50; display: none;
-}
-.search-item { padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
-.search-item:hover { background: var(--surface-2); }
-.layer-toggle { display: flex; gap: 4px; }
-.layer-btn {
-  padding: 9px 16px; font-size: 13px; font-family: var(--font);
-  border: 1px solid var(--border); background: var(--surface);
-  color: var(--text-2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s;
-}
-.layer-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
-.map-card { position: relative; padding: 8px; }
-#mapSvg { width: 100%; height: auto; max-height: 520px; cursor: pointer; }
-.map-tip {
-  position: absolute; background: var(--surface); border: 1px solid var(--border-2);
-  border-radius: var(--radius); padding: 10px 12px; font-size: 12px;
-  pointer-events: none; display: none; z-index: 60; min-width: 160px; box-shadow: var(--shadow);
-}
-.district-list { display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto; }
-.dist-item {
-  border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 11px 13px; cursor: pointer; transition: border-color 0.15s;
-}
-.dist-item:hover { border-color: var(--border-2); }
-.dist-item.active { border: 1px solid var(--brand); }
-.dist-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.dist-name { font-size: 13px; font-weight: 500; }
-.dist-bars { display: flex; flex-direction: column; gap: 5px; }
-.bar-row { display: flex; align-items: center; gap: 8px; }
-.bar-lbl { font-size: 11px; color: var(--text-2); width: 56px; flex-shrink: 0; }
-.bar-track { flex: 1; height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
-.bar-val { font-size: 11px; color: var(--text-2); width: 36px; text-align: right; flex-shrink: 0; }
-
-/* ===== SLIDERS ===== */
-.control-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
-select {
-  padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius);
-  background: var(--surface); color: var(--text); font-size: 13px; font-family: var(--font); cursor: pointer;
-}
-select:focus { outline: none; border-color: var(--brand); }
-.btn-primary {
-  display: flex; align-items: center; gap: 6px;
-  padding: 9px 18px; background: var(--brand); color: #fff;
-  border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500;
-  font-family: var(--font); cursor: pointer; transition: background 0.15s;
-}
-.btn-primary:hover { background: var(--brand-dark); }
-.btn-ghost {
-  display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center;
-  padding: 9px 14px; background: var(--surface); color: var(--text);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  font-size: 12px; font-family: var(--font); cursor: pointer; margin-top: 12px;
-}
-.btn-ghost:hover { background: var(--surface-2); }
-.slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; }
-.slider-item { }
-.slider-top { display: flex; justify-content: space-between; margin-bottom: 4px; }
-.slider-top label { font-size: 11px; color: var(--text-2); }
-.slider-top span { font-size: 11px; font-weight: 500; font-family: var(--mono); }
-input[type=range] {
-  width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
-  background: var(--surface-2); border-radius: 2px; cursor: pointer;
-}
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
-  border-radius: 50%; background: var(--brand); cursor: pointer; border: 2px solid var(--surface);
-}
-input[type=range]::-moz-range-thumb {
-  width: 16px; height: 16px; border-radius: 50%; background: var(--brand);
-  cursor: pointer; border: 2px solid var(--surface);
-}
-
-/* ===== PREDICT RESULT ===== */
-.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-.risk-cell { border-radius: var(--radius); padding: 16px; text-align: center; }
-.risk-cell-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.risk-cell-val { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
-.risk-cell-tag { font-size: 13px; margin-top: 4px; font-weight: 500; }
-.compound-alert {
-  background: rgba(226,75,74,0.12); border: 1px solid var(--danger);
-  border-radius: var(--radius); padding: 12px; margin-bottom: 14px;
-  font-size: 13px; color: #a32d2d; font-weight: 500;
-}
-.driver-box { background: var(--surface-2); border-radius: var(--radius); padding: 12px; font-size: 12px; color: var(--text-2); }
-.driver-box b { color: var(--text); }
-
-/* ===== FEATURES ===== */
-.feat-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); }
-.feat-name { font-size: 12px; width: 120px; flex-shrink: 0; }
-.feat-src { width: 78px; flex-shrink: 0; }
-.feat-track { flex: 1; height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
-.feat-bar { height: 100%; border-radius: 4px; }
-.feat-val { font-size: 11px; color: var(--text-2); width: 46px; text-align: right; flex-shrink: 0; font-family: var(--mono); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.chip { font-size: 11px; padding: 4px 11px; border-radius: 8px; background: rgba(83,74,183,0.12); color: #3c3489; font-weight: 500; }
-.leak-box { background: rgba(226,75,74,0.08); border: 1px solid rgba(226,75,74,0.4); border-radius: var(--radius); padding: 12px; margin-top: 14px; }
-.leak-title { font-size: 12px; font-weight: 500; color: #a32d2d; margin-bottom: 5px; }
-.leak-box p { font-size: 11px; color: #791f1f; }
-[data-theme="dark"] .leak-box p { color: #f09595; }
-
-/* ===== RQ ===== */
-.rq-banner { border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 18px; font-size: 14px; }
-.rq-banner.info { background: rgba(55,138,221,0.1); border: 1px solid rgba(55,138,221,0.3); color: var(--text); }
-.rq-banner.warn { background: rgba(186,117,23,0.1); border: 1px solid rgba(186,117,23,0.3); color: var(--text); }
-.rq-tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--info); margin-bottom: 4px; }
-.rq-banner.warn .rq-tag { color: var(--warn); }
-.rq-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; background: var(--surface); }
-.rq-num { font-size: 11px; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-.rq-q { font-size: 14px; font-weight: 500; margin-bottom: 10px; }
-.rq-a { font-size: 13px; color: var(--text-2); line-height: 1.7; }
-.rq-foot { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
-.rq-status { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 8px; }
-
-/* ===== FRAMING ===== */
-.framing ul { list-style: none; }
-.framing li { font-size: 12px; color: var(--text-2); padding: 5px 0 5px 18px; position: relative; line-height: 1.6; }
-.framing li::before { content: "→"; position: absolute; left: 0; color: var(--dist); }
-.framing.ok li::before { color: var(--ok); }
-
-/* ===== SCALE / FACT ===== */
-.scale-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
-.scale-row.head { font-size: 10px; color: var(--text-2); text-transform: uppercase; }
-.fact-list { display: flex; flex-direction: column; }
-.fact { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.fact span:first-child { color: var(--text-2); }
-.fact span:last-child { font-weight: 500; }
-
-/* ===== CV TABLE ===== */
-#cvTable table { width: 100%; border-collapse: collapse; font-size: 12px; }
-#cvTable th { padding: 7px 8px; text-align: left; font-weight: 500; color: var(--text-2); background: var(--surface-2); border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; }
-#cvTable td { padding: 7px 8px; border-bottom: 1px solid var(--border); }
-
-/* ===== PIPELINE ===== */
-.pipeline { display: flex; flex-direction: column; gap: 10px; }
-.pl-step { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--text-2); line-height: 1.6; }
-.pl-tag { flex-shrink: 0; font-size: 10px; padding: 2px 8px; border-radius: 5px; font-weight: 500; }
-.pl-tag.ok { background: rgba(29,158,117,0.15); color: var(--brand-dark); }
-.pl-tag.danger { background: rgba(226,75,74,0.15); color: #a32d2d; }
-
-/* ===== FOOTER ===== */
-.footer {
-  max-width: 1280px; margin: 0 auto; padding: 20px 24px;
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-  font-size: 11px; color: var(--text-3); border-top: 1px solid var(--border);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .kpi-grid, .kpi-grid.kpi-3 { grid-template-columns: repeat(2, 1fr); }
-  .grid-2, .grid-map { grid-template-columns: 1fr; }
-  .slider-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 560px) {
-  .kpi-grid, .kpi-grid.kpi-3 { grid-template-columns: 1fr; }
-  .content { padding: 16px; }
-  .logo-sub { display: none; }
-}
-
-
-  /* ── pulsing district markers ── */
-  .hw-mk{position:relative;display:flex;align-items:center;justify-content:center}
-  .hw-mk-core{border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;
-    align-items:center;justify-content:center;font-family:monospace;font-size:9px;
-    font-weight:700;color:#fff;}
-  .hw-mk-ring{position:absolute;border-radius:50%;border:2px solid;
-    top:-5px;left:-5px;right:-5px;bottom:-5px;
-    animation:hwring 2.5s ease-in-out infinite;}
-  @keyframes hwring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.4);opacity:0}}
-  .hw-crit .hw-mk-ring{border-color:#FF4757;animation-duration:1.1s}
-  .hw-high .hw-mk-ring{border-color:#FF8C42;animation-duration:1.8s}
-  .hw-med  .hw-mk-ring{border-color:#FFD700;animation-duration:2.8s}
-  .hw-low  .hw-mk-ring{border-color:#2ECC71;animation-duration:4s}
-  /* ── Leaflet popup override (light theme) ── */
-  .leaflet-popup-content-wrapper{background:#fff!important;border:1px solid #e2e8f0!important;
-    border-radius:10px!important;box-shadow:0 4px 20px rgba(0,0,0,.12)!important;color:#1a202c!important;}
-  .leaflet-popup-tip{background:#fff!important}
-  .hw-pop{font-family:inherit;min-width:190px}
-  .hw-pop-name{font-size:13px;font-weight:700;margin-bottom:9px}
-  .hw-pop-row{display:flex;align-items:center;gap:7px;font-size:11px;margin-bottom:5px}
-  .hw-pop-lbl{color:#718096;width:68px;flex-shrink:0}
-  .hw-pop-bar{flex:1;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden}
-  .hw-pop-fill{height:100%;border-radius:2px}
-  .hw-pop-num{font-family:monospace;font-size:11px;font-weight:700;width:30px;text-align:right}
-  /* ── district list items ── */
-  .hw-ditem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;
-    cursor:pointer;border:1px solid transparent;transition:.2s;}
-  .hw-ditem:hover{background:rgba(0,0,0,.04);border-color:#e2e8f0}
-  .hw-drank{font-family:monospace;font-size:10px;color:#a0aec0;width:16px;text-align:right}
-  .hw-dcirc{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
-    justify-content:center;font-size:9px;font-weight:700;font-family:monospace;flex-shrink:0;}
-  .hw-dinfo{flex:1;min-width:0}
-  .hw-dname{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .hw-dpills{display:flex;gap:3px;margin-top:2px}
-  .hw-pill{font-size:9px;padding:1px 5px;border-radius:3px;font-family:monospace;font-weight:700;}
-  /* ── predict section ── */
-  .hw-pred-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;
-    opacity:.5;margin-bottom:8px;}
-  .hw-presets{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
-  .hw-pbtn{display:flex;flex-direction:column;padding:9px 12px 8px;
-    background:rgba(0,0,0,.03);border:1px solid #e2e8f0;border-radius:9px;
-    color:#718096;font-size:11px;font-weight:500;cursor:pointer;transition:.2s;text-align:left;}
-  .hw-pbtn:hover{border-color:#63b3ff;color:#2b6cb0}
-  .hw-pbtn.on{border-color:#3182ce;color:#3182ce;background:rgba(49,130,206,.06)}
-  .hw-pbtn-ico{font-size:15px;margin-bottom:3px}
-  .hw-sliders{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px}
-  .hw-sg{display:flex;flex-direction:column;gap:6px}
-  .hw-sl-lbl{font-size:11px;font-weight:500;color:#4a5568;
-    display:flex;justify-content:space-between;align-items:center;}
-  .hw-sl-val{font-family:monospace;font-size:12px;font-weight:700;color:#1a202c}
-  .hw-range{width:100%;height:4px;accent-color:#3182ce;cursor:pointer}
-  .hw-mtabs{display:flex;gap:6px;margin-bottom:18px}
-  .hw-mt{padding:6px 14px;background:rgba(0,0,0,.03);border:1px solid #e2e8f0;
-    border-radius:5px;color:#718096;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;}
-  .hw-mt.on{background:rgba(49,130,206,.08);border-color:#3182ce;color:#2b6cb0}
-  .hw-gitem{margin-bottom:16px}
-  .hw-g-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5px}
-  .hw-g-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#a0aec0}
-  .hw-g-val{font-family:monospace;font-size:22px;font-weight:700;line-height:1}
-  .hw-g-track{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:5px}
-  .hw-g-fill{height:100%;border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
-  .hw-g-sev{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5px;
-    padding:2px 7px;border-radius:3px;}
-  .hw-mbadge{font-size:11px;color:#718096;margin-bottom:8px}
-  .hw-mbadge strong{color:#2d3748}
-  .hw-interp{padding:11px 13px;border-radius:9px;border-left:3px solid;
-    font-size:11px;line-height:1.65;color:#4a5568;}
-  @media(max-width:760px){
-    .hw-sliders{grid-template-columns:1fr}
-    .hw-presets{flex-direction:column}
-  }
-  
-
-.risk-cat-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.69rem;font-weight:700;white-space:nowrap}
-.badge-compound{background:#8b00ff22;color:#b060ff;border:1px solid #8b00ff55}
-.badge-high{background:#d85a3022;color:#d06040;border:1px solid #d85a3055}
-.badge-moderate{background:#e3b34122;color:#b08020;border:1px solid #e3b34155}
-.badge-low{background:#1d9e7522;color:#1d9e75;border:1px solid #1d9e7555}
-.badge-none{background:#6b728022;color:#8b949e;border:1px solid #6b728055}
-.sev-high{color:#d85a30;font-weight:700;font-size:.76rem}
-.sev-med{color:#e3b341;font-size:.76rem}
-.sev-low{color:#1d9e75;font-size:.76rem}
-.sev-none{color:#8b949e;font-size:.76rem}
-.cls-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem;flex-wrap:wrap}
-.cls-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.cls-name{width:200px;flex-shrink:0;font-weight:500}
-.cls-track{flex:1;min-width:80px;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
-.cls-bar{height:100%;border-radius:4px}
-.cls-count{width:60px;text-align:right;font-family:var(--mono);font-size:.75rem}
-.cls-pct{width:48px;text-align:right;color:var(--text-2);font-size:.74rem}
-.cls-desc{flex:2;min-width:160px;color:var(--text-3)!important;font-size:.72rem}
-.geo-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
-.geo-search{background:var(--surface);border:1px solid var(--border-2);border-radius:6px;padding:6px 10px;color:var(--text);font-size:.8rem;width:200px}
-.geo-search::placeholder{color:var(--text-3)}
-.geo-filter{background:var(--surface);border:1px solid var(--border-2);border-radius:6px;padding:5px 8px;color:var(--text);font-size:.78rem}
-.geo-count{margin-left:auto;font-size:.72rem;color:var(--text-3)}
-.geo-subtabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:14px}
-.geo-subtab{padding:8px 18px;cursor:pointer;border-bottom:3px solid transparent;font-size:.83rem;color:var(--text-2);background:none;border-top:none;border-left:none;border-right:none;transition:.15s}
-.geo-subtab.active{color:var(--brand);border-bottom-color:var(--brand)}
-.table-scroll{overflow-x:auto;max-height:520px;overflow-y:auto;border-radius:6px;border:1px solid var(--border)}
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -473,10 +18,10 @@ input[type=range]::-moz-range-thumb {
   <!-- ===== TOP BAR ===== -->
   <header class="topbar">
     <div class="logo">
-      <div class="logo-mark"><i class="ti ti-activity"></i></div>
+      <div class="logo-mark"><i class="ti ti-radar"></i></div>
       <div class="logo-text">
         <span class="logo-title">HazardWatch</span>
-        <span class="logo-sub">Compound Risk Intelligence · Sri Lanka</span>
+        <span class="logo-sub">Hazard Intelligence · Sri Lanka</span>
       </div>
     </div>
     <div class="topbar-right">
@@ -491,13 +36,13 @@ input[type=range]::-moz-range-thumb {
     <button class="nav-tab active" data-page="map"><i class="ti ti-map-2"></i> Live map</button>
     <button class="nav-tab" data-page="predict"><i class="ti ti-target"></i> Predict</button>
     <button class="nav-tab" data-page="overview"><i class="ti ti-chart-bar"></i> Analytics</button>
-    <button class="nav-tab" data-page="models"><i class="ti ti-chart-bar"></i> Models</button>
+    <button class="nav-tab" data-page="models"><i class="ti ti-table"></i> Models</button>
     <button class="nav-tab" data-page="features"><i class="ti ti-list-numbers"></i> Features</button>
     <button class="nav-tab" data-page="scalability"><i class="ti ti-bolt"></i> Scalability</button>
     <button class="nav-tab" data-page="ditwah"><i class="ti ti-wind"></i> Ditwah</button>
     <button class="nav-tab" data-page="geography"><i class="ti ti-map-pin"></i> Geography</button>
     <button class="nav-tab" data-page="data"><i class="ti ti-database"></i> Data</button>
-    <button class="nav-tab" data-page="research"><i class="ti ti-help-circle"></i> Research</button>
+    <button class="nav-tab" data-page="research"><i class="ti ti-file-text"></i> Research</button>
   </nav>
 
   <main class="content">
@@ -543,7 +88,7 @@ input[type=range]::-moz-range-thumb {
     <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
-        <p>DS Division-level compound hazard risk — 323 Divisional Secretariats plotted individually from <code>feature_store.parquet</code>. Circle size and colour reflect actual flood, landslide, and compound risk. Click any circle for details.</p>
+        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
       </div>
 
       <!-- toolbar -->
@@ -551,9 +96,9 @@ input[type=range]::-moz-range-thumb {
         <div style="position:relative;flex:1;min-width:200px;max-width:420px;">
           <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;font-size:14px;"></i>
           <input type="text" id="hw-search-input"
-                 placeholder="Search DS division, district or province…"
+                 placeholder="Search district or province..."
                  oninput="hwFilter(this.value)"
-                 style="width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border-color,#e2e8f0);
+                 style="width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border);
                         border-radius:6px;font-size:13px;background:inherit;color:inherit;outline:none;">
         </div>
         <div class="layer-toggle" style="display:flex;gap:4px;">
@@ -575,14 +120,14 @@ input[type=range]::-moz-range-thumb {
           <div id="hwLeafletMap" style="width:100%;height:460px;"></div>
           <!-- legend -->
           <div style="position:absolute;bottom:10px;left:10px;z-index:500;
-                      background:rgba(255,255,255,.95);border:1px solid #e2e8f0;
-                      border-radius:7px;padding:9px 12px;font-size:11px;color:#4a5568;
+                      background:var(--surface);border:1px solid var(--border);
+                      border-radius:7px;padding:9px 12px;font-size:11px;color:var(--text-2);
                       box-shadow:0 2px 8px rgba(0,0,0,.1);">
-            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#a0aec0;margin-bottom:6px;" id="hw-leg-title">Flood risk level</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld0" style="width:9px;height:9px;border-radius:50%;background:#d85a30;display:inline-block;"></span><span id="hw-ll0">High (&gt;15%)</span></div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld1" style="width:9px;height:9px;border-radius:50%;background:#ba7517;display:inline-block;"></span><span id="hw-ll1">Moderate (5–15%)</span></div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld2" style="width:9px;height:9px;border-radius:50%;background:#378add;display:inline-block;"></span><span id="hw-ll2">Low (1–5%)</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><span class="hw-leg-dot" id="hw-ld3" style="width:9px;height:9px;border-radius:50%;background:#1d9e75;display:inline-block;"></span><span id="hw-ll3">Minimal (&lt;1%)</span></div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:6px;">Risk Level</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF4757;display:inline-block;"></span>Critical (&gt;0.75)</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF8C42;display:inline-block;"></span>High (0.50–0.75)</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FFD700;display:inline-block;"></span>Medium (0.25–0.50)</div>
+            <div style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:#2ECC71;display:inline-block;"></span>Low (&lt;0.25)</div>
           </div>
         </div>
 
@@ -590,7 +135,7 @@ input[type=range]::-moz-range-thumb {
         <div class="card" style="padding:0;overflow:hidden;">
           <div class="card-head" style="padding:12px 14px 10px;">
             <i class="ti ti-list"></i>
-            <span id="hw-list-title">Risk-ranked DS divisions — Flood</span>
+            <span id="hw-list-title">Risk-ranked districts — Flood</span>
           </div>
           <div id="hw-district-list" style="max-height:420px;overflow-y:auto;padding:4px 6px;"></div>
         </div>
@@ -604,19 +149,19 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:8px 0 4px;">
           <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
-            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#d85a30;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#d85a30;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
+            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#3B9EFF;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#3B9EFF;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
-            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#534ab7;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#534ab7;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
+            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF8C42;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#FF8C42;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
-            <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
-            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#8b00ff;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#8b00ff;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
+            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF4757;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#FF4757;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
         </div>
       </div>
@@ -627,7 +172,7 @@ input[type=range]::-moz-range-thumb {
         <div class="map-toolbar">
           <div class="search-wrap">
             <i class="ti ti-search"></i>
-            <input type="text" id="mapSearch" placeholder="Search DS division, district or province…">
+            <input type="text" id="mapSearch" placeholder="Search district or province...">
             <div id="searchResults" class="search-results"></div>
           </div>
           <div class="layer-toggle">
@@ -740,7 +285,7 @@ input[type=range]::-moz-range-thumb {
         <div class="card" id="predictResult">
           <div class="card-head"><i class="ti ti-activity"></i> Risk assessment</div>
 
-          <div id="hw-res-ph" style="padding:40px 0;text-align:center;color:#a0aec0;">
+          <div id="hw-res-ph" style="padding:40px 0;text-align:center;color:var(--text-3);">
             <p>Adjust inputs and click <strong>Run Prediction</strong></p>
           </div>
 
@@ -769,7 +314,7 @@ input[type=range]::-moz-range-thumb {
               <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-c" style="background:#FF4757;width:0;"></div></div>
               <span class="hw-g-sev" id="hw-gs-c"></span>
             </div>
-            <hr style="border:none;border-top:1px solid #e2e8f0;margin:14px 0;">
+            <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
             <div class="hw-mbadge" id="hw-mbadge"></div>
             <div class="hw-interp" id="hw-interp"></div>
           </div>
@@ -7859,65 +7404,27 @@ function redrawAllCharts() {
    */
 
   var hwMap = null, hwMks = [], hwMode = 'flood';
-  // HW_D built from DS_DIVISIONS (323 DS-level records from feature_store.parquet)
-  // field normalisation: flood_rate/ls_rate are 0-100%; compound is integer cell count.
+  // HW_D populated from real DISTRICTS inside hwInitMap()
   var HW_D = [];
 
-  // ── colour helpers (DS-level % thresholds) ──────────────────────────────
-  // flood/land: value is %; compound: value is cell count
-  var HW_CFG = {
-    flood:    { t:[1,5,15],   cols:['#1d9e75','#378add','#ba7517','#d85a30'],
-                leg:['Flood risk level',  'High (>15%)','Moderate (5–15%)','Low (1–5%)','Minimal (<1%)'] },
-    land:     { t:[5,20,40],  cols:['#1d9e75','#afa9ec','#534ab7','#2d2680'],
-                leg:['Landslide risk',    'High (>40%)','Moderate (20–40%)','Low (5–20%)','Minimal (<5%)'] },
-    compound: { t:[0,1,3],    cols:['#1d9e75','#c084fc','#8b00ff','#5b0095'],
-                leg:['Compound hazard cells','High (>3)','Moderate (1–3)','Present (≥1)','None'] },
-  };
-
-  function hwRCol(v, mode){
-    var t = HW_CFG[mode].t, c = HW_CFG[mode].cols;
-    if(v >= t[2]) return c[3];
-    if(v >= t[1]) return c[2];
-    if(v >= t[0]) return c[1];
-    return c[0];
-  }
-  function hwSc(d, m){
-    if(m === 'flood')    return Number(d.flood_rate) || 0;
-    if(m === 'land')     return Number(d.ls_rate)    || 0;
-    if(m === 'compound') return Number(d.compound)   || 0;
-    return 0;
-  }
-  // Normalise to 0-1 for radius/bar scaling, capped at known maximum
-  function hwNorm(v, mode){
-    var max = {flood:25.7, land:85.4, compound:6}[mode] || 25;
-    return Math.min(1, v / max);
-  }
+  function hwRCol(v){ return v>=.75?'#d85a30':v>=.5?'#ba7517':v>=.25?'#378add':'#1d9e75'; }
+  function hwRCls(v){ return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'; }
+  function hwSc(d,m){ return m==='flood'?d.f : m==='land'?d.l : d.c; }
 
   /* ── MAP ── */
   function hwInitMap(){
     var el = document.getElementById('hwLeafletMap');
     if(!el){ console.warn('hwLeafletMap not found'); return; }
 
-    // Build from DS_DIVISIONS — 323 DS-level records
-    if(typeof DS_DIVISIONS !== 'undefined' && DS_DIVISIONS.length > 0){
-      HW_D = DS_DIVISIONS.map(function(d){
-        return {
-          n:   d.district,
-          adm: d.admin_district,
-          lat: Number(d.lat),
-          lng: Number(d.lon),
-          flood_rate: Number(d.flood_rate)  || 0,   // 0-100 %
-          ls_rate:    Number(d.ls_rate)     || 0,   // 0-100 %
-          compound:   Number(d.compound)    || 0,   // integer cells
-          province:   d.province,
-          rain:       Number(d.rain).toFixed(1),
-          elevation:  Number(d.elevation).toFixed(0),
-          cells:      Number(d.cells),
-          risk_cat:   d.risk_category || '',
-        };
+    // Build district data from real data.js values
+    if(typeof DISTRICTS !== 'undefined' && DISTRICTS.length > 0){
+      HW_D = DISTRICTS.map(function(d){
+        return { n:d.name, lat:d.lat, lng:d.lon, f:d.flood, l:d.land,
+                 c:parseFloat(((d.flood+d.land)/2).toFixed(3)),
+                 province:d.province, rain:d.rain };
       });
     }
-    if(HW_D.length === 0){ console.warn('No DS_DIVISIONS data'); return; }
+    if(HW_D.length === 0){ console.warn('No district data'); return; }
 
     hwMap = L.map('hwLeafletMap', { center:[7.87,80.77], zoom:7, zoomControl:false });
     L.control.zoom({ position:'bottomleft' }).addTo(hwMap);
@@ -7935,61 +7442,50 @@ function redrawAllCharts() {
     hwMks.forEach(function(m){ hwMap.removeLayer(m); });
     hwMks = [];
     HW_D.forEach(function(d){
-      var v   = hwSc(d, mode);
-      var col = hwRCol(v, mode);
-      var nv  = hwNorm(v, mode);
-      // circleMarker: radius 5-22px proportional to normalised value
-      var r   = Math.round(5 + nv * 17);
-      var mk  = L.circleMarker([d.lat, d.lng], {
-        radius:      r,
-        fillColor:   col,
-        color:       col,
-        weight:      1,
-        opacity:     0.9,
-        fillOpacity: 0.78,
-      })
-      .addTo(hwMap)
-      .bindPopup(hwPopup(d, mode), {maxWidth:240})
-      .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
+      var v = hwSc(d,mode), col = hwRCol(v), cls = hwRCls(v);
+      var sz = 22 + Math.round(v * 16);
+      var icon = L.divIcon({
+        className:'',
+        html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
+            +'<div class="hw-mk-ring"></div>'
+            +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.9">'
+            +Math.round(v*100)+'</div></div>',
+        iconSize:[sz,sz], iconAnchor:[sz/2,sz/2]
+      });
+      var mk = L.marker([d.lat,d.lng], {icon:icon})
+        .addTo(hwMap)
+        .bindPopup(hwPopup(d), {maxWidth:230})
+        .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
       hwMks.push(mk);
     });
   }
 
-  function hwPopup(d, mode){
-    function row(lbl, val, unit, col){
-      var pctVal = Math.min(100, (mode==='compound' ? (val/6)*100 : val)).toFixed(0);
+  function hwPopup(d){
+    function row(lbl,v,col){
       return '<div class="hw-pop-row">'
         +'<span class="hw-pop-lbl">'+lbl+'</span>'
-        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+pctVal+'%"></div></div>'
-        +'<span class="hw-pop-num" style="color:'+col+'">'+Number(val).toFixed(1)+unit+'</span></div>';
+        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100).toFixed(0)+'%"></div></div>'
+        +'<span class="hw-pop-num" style="color:'+col+'">'+(v*100).toFixed(0)+'%</span></div>';
     }
     return '<div class="hw-pop">'
-      +'<div class="hw-pop-name">'+_hwE(d.n)+'</div>'
-      +'<div style="font-size:11px;color:#718096;margin-bottom:8px;">'
-        +_hwE(d.adm)+' · '+_hwE(d.province)+' Province</div>'
-      +row('Flood',    d.flood_rate, '%',      '#d85a30')
-      +row('Landslide',d.ls_rate,   '%',      '#534ab7')
-      +row('Compound', d.compound,  ' cells', '#8b00ff')
-      +'<div style="font-size:10px;color:#718096;margin-top:7px;padding:2px 6px;'
-        +'border-radius:3px;background:rgba(0,0,0,.05);display:inline-block">'
-        +_hwE(d.risk_cat)+'</div>'
+      +'<div class="hw-pop-name">'+d.n+'</div>'
+      +(d.province ? '<div style="font-size:11px;color:var(--text-2);margin-bottom:8px;">'+d.province+' Province · '+d.rain+' mm rain</div>' : '')
+      +row('Flood',d.f,'#d85a30')
+      +row('Landslide',d.l,'#534ab7')
+      +row('Compound',d.c,'#8b00ff')
       +'</div>';
   }
 
   function hwShowDet(d){
     var card = document.getElementById('hw-detail-card');
     if(card) card.style.display = 'block';
-    document.getElementById('hw-sel-district').textContent =
-      d.n + ' — ' + d.adm + ', ' + d.province + ' Province';
-    // flood
-    document.getElementById('hw-df').textContent  = d.flood_rate.toFixed(1)+'%';
-    document.getElementById('hw-dfb').style.width = Math.min(d.flood_rate/25.7*100, 100).toFixed(1)+'%';
-    // land
-    document.getElementById('hw-dl').textContent  = d.ls_rate.toFixed(1)+'%';
-    document.getElementById('hw-dlb').style.width = Math.min(d.ls_rate/85.4*100, 100).toFixed(1)+'%';
-    // compound
-    document.getElementById('hw-dc').textContent  = d.compound+' cells';
-    document.getElementById('hw-dcb').style.width = Math.min(d.compound/6*100, 100).toFixed(1)+'%';
+    document.getElementById('hw-sel-district').textContent = d.n + (d.province ? ', '+d.province+' Province' : '');
+    document.getElementById('hw-df').textContent = (d.f*100).toFixed(0)+'%';
+    document.getElementById('hw-dl').textContent = (d.l*100).toFixed(0)+'%';
+    document.getElementById('hw-dc').textContent = (d.c*100).toFixed(0)+'%';
+    document.getElementById('hw-dfb').style.width = (d.f*100)+'%';
+    document.getElementById('hw-dlb').style.width = (d.l*100)+'%';
+    document.getElementById('hw-dcb').style.width = (d.c*100)+'%';
   }
 
   function hwSetMode(mode, btn){
@@ -7999,20 +7495,10 @@ function redrawAllCharts() {
       if(b) b.classList.remove('active');
     });
     if(btn) btn.classList.add('active');
-    // update legend
-    var cfg = HW_CFG[mode];
-    var lt  = document.getElementById('hw-leg-title');
-    if(lt) lt.textContent = cfg.leg[0];
-    for(var i = 0; i < 4; i++){
-      var dot = document.getElementById('hw-ld'+i);
-      var lbl = document.getElementById('hw-ll'+i);
-      if(dot) dot.style.background = cfg.cols[3-i];
-      if(lbl) lbl.textContent = cfg.leg[i+1];
-    }
     hwDraw(mode);
     hwBuildList(mode);
     var t = document.getElementById('hw-list-title');
-    if(t) t.textContent = 'Risk-ranked DS divisions — '
+    if(t) t.textContent = 'Risk-ranked districts — '
       + (mode==='flood'?'Flood' : mode==='land'?'Landslide' : 'Compound');
   }
 
@@ -8020,25 +7506,22 @@ function redrawAllCharts() {
     var el = document.getElementById('hw-district-list');
     if(!el) return;
     var sorted = HW_D.slice().sort(function(a,b){ return hwSc(b,mode) - hwSc(a,mode); });
-    var buf = '';
+    var html = '';
     sorted.forEach(function(d,i){
-      var v   = hwSc(d, mode);
-      var col = hwRCol(v, mode);
-      var lbl = (mode==='compound') ? v+' cells' : v.toFixed(1)+'%';
-      buf += '<div class="hw-ditem" data-nm="'+_hwE(d.n)+'">'
-        + '<span class="hw-drank">'+String(i+1).padStart(3,'0')+'</span>'
+      var v = hwSc(d,mode), col = hwRCol(v);
+      html += '<div class="hw-ditem" data-nm="'+d.n+'">'
+        + '<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
         + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
-        +   '<span style="color:'+col+';font-size:9px">'+Math.round(v)+'</span></div>'
+        + '<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
         + '<div class="hw-dinfo">'
-        +   '<div class="hw-dname">'+_hwE(d.n)+'</div>'
-        +   '<div style="font-size:10px;color:#a0aec0">'+_hwE(d.adm)+'</div>'
-        +   '<div class="hw-dpills">'
-        +     '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+d.flood_rate.toFixed(1)+'%</span>'
-        +     '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+d.ls_rate.toFixed(1)+'%</span>'
-        +   '</div>'
-        + '</div></div>';
+        + '<div class="hw-dname">'+d.n+'</div>'
+        + '<div class="hw-dpills">'
+        + '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+(d.f*100).toFixed(0)+'%</span>'
+        + '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+(d.l*100).toFixed(0)+'%</span>'
+        + '</div></div></div>';
     });
-    el.innerHTML = buf;
+    el.innerHTML = html;
+    // Use addEventListener — avoids quoting issues with onclick
     el.querySelectorAll('.hw-ditem').forEach(function(item){
       item.addEventListener('click', function(){ hwFly(this.dataset.nm); });
     });
@@ -8046,21 +7529,15 @@ function redrawAllCharts() {
 
   function hwFly(name){
     var d = HW_D.find(function(x){ return x.n === name; });
-    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 10, {duration:1.0}); hwShowDet(d); }
+    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 9, {duration:1.2}); hwShowDet(d); }
   }
 
   function hwFilter(q){
-    var ql = q.toLowerCase();
     document.querySelectorAll('.hw-ditem').forEach(function(item){
-      var nm  = (item.querySelector('.hw-dname')?.textContent  || '').toLowerCase();
-      var adm = (item.querySelector('div[style*="a0aec0"]')?.textContent || '').toLowerCase();
-      item.style.display = (nm.includes(ql) || adm.includes(ql)) ? '' : 'none';
+      item.style.display = item.querySelector('.hw-dname').textContent.toLowerCase()
+        .includes(q.toLowerCase()) ? '' : 'none';
     });
   }
-
-  function _hwE(s){ return String(s||'').replace(/[&<>"']/g,function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-  }); }
 
   /* ── PREDICT ENGINE ── */
   var hwCurModel = 'xgb';

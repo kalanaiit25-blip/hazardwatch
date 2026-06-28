@@ -1,218 +1,280 @@
 /* ===================================================================
    charts.js — Chart.js rendering for all dashboard pages
+   Colours pulled from CSS custom properties so light/dark mode
+   is handled automatically without any JS theme detection.
    =================================================================== */
 
+/* Read a CSS variable from :root */
+function cssVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
 const COLORS = {
-  dist: '#378add', cent: '#d85a30', flood: '#d85a30',
-  land: '#534ab7', ok: '#1d9e75', grid: 'rgba(128,128,128,0.12)'
+  get dist()     { return cssVar('--dist')     || '#1a6fba'; },
+  get cent()     { return cssVar('--cent')     || '#8a5c0f'; },
+  get flood()    { return cssVar('--flood')    || '#1a6fba'; },
+  get land()     { return cssVar('--land')     || '#8a5c0f'; },
+  get compound() { return cssVar('--compound') || '#b91c1c'; },
+  get ok()       { return cssVar('--ok')       || '#1b7c5e'; },
+  get warn()     { return cssVar('--warn')     || '#a35f0a'; },
+  grid: 'rgba(128,128,128,0.10)',
 };
 
 const chartRegistry = {};
 
-function isDark() {
-  return document.documentElement.getAttribute('data-theme') === 'dark';
+function textColor()  { return cssVar('--text-2')  || '#52616d'; }
+function text3Color() { return cssVar('--text-3')  || '#8b96a0'; }
+function gridColor()  { return cssVar('--surface-3') || 'rgba(128,128,128,0.12)'; }
+function baseFont()   { return { size: 11, family: "'Inter', system-ui, sans-serif" }; }
+
+function destroyChart(id){
+  if(chartRegistry[id]){ chartRegistry[id].destroy(); delete chartRegistry[id]; }
 }
 
-function textColor() { return isDark() ? '#9aa7b2' : '#5b6770'; }
-
-function baseFont() { return { size: 11, family: 'Inter, sans-serif' }; }
-
-function destroyChart(id) {
-  if (chartRegistry[id]) { chartRegistry[id].destroy(); delete chartRegistry[id]; }
-}
-
-function makeChart(id, config) {
+function makeChart(id, config){
   const el = document.getElementById(id);
-  if (!el) return null;
+  if(!el) return null;
   destroyChart(id);
   chartRegistry[id] = new Chart(el, config);
   return chartRegistry[id];
 }
 
-// ── Overview: flood AUC bar ──
-function chartOverviewAuc() {
+/* ── Shared axis defaults ── */
+function xAxis(opts){
+  return Object.assign({
+    grid: { display: false },
+    ticks: { font: baseFont(), color: textColor(), maxRotation: 35 },
+    border: { display: false },
+  }, opts);
+}
+function yAxis(opts){
+  return Object.assign({
+    grid: { color: gridColor(), drawBorder: false },
+    ticks: { font: baseFont(), color: textColor() },
+    border: { display: false },
+  }, opts);
+}
+
+/* ── Overview: Flood AUC-ROC ── */
+function chartOverviewAuc(){
   const fd = MODELS.filter(m => m.target === 'flood_risk');
   makeChart('ovAuc', {
     type: 'bar',
     data: {
-      labels: fd.map(m => m.model.replace('LogRegression', 'LR')),
+      labels: fd.map(m => m.model.replace('LogisticRegression','LR')),
       datasets: [{
         data: fd.map(m => m.auc),
         backgroundColor: fd.map(m => m.arch === 'distributed' ? COLORS.dist : COLORS.cent),
-        borderRadius: 4
+        borderRadius: 4,
+        borderSkipped: false,
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => 'AUC ' + c.raw.toFixed(4) } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ' AUC ' + Number(c.raw).toFixed(4) } },
+      },
       scales: {
-        x: { grid: { display: false }, ticks: { font: baseFont(), color: textColor(), maxRotation: 35 } },
-        y: { min: 0.88, max: 0.935, grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } }
+        x: xAxis({ ticks: { font: { size:10 }, color: textColor(), maxRotation: 38 } }),
+        y: yAxis({ min: 0.88, max: 0.94 }),
       }
     }
   });
 }
 
-// ── Overview: PR-AUC bar ──
-function chartOverviewPrauc() {
+/* ── Overview: PR-AUC ── */
+function chartOverviewPrauc(){
   const fd = MODELS.filter(m => m.target === 'flood_risk');
   makeChart('ovPrauc', {
     type: 'bar',
     data: {
-      labels: fd.map(m => m.model.replace('LogRegression', 'LR')),
+      labels: fd.map(m => m.model.replace('LogisticRegression','LR')),
       datasets: [{
         data: fd.map(m => m.prauc),
         backgroundColor: fd.map(m => m.arch === 'distributed' ? COLORS.dist : COLORS.cent),
-        borderRadius: 4
+        borderRadius: 4,
+        borderSkipped: false,
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => 'PR-AUC ' + c.raw.toFixed(4) } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ' PR-AUC ' + (c.raw != null ? Number(c.raw).toFixed(4) : 'N/A') } },
+      },
       scales: {
-        x: { grid: { display: false }, ticks: { font: baseFont(), color: textColor(), maxRotation: 35 } },
-        y: { min: 0, max: 0.9, grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } }
+        x: xAxis({ ticks: { font: { size:10 }, color: textColor(), maxRotation: 38 } }),
+        y: yAxis({ min: 0, max: 1.0 }),
       }
     }
   });
 }
 
-// ── Overview: training time ──
-function chartOverviewTime() {
+/* ── Overview: Training time ── */
+function chartOverviewTime(){
   const fd = MODELS.filter(m => m.target === 'flood_risk');
   makeChart('ovTime', {
     type: 'bar',
     data: {
-      labels: fd.map(m => m.model.replace('LogRegression', 'LR')),
+      labels: fd.map(m => m.model.replace('LogisticRegression','LR')),
       datasets: [{
         data: fd.map(m => m.time),
         backgroundColor: fd.map(m => m.arch === 'distributed' ? COLORS.dist : COLORS.cent),
-        borderRadius: 4
+        borderRadius: 4,
+        borderSkipped: false,
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + ' s' } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ' ' + c.raw + ' s' } },
+      },
       scales: {
-        x: { grid: { display: false }, ticks: { font: baseFont(), color: textColor(), maxRotation: 35 } },
-        y: { grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } }
+        x: xAxis({ ticks: { font: { size:10 }, color: textColor(), maxRotation: 38 } }),
+        y: yAxis(),
       }
     }
   });
 }
 
-// ── Models: AUC + F1 ──
-function chartModelMetric(id, metric, min, max) {
+/* ── Models: AUC + F1 ── */
+function chartModelMetric(id, metric, min, max){
   const fd = MODELS.filter(m => m.target === 'flood_risk');
   makeChart(id, {
     type: 'bar',
     data: {
-      labels: fd.map(m => m.model.replace('LogRegression', 'LR')),
+      labels: fd.map(m => m.model.replace('LogisticRegression','LR')),
       datasets: [{
         data: fd.map(m => m[metric]),
         backgroundColor: fd.map(m => m.arch === 'distributed' ? COLORS.dist : COLORS.cent),
-        borderRadius: 4
+        borderRadius: 4,
+        borderSkipped: false,
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw.toFixed(4) } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ' ' + Number(c.raw).toFixed(4) } },
+      },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 9 }, color: textColor(), maxRotation: 40 } },
-        y: { min, max, grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } }
+        x: xAxis({ ticks: { font: { size:9 }, color: textColor(), maxRotation: 40 } }),
+        y: yAxis({ min, max }),
       }
     }
   });
 }
 
-// ── Forecast line (map page) ──
-function chartForecast(district) {
+/* ── Map page: 7-day forecast ── */
+function chartForecast(district){
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   let flood, land;
-  if (district) {
-    const seed = district.flood * 10;
-    flood = days.map((_, i) => clamp(district.flood + Math.sin(i * 1.3 + seed) * 0.12));
-    land  = days.map((_, i) => clamp(district.land + Math.cos(i * 0.9 + seed) * 0.10));
+  if(district){
+    const sf = district.flood_rate != null ? district.flood_rate / 100 : district.f || 0;
+    const sl = district.ls_rate    != null ? district.ls_rate    / 100 : district.l || 0;
+    const seed = sf * 10;
+    flood = days.map((_,i) => _clamp(sf + Math.sin(i*1.3+seed)*0.12));
+    land  = days.map((_,i) => _clamp(sl + Math.cos(i*0.9+seed)*0.10));
   } else {
-    flood = [0.58, 0.63, 0.61, 0.55, 0.48, 0.62, 0.71];
-    land  = [0.42, 0.48, 0.51, 0.44, 0.38, 0.46, 0.55];
+    flood = [0.14,0.18,0.17,0.12,0.10,0.16,0.21];
+    land  = [0.22,0.28,0.31,0.24,0.18,0.26,0.35];
   }
   makeChart('forecastChart', {
     type: 'line',
     data: {
       labels: days,
       datasets: [
-        { label: 'Flood', data: flood, borderColor: COLORS.flood, backgroundColor: 'rgba(216,90,48,0.08)',
-          tension: 0.4, fill: true, pointRadius: 4, borderWidth: 2, pointStyle: 'circle' },
-        { label: 'Landslide', data: land, borderColor: COLORS.land, backgroundColor: 'rgba(83,74,183,0.08)',
-          tension: 0.4, fill: true, pointRadius: 4, borderWidth: 2, borderDash: [5,3], pointStyle: 'rect' }
+        { label:'Flood', data:flood, borderColor: COLORS.flood,
+          backgroundColor: cssVar('--flood-bg') || 'rgba(26,111,186,0.08)',
+          tension:0.4, fill:true, pointRadius:4, borderWidth:2, pointStyle:'circle' },
+        { label:'Landslide', data:land, borderColor: COLORS.land,
+          backgroundColor: cssVar('--land-bg') || 'rgba(138,92,15,0.08)',
+          tension:0.4, fill:true, pointRadius:4, borderWidth:2, borderDash:[5,3], pointStyle:'rect' },
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { display: true, labels: { font: baseFont(), color: textColor(), boxWidth: 10, usePointStyle: true } },
-        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (c.raw * 100).toFixed(0) + '%' } }
+        legend: {
+          display: true,
+          labels: { font: baseFont(), color: textColor(), boxWidth: 10, usePointStyle: true },
+        },
+        tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + (c.raw*100).toFixed(0)+'%' } },
       },
       scales: {
-        x: { grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } },
-        y: { min: 0, max: 1, grid: { color: COLORS.grid },
-             ticks: { font: baseFont(), color: textColor(), callback: v => (v * 100).toFixed(0) + '%' } }
+        x: xAxis(),
+        y: yAxis({ min:0, max:1,
+          ticks: { callback: v => (v*100).toFixed(0)+'%', font: baseFont(), color: textColor() },
+        }),
       }
     }
   });
 }
 
-function clamp(v) { return Math.max(0.03, Math.min(0.97, v)); }
+function _clamp(v){ return Math.max(0.01, Math.min(0.97, v)); }
 
-// ── Scalability line ──
-function chartScalability() {
+/* ── Scalability: training time line ── */
+function chartScalability(){
   const fl = SCALABILITY.flood;
   makeChart('scaleChart', {
     type: 'line',
     data: {
-      labels: ['25%', '50%', '100%'],
+      labels: fl.map(d => (Number(d.frac)*100).toFixed(0)+'%'),
       datasets: [
-        { label: 'PySpark RF', data: fl.map(d => d.sparkT), borderColor: COLORS.dist,
-          backgroundColor: 'rgba(55,138,221,0.07)', tension: 0.4, fill: true, pointRadius: 5, borderWidth: 2 },
-        { label: 'sklearn RF', data: fl.map(d => d.sklT), borderColor: COLORS.cent,
-          backgroundColor: 'rgba(216,90,48,0.07)', tension: 0.4, fill: true, pointRadius: 5, borderWidth: 2, borderDash: [5,3] }
+        { label:'PySpark RF', data:fl.map(d=>d.sparkT), borderColor: COLORS.dist,
+          backgroundColor: 'rgba(26,111,186,0.06)', tension:0.3, fill:true, pointRadius:5, borderWidth:2 },
+        { label:'sklearn RF', data:fl.map(d=>d.sklT), borderColor: COLORS.cent,
+          backgroundColor: 'rgba(138,92,15,0.06)', tension:0.3, fill:true, pointRadius:5, borderWidth:2, borderDash:[5,3] },
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: true, labels: { font: baseFont(), color: textColor(), boxWidth: 10, usePointStyle: true } },
-        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.raw + 's' } }
+        tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + c.raw + 's' } },
       },
       scales: {
-        x: { grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() } },
-        y: { grid: { color: COLORS.grid }, ticks: { font: baseFont(), color: textColor() },
-             title: { display: true, text: 'Time (s)', font: baseFont(), color: textColor() } }
+        x: xAxis(),
+        y: yAxis({ title: { display:true, text:'Time (s)', font: baseFont(), color: textColor() } }),
       }
     }
   });
 }
 
-// ── Data source doughnut ──
-function chartDataSrc() {
+/* ── Data sources: doughnut ── */
+function chartDataSrc(){
   makeChart('srcChart', {
     type: 'doughnut',
     data: {
-      labels: ['SRTM (5)', 'SoilGrids (4)', 'CHIRPS (3)', 'ESA/MODIS (2)', 'SMAP (1)'],
-      datasets: [{ data: [5, 4, 3, 2, 1],
-        backgroundColor: ['#378add', '#1d9e75', '#d85a30', '#534ab7', '#ba7517'], borderWidth: 0 }]
+      labels: ['SRTM (5)','SoilGrids (4)','CHIRPS (3)','ESA/MODIS (2)','SMAP (1)'],
+      datasets:[{
+        data:[5,4,3,2,1],
+        backgroundColor:[
+          cssVar('--flood')    || '#1a6fba',
+          cssVar('--ok')       || '#1b7c5e',
+          cssVar('--compound') || '#b91c1c',
+          cssVar('--land')     || '#8a5c0f',
+          cssVar('--warn')     || '#a35f0a',
+        ],
+        borderWidth: 0,
+        hoverOffset: 4,
+      }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: true, position: 'right', labels: { font: baseFont(), color: textColor(), boxWidth: 10 } } }
+      plugins: {
+        legend: { display:true, position:'right', labels:{ font: baseFont(), color: textColor(), boxWidth:10, padding:12 } },
+      },
+      cutout: '62%',
     }
   });
 }
 
-function redrawAllCharts() {
+function redrawAllCharts(){
   Object.keys(chartRegistry).forEach(id => {
-    const fn = window['__redraw_' + id];
-    if (fn) fn();
+    const fn = window['__redraw_'+id];
+    if(fn) fn();
   });
 }
