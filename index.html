@@ -543,7 +543,7 @@ input[type=range]::-moz-range-thumb {
     <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
-        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
+        <p>DS Division-level compound hazard risk — 323 Divisional Secretariats plotted individually from <code>feature_store.parquet</code>. Circle size and colour reflect actual flood, landslide, and compound risk. Click any circle for details.</p>
       </div>
 
       <!-- toolbar -->
@@ -551,7 +551,7 @@ input[type=range]::-moz-range-thumb {
         <div style="position:relative;flex:1;min-width:200px;max-width:420px;">
           <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;font-size:14px;"></i>
           <input type="text" id="hw-search-input"
-                 placeholder="Search district or province..."
+                 placeholder="Search DS division, district or province…"
                  oninput="hwFilter(this.value)"
                  style="width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border-color,#e2e8f0);
                         border-radius:6px;font-size:13px;background:inherit;color:inherit;outline:none;">
@@ -578,11 +578,11 @@ input[type=range]::-moz-range-thumb {
                       background:rgba(255,255,255,.95);border:1px solid #e2e8f0;
                       border-radius:7px;padding:9px 12px;font-size:11px;color:#4a5568;
                       box-shadow:0 2px 8px rgba(0,0,0,.1);">
-            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#a0aec0;margin-bottom:6px;">Risk Level</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF4757;display:inline-block;"></span>Critical (&gt;0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF8C42;display:inline-block;"></span>High (0.50–0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FFD700;display:inline-block;"></span>Medium (0.25–0.50)</div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:#2ECC71;display:inline-block;"></span>Low (&lt;0.25)</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#a0aec0;margin-bottom:6px;" id="hw-leg-title">Flood risk level</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld0" style="width:9px;height:9px;border-radius:50%;background:#d85a30;display:inline-block;"></span><span id="hw-ll0">High (&gt;15%)</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld1" style="width:9px;height:9px;border-radius:50%;background:#ba7517;display:inline-block;"></span><span id="hw-ll1">Moderate (5–15%)</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span class="hw-leg-dot" id="hw-ld2" style="width:9px;height:9px;border-radius:50%;background:#378add;display:inline-block;"></span><span id="hw-ll2">Low (1–5%)</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><span class="hw-leg-dot" id="hw-ld3" style="width:9px;height:9px;border-radius:50%;background:#1d9e75;display:inline-block;"></span><span id="hw-ll3">Minimal (&lt;1%)</span></div>
           </div>
         </div>
 
@@ -590,7 +590,7 @@ input[type=range]::-moz-range-thumb {
         <div class="card" style="padding:0;overflow:hidden;">
           <div class="card-head" style="padding:12px 14px 10px;">
             <i class="ti ti-list"></i>
-            <span id="hw-list-title">Risk-ranked districts — Flood</span>
+            <span id="hw-list-title">Risk-ranked DS divisions — Flood</span>
           </div>
           <div id="hw-district-list" style="max-height:420px;overflow-y:auto;padding:4px 6px;"></div>
         </div>
@@ -605,18 +605,18 @@ input[type=range]::-moz-range-thumb {
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:8px 0 4px;">
           <div>
             <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
-            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#3B9EFF;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#3B9EFF;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#d85a30;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#d85a30;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
             <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
-            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF8C42;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#FF8C42;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#534ab7;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#534ab7;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
             <div style="font-size:10px;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
-            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF4757;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#FF4757;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#8b00ff;margin-bottom:4px;">—</div>
+            <div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#8b00ff;border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
         </div>
       </div>
@@ -627,7 +627,7 @@ input[type=range]::-moz-range-thumb {
         <div class="map-toolbar">
           <div class="search-wrap">
             <i class="ti ti-search"></i>
-            <input type="text" id="mapSearch" placeholder="Search district or province...">
+            <input type="text" id="mapSearch" placeholder="Search DS division, district or province…">
             <div id="searchResults" class="search-results"></div>
           </div>
           <div class="layer-toggle">
@@ -899,9 +899,8 @@ input[type=range]::-moz-range-thumb {
         <div id="hazardClassList"></div>
       </div>
       <div class="geo-subtabs">
-        <button class="geo-subtab active" data-tab="ds"       onclick="showGeoTab('ds')">DS Division Table (323)</button>
-        <button class="geo-subtab"        data-tab="adm"      onclick="showGeoTab('adm')">Admin District Table (25)</button>
-        <button class="geo-subtab"        data-tab="rankings" onclick="showGeoTab('rankings')">DS Risk Rankings</button>
+        <button class="geo-subtab active" data-tab="ds" onclick="showGeoTab('ds')">DS Division Table (323)</button>
+        <button class="geo-subtab" data-tab="adm" onclick="showGeoTab('adm')">Admin District Table (25)</button>
       </div>
       <div id="geoPane-ds">
         <div class="geo-controls">
@@ -921,56 +920,6 @@ input[type=range]::-moz-range-thumb {
           <span class="geo-count" id="admCount">25 districts</span>
         </div>
         <div class="table-scroll"><table class="data-table"><thead><tr><th>Admin District</th><th>Province</th><th>DS Divs</th><th>Cells</th><th>Flood</th><th>Flood %</th><th>Landslide</th><th>LS %</th><th>Compound</th><th>Risk Category</th></tr></thead><tbody id="admTableBody"></tbody></table></div>
-      <div id="geoPane-rankings" style="display:none">
-        <!-- DS Risk Rankings — integrated from ds_risk_dashboard.html -->
-        <div class="dsr-ctrl" id="dsrCtrl">
-          <div class="dsr-mode-group">
-            <button class="dsr-mode active"          id="dsrModeFlood"    onclick="dsrSetMode('flood',this)">Flood</button>
-            <button class="dsr-mode land"            id="dsrModeLand"     onclick="dsrSetMode('land',this)">Landslide</button>
-            <button class="dsr-mode compound"        id="dsrModeCompound" onclick="dsrSetMode('compound',this)">Compound</button>
-          </div>
-          <select class="geo-filter" id="dsrProvFilter" onchange="dsrApply()">
-            <option value="">All provinces</option>
-            <option>Central</option><option>Eastern</option><option>North Central</option>
-            <option>North Western</option><option>Northern</option><option>Sabaragamuwa</option>
-            <option>Southern</option><option>Uva</option><option>Western</option>
-          </select>
-          <select class="geo-filter" id="dsrDistFilter" onchange="dsrApply()">
-            <option value="">All districts</option>
-          </select>
-          <input class="dsr-search-inp" id="dsrSearch" placeholder="Search division…" oninput="dsrApply()">
-          <div class="dsr-stat-group">
-            <span class="dsr-stat">Shown: <b id="dsrStatTotal">—</b></span>
-            <span class="dsr-stat" style="color:#d85a30">High flood: <b id="dsrStatFlood">—</b></span>
-            <span class="dsr-stat" style="color:#534ab7">High slide: <b id="dsrStatLand">—</b></span>
-            <span class="dsr-stat" style="color:#8b00ff">Compound: <b id="dsrStatComp">—</b></span>
-          </div>
-        </div>
-        <div class="dsr-wrap">
-          <div class="dsr-table-col">
-            <table style="width:100%;border-collapse:collapse">
-              <thead class="dsr-th" id="dsrThead">
-                <tr>
-                  <th class="dsr-rank">#</th>
-                  <th onclick="dsrSort('ds')">DS Division <span id="dsrArrow-ds">↕</span></th>
-                  <th onclick="dsrSort('admin_district')">Admin District <span id="dsrArrow-admin_district">↕</span></th>
-                  <th onclick="dsrSort('flood_rate')" id="dsrTh-flood" class="dsr-sorted">Flood Risk <span id="dsrArrow-flood_rate">↓</span></th>
-                  <th onclick="dsrSort('ls_rate')"    id="dsrTh-land">Landslide Risk <span id="dsrArrow-ls_rate">↕</span></th>
-                  <th onclick="dsrSort('compound')"   id="dsrTh-compound">Compound <span id="dsrArrow-compound">↕</span></th>
-                  <th onclick="dsrSort('rain')">Rain 7d <span id="dsrArrow-rain">↕</span></th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="dsrTbody"></tbody>
-            </table>
-          </div>
-          <div class="dsr-detail-col" id="dsrDetail">
-            <div class="dsr-det-empty" id="dsrDetEmpty">
-              <span>📍</span>Select a DS division to inspect
-            </div>
-            <div id="dsrDetContent" style="display:none"></div>
-          </div>
-        </div>
       </div>
     </section>
     <!-- ===== DATA ===== -->
@@ -7910,27 +7859,65 @@ function redrawAllCharts() {
    */
 
   var hwMap = null, hwMks = [], hwMode = 'flood';
-  // HW_D populated from real DISTRICTS inside hwInitMap()
+  // HW_D built from DS_DIVISIONS (323 DS-level records from feature_store.parquet)
+  // field normalisation: flood_rate/ls_rate are 0-100%; compound is integer cell count.
   var HW_D = [];
 
-  function hwRCol(v){ return v>=.75?'#d85a30':v>=.5?'#ba7517':v>=.25?'#378add':'#1d9e75'; }
-  function hwRCls(v){ return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'; }
-  function hwSc(d,m){ return m==='flood'?d.f : m==='land'?d.l : d.c; }
+  // ── colour helpers (DS-level % thresholds) ──────────────────────────────
+  // flood/land: value is %; compound: value is cell count
+  var HW_CFG = {
+    flood:    { t:[1,5,15],   cols:['#1d9e75','#378add','#ba7517','#d85a30'],
+                leg:['Flood risk level',  'High (>15%)','Moderate (5–15%)','Low (1–5%)','Minimal (<1%)'] },
+    land:     { t:[5,20,40],  cols:['#1d9e75','#afa9ec','#534ab7','#2d2680'],
+                leg:['Landslide risk',    'High (>40%)','Moderate (20–40%)','Low (5–20%)','Minimal (<5%)'] },
+    compound: { t:[0,1,3],    cols:['#1d9e75','#c084fc','#8b00ff','#5b0095'],
+                leg:['Compound hazard cells','High (>3)','Moderate (1–3)','Present (≥1)','None'] },
+  };
+
+  function hwRCol(v, mode){
+    var t = HW_CFG[mode].t, c = HW_CFG[mode].cols;
+    if(v >= t[2]) return c[3];
+    if(v >= t[1]) return c[2];
+    if(v >= t[0]) return c[1];
+    return c[0];
+  }
+  function hwSc(d, m){
+    if(m === 'flood')    return Number(d.flood_rate) || 0;
+    if(m === 'land')     return Number(d.ls_rate)    || 0;
+    if(m === 'compound') return Number(d.compound)   || 0;
+    return 0;
+  }
+  // Normalise to 0-1 for radius/bar scaling, capped at known maximum
+  function hwNorm(v, mode){
+    var max = {flood:25.7, land:85.4, compound:6}[mode] || 25;
+    return Math.min(1, v / max);
+  }
 
   /* ── MAP ── */
   function hwInitMap(){
     var el = document.getElementById('hwLeafletMap');
     if(!el){ console.warn('hwLeafletMap not found'); return; }
 
-    // Build district data from real data.js values
-    if(typeof DISTRICTS !== 'undefined' && DISTRICTS.length > 0){
-      HW_D = DISTRICTS.map(function(d){
-        return { n:d.name, lat:d.lat, lng:d.lon, f:d.flood, l:d.land,
-                 c:parseFloat(((d.flood+d.land)/2).toFixed(3)),
-                 province:d.province, rain:d.rain };
+    // Build from DS_DIVISIONS — 323 DS-level records
+    if(typeof DS_DIVISIONS !== 'undefined' && DS_DIVISIONS.length > 0){
+      HW_D = DS_DIVISIONS.map(function(d){
+        return {
+          n:   d.district,
+          adm: d.admin_district,
+          lat: Number(d.lat),
+          lng: Number(d.lon),
+          flood_rate: Number(d.flood_rate)  || 0,   // 0-100 %
+          ls_rate:    Number(d.ls_rate)     || 0,   // 0-100 %
+          compound:   Number(d.compound)    || 0,   // integer cells
+          province:   d.province,
+          rain:       Number(d.rain).toFixed(1),
+          elevation:  Number(d.elevation).toFixed(0),
+          cells:      Number(d.cells),
+          risk_cat:   d.risk_category || '',
+        };
       });
     }
-    if(HW_D.length === 0){ console.warn('No district data'); return; }
+    if(HW_D.length === 0){ console.warn('No DS_DIVISIONS data'); return; }
 
     hwMap = L.map('hwLeafletMap', { center:[7.87,80.77], zoom:7, zoomControl:false });
     L.control.zoom({ position:'bottomleft' }).addTo(hwMap);
@@ -7948,50 +7935,61 @@ function redrawAllCharts() {
     hwMks.forEach(function(m){ hwMap.removeLayer(m); });
     hwMks = [];
     HW_D.forEach(function(d){
-      var v = hwSc(d,mode), col = hwRCol(v), cls = hwRCls(v);
-      var sz = 22 + Math.round(v * 16);
-      var icon = L.divIcon({
-        className:'',
-        html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
-            +'<div class="hw-mk-ring"></div>'
-            +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.9">'
-            +Math.round(v*100)+'</div></div>',
-        iconSize:[sz,sz], iconAnchor:[sz/2,sz/2]
-      });
-      var mk = L.marker([d.lat,d.lng], {icon:icon})
-        .addTo(hwMap)
-        .bindPopup(hwPopup(d), {maxWidth:230})
-        .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
+      var v   = hwSc(d, mode);
+      var col = hwRCol(v, mode);
+      var nv  = hwNorm(v, mode);
+      // circleMarker: radius 5-22px proportional to normalised value
+      var r   = Math.round(5 + nv * 17);
+      var mk  = L.circleMarker([d.lat, d.lng], {
+        radius:      r,
+        fillColor:   col,
+        color:       col,
+        weight:      1,
+        opacity:     0.9,
+        fillOpacity: 0.78,
+      })
+      .addTo(hwMap)
+      .bindPopup(hwPopup(d, mode), {maxWidth:240})
+      .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
       hwMks.push(mk);
     });
   }
 
-  function hwPopup(d){
-    function row(lbl,v,col){
+  function hwPopup(d, mode){
+    function row(lbl, val, unit, col){
+      var pctVal = Math.min(100, (mode==='compound' ? (val/6)*100 : val)).toFixed(0);
       return '<div class="hw-pop-row">'
         +'<span class="hw-pop-lbl">'+lbl+'</span>'
-        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100).toFixed(0)+'%"></div></div>'
-        +'<span class="hw-pop-num" style="color:'+col+'">'+(v*100).toFixed(0)+'%</span></div>';
+        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+pctVal+'%"></div></div>'
+        +'<span class="hw-pop-num" style="color:'+col+'">'+Number(val).toFixed(1)+unit+'</span></div>';
     }
     return '<div class="hw-pop">'
-      +'<div class="hw-pop-name">'+d.n+'</div>'
-      +(d.province ? '<div style="font-size:11px;color:#718096;margin-bottom:8px;">'+d.province+' Province · '+d.rain+' mm rain</div>' : '')
-      +row('Flood',d.f,'#d85a30')
-      +row('Landslide',d.l,'#534ab7')
-      +row('Compound',d.c,'#8b00ff')
+      +'<div class="hw-pop-name">'+_hwE(d.n)+'</div>'
+      +'<div style="font-size:11px;color:#718096;margin-bottom:8px;">'
+        +_hwE(d.adm)+' · '+_hwE(d.province)+' Province</div>'
+      +row('Flood',    d.flood_rate, '%',      '#d85a30')
+      +row('Landslide',d.ls_rate,   '%',      '#534ab7')
+      +row('Compound', d.compound,  ' cells', '#8b00ff')
+      +'<div style="font-size:10px;color:#718096;margin-top:7px;padding:2px 6px;'
+        +'border-radius:3px;background:rgba(0,0,0,.05);display:inline-block">'
+        +_hwE(d.risk_cat)+'</div>'
       +'</div>';
   }
 
   function hwShowDet(d){
     var card = document.getElementById('hw-detail-card');
     if(card) card.style.display = 'block';
-    document.getElementById('hw-sel-district').textContent = d.n + (d.province ? ', '+d.province+' Province' : '');
-    document.getElementById('hw-df').textContent = (d.f*100).toFixed(0)+'%';
-    document.getElementById('hw-dl').textContent = (d.l*100).toFixed(0)+'%';
-    document.getElementById('hw-dc').textContent = (d.c*100).toFixed(0)+'%';
-    document.getElementById('hw-dfb').style.width = (d.f*100)+'%';
-    document.getElementById('hw-dlb').style.width = (d.l*100)+'%';
-    document.getElementById('hw-dcb').style.width = (d.c*100)+'%';
+    document.getElementById('hw-sel-district').textContent =
+      d.n + ' — ' + d.adm + ', ' + d.province + ' Province';
+    // flood
+    document.getElementById('hw-df').textContent  = d.flood_rate.toFixed(1)+'%';
+    document.getElementById('hw-dfb').style.width = Math.min(d.flood_rate/25.7*100, 100).toFixed(1)+'%';
+    // land
+    document.getElementById('hw-dl').textContent  = d.ls_rate.toFixed(1)+'%';
+    document.getElementById('hw-dlb').style.width = Math.min(d.ls_rate/85.4*100, 100).toFixed(1)+'%';
+    // compound
+    document.getElementById('hw-dc').textContent  = d.compound+' cells';
+    document.getElementById('hw-dcb').style.width = Math.min(d.compound/6*100, 100).toFixed(1)+'%';
   }
 
   function hwSetMode(mode, btn){
@@ -8001,10 +7999,20 @@ function redrawAllCharts() {
       if(b) b.classList.remove('active');
     });
     if(btn) btn.classList.add('active');
+    // update legend
+    var cfg = HW_CFG[mode];
+    var lt  = document.getElementById('hw-leg-title');
+    if(lt) lt.textContent = cfg.leg[0];
+    for(var i = 0; i < 4; i++){
+      var dot = document.getElementById('hw-ld'+i);
+      var lbl = document.getElementById('hw-ll'+i);
+      if(dot) dot.style.background = cfg.cols[3-i];
+      if(lbl) lbl.textContent = cfg.leg[i+1];
+    }
     hwDraw(mode);
     hwBuildList(mode);
     var t = document.getElementById('hw-list-title');
-    if(t) t.textContent = 'Risk-ranked districts — '
+    if(t) t.textContent = 'Risk-ranked DS divisions — '
       + (mode==='flood'?'Flood' : mode==='land'?'Landslide' : 'Compound');
   }
 
@@ -8012,22 +8020,25 @@ function redrawAllCharts() {
     var el = document.getElementById('hw-district-list');
     if(!el) return;
     var sorted = HW_D.slice().sort(function(a,b){ return hwSc(b,mode) - hwSc(a,mode); });
-    var html = '';
+    var buf = '';
     sorted.forEach(function(d,i){
-      var v = hwSc(d,mode), col = hwRCol(v);
-      html += '<div class="hw-ditem" data-nm="'+d.n+'">'
-        + '<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
+      var v   = hwSc(d, mode);
+      var col = hwRCol(v, mode);
+      var lbl = (mode==='compound') ? v+' cells' : v.toFixed(1)+'%';
+      buf += '<div class="hw-ditem" data-nm="'+_hwE(d.n)+'">'
+        + '<span class="hw-drank">'+String(i+1).padStart(3,'0')+'</span>'
         + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
-        + '<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
+        +   '<span style="color:'+col+';font-size:9px">'+Math.round(v)+'</span></div>'
         + '<div class="hw-dinfo">'
-        + '<div class="hw-dname">'+d.n+'</div>'
-        + '<div class="hw-dpills">'
-        + '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+(d.f*100).toFixed(0)+'%</span>'
-        + '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+(d.l*100).toFixed(0)+'%</span>'
-        + '</div></div></div>';
+        +   '<div class="hw-dname">'+_hwE(d.n)+'</div>'
+        +   '<div style="font-size:10px;color:#a0aec0">'+_hwE(d.adm)+'</div>'
+        +   '<div class="hw-dpills">'
+        +     '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+d.flood_rate.toFixed(1)+'%</span>'
+        +     '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+d.ls_rate.toFixed(1)+'%</span>'
+        +   '</div>'
+        + '</div></div>';
     });
-    el.innerHTML = html;
-    // Use addEventListener — avoids quoting issues with onclick
+    el.innerHTML = buf;
     el.querySelectorAll('.hw-ditem').forEach(function(item){
       item.addEventListener('click', function(){ hwFly(this.dataset.nm); });
     });
@@ -8035,15 +8046,21 @@ function redrawAllCharts() {
 
   function hwFly(name){
     var d = HW_D.find(function(x){ return x.n === name; });
-    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 9, {duration:1.2}); hwShowDet(d); }
+    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 10, {duration:1.0}); hwShowDet(d); }
   }
 
   function hwFilter(q){
+    var ql = q.toLowerCase();
     document.querySelectorAll('.hw-ditem').forEach(function(item){
-      item.style.display = item.querySelector('.hw-dname').textContent.toLowerCase()
-        .includes(q.toLowerCase()) ? '' : 'none';
+      var nm  = (item.querySelector('.hw-dname')?.textContent  || '').toLowerCase();
+      var adm = (item.querySelector('div[style*="a0aec0"]')?.textContent || '').toLowerCase();
+      item.style.display = (nm.includes(ql) || adm.includes(ql)) ? '' : 'none';
     });
   }
+
+  function _hwE(s){ return String(s||'').replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  }); }
 
   /* ── PREDICT ENGINE ── */
   var hwCurModel = 'xgb';
@@ -8311,15 +8328,10 @@ function redrawAllCharts() {
 
   window.showGeoTab = function(tab){
     document.querySelectorAll('.geo-subtab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-    const ds  = document.getElementById('geoPane-ds');
-    const adm = document.getElementById('geoPane-adm');
-    const rnk = document.getElementById('geoPane-rankings');
-    if(ds)  ds.style.display  = tab === 'ds'       ? '' : 'none';
-    if(adm) adm.style.display = tab === 'adm'      ? '' : 'none';
-    if(rnk) rnk.style.display = tab === 'rankings' ? '' : 'none';
-    if(tab === 'ds')       renderDSTable();
-    else if(tab === 'adm') renderAdmTable();
-    else if(tab === 'rankings') dsrInit();
+    const ds = document.getElementById('geoPane-ds'), adm = document.getElementById('geoPane-adm');
+    if(ds) ds.style.display = tab === 'ds' ? '' : 'none';
+    if(adm) adm.style.display = tab === 'adm' ? '' : 'none';
+    if(tab === 'ds') renderDSTable(); else renderAdmTable();
   };
 
   window.renderGeography = function(){
@@ -8385,257 +8397,6 @@ function redrawAllCharts() {
     });
     return [...map.values()];
   }
-
-
-/* ═══════════════════════════════════════════════════════════════════
-   DS Risk Rankings — integrated into Geography page
-   All identifiers prefixed dsr_ / DSR_ to avoid conflicts.
-   Reads DS_DIVISIONS (already declared in data.js section above).
-   Field mapping (existing schema → rankings use):
-     d.district       = DS division name
-     d.admin_district = admin district name
-     d.province       = province
-     d.flood_rate     = flood %  (0–100 float)
-     d.ls_rate        = landslide % (0–100 float)
-     d.compound       = compound hazard count (integer; treated as presence flag)
-     d.rain           = 7d rainfall mm
-     d.cells          = grid cell count
-     d.elevation      = mean elevation m
-     d.slope          = mean slope °
-     d.lat / d.lon    = centroid
-     d.risk_category  = pre-computed string label
-═══════════════════════════════════════════════════════════════════ */
-(function(){
-  'use strict';
-
-  // ── State ─────────────────────────────────────────────────────────
-  var DSR = {
-    mode:      'flood',     // 'flood' | 'land' | 'compound'
-    sortCol:   'flood_rate',
-    sortAsc:   false,
-    filterProv:'',
-    filterDist:'',
-    searchQ:   '',
-    selected:  null,
-    filtered:  [],
-    inited:    false,
-  };
-
-  // Numeric accessor — normalises both schemas
-  function dsrVal(d, col){
-    if(col === 'flood_rate')  return Number(d.flood_rate)  || 0;
-    if(col === 'ls_rate')     return Number(d.ls_rate)     || 0;
-    if(col === 'compound')    return Number(d.compound)    || 0;
-    if(col === 'rain')        return Number(d.rain)        || 0;
-    if(col === 'ds')          return (d.district || '').toLowerCase();
-    if(col === 'admin_district') return (d.admin_district || '').toLowerCase();
-    return 0;
-  }
-
-  // Risk badge using existing riskBadge() — or fallback
-  function dsrBadge(d){
-    if(d.risk_category) return riskBadge(d.risk_category);
-    var f = Number(d.flood_rate)||0, l = Number(d.ls_rate)||0, c = Number(d.compound)||0;
-    var cat = c > 0 ? 'Compound Hazard' : f >= 15 || l >= 40 ? 'High Risk'
-            : f >= 5 || l >= 15 ? 'Moderate Risk' : f > 0 || l > 0 ? 'Low Risk' : 'No Observed Risk';
-    return riskBadge(cat);
-  }
-
-  // ── Init (called once when tab first opened) ──────────────────────
-  window.dsrInit = function(){
-    if(!DSR.inited){
-      // Populate admin district filter from live data
-      var distSel = document.getElementById('dsrDistFilter');
-      if(distSel && !distSel.dataset.loaded){
-        var names = [...new Set((DS_DIVISIONS||[]).map(function(d){ return d.admin_district; }).filter(Boolean))].sort();
-        distSel.insertAdjacentHTML('beforeend', names.map(function(n){
-          return '<option>' + n.replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }) + '</option>';
-        }).join(''));
-        distSel.dataset.loaded = '1';
-      }
-      DSR.inited = true;
-    }
-    dsrApply();
-  };
-
-  // ── Mode ──────────────────────────────────────────────────────────
-  window.dsrSetMode = function(mode, btn){
-    DSR.mode    = mode;
-    DSR.sortCol = mode === 'flood' ? 'flood_rate' : mode === 'land' ? 'ls_rate' : 'compound';
-    DSR.sortAsc = false;
-    document.querySelectorAll('.dsr-mode').forEach(function(b){ b.classList.remove('active'); });
-    if(btn) btn.classList.add('active');
-    // Update sorted header highlight
-    ['dsrTh-flood','dsrTh-land','dsrTh-compound'].forEach(function(id, i){
-      var el = document.getElementById(id);
-      if(el) el.classList.toggle('dsr-sorted', i === ['flood','land','compound'].indexOf(mode));
-    });
-    dsrApply();
-  };
-
-  // ── Sort column ───────────────────────────────────────────────────
-  window.dsrSort = function(col){
-    if(DSR.sortCol === col){ DSR.sortAsc = !DSR.sortAsc; }
-    else { DSR.sortCol = col; DSR.sortAsc = (col === 'ds' || col === 'admin_district'); }
-    // Update arrow indicators
-    ['ds','admin_district','flood_rate','ls_rate','compound','rain'].forEach(function(c){
-      var el = document.getElementById('dsrArrow-' + c);
-      if(el) el.textContent = DSR.sortCol !== c ? '↕' : (DSR.sortAsc ? '↑' : '↓');
-    });
-    dsrRender();
-  };
-
-  // ── Apply filters + re-render ─────────────────────────────────────
-  window.dsrApply = function(){
-    DSR.filterProv  = (document.getElementById('dsrProvFilter')?.value || '');
-    DSR.filterDist  = (document.getElementById('dsrDistFilter')?.value || '');
-    DSR.searchQ     = (document.getElementById('dsrSearch')?.value || '').toLowerCase().trim();
-
-    var all = DS_DIVISIONS || [];
-    DSR.filtered = all.filter(function(d){
-      if(DSR.filterProv && d.province !== DSR.filterProv) return false;
-      if(DSR.filterDist && d.admin_district !== DSR.filterDist) return false;
-      if(DSR.searchQ){
-        var haystack = [d.district, d.admin_district, d.province].join(' ').toLowerCase();
-        if(!haystack.includes(DSR.searchQ)) return false;
-      }
-      return true;
-    });
-
-    DSR.filtered.sort(function(a, b){
-      var va = dsrVal(a, DSR.sortCol), vb = dsrVal(b, DSR.sortCol);
-      return DSR.sortAsc ? (va > vb ? 1 : va < vb ? -1 : 0) : (va < vb ? 1 : va > vb ? -1 : 0);
-    });
-
-    // Stats
-    var setT = document.getElementById('dsrStatTotal');
-    var setF = document.getElementById('dsrStatFlood');
-    var setL = document.getElementById('dsrStatLand');
-    var setC = document.getElementById('dsrStatComp');
-    if(setT) setT.textContent = DSR.filtered.length;
-    if(setF) setF.textContent = DSR.filtered.filter(function(d){ return (Number(d.flood_rate)||0) >= 10; }).length;
-    if(setL) setL.textContent = DSR.filtered.filter(function(d){ return (Number(d.ls_rate)||0)    >= 30; }).length;
-    if(setC) setC.textContent = DSR.filtered.filter(function(d){ return (Number(d.compound)||0)   >  0;  }).length;
-
-    dsrRender();
-  };
-
-  // ── Render table rows ─────────────────────────────────────────────
-  function dsrRender(){
-    var tbody = document.getElementById('dsrTbody');
-    if(!tbody) return;
-
-    var allF = (DS_DIVISIONS||[]).map(function(d){ return Number(d.flood_rate)||0; });
-    var allL = (DS_DIVISIONS||[]).map(function(d){ return Number(d.ls_rate)||0;    });
-    var allC = (DS_DIVISIONS||[]).map(function(d){ return Number(d.compound)||0;   });
-    var maxF = Math.max.apply(null, allF.concat([0.001]));
-    var maxL = Math.max.apply(null, allL.concat([0.001]));
-    var maxC = Math.max.apply(null, allC.concat([0.001]));
-
-    var FLOOD_C = '#d85a30', LAND_C = '#534ab7', COMP_C = '#8b00ff', RAIN_C = '#378add';
-    var isFlood = DSR.mode === 'flood', isLand = DSR.mode === 'land', isComp = DSR.mode === 'compound';
-
-    if(!DSR.filtered.length){
-      tbody.innerHTML = '<tr class="dsr-empty-row"><td colspan="8">No divisions match the current filters</td></tr>';
-      return;
-    }
-
-    function esc(s){ return String(s||'').replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
-    function barHTML(val, max, color, active){
-      var w = Math.min((val / max) * 100, 100).toFixed(1);
-      var valStr = Number(val).toFixed(1) + '%';
-      return '<div class="dsr-bar-wrap"><div class="dsr-bar-track"><div class="dsr-bar-fill" style="width:' + w + '%;background:' + color + '"></div></div>' +
-             '<span class="dsr-bar-val" style="color:' + (active ? color : 'var(--text-2)') + '">' + valStr + '</span></div>';
-    }
-
-    tbody.innerHTML = DSR.filtered.slice(0, 400).map(function(d, i){
-      var sel = DSR.selected === d.district ? ' dsr-selected' : '';
-      var fv  = Number(d.flood_rate)||0, lv = Number(d.ls_rate)||0, cv = Number(d.compound)||0;
-      var rv  = Number(d.rain)||0;
-      return '<tr class="dsr-row' + sel + '" onclick="dsrSelect(' + JSON.stringify(d.district) + ')">' +
-        '<td class="dsr-rank">' + (i+1) + '</td>' +
-        '<td><div class="dsr-ds-name">' + esc(d.district) + '</div><div class="dsr-ds-sub">' + esc(d.province) + '</div></td>' +
-        '<td style="color:var(--text-2);font-size:12px">' + esc(d.admin_district) + '</td>' +
-        '<td class="dsr-bar-cell">' + barHTML(fv, maxF, FLOOD_C, isFlood) + '</td>' +
-        '<td class="dsr-bar-cell">' + barHTML(lv, maxL, LAND_C, isLand) + '</td>' +
-        '<td class="dsr-bar-cell">' + barHTML(cv > 0 ? (cv/Math.max(Number(d.cells)||1,1))*100 : 0, 5, COMP_C, isComp) + '</td>' +
-        '<td style="font-family:var(--mono);font-size:11px;color:' + RAIN_C + '">' + rv.toFixed(1) + ' mm</td>' +
-        '<td>' + dsrBadge(d) + '</td>' +
-      '</tr>';
-    }).join('');
-  }
-
-  // ── Select a DS division → populate detail panel ──────────────────
-  window.dsrSelect = function(dsName){
-    DSR.selected = dsName;
-    var d = (DS_DIVISIONS||[]).find(function(r){ return r.district === dsName; });
-    if(!d) return;
-
-    var allF = (DS_DIVISIONS||[]).map(function(r){ return Number(r.flood_rate)||0; });
-    var allL = (DS_DIVISIONS||[]).map(function(r){ return Number(r.ls_rate)||0;    });
-    var maxF = Math.max.apply(null, allF.concat([0.001]));
-    var maxL = Math.max.apply(null, allL.concat([0.001]));
-
-    var fv  = Number(d.flood_rate)||0;
-    var lv  = Number(d.ls_rate)||0;
-    var cv  = Number(d.compound)||0;
-    var fW  = Math.min((fv/maxF)*100, 100).toFixed(1);
-    var lW  = Math.min((lv/maxL)*100, 100).toFixed(1);
-    var rank = DSR.filtered.findIndex(function(r){ return r.district === dsName; }) + 1;
-    var overallRank = [...(DS_DIVISIONS||[])].sort(function(a,b){ return (Number(b.flood_rate)||0)-(Number(a.flood_rate)||0); })
-                          .findIndex(function(r){ return r.district === dsName; }) + 1;
-
-    function esc(s){ return String(s||'').replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
-
-    var det = document.getElementById('dsrDetContent');
-    var emp = document.getElementById('dsrDetEmpty');
-    if(emp) emp.style.display = 'none';
-    if(det){
-      det.style.display = '';
-      det.innerHTML =
-        '<div class="dsr-det-hd"><h3>' + esc(d.district) + '</h3>' +
-        '<p>' + esc(d.admin_district) + ' · ' + esc(d.province) + ' Province</p></div>' +
-
-        '<div class="dsr-det-sec"><div class="dsr-det-sec-lbl">Hazard Risk</div>' +
-          '<div class="dsr-metric">' +
-            '<div class="dsr-metric-row"><span class="dsr-metric-lbl">🌊 Flood Risk</span><span class="dsr-metric-val" style="color:#d85a30">' + fv.toFixed(1) + '%</span></div>' +
-            '<div class="dsr-bg-bar"><div class="dsr-fg-bar" style="width:' + fW + '%;background:#d85a30"></div></div>' +
-          '</div>' +
-          '<div class="dsr-metric">' +
-            '<div class="dsr-metric-row"><span class="dsr-metric-lbl">⛰️ Landslide Risk</span><span class="dsr-metric-val" style="color:#534ab7">' + lv.toFixed(1) + '%</span></div>' +
-            '<div class="dsr-bg-bar"><div class="dsr-fg-bar" style="width:' + lW + '%;background:#534ab7"></div></div>' +
-          '</div>' +
-          '<div class="dsr-metric">' +
-            '<div class="dsr-metric-row"><span class="dsr-metric-lbl">⚠️ Compound cells</span><span class="dsr-metric-val" style="color:#8b00ff">' + cv.toLocaleString() + '</span></div>' +
-          '</div>' +
-        '</div>' +
-
-        '<div class="dsr-det-sec"><div class="dsr-det-sec-lbl">Geography</div>' +
-          '<div class="dsr-geo-grid">' +
-            '<div class="dsr-geo-item"><div class="gl">Latitude</div><div class="gv">' + Number(d.lat).toFixed(4) + '°N</div></div>' +
-            '<div class="dsr-geo-item"><div class="gl">Longitude</div><div class="gv">' + Number(d.lon).toFixed(4) + '°E</div></div>' +
-            '<div class="dsr-geo-item"><div class="gl">Elevation</div><div class="gv">' + Number(d.elevation).toFixed(1) + ' m</div></div>' +
-            '<div class="dsr-geo-item"><div class="gl">Slope</div><div class="gv">' + Number(d.slope).toFixed(1) + '°</div></div>' +
-            '<div class="dsr-geo-item"><div class="gl">Rain 7d</div><div class="gv">' + Number(d.rain).toFixed(1) + ' mm</div></div>' +
-            '<div class="dsr-geo-item"><div class="gl">Grid cells</div><div class="gv">' + Number(d.cells).toLocaleString() + '</div></div>' +
-          '</div>' +
-        '</div>' +
-
-        '<div class="dsr-det-sec"><div class="dsr-det-sec-lbl">Classification</div>' +
-          dsrBadge(d) +
-        '</div>' +
-
-        '<div class="dsr-det-sec"><div class="dsr-det-sec-lbl">Rank</div>' +
-          '<span style="font-family:var(--mono);font-size:12px">' +
-            '#' + rank + ' of ' + DSR.filtered.length + ' filtered &nbsp;·&nbsp; ' +
-            '#' + overallRank + ' of ' + (DS_DIVISIONS||[]).length + ' overall' +
-          '</span>' +
-        '</div>';
-    }
-    dsrRender();  // re-render to show selection highlight
-  };
-
-})();
 
   document.addEventListener('DOMContentLoaded', () => {
     initTheme(); initClock(); initNav();
