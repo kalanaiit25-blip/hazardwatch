@@ -143,13 +143,13 @@ const MODELS = [
 
 const DISTRICTS = [
   {
-    "name": "Jaffna",
-    "province": "Northern",
-    "lat": 9.679,
-    "lon": 80.137,
-    "flood": 0.0952,
-    "land": 0.0,
-    "rain": 28.07
+    "name": "Unknown",
+    "province": "",
+    "lat": 7.87,
+    "lon": 80.77,
+    "flood": 0.1925,
+    "land": 0.0196,
+    "rain": 29.79
   },
   {
     "name": "Ampara",
@@ -159,6 +159,15 @@ const DISTRICTS = [
     "flood": 0.0678,
     "land": 0.0084,
     "rain": 29.92
+  },
+  {
+    "name": "Jaffna",
+    "province": "Northern",
+    "lat": 9.679,
+    "lon": 80.137,
+    "flood": 0.0609,
+    "land": 0.0,
+    "rain": 28.3
   },
   {
     "name": "Kilinochchi",
@@ -206,15 +215,6 @@ const DISTRICTS = [
     "rain": 30.44
   },
   {
-    "name": "Polonnaruwa",
-    "province": "North Central",
-    "lat": 7.99,
-    "lon": 81.022,
-    "flood": 0.0372,
-    "land": 0.0214,
-    "rain": 36.9
-  },
-  {
     "name": "Mannar",
     "province": "Northern",
     "lat": 8.878,
@@ -222,6 +222,15 @@ const DISTRICTS = [
     "flood": 0.0364,
     "land": 0.0,
     "rain": 28.38
+  },
+  {
+    "name": "Polonnaruwa",
+    "province": "North Central",
+    "lat": 7.99,
+    "lon": 81.022,
+    "flood": 0.0311,
+    "land": 0.0119,
+    "rain": 36.77
   },
   {
     "name": "Batticaloa",
@@ -372,8 +381,8 @@ const DISTRICTS = [
 const DS_DIVISIONS = [
   {
     "district": "Vadamaradchi South-West",
-    "admin_district": "Jaffna",
-    "province": "Northern",
+    "admin_district": "Unknown",
+    "province": "",
     "cells": 70,
     "flood": 18,
     "landslide": 0,
@@ -408,8 +417,8 @@ const DS_DIVISIONS = [
   },
   {
     "district": "Valikamam East",
-    "admin_district": "Jaffna",
-    "province": "Northern",
+    "admin_district": "Unknown",
+    "province": "",
     "cells": 99,
     "flood": 24,
     "landslide": 0,
@@ -426,8 +435,8 @@ const DS_DIVISIONS = [
   },
   {
     "district": "Island South (Velanai)",
-    "admin_district": "Jaffna",
-    "province": "Northern",
+    "admin_district": "Unknown",
+    "province": "",
     "cells": 76,
     "flood": 15,
     "landslide": 0,
@@ -966,8 +975,8 @@ const DS_DIVISIONS = [
   },
   {
     "district": "Thamankaduwa",
-    "admin_district": "Polonnaruwa",
-    "province": "North Central",
+    "admin_district": "Unknown",
+    "province": "",
     "cells": 382,
     "flood": 28,
     "landslide": 30,
@@ -6188,19 +6197,19 @@ const DS_DIVISIONS = [
 
 const ADM_DISTRICTS = [
   {
-    "admin_district": "Jaffna",
-    "province": "Northern",
-    "lat": 9.679,
-    "lon": 80.137,
-    "cells": 1026,
-    "flood": 127,
-    "landslide": 0,
-    "compound": 0,
-    "ds_divs": 15,
-    "rain": 28.07,
-    "flood_rate": 9.52,
-    "ls_rate": 0.0,
-    "risk_category": "Moderate Risk"
+    "admin_district": "Unknown",
+    "province": "",
+    "lat": 7.87,
+    "lon": 80.77,
+    "cells": 627,
+    "flood": 85,
+    "landslide": 30,
+    "compound": 6,
+    "ds_divs": 4,
+    "rain": 29.79,
+    "flood_rate": 19.25,
+    "ls_rate": 1.96,
+    "risk_category": "Compound Hazard"
   },
   {
     "admin_district": "Ampara",
@@ -6215,6 +6224,21 @@ const ADM_DISTRICTS = [
     "rain": 29.92,
     "flood_rate": 6.78,
     "ls_rate": 0.84,
+    "risk_category": "Moderate Risk"
+  },
+  {
+    "admin_district": "Jaffna",
+    "province": "Northern",
+    "lat": 9.679,
+    "lon": 80.137,
+    "cells": 781,
+    "flood": 70,
+    "landslide": 0,
+    "compound": 0,
+    "ds_divs": 12,
+    "rain": 28.3,
+    "flood_rate": 6.09,
+    "ls_rate": 0.0,
     "risk_category": "Moderate Risk"
   },
   {
@@ -6293,21 +6317,6 @@ const ADM_DISTRICTS = [
     "risk_category": "Moderate Risk"
   },
   {
-    "admin_district": "Polonnaruwa",
-    "province": "North Central",
-    "lat": 7.99,
-    "lon": 81.022,
-    "cells": 2818,
-    "flood": 112,
-    "landslide": 56,
-    "compound": 6,
-    "ds_divs": 7,
-    "rain": 36.9,
-    "flood_rate": 3.72,
-    "ls_rate": 2.14,
-    "risk_category": "Compound Hazard"
-  },
-  {
     "admin_district": "Mannar",
     "province": "Northern",
     "lat": 8.878,
@@ -6320,6 +6329,21 @@ const ADM_DISTRICTS = [
     "rain": 28.38,
     "flood_rate": 3.64,
     "ls_rate": 0.0,
+    "risk_category": "Moderate Risk"
+  },
+  {
+    "admin_district": "Polonnaruwa",
+    "province": "North Central",
+    "lat": 7.99,
+    "lon": 81.022,
+    "cells": 2436,
+    "flood": 84,
+    "landslide": 26,
+    "compound": 0,
+    "ds_divs": 6,
+    "rain": 36.77,
+    "flood_rate": 3.11,
+    "ls_rate": 1.19,
     "risk_category": "Moderate Risk"
   },
   {
