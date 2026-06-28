@@ -10,7 +10,739 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.5.0/dist/tabler-icons.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+/* ===================================================================
+   HazardWatch — Compound Risk Intelligence Platform
+   Redesigned UI · RGU MSc Big Data Analytics · Student 2506651
+   
+   Design language: "Operational cartography"
+   — The aesthetic of real disaster operations centres:
+     precise, data-dense, calm under pressure. Dark-capable from
+     the ground up. Colour encodes hazard type consistently across
+     every component. No decoration that doesn't carry information.
+   =================================================================== */
+
+/* ── Token system ──────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg:        #f4f6f8;
+  --surface:   #ffffff;
+  --surface-2: #f0f2f5;
+  --surface-3: #e8ebef;
+
+  /* Borders */
+  --border:    rgba(12,20,30,0.09);
+  --border-2:  rgba(12,20,30,0.16);
+
+  /* Text */
+  --text:      #111820;
+  --text-2:    #52616d;
+  --text-3:    #8b96a0;
+
+  /* Brand — deep teal, authority not playfulness */
+  --brand:      #0e7a6b;
+  --brand-mid:  #11a08c;
+  --brand-light:#e6f4f2;
+
+  /*
+    Hazard palette — grounded in real meteorological/geological conventions:
+    Flood    = water-blue (not orange — orange is fire/heat in every real ops system)
+    Landslide= earth-brown/amber
+    Compound = deep crimson (both hazards coincide = maximum alert)
+  */
+  --flood:      #1a6fba;
+  --flood-bg:   rgba(26,111,186,0.08);
+  --land:       #8a5c0f;
+  --land-bg:    rgba(138,92,15,0.08);
+  --compound:   #b91c1c;
+  --compound-bg:rgba(185,28,28,0.08);
+
+  /* Status */
+  --ok:         #1b7c5e;
+  --warn:       #a35f0a;
+  --danger:     #b91c1c;
+  --info:       #1a6fba;
+
+  /* Chart arch colours */
+  --dist:       #1a6fba;   /* distributed = blue */
+  --cent:       #8a5c0f;   /* centralised = amber */
+
+  /* Geometry */
+  --radius:    6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* Elevation — minimal, purposeful */
+  --shadow-sm: 0 1px 2px rgba(12,20,30,0.05);
+  --shadow:    0 1px 4px rgba(12,20,30,0.07), 0 2px 8px rgba(12,20,30,0.04);
+  --shadow-md: 0 4px 12px rgba(12,20,30,0.10), 0 1px 3px rgba(12,20,30,0.06);
+
+  /* Type */
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Dark mode — same token names, different values */
+[data-theme="dark"] {
+  --bg:        #0a0f14;
+  --surface:   #111820;
+  --surface-2: #18222c;
+  --surface-3: #1f2d3a;
+  --border:    rgba(255,255,255,0.07);
+  --border-2:  rgba(255,255,255,0.13);
+  --text:      #dce6ed;
+  --text-2:    #8a97a3;
+  --text-3:    #5a6670;
+  --brand:      #13c4a8;
+  --brand-mid:  #0e9a88;
+  --brand-light:rgba(19,196,168,0.10);
+  --flood:      #4a9de0;
+  --flood-bg:   rgba(74,157,224,0.10);
+  --land:       #d4943a;
+  --land-bg:    rgba(212,148,58,0.10);
+  --compound:   #e05555;
+  --compound-bg:rgba(224,85,85,0.10);
+  --ok:         #2ec4a0;
+  --warn:       #d4943a;
+  --danger:     #e05555;
+  --info:       #4a9de0;
+  --dist:       #4a9de0;
+  --cent:       #d4943a;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow:    0 1px 4px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.45), 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Top bar ───────────────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo — the mark uses the hazard-red + brand-teal split */
+.logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="dark"] .logo-mark { background: var(--surface-3); }
+.logo-mark i { color: var(--brand-mid); font-size: 19px; position: relative; z-index: 1; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+.logo-sub {
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+/* Live pill — calm, not blinking aggressively */
+.live-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  background: var(--surface-2);
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-mid);
+  animation: hw-pulse 3s ease-in-out infinite;
+}
+@keyframes hw-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(.85)} }
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--text); }
+
+/* ── Nav ───────────────────────────────────────────────────────────── */
+.nav {
+  display: flex;
+  gap: 0;
+  padding: 0 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+}
+.nav::-webkit-scrollbar { height: 0; }
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 44px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font);
+  color: var(--text-2);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.12s;
+  letter-spacing: -0.01em;
+}
+.nav-tab i { font-size: 15px; opacity: 0.7; }
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+  font-weight: 600;
+}
+.nav-tab.active i { opacity: 1; }
+
+/* ── Layout ────────────────────────────────────────────────────────── */
+.content { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+.page { display: none; }
+.page.active { display: block; animation: hw-fade 0.2s ease; }
+@keyframes hw-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.page-head { margin-bottom: 24px; }
+.page-head h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.2;
+}
+.page-head p {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-top: 5px;
+  max-width: 700px;
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.card-head i {
+  font-size: 16px;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-map { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 16px; }
+.chart-box { position: relative; width: 100%; }
+.note { font-size: 12px; color: var(--text-2); margin-top: 10px; }
+.note i { color: var(--warn); }
+.muted { color: var(--text-2); font-size: 13px; }
+.sub-head {
+  font-size: 11px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+/* ── KPI cards ─────────────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-grid.kpi-3 { grid-template-columns: repeat(3,1fr); }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.kpi.danger { border-color: rgba(185,28,28,0.25); }
+.kpi-label {
+  font-size: 11px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.kpi-val {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-family: var(--mono);
+  line-height: 1;
+}
+.kpi-sub { font-size: 11px; color: var(--text-2); margin-top: 6px; }
+
+/* ── Legend ────────────────────────────────────────────────────────── */
+.legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.lg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); }
+.lg-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ── Tables ────────────────────────────────────────────────────────── */
+.table-scroll { overflow-x: auto; max-height: 520px; overflow-y: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th {
+  text-align: left;
+  padding: 9px 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.data-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface-2); }
+.data-table tr.highlight td { background: rgba(14,122,107,0.06); }
+
+/* ── Badges ────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.b-green   { background: rgba(14,122,107,0.12); color: var(--ok); }
+.b-red     { background: rgba(185,28,28,0.12);  color: var(--danger); }
+.b-amber   { background: rgba(138,92,15,0.12);  color: var(--warn); }
+.b-blue    { background: rgba(26,111,186,0.12); color: var(--info); }
+.b-purple  { background: rgba(99,76,175,0.12);  color: #5b44b0; }
+[data-theme="dark"] .b-purple { color: #a48df5; }
+.arch-dist { color: var(--dist); font-weight: 600; }
+.arch-cent { color: var(--cent); font-weight: 600; }
+
+/* ── Risk category badges ───────────────────────────────────────────── */
+.risk-cat-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.badge-compound  { background: var(--compound-bg); color: var(--compound); border: 1px solid rgba(185,28,28,0.25); }
+.badge-high      { background: var(--flood-bg);    color: var(--flood);    border: 1px solid rgba(26,111,186,0.25); }
+.badge-moderate  { background: var(--land-bg);     color: var(--land);     border: 1px solid rgba(138,92,15,0.25); }
+.badge-low       { background: rgba(14,122,107,0.08); color: var(--ok);   border: 1px solid rgba(14,122,107,0.2); }
+.badge-none      { background: var(--surface-2);   color: var(--text-3);   border: 1px solid var(--border); }
+.sev-high  { color: var(--compound); font-weight: 700; font-size: 11px; }
+.sev-med   { color: var(--land);     font-size: 11px; }
+.sev-low   { color: var(--ok);       font-size: 11px; }
+.sev-none  { color: var(--text-3);   font-size: 11px; }
+
+/* ── Map toolbar controls ───────────────────────────────────────────── */
+.map-toolbar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.search-wrap { position: relative; flex: 1; min-width: 240px; }
+.search-wrap i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: 15px; }
+.search-wrap input {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--font);
+  transition: border-color 0.12s;
+}
+.search-wrap input:focus { outline: none; border-color: var(--brand); }
+.search-results {
+  position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px;
+  background: var(--surface); border: 1px solid var(--border-2);
+  border-radius: var(--radius); overflow: hidden; z-index: 50; display: none;
+  box-shadow: var(--shadow-md);
+}
+.search-item { padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.search-item:hover { background: var(--surface-2); }
+
+/* Layer toggle — used on Live map */
+.layer-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.layer-btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  border: none;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  letter-spacing: 0.01em;
+}
+.layer-btn:last-child { border-right: none; }
+.layer-btn:hover { background: var(--surface-2); color: var(--text); }
+.layer-btn.active[data-layer="flood"]    { background: var(--flood);    color: #fff; }
+.layer-btn.active[data-layer="land"]     { background: var(--land);     color: #fff; }
+.layer-btn.active[data-layer="compound"] { background: var(--compound); color: #fff; }
+/* fallback when no data-layer */
+.layer-btn.active { background: var(--brand); color: #fff; }
+
+/* Map card, SVG map */
+.map-card { position: relative; padding: 8px; }
+#mapSvg { width: 100%; height: auto; max-height: 520px; cursor: pointer; }
+.map-tip {
+  position: absolute; background: var(--surface); border: 1px solid var(--border-2);
+  border-radius: var(--radius); padding: 10px 12px; font-size: 12px;
+  pointer-events: none; display: none; z-index: 60; min-width: 160px;
+  box-shadow: var(--shadow-md);
+}
+.district-list { display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto; }
+.dist-item {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 11px 13px; cursor: pointer; transition: border-color 0.12s, background 0.12s;
+}
+.dist-item:hover { background: var(--surface-2); }
+.dist-item.active { border-color: var(--brand); background: var(--brand-light); }
+.dist-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.dist-name { font-size: 13px; font-weight: 500; }
+.dist-bars { display: flex; flex-direction: column; gap: 5px; }
+.bar-row { display: flex; align-items: center; gap: 8px; }
+.bar-lbl { font-size: 11px; color: var(--text-2); width: 56px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 5px; background: var(--surface-3); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+.bar-val { font-size: 11px; color: var(--text-2); width: 36px; text-align: right; flex-shrink: 0; font-family: var(--mono); }
+
+/* ── Leaflet popup ─────────────────────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  background: var(--surface) !important;
+  border: 1px solid var(--border-2) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-md) !important;
+  color: var(--text) !important;
+}
+.leaflet-popup-tip { background: var(--surface) !important; }
+.hw-pop { font-family: var(--font); min-width: 190px; }
+.hw-pop-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; letter-spacing: -0.01em; }
+.hw-pop-row { display: flex; align-items: center; gap: 7px; font-size: 11px; margin-bottom: 5px; }
+.hw-pop-lbl { color: var(--text-2); width: 72px; flex-shrink: 0; }
+.hw-pop-bar { flex: 1; height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden; }
+.hw-pop-fill { height: 100%; border-radius: 2px; }
+.hw-pop-num { font-family: var(--mono); font-size: 11px; font-weight: 700; width: 36px; text-align: right; }
+
+/* District list items in map sidebar */
+.hw-ditem {
+  display: flex; align-items: center; gap: 9px; padding: 8px 10px;
+  border-radius: var(--radius); cursor: pointer; border: 1px solid transparent;
+  transition: background 0.1s, border-color 0.1s;
+}
+.hw-ditem:hover { background: var(--surface-2); border-color: var(--border); }
+.hw-drank { font-family: var(--mono); font-size: 10px; color: var(--text-3); width: 22px; text-align: right; }
+.hw-dcirc {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; font-family: var(--mono); flex-shrink: 0;
+}
+.hw-dinfo { flex: 1; min-width: 0; }
+.hw-dname { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hw-dpills { display: flex; gap: 4px; margin-top: 3px; }
+.hw-pill {
+  font-size: 9px; padding: 1px 6px; border-radius: 3px;
+  font-family: var(--mono); font-weight: 700;
+}
+
+/* Pulsing marker rings */
+.hw-mk { position: relative; display: flex; align-items: center; justify-content: center; }
+.hw-mk-core {
+  border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; font-weight: 700; color: #fff;
+}
+.hw-mk-ring {
+  position: absolute; border-radius: 50%; border: 1.5px solid;
+  top: -5px; left: -5px; right: -5px; bottom: -5px;
+  animation: hwring 3s ease-in-out infinite;
+}
+@keyframes hwring { 0%,100%{transform:scale(1);opacity:.4} 50%{transform:scale(1.45);opacity:0} }
+.hw-crit .hw-mk-ring { border-color: var(--compound); animation-duration: 1.2s; }
+.hw-high .hw-mk-ring { border-color: var(--flood);    animation-duration: 2s; }
+.hw-med  .hw-mk-ring { border-color: var(--land);     animation-duration: 3.2s; }
+.hw-low  .hw-mk-ring { border-color: var(--ok);       animation-duration: 5s; }
+
+/* ── Sliders / range inputs ─────────────────────────────────────────── */
+.control-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+select {
+  padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); font-size: 13px;
+  font-family: var(--font); cursor: pointer;
+  transition: border-color 0.12s;
+}
+select:focus { outline: none; border-color: var(--brand); }
+.btn-primary {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 18px; background: var(--brand); color: #fff;
+  border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600;
+  font-family: var(--font); cursor: pointer; transition: background 0.12s;
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover { background: var(--brand-mid); }
+.btn-ghost {
+  display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center;
+  padding: 9px 14px; background: transparent; color: var(--text-2);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 12px; font-family: var(--font); cursor: pointer; margin-top: 12px;
+  transition: background 0.12s;
+}
+.btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+.slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+.slider-item {}
+.slider-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.slider-top label { font-size: 11px; color: var(--text-2); font-weight: 500; }
+.slider-top span { font-size: 11px; font-weight: 700; font-family: var(--mono); color: var(--text); }
+input[type=range] {
+  width: 100%; height: 4px; -webkit-appearance: none; appearance: none;
+  background: var(--surface-3); border-radius: 2px; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--brand); cursor: pointer;
+  border: 2px solid var(--surface); box-shadow: var(--shadow-sm);
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--brand);
+  cursor: pointer; border: 2px solid var(--surface);
+}
+
+/* ── Predict result ─────────────────────────────────────────────────── */
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.risk-cell { border-radius: var(--radius); padding: 18px; text-align: center; border: 1px solid var(--border); }
+.risk-cell-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; color: var(--text-2); font-weight: 600; }
+.risk-cell-val { font-size: 38px; font-weight: 700; letter-spacing: -0.04em; font-family: var(--mono); line-height: 1; }
+.risk-cell-tag { font-size: 12px; margin-top: 6px; font-weight: 600; }
+.compound-alert {
+  background: var(--compound-bg); border: 1px solid rgba(185,28,28,0.3);
+  border-radius: var(--radius); padding: 12px; margin-bottom: 14px;
+  font-size: 13px; color: var(--compound); font-weight: 500;
+}
+.driver-box { background: var(--surface-2); border-radius: var(--radius); padding: 12px; font-size: 12px; color: var(--text-2); }
+.driver-box b { color: var(--text); }
+
+/* Predict hw-* section */
+.hw-pred-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin-bottom: 10px; }
+.hw-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.hw-pbtn {
+  display: flex; flex-direction: column; padding: 9px 13px 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text-2);
+  font-size: 11px; font-weight: 500; cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  text-align: left;
+}
+.hw-pbtn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.hw-pbtn.on { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.hw-pbtn-ico { font-size: 15px; margin-bottom: 4px; opacity: 0.7; }
+.hw-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+.hw-sg { display: flex; flex-direction: column; gap: 6px; }
+.hw-sl-lbl { font-size: 11px; font-weight: 500; color: var(--text-2); display: flex; justify-content: space-between; align-items: center; }
+.hw-sl-val { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); }
+.hw-range { width: 100%; height: 4px; accent-color: var(--brand); cursor: pointer; }
+.hw-mtabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.hw-mt {
+  padding: 6px 14px; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text-2);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.hw-mt.on { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+.hw-gitem { margin-bottom: 18px; }
+.hw-g-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 6px; }
+.hw-g-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); font-weight: 600; }
+.hw-g-val { font-family: var(--mono); font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; }
+.hw-g-track { height: 7px; background: var(--surface-3); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.hw-g-fill { height: 100%; border-radius: 4px; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+.hw-g-sev { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 4px; }
+.hw-mbadge { font-size: 12px; color: var(--text-2); margin-bottom: 10px; }
+.hw-mbadge strong { color: var(--text); }
+.hw-interp { padding: 12px 14px; border-radius: var(--radius); border-left: 3px solid; font-size: 12px; line-height: 1.7; color: var(--text-2); background: var(--surface-2); }
+
+/* ── Features page ──────────────────────────────────────────────────── */
+.feat-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
+.feat-name { font-size: 12px; width: 120px; flex-shrink: 0; font-weight: 500; }
+.feat-src { width: 80px; flex-shrink: 0; }
+.feat-track { flex: 1; height: 7px; background: var(--surface-3); border-radius: 4px; overflow: hidden; }
+.feat-bar { height: 100%; border-radius: 4px; }
+.feat-val { font-size: 11px; color: var(--text-2); width: 46px; text-align: right; flex-shrink: 0; font-family: var(--mono); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chip { font-size: 11px; padding: 4px 11px; border-radius: 6px; background: var(--brand-light); color: var(--brand); font-weight: 600; }
+.leak-box { background: var(--compound-bg); border: 1px solid rgba(185,28,28,0.25); border-radius: var(--radius); padding: 12px; margin-top: 14px; }
+.leak-title { font-size: 12px; font-weight: 600; color: var(--compound); margin-bottom: 5px; }
+.leak-box p { font-size: 11px; color: var(--text-2); }
+
+/* ── Scale / scalability ────────────────────────────────────────────── */
+.scale-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.scale-row.head { font-size: 10px; color: var(--text-2); text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; }
+.fact-list { display: flex; flex-direction: column; }
+.fact { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.fact span:first-child { color: var(--text-2); }
+.fact span:last-child { font-weight: 600; font-family: var(--mono); }
+
+/* ── CV table ────────────────────────────────────────────────────────── */
+#cvTable table { width: 100%; border-collapse: collapse; font-size: 12px; }
+#cvTable th { padding: 8px 10px; text-align: left; font-weight: 600; color: var(--text-2); background: var(--surface-2); border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+#cvTable td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+
+/* ── Pipeline ────────────────────────────────────────────────────────── */
+.pipeline { display: flex; flex-direction: column; gap: 10px; }
+.pl-step { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--text-2); line-height: 1.65; }
+.pl-tag { flex-shrink: 0; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.03em; }
+.pl-tag.ok     { background: rgba(14,122,107,0.12); color: var(--ok); }
+.pl-tag.danger { background: var(--compound-bg);    color: var(--compound); }
+
+/* ── Research ────────────────────────────────────────────────────────── */
+.rq-banner { border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 18px; font-size: 14px; }
+.rq-banner.info { background: rgba(26,111,186,0.08); border: 1px solid rgba(26,111,186,0.25); color: var(--text); }
+.rq-banner.warn { background: var(--land-bg); border: 1px solid rgba(138,92,15,0.25); color: var(--text); }
+.rq-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--info); margin-bottom: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
+.rq-banner.warn .rq-tag { color: var(--warn); }
+.rq-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; background: var(--surface); }
+.rq-num { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
+.rq-q { font-size: 14px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
+.rq-a { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+.rq-foot { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.rq-status { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: 600; }
+
+/* ── Framing lists ───────────────────────────────────────────────────── */
+.framing ul { list-style: none; }
+.framing li { font-size: 12px; color: var(--text-2); padding: 5px 0 5px 18px; position: relative; line-height: 1.65; }
+.framing li::before { content: "→"; position: absolute; left: 0; color: var(--dist); font-weight: 700; }
+.framing.ok li::before { color: var(--ok); }
+
+/* ── Geography page ──────────────────────────────────────────────────── */
+.geo-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center; }
+.geo-search {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 7px 11px; color: var(--text);
+  font-size: 12px; width: 200px; font-family: var(--font);
+  transition: border-color 0.12s;
+}
+.geo-search:focus { outline: none; border-color: var(--brand); }
+.geo-search::placeholder { color: var(--text-3); }
+.geo-filter {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 6px 10px; color: var(--text);
+  font-size: 12px; font-family: var(--font); cursor: pointer;
+}
+.geo-filter:focus { outline: none; border-color: var(--brand); }
+.geo-count { margin-left: auto; font-size: 11px; color: var(--text-3); }
+.geo-subtabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.geo-subtab {
+  padding: 9px 18px; cursor: pointer; border-bottom: 2px solid transparent;
+  font-size: 13px; color: var(--text-2); background: none;
+  border-top: none; border-left: none; border-right: none;
+  font-family: var(--font); font-weight: 500; transition: color 0.12s;
+  letter-spacing: -0.01em;
+}
+.geo-subtab:hover { color: var(--text); }
+.geo-subtab.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+
+/* Classification list rows */
+.cls-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; flex-wrap: wrap; }
+.cls-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.cls-name { width: 200px; flex-shrink: 0; font-weight: 500; }
+.cls-track { flex: 1; min-width: 80px; height: 7px; background: var(--surface-3); border-radius: 4px; overflow: hidden; }
+.cls-bar { height: 100%; border-radius: 4px; }
+.cls-count { width: 60px; text-align: right; font-family: var(--mono); font-size: 11px; }
+.cls-pct { width: 48px; text-align: right; color: var(--text-2); font-size: 11px; }
+.cls-desc { flex: 2; min-width: 160px; color: var(--text-3) !important; font-size: 11px; }
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+.footer {
+  max-width: 1300px; margin: 0 auto; padding: 20px 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: 11px; color: var(--text-3);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .kpi-grid, .kpi-grid.kpi-3 { grid-template-columns: repeat(2,1fr); }
+  .grid-2, .grid-map { grid-template-columns: 1fr; }
+  .slider-grid, .hw-sliders { grid-template-columns: 1fr; }
+  .hw-presets { flex-direction: column; }
+}
+@media (max-width: 560px) {
+  .kpi-grid, .kpi-grid.kpi-3 { grid-template-columns: 1fr; }
+  .content { padding: 16px; }
+  .logo-sub { display: none; }
+  .live-pill { display: none; }
+}
+
+  .hw-leg-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;font-size:11px;}
+  </style>
 </head>
 <body>
 
@@ -21,7 +753,7 @@
       <div class="logo-mark"><i class="ti ti-radar"></i></div>
       <div class="logo-text">
         <span class="logo-title">HazardWatch</span>
-        <span class="logo-sub">Hazard Intelligence · Sri Lanka</span>
+        <span class="logo-sub">Compound Risk Intelligence · Sri Lanka</span>
       </div>
     </div>
     <div class="topbar-right">
@@ -88,7 +820,7 @@
     <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
-        <p>District-level compound hazard risk. Click any marker for details, search to locate.</p>
+        <p>DS Division-level hazard risk — 323 Divisional Secretariats mapped individually from <code>feature_store.parquet</code>. Circle size and colour reflect actual flood, landslide, and compound risk. Click any circle for details.</p>
       </div>
 
       <!-- toolbar -->
@@ -96,7 +828,7 @@
         <div style="position:relative;flex:1;min-width:200px;max-width:420px;">
           <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none;font-size:14px;"></i>
           <input type="text" id="hw-search-input"
-                 placeholder="Search district or province..."
+                 placeholder="Search DS division, district or province…"
                  oninput="hwFilter(this.value)"
                  style="width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border);
                         border-radius:6px;font-size:13px;background:inherit;color:inherit;outline:none;">
@@ -118,16 +850,16 @@
         <div class="card" id="hw-leaflet-card"
              style="padding:0;overflow:hidden;position:relative;min-height:460px;">
           <div id="hwLeafletMap" style="width:100%;height:460px;"></div>
-          <!-- legend -->
-          <div style="position:absolute;bottom:10px;left:10px;z-index:500;
+          <!-- legend — top-right, clear of zoom control (bottom-right) -->
+          <div id="hw-legend" style="position:absolute;top:10px;right:10px;z-index:500;
                       background:var(--surface);border:1px solid var(--border);
-                      border-radius:7px;padding:9px 12px;font-size:11px;color:var(--text-2);
-                      box-shadow:0 2px 8px rgba(0,0,0,.1);">
-            <div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:6px;">Risk Level</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF4757;display:inline-block;"></span>Critical (&gt;0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FF8C42;display:inline-block;"></span>High (0.50–0.75)</div>
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#FFD700;display:inline-block;"></span>Medium (0.25–0.50)</div>
-            <div style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:#2ECC71;display:inline-block;"></span>Low (&lt;0.25)</div>
+                      border-radius:7px;padding:9px 13px;font-size:11px;color:var(--text-2);
+                      box-shadow:0 2px 8px rgba(0,0,0,.12);min-width:140px;">
+            <div id="hw-leg-title" style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);font-weight:600;margin-bottom:7px;">Flood risk level</div>
+            <div class="hw-leg-row"><span id="hw-ld0" style="width:9px;height:9px;border-radius:50%;background:var(--compound);display:inline-block;flex-shrink:0;"></span><span id="hw-ll0">High (&gt;15%)</span></div>
+            <div class="hw-leg-row"><span id="hw-ld1" style="width:9px;height:9px;border-radius:50%;background:var(--warn);display:inline-block;flex-shrink:0;"></span><span id="hw-ll1">Moderate (5–15%)</span></div>
+            <div class="hw-leg-row"><span id="hw-ld2" style="width:9px;height:9px;border-radius:50%;background:var(--flood);display:inline-block;flex-shrink:0;"></span><span id="hw-ll2">Low (1–5%)</span></div>
+            <div class="hw-leg-row"><span id="hw-ld3" style="width:9px;height:9px;border-radius:50%;background:var(--ok);display:inline-block;flex-shrink:0;"></span><span id="hw-ll3">Minimal (&lt;1%)</span></div>
           </div>
         </div>
 
@@ -135,7 +867,7 @@
         <div class="card" style="padding:0;overflow:hidden;">
           <div class="card-head" style="padding:12px 14px 10px;">
             <i class="ti ti-list"></i>
-            <span id="hw-list-title">Risk-ranked districts — Flood</span>
+            <span id="hw-list-title">Risk-ranked DS divisions — Flood</span>
           </div>
           <div id="hw-district-list" style="max-height:420px;overflow-y:auto;padding:4px 6px;"></div>
         </div>
@@ -150,18 +882,18 @@
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:8px 0 4px;">
           <div>
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
-            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:#3B9EFF;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:#3B9EFF;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--flood);margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:var(--flood);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
-            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF8C42;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:#FF8C42;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--land);margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:var(--land);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div>
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
-            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:#FF4757;margin-bottom:4px;">—</div>
-            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:#FF4757;border-radius:3px;width:0;transition:width .5s;"></div></div>
+            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--compound);margin-bottom:4px;">—</div>
+            <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:var(--compound);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
         </div>
       </div>
@@ -172,7 +904,7 @@
         <div class="map-toolbar">
           <div class="search-wrap">
             <i class="ti ti-search"></i>
-            <input type="text" id="mapSearch" placeholder="Search district or province...">
+            <input type="text" id="mapSearch" placeholder="Search DS division, district or province…">
             <div id="searchResults" class="search-results"></div>
           </div>
           <div class="layer-toggle">
@@ -7404,30 +8136,70 @@ function redrawAllCharts() {
    */
 
   var hwMap = null, hwMks = [], hwMode = 'flood';
-  // HW_D populated from real DISTRICTS inside hwInitMap()
+  // HW_D built from DS_DIVISIONS (323 DS-level records, feature_store.parquet)
   var HW_D = [];
 
-  function hwRCol(v){ return v>=.75?'#d85a30':v>=.5?'#ba7517':v>=.25?'#378add':'#1d9e75'; }
-  function hwRCls(v){ return v>=.75?'hw-crit':v>=.5?'hw-high':v>=.25?'hw-med':'hw-low'; }
-  function hwSc(d,m){ return m==='flood'?d.f : m==='land'?d.l : d.c; }
+  // Colour config per mode — thresholds in the unit of each field
+  var HW_CFG = {
+    flood:    { t:[1,5,15],  cols:['#1b7c5e','#1a6fba','#a35f0a','#b91c1c'],
+                title:'Flood risk level',
+                labels:['High (>15%)','Moderate (5–15%)','Low (1–5%)','Minimal (<1%)'] },
+    land:     { t:[5,20,40], cols:['#1b7c5e','#8a9ecf','#7c5226','#4c3000'],
+                title:'Landslide risk level',
+                labels:['High (>40%)','Moderate (20–40%)','Low (5–20%)','Minimal (<5%)'] },
+    compound: { t:[0,1,3],   cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'],
+                title:'Compound hazard cells',
+                labels:['High (>3 cells)','Moderate (1–3)','Present (>=1)','None'] },
+  };
 
-  /* ── MAP ── */
+  function hwRCol(v, mode){
+    var t = HW_CFG[mode].t, c = HW_CFG[mode].cols;
+    if(v >= t[2]) return c[3];
+    if(v >= t[1]) return c[2];
+    if(v >= t[0]) return c[1];
+    return c[0];
+  }
+  // Normalise value to 0-1 for radius/bar scaling (capped at dataset max)
+  function hwNorm(v, mode){
+    var max = {flood:25.7, land:85.4, compound:6}[mode] || 25;
+    return Math.min(1, v / max);
+  }
+  function hwSc(d, m){
+    if(m === 'flood')    return Number(d.flood_rate) || 0;
+    if(m === 'land')     return Number(d.ls_rate)    || 0;
+    if(m === 'compound') return Number(d.compound)   || 0;
+    return 0;
+  }
+
+  /* ── MAP init ── */
   function hwInitMap(){
     var el = document.getElementById('hwLeafletMap');
     if(!el){ console.warn('hwLeafletMap not found'); return; }
 
-    // Build district data from real data.js values
-    if(typeof DISTRICTS !== 'undefined' && DISTRICTS.length > 0){
-      HW_D = DISTRICTS.map(function(d){
-        return { n:d.name, lat:d.lat, lng:d.lon, f:d.flood, l:d.land,
-                 c:parseFloat(((d.flood+d.land)/2).toFixed(3)),
-                 province:d.province, rain:d.rain };
+    // Load all 323 DS divisions from feature_store.parquet aggregation
+    if(typeof DS_DIVISIONS !== 'undefined' && DS_DIVISIONS.length > 0){
+      HW_D = DS_DIVISIONS.map(function(d){
+        return {
+          n:          d.district,
+          adm:        d.admin_district,
+          lat:        Number(d.lat),
+          lng:        Number(d.lon),
+          flood_rate: Number(d.flood_rate)  || 0,
+          ls_rate:    Number(d.ls_rate)     || 0,
+          compound:   Number(d.compound)    || 0,
+          province:   d.province,
+          rain:       Number(d.rain).toFixed(1),
+          elevation:  Number(d.elevation).toFixed(0),
+          cells:      Number(d.cells),
+          risk_cat:   d.risk_category || '',
+        };
       });
     }
-    if(HW_D.length === 0){ console.warn('No district data'); return; }
+    if(HW_D.length === 0){ console.warn('No DS_DIVISIONS data'); return; }
 
     hwMap = L.map('hwLeafletMap', { center:[7.87,80.77], zoom:7, zoomControl:false });
-    L.control.zoom({ position:'bottomleft' }).addTo(hwMap);
+    // Zoom: bottom-right — away from legend (top-right)
+    L.control.zoom({ position:'bottomright' }).addTo(hwMap);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom:19
@@ -7437,55 +8209,67 @@ function redrawAllCharts() {
     hwBuildList('flood');
   }
 
+  /* ── Draw circleMarkers for all visible DS divisions ── */
   function hwDraw(mode){
     if(!hwMap) return;
     hwMks.forEach(function(m){ hwMap.removeLayer(m); });
     hwMks = [];
     HW_D.forEach(function(d){
-      var v = hwSc(d,mode), col = hwRCol(v), cls = hwRCls(v);
-      var sz = 22 + Math.round(v * 16);
-      var icon = L.divIcon({
-        className:'',
-        html:'<div class="hw-mk '+cls+'" style="width:'+sz+'px;height:'+sz+'px">'
-            +'<div class="hw-mk-ring"></div>'
-            +'<div class="hw-mk-core" style="width:'+sz+'px;height:'+sz+'px;background:'+col+';opacity:.9">'
-            +Math.round(v*100)+'</div></div>',
-        iconSize:[sz,sz], iconAnchor:[sz/2,sz/2]
-      });
-      var mk = L.marker([d.lat,d.lng], {icon:icon})
-        .addTo(hwMap)
-        .bindPopup(hwPopup(d), {maxWidth:230})
-        .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
+      var v   = hwSc(d, mode);
+      var col = hwRCol(v, mode);
+      var r   = Math.round(5 + hwNorm(v, mode) * 17);   // radius 5-22px
+      var mk  = L.circleMarker([d.lat, d.lng], {
+        radius:      r,
+        fillColor:   col,
+        color:       col,
+        weight:      1,
+        opacity:     0.9,
+        fillOpacity: 0.78,
+      })
+      .addTo(hwMap)
+      .bindPopup(hwPopup(d, mode), {maxWidth:240})
+      .on('click', (function(dd){ return function(){ hwShowDet(dd); }; })(d));
       hwMks.push(mk);
     });
   }
 
-  function hwPopup(d){
-    function row(lbl,v,col){
+  function hwPopup(d, mode){
+    function row(lbl, val, unit, col){
+      var pct = Math.min(100, (unit==='%' ? val : (val/6)*100)).toFixed(0);
       return '<div class="hw-pop-row">'
         +'<span class="hw-pop-lbl">'+lbl+'</span>'
-        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+(v*100).toFixed(0)+'%"></div></div>'
-        +'<span class="hw-pop-num" style="color:'+col+'">'+(v*100).toFixed(0)+'%</span></div>';
+        +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+pct+'%"></div></div>'
+        +'<span class="hw-pop-num" style="color:'+col+'">'+Number(val).toFixed(1)+unit+'</span></div>';
     }
     return '<div class="hw-pop">'
-      +'<div class="hw-pop-name">'+d.n+'</div>'
-      +(d.province ? '<div style="font-size:11px;color:var(--text-2);margin-bottom:8px;">'+d.province+' Province · '+d.rain+' mm rain</div>' : '')
-      +row('Flood',d.f,'#d85a30')
-      +row('Landslide',d.l,'#534ab7')
-      +row('Compound',d.c,'#8b00ff')
+      +'<div class="hw-pop-name">'+hwE(d.n)+'</div>'
+      +'<div style="font-size:11px;color:var(--text-2);margin-bottom:8px;">'
+        +hwE(d.adm)+' &nbsp;·&nbsp; '+hwE(d.province)+'</div>'
+      +row('Flood',    d.flood_rate, '%',      HW_CFG.flood.cols[3])
+      +row('Landslide',d.ls_rate,   '%',      HW_CFG.land.cols[3])
+      +row('Compound', d.compound,  ' cells', HW_CFG.compound.cols[3])
+      +'<div style="margin-top:7px;font-size:10px;font-weight:600;letter-spacing:.03em;'
+        +'display:inline-block;padding:2px 7px;border-radius:3px;background:rgba(0,0,0,.06)">'
+        +hwE(d.risk_cat)+'</div>'
       +'</div>';
   }
 
   function hwShowDet(d){
     var card = document.getElementById('hw-detail-card');
     if(card) card.style.display = 'block';
-    document.getElementById('hw-sel-district').textContent = d.n + (d.province ? ', '+d.province+' Province' : '');
-    document.getElementById('hw-df').textContent = (d.f*100).toFixed(0)+'%';
-    document.getElementById('hw-dl').textContent = (d.l*100).toFixed(0)+'%';
-    document.getElementById('hw-dc').textContent = (d.c*100).toFixed(0)+'%';
-    document.getElementById('hw-dfb').style.width = (d.f*100)+'%';
-    document.getElementById('hw-dlb').style.width = (d.l*100)+'%';
-    document.getElementById('hw-dcb').style.width = (d.c*100)+'%';
+    // Header: DS name, admin district, province
+    document.getElementById('hw-sel-district').textContent =
+      d.n + '  \u2014  ' + d.adm + ', ' + d.province;
+    // Flood
+    var fv = d.flood_rate, lv = d.ls_rate, cv = d.compound;
+    document.getElementById('hw-df').textContent  = fv.toFixed(1)+'%';
+    document.getElementById('hw-dfb').style.width = Math.min(fv/25.7*100,100).toFixed(1)+'%';
+    // Landslide
+    document.getElementById('hw-dl').textContent  = lv.toFixed(1)+'%';
+    document.getElementById('hw-dlb').style.width = Math.min(lv/85.4*100,100).toFixed(1)+'%';
+    // Compound
+    document.getElementById('hw-dc').textContent  = cv+' cells';
+    document.getElementById('hw-dcb').style.width = Math.min(cv/6*100,100).toFixed(1)+'%';
   }
 
   function hwSetMode(mode, btn){
@@ -7495,10 +8279,21 @@ function redrawAllCharts() {
       if(b) b.classList.remove('active');
     });
     if(btn) btn.classList.add('active');
+    // Update legend title + dot colours + labels
+    var cfg = HW_CFG[mode];
+    var lt = document.getElementById('hw-leg-title');
+    if(lt) lt.textContent = cfg.title;
+    for(var i=0;i<4;i++){
+      var dot = document.getElementById('hw-ld'+i);
+      var lbl = document.getElementById('hw-ll'+i);
+      // dots ordered hi→min (index 3→0), labels hi→min
+      if(dot) dot.style.background = cfg.cols[3-i];
+      if(lbl) lbl.textContent = cfg.labels[i];
+    }
     hwDraw(mode);
     hwBuildList(mode);
     var t = document.getElementById('hw-list-title');
-    if(t) t.textContent = 'Risk-ranked districts — '
+    if(t) t.textContent = 'Risk-ranked DS divisions \u2014 '
       + (mode==='flood'?'Flood' : mode==='land'?'Landslide' : 'Compound');
   }
 
@@ -7506,22 +8301,25 @@ function redrawAllCharts() {
     var el = document.getElementById('hw-district-list');
     if(!el) return;
     var sorted = HW_D.slice().sort(function(a,b){ return hwSc(b,mode) - hwSc(a,mode); });
-    var html = '';
+    var buf = '';
     sorted.forEach(function(d,i){
-      var v = hwSc(d,mode), col = hwRCol(v);
-      html += '<div class="hw-ditem" data-nm="'+d.n+'">'
-        + '<span class="hw-drank">'+String(i+1).padStart(2,'0')+'</span>'
-        + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+'">'
-        + '<span style="color:'+col+'">'+Math.round(v*100)+'</span></div>'
+      var v   = hwSc(d, mode);
+      var col = hwRCol(v, mode);
+      var lbl = (mode==='compound') ? v+' cells' : v.toFixed(1)+'%';
+      buf += '<div class="hw-ditem" data-nm="'+hwE(d.n)+'">'
+        + '<span class="hw-drank">'+String(i+1).padStart(3,'0')+'</span>'
+        + '<div class="hw-dcirc" style="background:'+col+'22;border:1.5px solid '+col+';">'
+        +   '<span style="color:'+col+';font-size:9px">'+Math.round(v)+'</span></div>'
         + '<div class="hw-dinfo">'
-        + '<div class="hw-dname">'+d.n+'</div>'
-        + '<div class="hw-dpills">'
-        + '<span class="hw-pill" style="background:rgba(216,90,48,.12);color:#d85a30">F:'+(d.f*100).toFixed(0)+'%</span>'
-        + '<span class="hw-pill" style="background:rgba(83,74,183,.12);color:#534ab7">L:'+(d.l*100).toFixed(0)+'%</span>'
-        + '</div></div></div>';
+        +   '<div class="hw-dname">'+hwE(d.n)+'</div>'
+        +   '<div style="font-size:10px;color:var(--text-3)">'+hwE(d.adm)+'</div>'
+        +   '<div class="hw-dpills">'
+        +     '<span class="hw-pill" style="background:rgba(26,111,186,.12);color:var(--flood)">F:'+d.flood_rate.toFixed(1)+'%</span>'
+        +     '<span class="hw-pill" style="background:rgba(138,92,15,.12);color:var(--land)">L:'+d.ls_rate.toFixed(1)+'%</span>'
+        +   '</div>'
+        + '</div></div>';
     });
-    el.innerHTML = html;
-    // Use addEventListener — avoids quoting issues with onclick
+    el.innerHTML = buf;
     el.querySelectorAll('.hw-ditem').forEach(function(item){
       item.addEventListener('click', function(){ hwFly(this.dataset.nm); });
     });
@@ -7529,15 +8327,22 @@ function redrawAllCharts() {
 
   function hwFly(name){
     var d = HW_D.find(function(x){ return x.n === name; });
-    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 9, {duration:1.2}); hwShowDet(d); }
+    // DS divisions are smaller than districts — zoom closer
+    if(d && hwMap){ hwMap.flyTo([d.lat,d.lng], 10, {duration:1.0}); hwShowDet(d); }
   }
 
   function hwFilter(q){
+    var ql = q.toLowerCase();
     document.querySelectorAll('.hw-ditem').forEach(function(item){
-      item.style.display = item.querySelector('.hw-dname').textContent.toLowerCase()
-        .includes(q.toLowerCase()) ? '' : 'none';
+      var nm  = (item.querySelector('.hw-dname')  || {}).textContent || '';
+      var adm = (item.querySelectorAll('div')[1]  || {}).textContent || '';
+      item.style.display = (nm.toLowerCase().includes(ql) || adm.toLowerCase().includes(ql)) ? '' : 'none';
     });
   }
+
+  function hwE(s){ return String(s||'').replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  }); }
 
   /* ── PREDICT ENGINE ── */
   var hwCurModel = 'xgb';
