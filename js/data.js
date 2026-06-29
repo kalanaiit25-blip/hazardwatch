@@ -15,7 +15,7 @@ const MODELS = [
     "f1": 0.9635,
     "prec": 0.9648,
     "rec": 0.9625,
-    "time": 9.9,
+    "time": 6.7,
     "prauc": 0.587
   },
   {
@@ -26,7 +26,7 @@ const MODELS = [
     "f1": 0.9699,
     "prec": 0.9697,
     "rec": 0.9731,
-    "time": 1567.8,
+    "time": 1461.8,
     "prauc": 0.6651
   },
   {
@@ -37,7 +37,7 @@ const MODELS = [
     "f1": 0.9673,
     "prec": 0.9662,
     "rec": 0.9694,
-    "time": 1570.8,
+    "time": 1460.8,
     "prauc": null
   },
   {
@@ -48,7 +48,7 @@ const MODELS = [
     "f1": 0.9626,
     "prec": 0.9633,
     "rec": 0.962,
-    "time": 37.3,
+    "time": 31.4,
     "prauc": 0.4271
   },
   {
@@ -59,7 +59,7 @@ const MODELS = [
     "f1": 0.9531,
     "prec": 0.9635,
     "rec": 0.9463,
-    "time": 2.8,
+    "time": 0.7,
     "prauc": 0.6641
   },
   {
@@ -70,7 +70,7 @@ const MODELS = [
     "f1": 0.8657,
     "prec": 0.9606,
     "rec": 0.8091,
-    "time": 26.6,
+    "time": 32.1,
     "prauc": null
   },
   {
@@ -81,7 +81,7 @@ const MODELS = [
     "f1": 0.9999,
     "prec": 0.9999,
     "rec": 0.9999,
-    "time": 1765.5,
+    "time": 1675.2,
     "prauc": 0.917
   },
   {
@@ -92,7 +92,7 @@ const MODELS = [
     "f1": 0.9997,
     "prec": 0.9998,
     "rec": 0.9997,
-    "time": 1594.3,
+    "time": 1523.1,
     "prauc": null
   },
   {
@@ -103,7 +103,7 @@ const MODELS = [
     "f1": 1.0,
     "prec": 1.0,
     "rec": 1.0,
-    "time": 9.5,
+    "time": 7.3,
     "prauc": 1.0
   },
   {
@@ -114,7 +114,7 @@ const MODELS = [
     "f1": 1.0,
     "prec": 1.0,
     "rec": 1.0,
-    "time": 0.7,
+    "time": 0.6,
     "prauc": 1.0
   },
   {
@@ -136,7 +136,7 @@ const MODELS = [
     "f1": 0.9995,
     "prec": 0.9996,
     "rec": 0.9994,
-    "time": 36.6,
+    "time": 30.8,
     "prauc": 0.456
   }
 ];
@@ -6712,24 +6712,24 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 17.9,
-        "sklT": 2.5,
+        "sparkT": 20.4,
+        "sklT": 1.9,
         "sparkAuc": 0.9133,
         "sklAuc": 0.9141
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 24.4,
-        "sklT": 4.6,
+        "sparkT": 22.7,
+        "sklT": 4.5,
         "sparkAuc": 0.9342,
         "sklAuc": 0.9533
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 38.2,
-        "sklT": 12.9,
+        "sparkT": 34.2,
+        "sklT": 10.4,
         "sparkAuc": 0.948,
         "sklAuc": 0.9451
     }
@@ -6738,24 +6738,24 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 25.5,
-        "sklT": 2.0,
+        "sparkT": 19.4,
+        "sklT": 1.8,
         "sparkAuc": 0.9853,
         "sklAuc": 0.9875
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 25.2,
-        "sklT": 4.1,
+        "sparkT": 25.0,
+        "sklT": 4.6,
         "sparkAuc": 0.9847,
         "sklAuc": 0.9856
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 40.4,
-        "sklT": 9.9,
+        "sparkT": 35.7,
+        "sklT": 9.7,
         "sparkAuc": 0.9877,
         "sklAuc": 0.9899
     }
