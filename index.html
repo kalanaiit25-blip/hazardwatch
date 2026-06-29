@@ -1545,11 +1545,13 @@ function redrawAllCharts() {
       var v   = hwSc(d, mode);
       var col = hwRCol(v, mode);
       var r   = Math.round(5 + hwNorm(v, mode) * 17);   // radius 5-22px
+      var isCorrected = d.flood_corrected === true;
       var mk  = L.circleMarker([d.lat, d.lng], {
         radius:      r,
         fillColor:   col,
-        color:       col,
-        weight:      1,
+        color:       isCorrected ? '#8a5c0f' : col,
+        weight:      isCorrected ? 2.5 : 1,
+        dashArray:   isCorrected ? '5 3' : null,
         opacity:     0.9,
         fillOpacity: 0.78,
       })
@@ -1568,6 +1570,10 @@ function redrawAllCharts() {
         +'<div class="hw-pop-bar"><div class="hw-pop-fill" style="background:'+col+';width:'+pct+'%"></div></div>'
         +'<span class="hw-pop-num" style="color:'+col+'">'+Number(val).toFixed(1)+unit+'</span></div>';
     }
+    var corrNote = d.flood_corrected
+      ? '<div style="margin-top:6px;padding:3px 7px;background:#faeeda;border-radius:3px;'
+        +'font-size:10px;color:#854f0b;">&#9888; Rainfall-corrected score</div>'
+      : '';
     return '<div class="hw-pop">'
       +'<div class="hw-pop-name">'+hwE(d.n)+'</div>'
       +'<div style="font-size:11px;color:var(--text-2);margin-bottom:8px;">'
@@ -1578,6 +1584,7 @@ function redrawAllCharts() {
       +'<div style="margin-top:7px;font-size:10px;font-weight:600;letter-spacing:.03em;'
         +'display:inline-block;padding:2px 7px;border-radius:3px;background:rgba(0,0,0,.06)">'
         +hwE(d.risk_cat)+'</div>'
+      +corrNote
       +'</div>';
   }
 
