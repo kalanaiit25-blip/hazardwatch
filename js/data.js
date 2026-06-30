@@ -15,7 +15,7 @@ const MODELS = [
     "f1": 0.9635,
     "prec": 0.9648,
     "rec": 0.9625,
-    "time": 6.0,
+    "time": 8.4,
     "prauc": 0.587
   },
   {
@@ -26,7 +26,7 @@ const MODELS = [
     "f1": 0.9699,
     "prec": 0.9697,
     "rec": 0.9731,
-    "time": 1366.4,
+    "time": 1727.9,
     "prauc": 0.6651
   },
   {
@@ -37,7 +37,7 @@ const MODELS = [
     "f1": 0.9673,
     "prec": 0.9662,
     "rec": 0.9694,
-    "time": 1400.8,
+    "time": 1569.2,
     "prauc": null
   },
   {
@@ -48,7 +48,7 @@ const MODELS = [
     "f1": 0.9626,
     "prec": 0.9633,
     "rec": 0.962,
-    "time": 29.7,
+    "time": 34.5,
     "prauc": 0.4271
   },
   {
@@ -59,7 +59,7 @@ const MODELS = [
     "f1": 0.9531,
     "prec": 0.9635,
     "rec": 0.9463,
-    "time": 0.7,
+    "time": 0.8,
     "prauc": 0.6641
   },
   {
@@ -70,7 +70,7 @@ const MODELS = [
     "f1": 0.8657,
     "prec": 0.9606,
     "rec": 0.8091,
-    "time": 33.8,
+    "time": 40.2,
     "prauc": null
   },
   {
@@ -81,7 +81,7 @@ const MODELS = [
     "f1": 0.9999,
     "prec": 0.9999,
     "rec": 0.9999,
-    "time": 1555.2,
+    "time": 1920.4,
     "prauc": 0.917
   },
   {
@@ -92,7 +92,7 @@ const MODELS = [
     "f1": 0.9997,
     "prec": 0.9998,
     "rec": 0.9997,
-    "time": 1438.4,
+    "time": 1643.7,
     "prauc": null
   },
   {
@@ -103,7 +103,7 @@ const MODELS = [
     "f1": 1.0,
     "prec": 1.0,
     "rec": 1.0,
-    "time": 8.1,
+    "time": 6.9,
     "prauc": 1.0
   },
   {
@@ -125,7 +125,7 @@ const MODELS = [
     "f1": 0.9969,
     "prec": 0.9991,
     "rec": 0.9954,
-    "time": 8.0,
+    "time": 10.6,
     "prauc": null
   },
   {
@@ -136,7 +136,7 @@ const MODELS = [
     "f1": 0.9995,
     "prec": 0.9996,
     "rec": 0.9994,
-    "time": 29.5,
+    "time": 32.9,
     "prauc": 0.456
   }
 ];
@@ -206,15 +206,6 @@ const DISTRICTS = [
     "rain": 30.44
   },
   {
-    "name": "Kalutara",
-    "province": "Western",
-    "lat": 6.566,
-    "lon": 80.125,
-    "flood": 0.0375,
-    "land": 0.1107,
-    "rain": 66.88
-  },
-  {
     "name": "Polonnaruwa",
     "province": "North Central",
     "lat": 7.99,
@@ -231,6 +222,15 @@ const DISTRICTS = [
     "flood": 0.0364,
     "land": 0.0,
     "rain": 28.38
+  },
+  {
+    "name": "Kalutara",
+    "province": "Western",
+    "lat": 6.566,
+    "lon": 80.125,
+    "flood": 0.035,
+    "land": 0.1107,
+    "rain": 66.88
   },
   {
     "name": "Batticaloa",
@@ -251,24 +251,6 @@ const DISTRICTS = [
     "rain": 30.71
   },
   {
-    "name": "Matara",
-    "province": "Southern",
-    "lat": 6.146,
-    "lon": 80.563,
-    "flood": 0.0259,
-    "land": 0.0958,
-    "rain": 48.67
-  },
-  {
-    "name": "Gampaha",
-    "province": "Western",
-    "lat": 7.187,
-    "lon": 80.02,
-    "flood": 0.023,
-    "land": 0.0211,
-    "rain": 48.51
-  },
-  {
     "name": "Monaragala",
     "province": "Uva",
     "lat": 6.797,
@@ -282,9 +264,18 @@ const DISTRICTS = [
     "province": "Western",
     "lat": 6.987,
     "lon": 80.009,
-    "flood": 0.0197,
+    "flood": 0.0192,
     "land": 0.0039,
     "rain": 54.37
+  },
+  {
+    "name": "Gampaha",
+    "province": "Western",
+    "lat": 7.187,
+    "lon": 80.02,
+    "flood": 0.019,
+    "land": 0.0211,
+    "rain": 48.51
   },
   {
     "name": "Vavuniya",
@@ -309,9 +300,18 @@ const DISTRICTS = [
     "province": "Central",
     "lat": 7.284,
     "lon": 80.703,
-    "flood": 0.0162,
+    "flood": 0.0159,
     "land": 0.3287,
     "rain": 47.31
+  },
+  {
+    "name": "Matara",
+    "province": "Southern",
+    "lat": 6.146,
+    "lon": 80.563,
+    "flood": 0.0127,
+    "land": 0.0958,
+    "rain": 48.67
   },
   {
     "name": "Nuwara Eliya",
@@ -327,7 +327,7 @@ const DISTRICTS = [
     "province": "North Western",
     "lat": 7.75,
     "lon": 80.176,
-    "flood": 0.0121,
+    "flood": 0.012,
     "land": 0.0346,
     "rain": 38.32
   },
@@ -907,7 +907,7 @@ const DS_DIVISIONS = [
     "admin_district": "Kandy",
     "province": "Central",
     "cells": 158,
-    "flood": 14,
+    "flood": 13,
     "landslide": 66,
     "compound": 2,
     "lat": 7.3009,
@@ -916,7 +916,7 @@ const DS_DIVISIONS = [
     "slope": 18.23,
     "rain": 53.27,
     "ndvi": 0.847,
-    "flood_rate": 8.86,
+    "flood_rate": 8.23,
     "ls_rate": 41.77,
     "risk_category": "Compound Hazard",
     "flood_corrected": false
@@ -1249,7 +1249,7 @@ const DS_DIVISIONS = [
     "admin_district": "Kalutara",
     "province": "Western",
     "cells": 47,
-    "flood": 4,
+    "flood": 3,
     "landslide": 0,
     "compound": 0,
     "lat": 6.7186,
@@ -1258,7 +1258,7 @@ const DS_DIVISIONS = [
     "slope": 2.91,
     "rain": 64.35,
     "ndvi": 0.779,
-    "flood_rate": 8.51,
+    "flood_rate": 6.38,
     "ls_rate": 0.0,
     "risk_category": "Moderate Risk",
     "flood_corrected": false
@@ -1496,7 +1496,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 39,
-    "flood": 5,
+    "flood": 2,
     "landslide": 0,
     "compound": 0,
     "lat": 6.0099,
@@ -1505,9 +1505,9 @@ const DS_DIVISIONS = [
     "slope": 3.22,
     "rain": 45.17,
     "ndvi": 0.803,
-    "flood_rate": 12.82,
+    "flood_rate": 5.13,
     "ls_rate": 0.0,
-    "risk_category": "High Risk",
+    "risk_category": "Moderate Risk",
     "flood_corrected": false
   },
   {
@@ -2351,7 +2351,7 @@ const DS_DIVISIONS = [
     "admin_district": "Colombo",
     "province": "Western",
     "cells": 150,
-    "flood": 5,
+    "flood": 4,
     "landslide": 0,
     "compound": 1,
     "lat": 6.9892,
@@ -2360,7 +2360,7 @@ const DS_DIVISIONS = [
     "slope": 4.63,
     "rain": 62.65,
     "ndvi": 0.82,
-    "flood_rate": 3.33,
+    "flood_rate": 2.67,
     "ls_rate": 0.0,
     "risk_category": "Compound Hazard",
     "flood_corrected": false
@@ -2503,7 +2503,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 43,
-    "flood": 3,
+    "flood": 1,
     "landslide": 0,
     "compound": 0,
     "lat": 5.9736,
@@ -2512,9 +2512,9 @@ const DS_DIVISIONS = [
     "slope": 3.41,
     "rain": 43.44,
     "ndvi": 0.836,
-    "flood_rate": 6.98,
+    "flood_rate": 2.33,
     "ls_rate": 0.0,
-    "risk_category": "Moderate Risk",
+    "risk_category": "Low Risk",
     "flood_corrected": false
   },
   {
@@ -2560,7 +2560,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 44,
-    "flood": 2,
+    "flood": 1,
     "landslide": 0,
     "compound": 0,
     "lat": 5.9641,
@@ -2569,9 +2569,9 @@ const DS_DIVISIONS = [
     "slope": 4.18,
     "rain": 41.29,
     "ndvi": 0.804,
-    "flood_rate": 4.55,
+    "flood_rate": 2.27,
     "ls_rate": 0.0,
-    "risk_category": "Moderate Risk",
+    "risk_category": "Low Risk",
     "flood_corrected": false
   },
   {
@@ -3111,7 +3111,7 @@ const DS_DIVISIONS = [
     "admin_district": "Kalutara",
     "province": "Western",
     "cells": 59,
-    "flood": 2,
+    "flood": 1,
     "landslide": 0,
     "compound": 0,
     "lat": 6.4896,
@@ -3120,9 +3120,9 @@ const DS_DIVISIONS = [
     "slope": 3.02,
     "rain": 65.09,
     "ndvi": 0.777,
-    "flood_rate": 3.39,
+    "flood_rate": 1.69,
     "ls_rate": 0.0,
-    "risk_category": "Moderate Risk",
+    "risk_category": "Low Risk",
     "flood_corrected": false
   },
   {
@@ -3757,7 +3757,7 @@ const DS_DIVISIONS = [
     "admin_district": "Kurunegala",
     "province": "North Western",
     "cells": 235,
-    "flood": 2,
+    "flood": 1,
     "landslide": 0,
     "compound": 0,
     "lat": 7.3621,
@@ -3766,7 +3766,7 @@ const DS_DIVISIONS = [
     "slope": 3.39,
     "rain": 45.06,
     "ndvi": 0.826,
-    "flood_rate": 0.85,
+    "flood_rate": 0.43,
     "ls_rate": 0.0,
     "risk_category": "Low Risk",
     "flood_corrected": false
@@ -4175,7 +4175,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 38,
-    "flood": 1,
+    "flood": 0,
     "landslide": 0,
     "compound": 0,
     "lat": 6.0168,
@@ -4184,9 +4184,9 @@ const DS_DIVISIONS = [
     "slope": 5.65,
     "rain": 46.93,
     "ndvi": 0.817,
-    "flood_rate": 2.63,
+    "flood_rate": 0.0,
     "ls_rate": 0.0,
-    "risk_category": "Low Risk",
+    "risk_category": "No Observed Risk",
     "flood_corrected": false
   },
   {
@@ -4460,7 +4460,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 52,
-    "flood": 1,
+    "flood": 0,
     "landslide": 8,
     "compound": 0,
     "lat": 6.065,
@@ -4469,7 +4469,7 @@ const DS_DIVISIONS = [
     "slope": 6.21,
     "rain": 48.12,
     "ndvi": 0.827,
-    "flood_rate": 1.92,
+    "flood_rate": 0.0,
     "ls_rate": 15.38,
     "risk_category": "Moderate Risk",
     "flood_corrected": false
@@ -4593,7 +4593,7 @@ const DS_DIVISIONS = [
     "admin_district": "Matara",
     "province": "Southern",
     "cells": 31,
-    "flood": 1,
+    "flood": 0,
     "landslide": 0,
     "compound": 0,
     "lat": 6.0463,
@@ -4602,9 +4602,9 @@ const DS_DIVISIONS = [
     "slope": 7.74,
     "rain": 42.31,
     "ndvi": 0.853,
-    "flood_rate": 3.23,
+    "flood_rate": 0.0,
     "ls_rate": 0.0,
-    "risk_category": "Moderate Risk",
+    "risk_category": "No Observed Risk",
     "flood_corrected": false
   },
   {
@@ -4783,7 +4783,7 @@ const DS_DIVISIONS = [
     "admin_district": "Gampaha",
     "province": "Western",
     "cells": 87,
-    "flood": 3,
+    "flood": 0,
     "landslide": 0,
     "compound": 0,
     "lat": 7.1933,
@@ -4792,9 +4792,9 @@ const DS_DIVISIONS = [
     "slope": 2.09,
     "rain": 43.85,
     "ndvi": 0.76,
-    "flood_rate": 3.45,
+    "flood_rate": 0.0,
     "ls_rate": 0.0,
-    "risk_category": "Moderate Risk",
+    "risk_category": "No Observed Risk",
     "flood_corrected": false
   },
   {
@@ -5163,7 +5163,7 @@ const DS_DIVISIONS = [
     "admin_district": "Gampaha",
     "province": "Western",
     "cells": 103,
-    "flood": 1,
+    "flood": 0,
     "landslide": 15,
     "compound": 0,
     "lat": 7.1553,
@@ -5172,7 +5172,7 @@ const DS_DIVISIONS = [
     "slope": 3.08,
     "rain": 49.72,
     "ndvi": 0.811,
-    "flood_rate": 0.97,
+    "flood_rate": 0.0,
     "ls_rate": 14.56,
     "risk_category": "Moderate Risk",
     "flood_corrected": false
@@ -6616,21 +6616,6 @@ const ADM_DISTRICTS = [
     "risk_category": "Moderate Risk"
   },
   {
-    "admin_district": "Kalutara",
-    "province": "Western",
-    "lat": 6.566,
-    "lon": 80.125,
-    "cells": 1406,
-    "flood": 55,
-    "landslide": 198,
-    "compound": 18,
-    "ds_divs": 15,
-    "rain": 66.88,
-    "flood_rate": 3.75,
-    "ls_rate": 11.07,
-    "risk_category": "Compound Hazard"
-  },
-  {
     "admin_district": "Polonnaruwa",
     "province": "North Central",
     "lat": 7.99,
@@ -6659,6 +6644,21 @@ const ADM_DISTRICTS = [
     "flood_rate": 3.64,
     "ls_rate": 0.0,
     "risk_category": "Moderate Risk"
+  },
+  {
+    "admin_district": "Kalutara",
+    "province": "Western",
+    "lat": 6.566,
+    "lon": 80.125,
+    "cells": 1406,
+    "flood": 53,
+    "landslide": 198,
+    "compound": 18,
+    "ds_divs": 15,
+    "rain": 66.88,
+    "flood_rate": 3.5,
+    "ls_rate": 11.07,
+    "risk_category": "Compound Hazard"
   },
   {
     "admin_district": "Batticaloa",
@@ -6691,36 +6691,6 @@ const ADM_DISTRICTS = [
     "risk_category": "Low Risk"
   },
   {
-    "admin_district": "Matara",
-    "province": "Southern",
-    "lat": 6.146,
-    "lon": 80.563,
-    "cells": 1192,
-    "flood": 23,
-    "landslide": 168,
-    "compound": 12,
-    "ds_divs": 17,
-    "rain": 48.67,
-    "flood_rate": 2.59,
-    "ls_rate": 9.58,
-    "risk_category": "Compound Hazard"
-  },
-  {
-    "admin_district": "Gampaha",
-    "province": "Western",
-    "lat": 7.187,
-    "lon": 80.02,
-    "cells": 928,
-    "flood": 24,
-    "landslide": 28,
-    "compound": 4,
-    "ds_divs": 11,
-    "rain": 48.51,
-    "flood_rate": 2.3,
-    "ls_rate": 2.11,
-    "risk_category": "Compound Hazard"
-  },
-  {
     "admin_district": "Monaragala",
     "province": "Uva",
     "lat": 6.797,
@@ -6741,13 +6711,28 @@ const ADM_DISTRICTS = [
     "lat": 6.987,
     "lon": 80.009,
     "cells": 756,
-    "flood": 12,
+    "flood": 11,
     "landslide": 5,
     "compound": 7,
     "ds_divs": 14,
     "rain": 54.37,
-    "flood_rate": 1.97,
+    "flood_rate": 1.92,
     "ls_rate": 0.39,
+    "risk_category": "Compound Hazard"
+  },
+  {
+    "admin_district": "Gampaha",
+    "province": "Western",
+    "lat": 7.187,
+    "lon": 80.02,
+    "cells": 928,
+    "flood": 20,
+    "landslide": 28,
+    "compound": 4,
+    "ds_divs": 11,
+    "rain": 48.51,
+    "flood_rate": 1.9,
+    "ls_rate": 2.11,
     "risk_category": "Compound Hazard"
   },
   {
@@ -6786,13 +6771,28 @@ const ADM_DISTRICTS = [
     "lat": 7.284,
     "lon": 80.703,
     "cells": 1536,
-    "flood": 36,
+    "flood": 35,
     "landslide": 518,
     "compound": 13,
     "ds_divs": 19,
     "rain": 47.31,
-    "flood_rate": 1.62,
+    "flood_rate": 1.59,
     "ls_rate": 32.87,
+    "risk_category": "Compound Hazard"
+  },
+  {
+    "admin_district": "Matara",
+    "province": "Southern",
+    "lat": 6.146,
+    "lon": 80.563,
+    "cells": 1192,
+    "flood": 14,
+    "landslide": 168,
+    "compound": 12,
+    "ds_divs": 17,
+    "rain": 48.67,
+    "flood_rate": 1.27,
+    "ls_rate": 9.58,
     "risk_category": "Compound Hazard"
   },
   {
@@ -6816,12 +6816,12 @@ const ADM_DISTRICTS = [
     "lat": 7.75,
     "lon": 80.176,
     "cells": 4086,
-    "flood": 62,
+    "flood": 61,
     "landslide": 144,
     "compound": 0,
     "ds_divs": 31,
     "rain": 38.32,
-    "flood_rate": 1.21,
+    "flood_rate": 1.2,
     "ls_rate": 3.46,
     "risk_category": "Low Risk"
   },
@@ -7011,24 +7011,24 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 14.8,
-        "sklT": 2.1,
+        "sparkT": 18.4,
+        "sklT": 2.2,
         "sparkAuc": 0.9133,
         "sklAuc": 0.9141
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 18.8,
-        "sklT": 4.9,
+        "sparkT": 26.2,
+        "sklT": 4.0,
         "sparkAuc": 0.9342,
         "sklAuc": 0.9533
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 33.4,
-        "sklT": 10.0,
+        "sparkT": 48.0,
+        "sklT": 11.9,
         "sparkAuc": 0.948,
         "sklAuc": 0.9451
     }
@@ -7037,24 +7037,24 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 14.9,
-        "sklT": 3.0,
+        "sparkT": 19.7,
+        "sklT": 3.1,
         "sparkAuc": 0.9853,
         "sklAuc": 0.9875
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 20.8,
-        "sklT": 3.6,
+        "sparkT": 25.1,
+        "sklT": 4.8,
         "sparkAuc": 0.9847,
         "sklAuc": 0.9856
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 32.0,
-        "sklT": 6.5,
+        "sparkT": 38.3,
+        "sklT": 10.3,
         "sparkAuc": 0.9877,
         "sklAuc": 0.9899
     }
