@@ -6945,32 +6945,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 50.3,
-        "sklT": 3.6,
+        "sparkT": 63.7,
+        "sklT": 2.9,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 32.2,
-        "sklT": 4.8,
+        "sparkT": 34.4,
+        "sklT": 6.9,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 36.7,
-        "sklT": 7.3,
+        "sparkT": 35.8,
+        "sklT": 9.7,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 41.6,
-        "sklT": 12.8,
+        "sparkT": 40.6,
+        "sklT": 11.9,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -6979,32 +6979,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 17.2,
-        "sklT": 1.8,
+        "sparkT": 19.2,
+        "sklT": 3.4,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 25.6,
-        "sklT": 3.6,
+        "sparkT": 25.2,
+        "sklT": 5.5,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 30.4,
-        "sklT": 13.0,
+        "sparkT": 31.5,
+        "sklT": 5.5,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 34.3,
-        "sklT": 10.7,
+        "sparkT": 36.1,
+        "sklT": 7.6,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
