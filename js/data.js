@@ -15,7 +15,7 @@ const MODELS = [
     "f1": 0.4879,
     "prec": 0.4603,
     "rec": 0.5191,
-    "time": 6.1,
+    "time": 6.6,
     "prauc": 0.4939
   },
   {
@@ -26,7 +26,7 @@ const MODELS = [
     "f1": 0.4476,
     "prec": 0.4126,
     "rec": 0.4892,
-    "time": 30.7,
+    "time": 30.9,
     "prauc": 0.3291
   },
   {
@@ -48,7 +48,7 @@ const MODELS = [
     "f1": 0.5253,
     "prec": 0.4893,
     "rec": 0.5672,
-    "time": 1386.9,
+    "time": 1424.0,
     "prauc": 0.5115
   },
   {
@@ -59,8 +59,19 @@ const MODELS = [
     "f1": 0.5296,
     "prec": 0.6253,
     "rec": 0.4594,
-    "time": 1468.3,
+    "time": 1451.8,
     "prauc": 0.5403
+  },
+  {
+    "model": "LogisticRegression",
+    "target": "flood",
+    "arch": "distributed",
+    "auc": 0.893,
+    "f1": 0.3976,
+    "prec": 0.3297,
+    "rec": 0.5008,
+    "time": 42.1,
+    "prauc": 0.2434
   },
   {
     "model": "sklearn_RF",
@@ -70,7 +81,7 @@ const MODELS = [
     "f1": 0.9098,
     "prec": 0.9045,
     "rec": 0.9151,
-    "time": 7.0,
+    "time": 6.5,
     "prauc": 0.9496
   },
   {
@@ -81,7 +92,7 @@ const MODELS = [
     "f1": 0.9135,
     "prec": 0.9471,
     "rec": 0.8822,
-    "time": 30.9,
+    "time": 30.7,
     "prauc": 0.9501
   },
   {
@@ -103,7 +114,7 @@ const MODELS = [
     "f1": 0.9386,
     "prec": 0.9062,
     "rec": 0.9733,
-    "time": 1427.8,
+    "time": 1426.6,
     "prauc": 0.9653
   },
   {
@@ -114,8 +125,19 @@ const MODELS = [
     "f1": 0.9478,
     "prec": 0.9388,
     "rec": 0.9568,
-    "time": 1444.1,
+    "time": 1445.1,
     "prauc": 0.9512
+  },
+  {
+    "model": "LogisticRegression",
+    "target": "landslide",
+    "arch": "distributed",
+    "auc": 0.9486,
+    "f1": 0.6093,
+    "prec": 0.5478,
+    "rec": 0.6863,
+    "time": 9.6,
+    "prauc": 0.6182
   }
 ];
 
@@ -6989,32 +7011,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 40.4,
-        "sklT": 3.7,
+        "sparkT": 39.3,
+        "sklT": 2.4,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 22.1,
-        "sklT": 5.3,
+        "sparkT": 30.0,
+        "sklT": 4.0,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 30.1,
-        "sklT": 6.0,
+        "sparkT": 29.6,
+        "sklT": 8.5,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 34.4,
-        "sklT": 9.2,
+        "sparkT": 35.9,
+        "sklT": 10.7,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -7023,32 +7045,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 16.9,
-        "sklT": 2.6,
+        "sparkT": 14.7,
+        "sklT": 1.4,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 22.2,
-        "sklT": 3.1,
+        "sparkT": 26.6,
+        "sklT": 3.0,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 27.9,
-        "sklT": 7.3,
+        "sparkT": 25.5,
+        "sklT": 4.6,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 34.6,
-        "sklT": 8.3,
+        "sparkT": 30.3,
+        "sklT": 9.0,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
