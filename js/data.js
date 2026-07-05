@@ -15,7 +15,7 @@ const MODELS = [
     "f1": 0.4879,
     "prec": 0.4603,
     "rec": 0.5191,
-    "time": 6.4,
+    "time": 6.1,
     "prauc": 0.4939
   },
   {
@@ -26,7 +26,7 @@ const MODELS = [
     "f1": 0.4476,
     "prec": 0.4126,
     "rec": 0.4892,
-    "time": 31.6,
+    "time": 30.7,
     "prauc": 0.3291
   },
   {
@@ -41,37 +41,81 @@ const MODELS = [
     "prauc": 0.4735
   },
   {
+    "model": "PySpark_RF",
+    "target": "flood",
+    "arch": "distributed",
+    "auc": 0.9104,
+    "f1": 0.5253,
+    "prec": 0.4893,
+    "rec": 0.5672,
+    "time": 1386.9,
+    "prauc": 0.5115
+  },
+  {
+    "model": "PySpark_GBT",
+    "target": "flood",
+    "arch": "distributed",
+    "auc": 0.9166,
+    "f1": 0.5296,
+    "prec": 0.6253,
+    "rec": 0.4594,
+    "time": 1468.3,
+    "prauc": 0.5403
+  },
+  {
     "model": "sklearn_RF",
     "target": "landslide",
     "arch": "centralised",
-    "auc": 0.998,
-    "f1": 0.9396,
-    "prec": 0.9453,
-    "rec": 0.9339,
-    "time": 7.6,
-    "prauc": 0.9711
+    "auc": 0.9959,
+    "f1": 0.9098,
+    "prec": 0.9045,
+    "rec": 0.9151,
+    "time": 7.0,
+    "prauc": 0.9496
   },
   {
     "model": "sklearn_GBT",
     "target": "landslide",
     "arch": "centralised",
-    "auc": 0.9969,
-    "f1": 0.9261,
-    "prec": 0.9279,
-    "rec": 0.9242,
-    "time": 31.5,
-    "prauc": 0.9381
+    "auc": 0.9957,
+    "f1": 0.9135,
+    "prec": 0.9471,
+    "rec": 0.8822,
+    "time": 30.9,
+    "prauc": 0.9501
   },
   {
     "model": "XGBoost",
     "target": "landslide",
     "arch": "centralised",
-    "auc": 0.9981,
-    "f1": 0.931,
-    "prec": 0.9314,
-    "rec": 0.9306,
-    "time": 0.7,
-    "prauc": 0.9643
+    "auc": 0.9963,
+    "f1": 0.9043,
+    "prec": 0.923,
+    "rec": 0.8863,
+    "time": 0.6,
+    "prauc": 0.9442
+  },
+  {
+    "model": "PySpark_RF",
+    "target": "landslide",
+    "arch": "distributed",
+    "auc": 0.9978,
+    "f1": 0.9386,
+    "prec": 0.9062,
+    "rec": 0.9733,
+    "time": 1427.8,
+    "prauc": 0.9653
+  },
+  {
+    "model": "PySpark_GBT",
+    "target": "landslide",
+    "arch": "distributed",
+    "auc": 0.9974,
+    "f1": 0.9478,
+    "prec": 0.9388,
+    "rec": 0.9568,
+    "time": 1444.1,
+    "prauc": 0.9512
   }
 ];
 
@@ -6945,32 +6989,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 61.2,
-        "sklT": 2.9,
+        "sparkT": 40.4,
+        "sklT": 3.7,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 33.4,
-        "sklT": 4.9,
+        "sparkT": 22.1,
+        "sklT": 5.3,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 38.9,
-        "sklT": 7.7,
+        "sparkT": 30.1,
+        "sklT": 6.0,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 38.8,
-        "sklT": 12.8,
+        "sparkT": 34.4,
+        "sklT": 9.2,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -6979,32 +7023,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 18.7,
-        "sklT": 1.8,
+        "sparkT": 16.9,
+        "sklT": 2.6,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 26.3,
-        "sklT": 3.6,
+        "sparkT": 22.2,
+        "sklT": 3.1,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 31.5,
-        "sklT": 8.6,
+        "sparkT": 27.9,
+        "sklT": 7.3,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 35.4,
-        "sklT": 10.6,
+        "sparkT": 34.6,
+        "sklT": 8.3,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
@@ -7091,15 +7135,15 @@ const DITWAH_REPORT = [
   {
     "cls": "No Risk",
     "prec": 0.98,
-    "rec": 0.97,
+    "rec": 0.98,
     "f1": 0.98,
     "support": "17947"
   },
   {
     "cls": "Risk",
-    "prec": 0.41,
-    "rec": 0.56,
-    "f1": 0.47,
+    "prec": 0.46,
+    "rec": 0.52,
+    "f1": 0.49,
     "support": "603"
   }
 ];
