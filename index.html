@@ -786,10 +786,10 @@ input[type=range]::-moz-range-thumb {
         <p>Model performance summary — AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
       </div>
       <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
-        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)">1,511</div><div class="kpi-sub">2.8% · weight 34.7</div></div>
-        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)">4,446</div><div class="kpi-sub">8.2% · weight 11.1</div></div>
-        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val">12</div><div class="kpi-sub">6 distributed · 6 centralised</div></div>
+        <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val" id="statCells">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
+        <div class="kpi"><div class="kpi-label">Flood positives</div><div class="kpi-val" style="color:var(--flood)" id="statFloodPositives">1,327</div><div class="kpi-sub" id="statFloodPositivesSub">2.5% of cells</div></div>
+        <div class="kpi"><div class="kpi-label">Landslide positives</div><div class="kpi-val" style="color:var(--land)" id="statLandPositives">4,294</div><div class="kpi-sub" id="statLandPositivesSub">8.0% of cells</div></div>
+        <div class="kpi"><div class="kpi-label">Models trained</div><div class="kpi-val" id="statModelsTrained">12</div><div class="kpi-sub" id="statModelsTrainedSub">6 distributed · 6 centralised</div></div>
       </div>
       <div class="grid-2">
         <div class="card">
@@ -1061,9 +1061,9 @@ input[type=range]::-moz-range-thumb {
         <p>All 12 trained models — distributed PySpark vs centralised scikit-learn.</p>
       </div>
       <div class="kpi-grid kpi-3">
-        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)">0.9225</div><div class="kpi-sub">PySpark RF · 1568s w/ CV</div></div>
-        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)">0.9235</div><div class="kpi-sub">sklearn RF · 9.9s · Δ=−0.001</div></div>
-        <div class="kpi"><div class="kpi-label">Best flood PR-AUC</div><div class="kpi-val" style="color:var(--ok)">0.6651</div><div class="kpi-sub">PySpark RF leads</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)" id="mdlBestDistAuc">0.9166</div><div class="kpi-sub" id="mdlBestDistAucSub">PySpark GBT · 1451.8s</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood AUC (centralised)</div><div class="kpi-val" style="color:var(--cent)" id="mdlBestCentAuc">0.9089</div><div class="kpi-sub" id="mdlBestCentAucSub">sklearn RF</div></div>
+        <div class="kpi"><div class="kpi-label">Best flood PR-AUC</div><div class="kpi-val" style="color:var(--ok)" id="mdlBestPrauc">0.5403</div><div class="kpi-sub" id="mdlBestPraucSub">PySpark GBT leads</div></div>
       </div>
       <div class="card">
         <div class="card-head"><i class="ti ti-table"></i> Complete results table</div>
@@ -1116,10 +1116,10 @@ input[type=range]::-moz-range-thumb {
         To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?
       </div>
       <div class="kpi-grid">
-        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val">−0.0010</div><div class="kpi-sub">Centralised leads marginally</div></div>
-        <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)">+0.0781</div><div class="kpi-sub">Distributed leads</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val">157×</div><div class="kpi-sub">CV overhead</div></div>
-        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val">3×</div><div class="kpi-sub">Real comparison</div></div>
+        <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val" id="mdlAucDiff">+0.0077</div><div class="kpi-sub" id="mdlAucDiffSub">Distributed leads</div></div>
+        <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)" id="mdlPraucDiff">+0.0288</div><div class="kpi-sub" id="mdlPraucDiffSub">Distributed leads</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (w/ CV)</div><div class="kpi-val" id="mdlTimeRatioCV">157×</div><div class="kpi-sub">CV overhead</div></div>
+        <div class="kpi"><div class="kpi-label">Time ratio (no CV)</div><div class="kpi-val" id="mdlTimeRatioNoCV">3×</div><div class="kpi-sub">Real comparison</div></div>
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0×. Crossover needs multi-node cluster.</p></div>
@@ -1142,7 +1142,7 @@ input[type=range]::-moz-range-thumb {
         <div class="kpi"><div class="kpi-label">PySpark RF flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9282</div><div class="kpi-sub">Northern zone</div></div>
         <div class="kpi"><div class="kpi-label">XGBoost flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9174</div><div class="kpi-sub">Northern zone</div></div>
         <div class="kpi"><div class="kpi-label">Landslide AUC</div><div class="kpi-val" style="color:var(--land)">1.0000</div><div class="kpi-sub">n=21 · see caveat</div></div>
-        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val">18,550</div><div class="kpi-sub">lat &gt; 8.0°N</div></div>
+        <div class="kpi"><div class="kpi-label">Test cells</div><div class="kpi-val" id="ditwahTestCells">18,550</div><div class="kpi-sub">lat &gt; 8.0°N</div></div>
       </div>
       <div class="grid-2">
         <div class="card">

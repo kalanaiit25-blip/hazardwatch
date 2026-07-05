@@ -3,9 +3,11 @@
    Colours pulled from CSS custom properties so light/dark mode
    is handled automatically without any JS theme detection.
 
-   FIX (v5): MODELS entries use target:"flood"/"landslide" (see data.js).
-   Earlier versions filtered on target==='flood_risk', which matches
-   nothing — every Overview/Models chart was silently rendering empty.
+   FIX (v7): confirmed directly against an actual generated data.js —
+   MODELS[].target is 'flood' / 'landslide'. (An earlier pass here had
+   assumed 'flood_risk'/'landslide_risk' from notebook-cell text output;
+   the real emitted file uses the short form, so that assumption is
+   corrected back.)
    =================================================================== */
 
 function cssVar(name){
@@ -55,9 +57,9 @@ function yAxis(opts){
   }, opts);
 }
 
-/* Which target the Overview page focuses on. Defaults to flood (the harder,
-   more imbalanced target) but every function here also works for 'landslide'
-   if a target switcher is added later — no hardcoded 'flood_risk' anywhere. */
+/* Which target the Overview page focuses on. Defaults to 'flood' (the harder,
+   more imbalanced target) — matches the literal values MODELS[].target holds
+   in the real data.js: 'flood' / 'landslide'. */
 function modelsFor(target){
   return (typeof MODELS !== 'undefined' ? MODELS : []).filter(m => m.target === target);
 }
@@ -168,14 +170,16 @@ function chartModelMetric(id, metric, min, max){
   });
 }
 
-/* Forecast: driven by a real DS_DIVISIONS record (flood_prob/landslide_prob),
-   not a fabricated formula. See app.js renderMap() for how `division` is picked. */
+/* Forecast: driven by a real DS_DIVISIONS record, enriched by app.js's
+   renderMap()/hwRun() with floodProb/landProb (derived from the real
+   flood_rate/ls_rate fields — see app.js dsFloodProb/dsLandProb). Not a
+   fabricated formula. */
 function chartForecast(division){
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   let flood, land;
   if(division){
-    const sf = Number(division.flood_prob) || 0;
-    const sl = Number(division.landslide_prob) || 0;
+    const sf = Number(division.floodProb) || 0;
+    const sl = Number(division.landProb) || 0;
     const seed = sf * 10;
     flood = days.map((_,i) => _clamp(sf + Math.sin(i*1.3+seed)*0.08));
     land  = days.map((_,i) => _clamp(sl + Math.cos(i*0.9+seed)*0.06));
@@ -210,7 +214,7 @@ function chartForecast(division){
   });
   const note = document.getElementById('forecastNote');
   if(note) note.textContent = division
-    ? `Illustrative 7-day trend around ${division.ds_division}'s current model-predicted probability — not a time-series forecast model.`
+    ? `Illustrative 7-day trend around ${division.district}'s current model-predicted rate — not a time-series forecast model.`
     : 'Select a DS division on the map to see its predicted risk level here.';
 }
 function _clamp(v){ return Math.max(0.01, Math.min(0.97, v)); }
