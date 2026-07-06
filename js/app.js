@@ -143,16 +143,41 @@ let hwMap = null, hwMarkers = [], hwMode = 'flood';
 let HW_D = [];
 
 const HW_CFG = {
-  flood:    { field: 'floodProb',    cols:['#1b7c5e','#1a6fba','#a35f0a','#b91c1c'], title:'Flood risk (model-predicted rate)' },
-  land:     { field: 'landProb',     cols:['#1b7c5e','#8a9ecf','#7c5226','#4c3000'], title:'Landslide risk (model-predicted rate)' },
-  compound: { field: 'compoundRate', cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'], title:'Compound hazard (cells with both risks)' },
+  flood: {
+    title:'Flood risk (model-predicted rate)',
+    cols:['#1b7c5e','#1a6fba','#a35f0a','#b91c1c'],
+    value: d => d.floodProb,
+    /* Thresholds calibrated against the real flood_rate distribution across
+       all 323 DS divisions (p25=1.6%, p50=3.7%, p75=6.4%, p90=13.2%,
+       max=25%). The previous shared thresholds (40%/70%) were above the
+       real maximum, so "Moderate"/"High" could never be reached and 91%
+       of divisions were stuck at "minimal". */
+    tier: d => tierByThresholds(d.floodProb, [0.02, 0.06, 0.13]),
+  },
+  land: {
+    title:'Landslide risk (model-predicted rate)',
+    cols:['#1b7c5e','#8a9ecf','#7c5226','#4c3000'],
+    value: d => d.landProb,
+    /* ls_rate has a genuinely wide spread (p50=2.5%, p75=26%, p90=52%,
+       p99=82%) — these thresholds roughly track that spread. */
+    tier: d => tierByThresholds(d.landProb, [0.03, 0.25, 0.50]),
+  },
+  compound: {
+    title:'Compound hazard (cells with both risks)',
+    cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'],
+    value: d => d.compoundRate,
+    /* `compound` is a raw count of hazard cells (0, 1, or 2 across the
+       whole real dataset) — dividing it by cells-per-division (up to 880)
+       crushes the ratio to under 5% everywhere, so no division could ever
+       cross even a 15% floor. Colour by the raw count directly instead;
+       it's already the right granularity for this field. */
+    tier: d => Math.min(3, Number(d.compound) || 0),
+  },
 };
-const HW_T = [0.15, 0.40, 0.70]; // Low / Moderate / High thresholds, shared across modes (all fields are 0-1)
-
-function hwColor(v){
-  if(v >= HW_T[2]) return 3;
-  if(v >= HW_T[1]) return 2;
-  if(v >= HW_T[0]) return 1;
+function tierByThresholds(v, th){
+  if(v >= th[2]) return 3;
+  if(v >= th[1]) return 2;
+  if(v >= th[0]) return 1;
   return 0;
 }
 
@@ -191,8 +216,8 @@ function hwDraw(mode){
   hwMarkers = [];
   const cfg = HW_CFG[mode];
   HW_D.forEach(d => {
-    const v = Number(d[cfg.field]) || 0;
-    const col = cfg.cols[hwColor(v)];
+    const v = Number(cfg.value(d)) || 0;
+    const col = cfg.cols[cfg.tier(d)];
     const r = Math.round(5 + Math.min(1, v) * 15);
     const mk = L.circleMarker([d.lat, d.lon], {
       radius: r, fillColor: col, color: col, weight: 1, opacity: 0.9, fillOpacity: 0.75,
@@ -242,11 +267,11 @@ function hwSetMode(mode, btn){
 function hwBuildList(mode){
   const el = document.getElementById('hw-district-list');
   if(!el) return;
-  const field = HW_CFG[mode].field;
-  const sorted = HW_D.slice().sort((a,b) => (b[field]||0) - (a[field]||0));
+  const cfg = HW_CFG[mode];
+  const sorted = HW_D.slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
   el.innerHTML = sorted.map((d,i) => {
-    const v = Number(d[field]) || 0;
-    const col = HW_CFG[mode].cols[hwColor(v)];
+    const v = Number(cfg.value(d)) || 0;
+    const col = cfg.cols[cfg.tier(d)];
     return `<div class="hw-ditem" data-nm="${esc(d.district)}">
       <span class="hw-drank">${String(i+1).padStart(3,'0')}</span>
       <div class="hw-dcirc" style="background:${col}22;border:1.5px solid ${col};"><span style="color:${col};font-size:9px">${Math.round(v*100)}</span></div>
