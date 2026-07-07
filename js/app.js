@@ -146,6 +146,9 @@ const HW_CFG = {
   flood: {
     title:'Flood risk (model-predicted rate)',
     cols:['#1b7c5e','#1a6fba','#a35f0a','#b91c1c'],
+    /* Legend rows in the markup are ordered High -> Minimal (top to bottom),
+       i.e. legend[0]=High..legend[3]=Minimal — the reverse of cols/tier order. */
+    legend:['High (\u226513%)','Moderate (6\u201313%)','Low (2\u20136%)','Minimal (<2%)'],
     value: d => d.floodProb,
     /* Thresholds calibrated against the real flood_rate distribution across
        all 323 DS divisions (p25=1.6%, p50=3.7%, p75=6.4%, p90=13.2%,
@@ -157,6 +160,7 @@ const HW_CFG = {
   land: {
     title:'Landslide risk (model-predicted rate)',
     cols:['#1b7c5e','#8a9ecf','#7c5226','#4c3000'],
+    legend:['High (\u226550%)','Moderate (25\u201350%)','Low (3\u201325%)','Minimal (<3%)'],
     value: d => d.landProb,
     /* ls_rate has a genuinely wide spread (p50=2.5%, p75=26%, p90=52%,
        p99=82%) — these thresholds roughly track that spread. */
@@ -165,6 +169,7 @@ const HW_CFG = {
   compound: {
     title:'Compound hazard (cells with both risks)',
     cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'],
+    legend:['High (3+ cells)','Moderate (2 cells)','Low (1 cell)','Minimal (0 cells)'],
     value: d => d.compoundRate,
     /* `compound` is a raw count of hazard cells (0, 1, or 2 across the
        whole real dataset) — dividing it by cells-per-division (up to 880)
@@ -179,6 +184,38 @@ function tierByThresholds(v, th){
   if(v >= th[1]) return 2;
   if(v >= th[0]) return 1;
   return 0;
+}
+
+/* Mode-specific severity badge for the map popup — deliberately NOT
+   d.risk_category, which is the division's single OVERALL classification
+   across all hazards combined. Using it inside a mode-specific popup was
+   the root cause of e.g. a division showing "HIGH RISK" while the
+   currently-viewed hazard (say Flood) reads 0.0%: the badge was actually
+   reflecting that division's Landslide rate, not the hazard on screen. */
+function modeRiskBadge(mode, d){
+  const tier = HW_CFG[mode].tier(d);
+  const labels = ['Minimal Risk','Low Risk','Moderate Risk','High Risk'];
+  const classes = ['badge-none','badge-low','badge-moderate','badge-high'];
+  return `<span class="risk-cat-badge ${classes[tier]}">${labels[tier]}</span>`;
+}
+
+/* Syncs the legend rows (#hw-ld0..3 dot colours, #hw-ll0..3 labels) and the
+   ranked-list panel title to the active mode. Previously both were static
+   markup in index.html and never updated on hwSetMode(), so switching to
+   Landslide/Compound still showed the Flood legend thresholds and the
+   "— Flood" panel title. */
+function updateLegendAndTitle(mode){
+  const cfg = HW_CFG[mode];
+  // legend rows are ordered High(0)->Minimal(3); cols/tier are ordered Minimal(0)->High(3)
+  for(let row = 0; row < 4; row++){
+    const tier = 3 - row;
+    const dot = document.getElementById('hw-ld'+row), lbl = document.getElementById('hw-ll'+row);
+    if(dot) dot.style.background = cfg.cols[tier];
+    if(lbl) lbl.textContent = cfg.legend[row];
+  }
+  const modeLabel = { flood:'Flood', land:'Landslide', compound:'Compound' }[mode] || mode;
+  const listTitle = document.getElementById('hw-list-title');
+  if(listTitle) listTitle.textContent = `Risk-ranked DS divisions — ${modeLabel}`;
 }
 
 function renderMap(){
@@ -204,6 +241,7 @@ function renderMap(){
     hwMap.fitBounds([[5.8,79.4],[9.9,81.9]]);
     window.hwMap = hwMap;
   }
+  updateLegendAndTitle('flood');
   hwDraw('flood');
   hwBuildList('flood');
   setTimeout(() => hwMap.invalidateSize(), 100);
@@ -222,20 +260,20 @@ function hwDraw(mode){
     const mk = L.circleMarker([d.lat, d.lon], {
       radius: r, fillColor: col, color: col, weight: 1, opacity: 0.9, fillOpacity: 0.75,
     }).addTo(hwMap)
-      .bindPopup(hwPopup(d))
+      .bindPopup(hwPopup(d, mode))
       .on('click', () => { hwShowDetail(d); if(typeof chartForecast==='function') chartForecast(d); });
     hwMarkers.push(mk);
   });
 }
 
-function hwPopup(d){
+function hwPopup(d, mode){
   return `<div class="hw-pop">
     <div class="hw-pop-name">${esc(d.district)}</div>
     <div style="font-size:11px;color:var(--text-2);margin-bottom:6px;">${esc(d.admin_district)} · ${esc(d.province)}</div>
     <div>Flood: <b>${pct(d.floodProb*100)}</b></div>
     <div>Landslide: <b>${pct(d.landProb*100)}</b></div>
     <div>Compound: <b>${pct(d.compoundRate*100)}</b></div>
-    <div style="margin-top:4px">${riskBadge(d.risk_category)}</div>
+    <div style="margin-top:4px">${modeRiskBadge(mode, d)}</div>
   </div>`;
 }
 
@@ -260,6 +298,7 @@ function hwSetMode(mode, btn){
   if(btn) btn.classList.add('active');
   const lt = document.getElementById('hw-leg-title');
   if(lt) lt.textContent = HW_CFG[mode].title;
+  updateLegendAndTitle(mode);
   hwDraw(mode);
   hwBuildList(mode);
 }
