@@ -4462,7 +4462,7 @@ const DS_DIVISIONS = [
     "cells": 28,
     "flood": 1,
     "landslide": 0,
-    "compound": 1,
+    "compound": 0,
     "lat": 6.8546,
     "lon": 79.9421,
     "elevation": 22.9,
@@ -4471,7 +4471,7 @@ const DS_DIVISIONS = [
     "ndvi": 0.693,
     "flood_rate": 5.0,
     "ls_rate": 1.47,
-    "risk_category": "Compound Hazard",
+    "risk_category": "Moderate Risk",
     "flood_corrected": true
   },
   {
@@ -4937,7 +4937,7 @@ const DS_DIVISIONS = [
     "cells": 47,
     "flood": 1,
     "landslide": 12,
-    "compound": 2,
+    "compound": 1,
     "lat": 6.6478,
     "lon": 80.0959,
     "elevation": 33.3,
@@ -6518,7 +6518,7 @@ const ADM_DISTRICTS = [
     "cells": 1406,
     "flood": 175,
     "landslide": 356,
-    "compound": 18,
+    "compound": 17,
     "ds_divs": 15,
     "rain": 66.88,
     "flood_rate": 11.31,
@@ -6563,7 +6563,7 @@ const ADM_DISTRICTS = [
     "cells": 756,
     "flood": 68,
     "landslide": 38,
-    "compound": 7,
+    "compound": 6,
     "ds_divs": 14,
     "rain": 54.37,
     "flood_rate": 7.8,
@@ -7011,32 +7011,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 39.3,
-        "sklT": 2.4,
+        "sparkT": 25.1,
+        "sklT": 4.1,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 30.0,
-        "sklT": 4.0,
+        "sparkT": 22.3,
+        "sklT": 6.5,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 29.6,
-        "sklT": 8.5,
+        "sparkT": 28.4,
+        "sklT": 6.0,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 35.9,
-        "sklT": 10.7,
+        "sparkT": 32.7,
+        "sklT": 8.9,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -7045,15 +7045,15 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 14.7,
-        "sklT": 1.4,
+        "sparkT": 15.4,
+        "sklT": 1.7,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 26.6,
+        "sparkT": 21.8,
         "sklT": 3.0,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
@@ -7061,16 +7061,16 @@ const SCALABILITY = {
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 25.5,
-        "sklT": 4.6,
+        "sparkT": 26.9,
+        "sklT": 4.7,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 30.3,
-        "sklT": 9.0,
+        "sparkT": 36.9,
+        "sklT": 6.4,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
