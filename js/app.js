@@ -191,9 +191,18 @@ function tierByThresholds(v, th){
    across all hazards combined. Using it inside a mode-specific popup was
    the root cause of e.g. a division showing "HIGH RISK" while the
    currently-viewed hazard (say Flood) reads 0.0%: the badge was actually
-   reflecting that division's Landslide rate, not the hazard on screen. */
+   reflecting that division's Landslide rate, not the hazard on screen.
+   Also distinguishes a value that displays as 0.0% (true zero, or a
+   landslide probability too small to round above 0.0%) from tier-1
+   "Minimal Risk", so the badge never claims any risk category for a
+   division that's showing 0% on screen. */
 function modeRiskBadge(mode, d){
-  const tier = HW_CFG[mode].tier(d);
+  const cfg = HW_CFG[mode];
+  const v = Number(cfg.value(d)) || 0;
+  if(Number(v*100).toFixed(1) === '0.0'){
+    return `<span class="risk-cat-badge badge-none">No Risk</span>`;
+  }
+  const tier = cfg.tier(d);
   const labels = ['Minimal Risk','Low Risk','Moderate Risk','High Risk'];
   const classes = ['badge-none','badge-low','badge-moderate','badge-high'];
   return `<span class="risk-cat-badge ${classes[tier]}">${labels[tier]}</span>`;
@@ -307,7 +316,16 @@ function hwBuildList(mode){
   const el = document.getElementById('hw-district-list');
   if(!el) return;
   const cfg = HW_CFG[mode];
-  const sorted = HW_D.slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
+  /* Filter out divisions whose value for THIS mode displays as 0.0% —
+     using the exact same rounding pct() uses for display, so "filtered
+     out" and "shown as 0%" can never disagree. This excludes both
+     literal zeros (flood, compound) and values that round to 0.0% at
+     1dp (landslide is a continuous probability and is never exactly 0,
+     but e.g. 0.01% is indistinguishable from zero on screen). */
+  const nonZero = HW_D.filter(d => Number((cfg.value(d)||0)*100).toFixed(1) !== '0.0');
+  const sorted = nonZero.slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
+  const countEl = document.getElementById('hw-list-count');
+  if(countEl) countEl.textContent = `${sorted.length} of ${HW_D.length} divisions with nonzero risk`;
   el.innerHTML = sorted.map((d,i) => {
     const v = Number(cfg.value(d)) || 0;
     const col = cfg.cols[cfg.tier(d)];
