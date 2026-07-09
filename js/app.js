@@ -142,6 +142,8 @@ function renderOverview(){
 let hwMap = null, hwMarkers = [], hwMode = 'flood';
 let HW_D = [];
 
+const HW_MODE_LABEL = { flood:'Flood', land:'Landslide', compound:'Compound' };
+
 const HW_CFG = {
   flood: {
     title:'Flood risk (model-predicted rate)',
@@ -250,7 +252,7 @@ function updateLegendAndTitle(mode){
     if(dot) dot.style.background = cfg.cols[tier];
     if(lbl) lbl.textContent = cfg.legend[row];
   }
-  const modeLabel = { flood:'Flood', land:'Landslide', compound:'Compound' }[mode] || mode;
+  const modeLabel = HW_MODE_LABEL[mode] || mode;
   const listTitle = document.getElementById('hw-list-title');
   if(listTitle) listTitle.textContent = `Risk-ranked DS divisions — ${modeLabel}`;
 }
@@ -285,12 +287,18 @@ function renderMap(){
 }
 
 /* Shared by the map markers and the ranked list — a division is excluded
-   for a given mode when its value for that mode displays as 0.0% at the
-   dashboard's normal 1dp precision. Kept as one function so the map and
-   the list can never disagree about what counts as "zero risk". */
+   for a given mode unless it's at least "Low" tier for that hazard
+   (HW_CFG[mode].tier(d) > 0). Previously this only excluded a literal
+   0.0% reading, so a division sitting at e.g. 1.5% flood — below the 2%
+   "Low" threshold, i.e. "Minimal" by the map's own legend — still showed
+   up as a marker/list row. Requiring tier > 0 keeps the map to divisions
+   with a genuinely meaningful reading for the hazard being viewed, and
+   also subsumes the old zero-check (a true zero always resolves to tier
+   0). Kept as one function so the map and the list can never disagree
+   about what counts as displayable risk. */
 function hwNonZero(mode){
   const cfg = HW_CFG[mode];
-  return HW_D.filter(d => Number((cfg.value(d)||0)*100).toFixed(1) !== '0.0');
+  return HW_D.filter(d => cfg.tier(d) > 0);
 }
 
 function hwDraw(mode){
@@ -301,7 +309,7 @@ function hwDraw(mode){
   const cfg = HW_CFG[mode];
   const visible = hwNonZero(mode);
   const mapNote = document.getElementById('hw-map-count');
-  if(mapNote) mapNote.textContent = `Showing ${visible.length} of ${HW_D.length} divisions with nonzero ${HW_CFG[mode].title.split(' ')[0].toLowerCase()} risk.`;
+  if(mapNote) mapNote.textContent = `Showing ${visible.length} of ${HW_D.length} divisions with at least Low ${HW_CFG[mode].title.split(' ')[0].toLowerCase()} risk.`;
   visible.forEach(d => {
     const v = Number(cfg.value(d)) || 0;
     const col = cfg.cols[cfg.tier(d)];
@@ -310,7 +318,7 @@ function hwDraw(mode){
       radius: r, fillColor: col, color: col, weight: 1, opacity: 0.9, fillOpacity: 0.75,
     }).addTo(hwMap)
       .bindPopup(hwPopup(d, mode))
-      .on('click', () => { hwShowDetail(d); if(typeof chartForecast==='function') chartForecast(d); });
+      .on('click', () => { hwShowDetail(d, mode); if(typeof chartForecast==='function') chartForecast(d); });
     hwMarkers.push(mk);
   });
 }
@@ -335,26 +343,30 @@ function hwPopup(d, mode){
   return `<div class="hw-pop">
     <div class="hw-pop-name">${esc(d.district)}</div>
     <div style="font-size:11px;color:var(--text-2);margin-bottom:6px;">${esc(d.admin_district)} · ${esc(d.province)}</div>
-    <div>Flood: <b>${hwValText(d.floodProb)}</b></div>
-    <div>Landslide: <b>${hwValText(d.landProb)}</b></div>
-    <div>Compound: <b>${hwValText(d.compoundRate)}</b></div>
+    <div>${esc(HW_MODE_LABEL[mode])}: <b>${hwValText(HW_CFG[mode].value(d))}</b></div>
     <div style="margin-top:4px">${modeRiskBadge(mode, d)}</div>
   </div>`;
 }
 
-function hwShowDetail(d){
+function hwShowDetail(d, mode){
+  mode = mode || hwMode;
   const card = document.getElementById('hw-detail-card');
   if(card) card.style.display = 'block';
   const header = document.getElementById('hw-sel-district');
   if(header) header.textContent = `${d.district} — ${d.admin_district}, ${d.province}`;
+  const cols = { flood:'hw-dcol-flood', land:'hw-dcol-land', compound:'hw-dcol-compound' };
+  Object.keys(cols).forEach(m => {
+    const el = document.getElementById(cols[m]);
+    if(el) el.style.display = (m === mode) ? '' : 'none';
+  });
   const setBar = (valId, barId, val) => {
     const ve = document.getElementById(valId), be = document.getElementById(barId);
     if(ve) ve.textContent = hwValText(val);
     if(be) be.style.width = Math.min(100, val*100).toFixed(1)+'%';
   };
-  setBar('hw-df','hw-dfb', d.floodProb||0);
-  setBar('hw-dl','hw-dlb', d.landProb||0);
-  setBar('hw-dc','hw-dcb', d.compoundRate||0);
+  const barIds = { flood:['hw-df','hw-dfb'], land:['hw-dl','hw-dlb'], compound:['hw-dc','hw-dcb'] };
+  const [valId, barId] = barIds[mode];
+  setBar(valId, barId, HW_CFG[mode].value(d) || 0);
 }
 
 /* Called from markup: onclick="hwSetMode('flood'|'land'|'compound', this)" */
@@ -372,15 +384,19 @@ function hwBuildList(mode){
   const el = document.getElementById('hw-district-list');
   if(!el) return;
   const cfg = HW_CFG[mode];
-  /* Filter out divisions whose value for THIS mode displays as 0.0% —
-     see hwNonZero(). Excludes both literal zeros (flood, compound) and
-     values that round to 0.0% at 1dp (landslide is a continuous
-     probability and is never exactly 0, but e.g. 0.01% is
-     indistinguishable from zero on screen). Same filter as the map
-     markers, so the two views can never disagree. */
+  /* Filter out divisions below "Low" tier for THIS mode — see hwNonZero().
+     Excludes true zeros and "Minimal" readings alike (e.g. 1.5% flood is
+     below the 2% Low threshold and would otherwise clutter the map with a
+     barely-there reading). Same filter as the map markers, so the two
+     views can never disagree. */
   const sorted = hwNonZero(mode).slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
   const countEl = document.getElementById('hw-list-count');
-  if(countEl) countEl.textContent = `${sorted.length} of ${HW_D.length} divisions with nonzero risk`;
+  if(countEl) countEl.textContent = `${sorted.length} of ${HW_D.length} divisions with at least Low risk`;
+  const pillStyle = {
+    flood:'background:rgba(26,111,186,.12);color:var(--flood)',
+    land:'background:rgba(138,92,15,.12);color:var(--land)',
+    compound:'background:rgba(185,28,28,.12);color:var(--compound)',
+  }[mode];
   el.innerHTML = sorted.map((d,i) => {
     const v = Number(cfg.value(d)) || 0;
     const col = cfg.cols[cfg.tier(d)];
@@ -390,8 +406,7 @@ function hwBuildList(mode){
       <div class="hw-dinfo"><div class="hw-dname">${esc(d.district)}</div>
         <div style="font-size:10px;color:var(--text-3)">${esc(d.admin_district)}</div>
         <div class="hw-dpills">
-          <span class="hw-pill" style="background:rgba(26,111,186,.12);color:var(--flood)">F:${pct((d.floodProb||0)*100)}</span>
-          <span class="hw-pill" style="background:rgba(138,92,15,.12);color:var(--land)">L:${pct((d.landProb||0)*100)}</span>
+          <span class="hw-pill" style="${pillStyle}">${esc(HW_MODE_LABEL[mode])}: ${hwValText(v)}</span>
         </div></div></div>`;
   }).join('');
   el.querySelectorAll('.hw-ditem').forEach(item => {
@@ -401,7 +416,7 @@ function hwBuildList(mode){
 
 function hwFly(name){
   const d = HW_D.find(x => x.district === name);
-  if(d && hwMap){ hwMap.flyTo([d.lat, d.lon], 10, {duration:1.0}); hwShowDetail(d); }
+  if(d && hwMap){ hwMap.flyTo([d.lat, d.lon], 10, {duration:1.0}); hwShowDetail(d, hwMode); }
 }
 
 /* Called from markup: oninput="hwFilter(this.value)" */
