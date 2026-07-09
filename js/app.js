@@ -256,13 +256,25 @@ function renderMap(){
   setTimeout(() => hwMap.invalidateSize(), 100);
 }
 
+/* Shared by the map markers and the ranked list — a division is excluded
+   for a given mode when its value for that mode displays as 0.0% at the
+   dashboard's normal 1dp precision. Kept as one function so the map and
+   the list can never disagree about what counts as "zero risk". */
+function hwNonZero(mode){
+  const cfg = HW_CFG[mode];
+  return HW_D.filter(d => Number((cfg.value(d)||0)*100).toFixed(1) !== '0.0');
+}
+
 function hwDraw(mode){
   if(!hwMap) return;
   hwMode = mode;
   hwMarkers.forEach(m => hwMap.removeLayer(m));
   hwMarkers = [];
   const cfg = HW_CFG[mode];
-  HW_D.forEach(d => {
+  const visible = hwNonZero(mode);
+  const mapNote = document.getElementById('hw-map-count');
+  if(mapNote) mapNote.textContent = `Showing ${visible.length} of ${HW_D.length} divisions with nonzero ${HW_CFG[mode].title.split(' ')[0].toLowerCase()} risk.`;
+  visible.forEach(d => {
     const v = Number(cfg.value(d)) || 0;
     const col = cfg.cols[cfg.tier(d)];
     const r = Math.round(5 + Math.min(1, v) * 15);
@@ -317,13 +329,12 @@ function hwBuildList(mode){
   if(!el) return;
   const cfg = HW_CFG[mode];
   /* Filter out divisions whose value for THIS mode displays as 0.0% —
-     using the exact same rounding pct() uses for display, so "filtered
-     out" and "shown as 0%" can never disagree. This excludes both
-     literal zeros (flood, compound) and values that round to 0.0% at
-     1dp (landslide is a continuous probability and is never exactly 0,
-     but e.g. 0.01% is indistinguishable from zero on screen). */
-  const nonZero = HW_D.filter(d => Number((cfg.value(d)||0)*100).toFixed(1) !== '0.0');
-  const sorted = nonZero.slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
+     see hwNonZero(). Excludes both literal zeros (flood, compound) and
+     values that round to 0.0% at 1dp (landslide is a continuous
+     probability and is never exactly 0, but e.g. 0.01% is
+     indistinguishable from zero on screen). Same filter as the map
+     markers, so the two views can never disagree. */
+  const sorted = hwNonZero(mode).slice().sort((a,b) => (cfg.value(b)||0) - (cfg.value(a)||0));
   const countEl = document.getElementById('hw-list-count');
   if(countEl) countEl.textContent = `${sorted.length} of ${HW_D.length} divisions with nonzero risk`;
   el.innerHTML = sorted.map((d,i) => {
