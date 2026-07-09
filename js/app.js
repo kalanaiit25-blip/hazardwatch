@@ -287,13 +287,29 @@ function hwDraw(mode){
   });
 }
 
+/* True when a value rounds to 0.0% at the dashboard's normal 1dp display
+   precision — the same test hwNonZero()/modeRiskBadge() already use, so a
+   category is only ever called "No Risk" here if it would also fail the
+   marker/list nonzero filter. Kept as one function so every place that
+   renders a hazard value (marker filter, badge, popup, detail card) agrees
+   on what counts as zero. */
+function hwIsZero(v){
+  return Number((v||0)*100).toFixed(1) === '0.0';
+}
+/* Renders a hazard value as its percentage, or as "No Risk" when it's a
+   true (rounds-to-zero) zero — so the popup/detail card never show a bare
+   "0.0%" next to a hazard label as if it were just a low reading. */
+function hwValText(v){
+  return hwIsZero(v) ? 'No Risk' : pct(v*100);
+}
+
 function hwPopup(d, mode){
   return `<div class="hw-pop">
     <div class="hw-pop-name">${esc(d.district)}</div>
     <div style="font-size:11px;color:var(--text-2);margin-bottom:6px;">${esc(d.admin_district)} · ${esc(d.province)}</div>
-    <div>Flood: <b>${pct(d.floodProb*100)}</b></div>
-    <div>Landslide: <b>${pct(d.landProb*100)}</b></div>
-    <div>Compound: <b>${pct(d.compoundRate*100)}</b></div>
+    <div>Flood: <b>${hwValText(d.floodProb)}</b></div>
+    <div>Landslide: <b>${hwValText(d.landProb)}</b></div>
+    <div>Compound: <b>${hwValText(d.compoundRate)}</b></div>
     <div style="margin-top:4px">${modeRiskBadge(mode, d)}</div>
   </div>`;
 }
@@ -305,7 +321,7 @@ function hwShowDetail(d){
   if(header) header.textContent = `${d.district} — ${d.admin_district}, ${d.province}`;
   const setBar = (valId, barId, val) => {
     const ve = document.getElementById(valId), be = document.getElementById(barId);
-    if(ve) ve.textContent = pct(val*100);
+    if(ve) ve.textContent = hwValText(val);
     if(be) be.style.width = Math.min(100, val*100).toFixed(1)+'%';
   };
   setBar('hw-df','hw-dfb', d.floodProb||0);
