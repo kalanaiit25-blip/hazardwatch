@@ -169,14 +169,23 @@ const HW_CFG = {
   compound: {
     title:'Compound hazard (cells with both risks)',
     cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'],
-    legend:['High (3+ cells)','Moderate (2 cells)','Low (1 cell)','Minimal (0 cells)'],
+    /* Legend rewritten to match the real data range. `compound` (raw cell
+       count) only ever takes the values 0, 1, or 2 across all 323 DS
+       divisions — 2 is the true dataset maximum, there is no "3+". The
+       previous legend ('High: 3+ cells') described a bucket that could
+       never be reached, so every division capped out at "Moderate" no
+       matter how compound-affected it actually was relative to the rest
+       of the dataset. Tier now maps 2 (the real max) to High, 1 to
+       Moderate, and leaves the Low bucket unused since there's no integer
+       value between 0 and 1. */
+    legend:['High (2 cells \u2014 dataset max)','Moderate (1 cell)','Low (n/a \u2014 count is 0\u20132)','Minimal (0 cells)'],
     value: d => d.compoundRate,
-    /* `compound` is a raw count of hazard cells (0, 1, or 2 across the
-       whole real dataset) — dividing it by cells-per-division (up to 880)
-       crushes the ratio to under 5% everywhere, so no division could ever
-       cross even a 15% floor. Colour by the raw count directly instead;
-       it's already the right granularity for this field. */
-    tier: d => Math.min(3, Number(d.compound) || 0),
+    tier: d => {
+      const c = Number(d.compound) || 0;
+      if(c >= 2) return 3;
+      if(c >= 1) return 2;
+      return 0;
+    },
   },
 };
 function tierByThresholds(v, th){
@@ -185,6 +194,27 @@ function tierByThresholds(v, th){
   if(v >= th[0]) return 1;
   return 0;
 }
+
+/* Single source of truth for what each tier (0=Minimal..3=High) looks like.
+   Used by modeRiskBadge (map popup) AND by the predict-tool gauges below —
+   previously the predict tool used its own generic 0.15/0.40/0.70
+   probability thresholds (predictSeverity) applied identically to Flood,
+   Landslide, AND Compound. That mismatched the map's per-hazard calibrated
+   thresholds (HW_CFG.<mode>.tier) in two ways: Flood's real range (max
+   ~25%) could barely reach "MEDIUM" in the predict tool even for the
+   worst division on the map's own "High" tier, and Compound's range
+   (max ~5% as a rate) could never clear even the lowest 15% threshold —
+   so the predict tool's Compound gauge always read "LOW" no matter what.
+   Now every view (map marker colour, map badge, ranked list, predict
+   gauge) derives its tier from the same HW_CFG[mode].tier(d) function, so
+   a given division's severity can't disagree between the map and the
+   predict tool. */
+const HW_SEVERITY = [
+  { badge:'Minimal Risk', badgeClass:'badge-none',     gauge:'LOW',      col:'#0f6e56', bg:'rgba(29,158,117,.10)' },
+  { badge:'Low Risk',     badgeClass:'badge-low',      gauge:'MEDIUM',   col:'#185fa5', bg:'rgba(55,138,221,.10)' },
+  { badge:'Moderate Risk',badgeClass:'badge-moderate', gauge:'HIGH',     col:'#854f0b', bg:'rgba(186,117,23,.10)' },
+  { badge:'High Risk',    badgeClass:'badge-high',     gauge:'CRITICAL', col:'#a32d2d', bg:'rgba(226,75,74,.10)' },
+];
 
 /* Mode-specific severity badge for the map popup — deliberately NOT
    d.risk_category, which is the division's single OVERALL classification
@@ -202,10 +232,8 @@ function modeRiskBadge(mode, d){
   if(Number(v*100).toFixed(1) === '0.0'){
     return `<span class="risk-cat-badge badge-none">No Risk</span>`;
   }
-  const tier = cfg.tier(d);
-  const labels = ['Minimal Risk','Low Risk','Moderate Risk','High Risk'];
-  const classes = ['badge-none','badge-low','badge-moderate','badge-high'];
-  return `<span class="risk-cat-badge ${classes[tier]}">${labels[tier]}</span>`;
+  const sev = HW_SEVERITY[cfg.tier(d)];
+  return `<span class="risk-cat-badge ${sev.badgeClass}">${sev.badge}</span>`;
 }
 
 /* Syncs the legend rows (#hw-ld0..3 dot colours, #hw-ll0..3 labels) and the
@@ -436,11 +464,16 @@ function hwModel(m, btn){
   if(btn) btn.classList.add('on');
 }
 
-function predictSeverity(v){
-  if(v >= 0.70) return { lbl:'CRITICAL', col:'#a32d2d', bg:'rgba(226,75,74,.10)' };
-  if(v >= 0.40) return { lbl:'HIGH',     col:'#854f0b', bg:'rgba(186,117,23,.10)' };
-  if(v >= 0.15) return { lbl:'MEDIUM',   col:'#185fa5', bg:'rgba(55,138,221,.10)' };
-  return              { lbl:'LOW',       col:'#0f6e56', bg:'rgba(29,158,117,.10)' };
+/* Looks up the shared severity info for a hazard using that hazard's own
+   calibrated tier (HW_CFG[mode].tier), not a generic probability cutoff.
+   Replaces the old predictSeverity(v) which applied one flat 0.15/0.40/0.70
+   threshold to Flood, Landslide, and Compound alike — since those three
+   have wildly different real ranges (Flood tops out ~25%, Landslide ~82%,
+   Compound-as-a-rate ~5%), that flat threshold meant Flood could barely
+   reach "MEDIUM" and Compound could never clear "LOW" here, even for
+   divisions the map itself would call "High" risk. */
+function hwGaugeSeverity(mode, d){
+  return HW_SEVERITY[HW_CFG[mode].tier(d)];
 }
 
 /* Finds the real DS division whose actual (elevation, slope, rain) is
@@ -472,25 +505,33 @@ function hwRun(){
   if(ph) ph.style.display = 'none';
   if(gw) gw.style.display = 'block';
 
-  const setGauge = (valId, barId, sevId, val) => {
-    const c = predictSeverity(val);
+  const setGauge = (valId, barId, sevId, mode) => {
+    const val = Number(HW_CFG[mode].value(match)) || 0;
+    const sev = hwGaugeSeverity(mode, match);
     const ve = document.getElementById(valId), be = document.getElementById(barId), se = document.getElementById(sevId);
-    if(ve){ ve.textContent = pct(val*100); ve.style.color = c.col; }
-    if(be){ be.style.width = (val*100)+'%'; be.style.background = c.col; }
-    if(se){ se.textContent = c.lbl; se.style.cssText = `background:${c.bg};color:${c.col};`; }
+    if(ve){ ve.textContent = hwValText(val); ve.style.color = sev.col; }
+    if(be){ be.style.width = Math.min(100, val*100)+'%'; be.style.background = sev.col; }
+    if(se){ se.textContent = sev.gauge; se.style.cssText = `background:${sev.bg};color:${sev.col};`; }
   };
-  setGauge('hw-gv-f','hw-gf-f','hw-gs-f', match.floodProb || 0);
-  setGauge('hw-gv-l','hw-gf-l','hw-gs-l', match.landProb || 0);
-  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', match.compoundRate || 0);
+  setGauge('hw-gv-f','hw-gf-f','hw-gs-f', 'flood');
+  setGauge('hw-gv-l','hw-gf-l','hw-gs-l', 'land');
+  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound');
 
   const mb = document.getElementById('hw-mbadge');
   if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual model-derived rates, not a synthetic estimate.`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
-    const cc = predictSeverity(match.compoundRate||0);
-    const dom = (match.floodProb||0) > (match.landProb||0) ? 'flood' : 'landslide';
-    ip.textContent = `${cc.lbl} compound risk, dominated by ${dom} risk, based on the closest-matching real DS division (${match.district}).`;
+    const cc = hwGaugeSeverity('compound', match);
+    /* Compares each hazard's own calibrated tier, not the raw probabilities
+       directly — Landslide's real range runs far higher than Flood's, so
+       comparing raw floodProb vs landProb would call a division
+       "landslide-dominated" almost every time, even when its flood rate is
+       the more unusual/severe reading relative to other divisions. */
+    const fT = HW_CFG.flood.tier(match), lT = HW_CFG.land.tier(match);
+    const dom = fT !== lT ? (fT > lT ? 'flood' : 'landslide')
+                          : ((match.floodProb||0) >= (match.landProb||0) ? 'flood' : 'landslide');
+    ip.textContent = `${cc.gauge} compound risk, dominated by ${dom} risk, based on the closest-matching real DS division (${match.district}).`;
     ip.style.borderColor = cc.col; ip.style.background = cc.bg;
   }
 }
