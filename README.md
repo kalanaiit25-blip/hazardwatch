@@ -49,7 +49,7 @@ HazardWatch integrates terrain, soil, land-cover, and rainfall data into a unifi
 - **Centralised ML:** scikit-learn, XGBoost
 - **Geospatial processing:** GeoPandas, Rasterio, Shapely, WhiteboxTools
 - **Pipeline:** Google Colab + Google Drive, six sequential notebooks (data acquisition -> feature engineering -> distributed training -> evaluation -> dashboard generation)
-- **Frontend:** Leaflet.js, Chart.js, Tailwind CSS, vanilla JavaScript
+- **Frontend:** CSS, vanilla JavaScript
 - **Deployment:** GitHub Pages (static site, data-driven via a generated `data.js`)
 
 ## Author
