@@ -47,8 +47,29 @@ function riskBadge(cat){
    cell COUNT (not a rate), so a 0-1 "compound rate" is derived here as
    compound / cells — this is a direct computation from real fields, not
    a fabricated number. */
-function dsFloodProb(d){ return (Number(d.flood_rate) || 0) / 100; }
-function dsLandProb(d){ return (Number(d.ls_rate) || 0) / 100; }
+/* Maps a Predict-tool model tab to the data.js fields it should read.
+   'xgb' fields (flood_rate/ls_rate) are the ones the map/dashboard have
+   always used. The sk_ and sp_ prefixed fields don't exist in data.js yet --
+   they're populated by the new 05_Dashboard notebook cell (sklearn RF /
+   PySpark RF scored over the full feature store, not just the held-out test
+   split). Until that cell has been run and data.js regenerated, dsFloodProb/
+   dsLandProb transparently fall back to the xgb fields below, so nothing
+   breaks and no numbers are fabricated in the meantime. */
+const HW_MODEL_FIELD = {
+  xgb: { flood: 'flood_rate',    land: 'ls_rate'    },
+  sk:  { flood: 'sk_flood_rate', land: 'sk_ls_rate' },
+  sp:  { flood: 'sp_flood_rate', land: 'sp_ls_rate' },
+};
+function dsFloodProb(d, model='xgb'){
+  const f = HW_MODEL_FIELD[model] || HW_MODEL_FIELD.xgb;
+  const v = d[f.flood];
+  return (v != null ? Number(v) : (Number(d.flood_rate) || 0)) / 100;
+}
+function dsLandProb(d, model='xgb'){
+  const f = HW_MODEL_FIELD[model] || HW_MODEL_FIELD.xgb;
+  const v = d[f.land];
+  return (v != null ? Number(v) : (Number(d.ls_rate) || 0)) / 100;
+}
 function dsCompoundRate(d){ return d.cells ? Math.min(1, (Number(d.compound) || 0) / d.cells) : 0; }
 
 /* ── Navigation ─────────────────────────────────────────────────────── */
@@ -443,7 +464,7 @@ const HW_PRESETS = {
   dry:    { rain:50,  elev:1800, slope:8,  sm:20, rd:25, ndvi:.55 },
   hill:   { rain:280, elev:900,  slope:42, sm:72, rd:12, ndvi:.31 },
 };
-let hwCurModel = 'xgb'; // cosmetic only — see note in hwRun()
+let hwCurModel = 'xgb'; // now genuinely selects the model — see hwRun()
 
 function renderPredict(){
   hwPreset('base', document.getElementById('hw-p-base'));
@@ -471,8 +492,11 @@ function hwPreset(key, btn){
   if(btn) btn.classList.add('on');
 }
 
-/* Called from markup: onclick="hwModel('sk'|'sp'|'xgb', this)" — retained for
-   UI continuity, no longer feeds a fabricated formula. */
+/* Called from markup: onclick="hwModel('sk'|'sp'|'xgb', this)" — genuinely
+   changes which model's rates hwRun() looks up (see HW_MODEL_FIELD /
+   dsFloodProb / dsLandProb above). Falls back to the xgb rate for a model
+   until data.js has that model's dedicated fields (see 05_Dashboard notebook
+   cell that adds sk_flood_prob/sk_land_prob/sp_flood_prob/sp_land_prob). */
 function hwModel(m, btn){
   hwCurModel = m;
   document.querySelectorAll('.hw-mt').forEach(b => b.classList.remove('on'));
@@ -514,11 +538,19 @@ function hwRun(){
     const raw = (typeof DS_DIVISIONS !== 'undefined' ? DS_DIVISIONS : []).filter(d => d.lat != null);
     HW_D = raw.map(d => ({ ...d, floodProb: dsFloodProb(d), landProb: dsLandProb(d), compoundRate: dsCompoundRate(d) }));
   }
-  const match = predictNearest(HW_S);
+  const rawMatch = predictNearest(HW_S);
   const ph = document.getElementById('hw-res-ph'), gw = document.getElementById('hw-gauges');
-  if(!match){ if(ph) ph.textContent = 'No division data available to match against.'; return; }
+  if(!rawMatch){ if(ph) ph.textContent = 'No division data available to match against.'; return; }
   if(ph) ph.style.display = 'none';
   if(gw) gw.style.display = 'block';
+
+  /* HW_D's floodProb/landProb are always the xgb-based rate (that's what the
+     map uses too). For the Predict tool specifically, re-derive both from
+     the currently selected Model tab so switching models actually changes
+     the gauges below, without touching the shared HW_D the map reads from. */
+  const match = { ...rawMatch,
+    floodProb: dsFloodProb(rawMatch, hwCurModel),
+    landProb:  dsLandProb(rawMatch, hwCurModel) };
 
   const setGauge = (valId, barId, sevId, mode) => {
     const val = Number(HW_CFG[mode].value(match)) || 0;
@@ -533,7 +565,8 @@ function hwRun(){
   setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound');
 
   const mb = document.getElementById('hw-mbadge');
-  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual model-derived rates, not a synthetic estimate.`;
+  const HW_MODEL_LABEL = { xgb:'XGBoost', sk:'sklearn RF', sp:'PySpark RF' };
+  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}-derived rates, not a synthetic estimate.`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
