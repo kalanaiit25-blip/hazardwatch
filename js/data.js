@@ -387,7 +387,11 @@ const DS_DIVISIONS = [
     "flood_rate": 25.0,
     "ls_rate": 0.02,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 45.21,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 34.74,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Nallur",
@@ -406,7 +410,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.0,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 45.41,
+    "sk_ls_rate": 0.3,
+    "sp_flood_rate": 35.99,
+    "sp_ls_rate": 0.15
   },
   {
     "district": "Vadamaradchi South-West",
@@ -425,7 +433,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.57,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 34.16,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 39.9,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Valikamam East",
@@ -444,7 +456,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.09,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 39.23,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 37.47,
+    "sp_ls_rate": 0.05
   },
   {
     "district": "Island South (Velanai)",
@@ -463,7 +479,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.21,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 50.32,
+    "sk_ls_rate": 0.21,
+    "sp_flood_rate": 35.8,
+    "sp_ls_rate": 0.1
   },
   {
     "district": "Islands North (Kayts)",
@@ -482,7 +502,11 @@ const DS_DIVISIONS = [
     "flood_rate": 11.54,
     "ls_rate": 0.04,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 43.45,
+    "sk_ls_rate": 0.07,
+    "sp_flood_rate": 26.94,
+    "sp_ls_rate": 0.2
   },
   {
     "district": "Vadamaradchy East",
@@ -501,7 +525,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.07,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 34.51,
+    "sk_ls_rate": 0.12,
+    "sp_flood_rate": 29.55,
+    "sp_ls_rate": 0.23
   },
   {
     "district": "Sainthamarathu",
@@ -520,7 +548,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.67,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 33.75,
+    "sk_ls_rate": 0.07,
+    "sp_flood_rate": 20.61,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Eravur Town",
@@ -539,7 +571,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.05,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 37.13,
+    "sk_ls_rate": 0.09,
+    "sp_flood_rate": 15.64,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Karativu",
@@ -558,7 +594,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.09,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 35.3,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 22.45,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Kalpitiya",
@@ -577,7 +617,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.82,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 41.13,
+    "sk_ls_rate": 0.22,
+    "sp_flood_rate": 22.69,
+    "sp_ls_rate": 0.12
   },
   {
     "district": "Manmunai South and Eruvilpattu",
@@ -596,7 +640,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.25,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 31.58,
+    "sk_ls_rate": 0.1,
+    "sp_flood_rate": 18.22,
+    "sp_ls_rate": 0.12
   },
   {
     "district": "Manmunai North",
@@ -615,7 +663,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.06,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 35.36,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 18.31,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Vadamaradchy North",
@@ -634,7 +686,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 30.29,
+    "sk_ls_rate": 0.09,
+    "sp_flood_rate": 21.48,
+    "sp_ls_rate": 0.14
   },
   {
     "district": "Jaffna",
@@ -653,7 +709,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 40.24,
+    "sk_ls_rate": 0.13,
+    "sp_flood_rate": 23.76,
+    "sp_ls_rate": 0.17
   },
   {
     "district": "Mundalama",
@@ -672,7 +732,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.67,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 36.02,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 23.05,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Valikamam West",
@@ -691,7 +755,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.45,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 29.11,
+    "sk_ls_rate": 0.24,
+    "sp_flood_rate": 22.05,
+    "sp_ls_rate": 0.24
   },
   {
     "district": "Mannar Town",
@@ -710,7 +778,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.57,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 35.68,
+    "sk_ls_rate": 0.13,
+    "sp_flood_rate": 23.52,
+    "sp_ls_rate": 0.18
   },
   {
     "district": "Nanaddan",
@@ -729,7 +801,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.81,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 29.04,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 22.69,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Delft",
@@ -748,7 +824,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.76,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 32.88,
+    "sk_ls_rate": 0.15,
+    "sp_flood_rate": 19.73,
+    "sp_ls_rate": 0.14
   },
   {
     "district": "Manmunai South-West",
@@ -767,7 +847,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.88,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 25.28,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 14.75,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Thenmaradchy (Chavakachcheri)",
@@ -786,7 +870,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.37,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 30.3,
+    "sk_ls_rate": 0.14,
+    "sp_flood_rate": 25.29,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Manmunai Pattu (Araipattai)",
@@ -805,7 +893,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 32.63,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 16.37,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Thunukkai",
@@ -824,7 +916,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.92,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 19.46,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 12.47,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Pachchilaipalli",
@@ -843,7 +939,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.33,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 29.31,
+    "sk_ls_rate": 0.07,
+    "sp_flood_rate": 23.75,
+    "sp_ls_rate": 0.07
   },
   {
     "district": "Moratuwa",
@@ -862,7 +962,11 @@ const DS_DIVISIONS = [
     "flood_rate": 22.22,
     "ls_rate": 1.14,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 23.78,
+    "sk_ls_rate": 2.28,
+    "sp_flood_rate": 20.28,
+    "sp_ls_rate": 1.53
   },
   {
     "district": "Poonakary",
@@ -881,7 +985,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.26,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 29.08,
+    "sk_ls_rate": 0.12,
+    "sp_flood_rate": 21.0,
+    "sp_ls_rate": 0.17
   },
   {
     "district": "Ampara",
@@ -900,7 +1008,11 @@ const DS_DIVISIONS = [
     "flood_rate": 10.1,
     "ls_rate": 0.44,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.47,
+    "sk_ls_rate": 0.17,
+    "sp_flood_rate": 11.96,
+    "sp_ls_rate": 0.33
   },
   {
     "district": "Valikamam South",
@@ -919,7 +1031,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 26.15,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 17.01,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Thirukkovil",
@@ -938,7 +1054,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.29,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 25.15,
+    "sk_ls_rate": 0.18,
+    "sp_flood_rate": 14.9,
+    "sp_ls_rate": 0.18
   },
   {
     "district": "Ninthavur",
@@ -957,7 +1077,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 32.39,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 14.61,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Valikamam South-West",
@@ -976,7 +1100,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.33,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 29.43,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 17.36,
+    "sp_ls_rate": 0.06
   },
   {
     "district": "Chilaw",
@@ -995,7 +1123,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.06,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 22.93,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 13.07,
+    "sp_ls_rate": 0.42
   },
   {
     "district": "Damana",
@@ -1014,7 +1146,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.37,
     "ls_rate": 2.67,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.73,
+    "sk_ls_rate": 2.62,
+    "sp_flood_rate": 12.77,
+    "sp_ls_rate": 2.81
   },
   {
     "district": "Akkaraipattu",
@@ -1033,7 +1169,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.33,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.28,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 11.76,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Eragama",
@@ -1052,7 +1192,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.88,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 19.03,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 10.9,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Wattala",
@@ -1071,7 +1215,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.33,
     "ls_rate": 1.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 25.09,
+    "sk_ls_rate": 1.16,
+    "sp_flood_rate": 12.4,
+    "sp_ls_rate": 1.17
   },
   {
     "district": "Puttalam",
@@ -1090,7 +1238,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.46,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 23.88,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 15.37,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Thihagoda",
@@ -1109,7 +1261,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.38,
     "ls_rate": 7.05,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.39,
+    "sk_ls_rate": 2.66,
+    "sp_flood_rate": 8.47,
+    "sp_ls_rate": 5.46
   },
   {
     "district": "Addalachchenai",
@@ -1128,7 +1284,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.38,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 21.35,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 11.62,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Alayadiwembu",
@@ -1147,7 +1307,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.74,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 24.03,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 12.93,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Kandawali",
@@ -1166,7 +1330,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.69,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 23.78,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 17.61,
+    "sp_ls_rate": 0.05
   },
   {
     "district": "Hambantota",
@@ -1185,7 +1353,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.9,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.11,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 13.23,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Koralai Pattu West (Oddamavadi)",
@@ -1204,7 +1376,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.38,
     "ls_rate": 0.1,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.02,
+    "sk_ls_rate": 0.11,
+    "sp_flood_rate": 8.08,
+    "sp_ls_rate": 0.14
   },
   {
     "district": "Arachchikattuwa PS",
@@ -1223,7 +1399,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.06,
     "ls_rate": 0.09,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 21.1,
+    "sk_ls_rate": 0.07,
+    "sp_flood_rate": 11.66,
+    "sp_ls_rate": 0.14
   },
   {
     "district": "Karachchi",
@@ -1242,7 +1422,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.7,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.19,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 12.2,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Pothuvil",
@@ -1261,7 +1445,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.98,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.04,
+    "sk_ls_rate": 0.06,
+    "sp_flood_rate": 10.73,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Thimbirigasyaya",
@@ -1280,7 +1468,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.85,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.11,
+    "sk_ls_rate": 0.91,
+    "sp_flood_rate": 8.08,
+    "sp_ls_rate": 0.97
   },
   {
     "district": "Lunugamvehera",
@@ -1299,7 +1491,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.46,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.32,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 9.5,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Kesbewa",
@@ -1318,7 +1514,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.33,
     "ls_rate": 1.19,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.9,
+    "sk_ls_rate": 1.54,
+    "sp_flood_rate": 10.77,
+    "sp_ls_rate": 1.28
   },
   {
     "district": "Oddusuddan",
@@ -1337,7 +1537,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.36,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.8,
+    "sk_ls_rate": 0.12,
+    "sp_flood_rate": 9.97,
+    "sp_ls_rate": 0.09
   },
   {
     "district": "Padaviya",
@@ -1356,7 +1560,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.62,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.52,
+    "sk_ls_rate": 0.19,
+    "sp_flood_rate": 12.15,
+    "sp_ls_rate": 0.1
   },
   {
     "district": "Manmunai West",
@@ -1375,7 +1583,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.77,
     "ls_rate": 0.44,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.27,
+    "sk_ls_rate": 0.44,
+    "sp_flood_rate": 8.5,
+    "sp_ls_rate": 0.44
   },
   {
     "district": "Verugal",
@@ -1394,7 +1606,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.82,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 26.45,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 16.47,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Eravur Pattu",
@@ -1413,7 +1629,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.35,
     "ls_rate": 0.36,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.78,
+    "sk_ls_rate": 0.29,
+    "sp_flood_rate": 7.98,
+    "sp_ls_rate": 0.27
   },
   {
     "district": "Manthai West",
@@ -1432,7 +1652,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.79,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.85,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 11.09,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Valikamam North",
@@ -1451,7 +1675,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 25.59,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 14.2,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Negombo",
@@ -1470,7 +1698,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.85,
     "ls_rate": 2.86,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 18.37,
+    "sk_ls_rate": 1.29,
+    "sp_flood_rate": 12.68,
+    "sp_ls_rate": 1.26
   },
   {
     "district": "Puthukudiyiruppu",
@@ -1489,7 +1721,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.9,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 18.97,
+    "sk_ls_rate": 0.11,
+    "sp_flood_rate": 12.02,
+    "sp_ls_rate": 0.06
   },
   {
     "district": "Navithanveli",
@@ -1508,7 +1744,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.88,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 19.73,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 11.94,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Panadura",
@@ -1527,7 +1767,11 @@ const DS_DIVISIONS = [
     "flood_rate": 13.16,
     "ls_rate": 1.78,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.42,
+    "sk_ls_rate": 2.06,
+    "sp_flood_rate": 12.47,
+    "sp_ls_rate": 3.02
   },
   {
     "district": "Ambalanthota",
@@ -1546,7 +1790,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.23,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.19,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 9.22,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Mahawewa",
@@ -1565,7 +1813,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.67,
     "ls_rate": 0.62,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.63,
+    "sk_ls_rate": 0.23,
+    "sp_flood_rate": 6.92,
+    "sp_ls_rate": 0.49
   },
   {
     "district": "Thanamalvila",
@@ -1584,7 +1836,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.87,
     "ls_rate": 1.23,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.0,
+    "sk_ls_rate": 1.19,
+    "sp_flood_rate": 9.6,
+    "sp_ls_rate": 1.34
   },
   {
     "district": "Porativu Pattu",
@@ -1603,7 +1859,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.1,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 18.01,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 8.27,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Mahiyanganaya",
@@ -1622,7 +1882,11 @@ const DS_DIVISIONS = [
     "flood_rate": 13.04,
     "ls_rate": 5.49,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.32,
+    "sk_ls_rate": 4.07,
+    "sp_flood_rate": 10.05,
+    "sp_ls_rate": 5.07
   },
   {
     "district": "Kotavehera",
@@ -1641,7 +1905,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.29,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.17,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 8.78,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Welikanda",
@@ -1660,7 +1928,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.08,
     "ls_rate": 0.34,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.08,
+    "sk_ls_rate": 0.44,
+    "sp_flood_rate": 6.99,
+    "sp_ls_rate": 0.5
   },
   {
     "district": "Thamankaduwa",
@@ -1679,7 +1951,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.33,
     "ls_rate": 9.13,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.14,
+    "sk_ls_rate": 5.44,
+    "sp_flood_rate": 10.3,
+    "sp_ls_rate": 8.82
   },
   {
     "district": "Kantalai",
@@ -1698,7 +1974,11 @@ const DS_DIVISIONS = [
     "flood_rate": 10.0,
     "ls_rate": 1.83,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.9,
+    "sk_ls_rate": 4.51,
+    "sp_flood_rate": 8.91,
+    "sp_ls_rate": 4.49
   },
   {
     "district": "Manthai East",
@@ -1717,7 +1997,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.51,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.26,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 7.35,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Kolonnawa",
@@ -1736,7 +2020,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.82,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.59,
+    "sk_ls_rate": 1.57,
+    "sp_flood_rate": 7.72,
+    "sp_ls_rate": 1.32
   },
   {
     "district": "Maritimepattu",
@@ -1755,7 +2043,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.14,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.93,
+    "sk_ls_rate": 0.31,
+    "sp_flood_rate": 10.53,
+    "sp_ls_rate": 0.24
   },
   {
     "district": "Kinniya",
@@ -1774,7 +2066,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.67,
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 21.96,
+    "sk_ls_rate": 1.14,
+    "sp_flood_rate": 11.06,
+    "sp_ls_rate": 1.83
   },
   {
     "district": "Rasnayakapura",
@@ -1793,7 +2089,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.16,
     "ls_rate": 0.06,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.0,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 7.35,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Koralai Pattu North",
@@ -1812,7 +2112,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.62,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 18.58,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 8.73,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Mahaoya",
@@ -1831,7 +2135,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.71,
     "ls_rate": 2.9,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.42,
+    "sk_ls_rate": 2.68,
+    "sp_flood_rate": 5.7,
+    "sp_ls_rate": 3.12
   },
   {
     "district": "Dimbulagala",
@@ -1850,7 +2158,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.68,
     "ls_rate": 1.23,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.79,
+    "sk_ls_rate": 1.12,
+    "sp_flood_rate": 7.83,
+    "sp_ls_rate": 1.48
   },
   {
     "district": "Madhu",
@@ -1869,7 +2181,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.87,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.89,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 5.84,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Vavuniya",
@@ -1888,7 +2204,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.37,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 16.22,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 9.97,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Horowpothana",
@@ -1907,7 +2227,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.29,
     "ls_rate": 0.08,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.27,
+    "sk_ls_rate": 0.41,
+    "sp_flood_rate": 6.48,
+    "sp_ls_rate": 0.36
   },
   {
     "district": "Dehiattakandiya",
@@ -1926,7 +2250,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.51,
     "ls_rate": 1.05,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.33,
+    "sk_ls_rate": 1.0,
+    "sp_flood_rate": 10.52,
+    "sp_ls_rate": 0.9
   },
   {
     "district": "Rajanganaya",
@@ -1945,7 +2273,11 @@ const DS_DIVISIONS = [
     "flood_rate": 12.5,
     "ls_rate": 0.01,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 19.8,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 14.23,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Bandaragama",
@@ -1964,7 +2296,11 @@ const DS_DIVISIONS = [
     "flood_rate": 10.64,
     "ls_rate": 1.59,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.67,
+    "sk_ls_rate": 1.92,
+    "sp_flood_rate": 7.8,
+    "sp_ls_rate": 2.09
   },
   {
     "district": "Kattankudy",
@@ -1983,7 +2319,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.09,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 28.69,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 22.51,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Trincomalee Town and Gravets",
@@ -2002,7 +2342,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.0,
     "ls_rate": 0.38,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.36,
+    "sk_ls_rate": 0.78,
+    "sp_flood_rate": 8.0,
+    "sp_ls_rate": 1.11
   },
   {
     "district": "Habaraduwa",
@@ -2021,7 +2365,11 @@ const DS_DIVISIONS = [
     "flood_rate": 12.2,
     "ls_rate": 21.59,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.83,
+    "sk_ls_rate": 9.41,
+    "sp_flood_rate": 9.68,
+    "sp_ls_rate": 24.6
   },
   {
     "district": "Balapitiya",
@@ -2040,7 +2388,11 @@ const DS_DIVISIONS = [
     "flood_rate": 13.33,
     "ls_rate": 9.71,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.27,
+    "sk_ls_rate": 6.56,
+    "sp_flood_rate": 13.18,
+    "sp_ls_rate": 14.87
   },
   {
     "district": "Matara Four Gravets",
@@ -2059,7 +2411,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.27,
     "ls_rate": 4.15,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.23,
+    "sk_ls_rate": 2.3,
+    "sp_flood_rate": 5.96,
+    "sp_ls_rate": 3.03
   },
   {
     "district": "Sri Jayawardanapura Kotte",
@@ -2078,7 +2434,11 @@ const DS_DIVISIONS = [
     "flood_rate": 14.29,
     "ls_rate": 2.26,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.38,
+    "sk_ls_rate": 1.53,
+    "sp_flood_rate": 4.27,
+    "sp_ls_rate": 1.17
   },
   {
     "district": "Madulla",
@@ -2097,7 +2457,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.68,
     "ls_rate": 14.77,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.51,
+    "sk_ls_rate": 13.92,
+    "sp_flood_rate": 9.19,
+    "sp_ls_rate": 15.05
   },
   {
     "district": "Vengalacheddiculam",
@@ -2116,7 +2480,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.61,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.97,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 7.52,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Weeraketiya",
@@ -2135,7 +2503,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.55,
     "ls_rate": 0.68,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.05,
+    "sk_ls_rate": 0.58,
+    "sp_flood_rate": 4.41,
+    "sp_ls_rate": 0.88
   },
   {
     "district": "Medirigiriya",
@@ -2154,7 +2526,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.9,
     "ls_rate": 1.43,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.1,
+    "sk_ls_rate": 2.48,
+    "sp_flood_rate": 6.42,
+    "sp_ls_rate": 3.51
   },
   {
     "district": "Kuchchaveli",
@@ -2173,7 +2549,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.07,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 21.09,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 10.45,
+    "sp_ls_rate": 0.11
   },
   {
     "district": "Sooriyawewa",
@@ -2192,7 +2572,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.99,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.02,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 5.53,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Sevanagala",
@@ -2211,7 +2595,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.63,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.64,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 6.77,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Koralai Pattu (Valachchenai)",
@@ -2230,7 +2618,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.28,
     "ls_rate": 0.43,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.06,
+    "sk_ls_rate": 0.35,
+    "sp_flood_rate": 4.73,
+    "sp_ls_rate": 0.33
   },
   {
     "district": "Kalutara",
@@ -2249,7 +2641,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.67,
     "ls_rate": 2.07,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.87,
+    "sk_ls_rate": 2.08,
+    "sp_flood_rate": 7.62,
+    "sp_ls_rate": 4.69
   },
   {
     "district": "Morawewa",
@@ -2268,7 +2664,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.55,
     "ls_rate": 0.25,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.2,
+    "sk_ls_rate": 0.44,
+    "sp_flood_rate": 6.89,
+    "sp_ls_rate": 0.74
   },
   {
     "district": "Nachchadoowa",
@@ -2287,7 +2687,11 @@ const DS_DIVISIONS = [
     "flood_rate": 11.43,
     "ls_rate": 0.02,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 18.99,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 12.41,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "N. Palatha East",
@@ -2306,7 +2710,11 @@ const DS_DIVISIONS = [
     "flood_rate": 10.96,
     "ls_rate": 0.02,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.11,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 13.18,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Mahakumbukkadawala",
@@ -2325,7 +2733,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.05,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.09,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 6.05,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Wennappuwa",
@@ -2344,7 +2756,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.91,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.23,
+    "sk_ls_rate": 1.38,
+    "sp_flood_rate": 6.02,
+    "sp_ls_rate": 1.21
   },
   {
     "district": "Galle Four Gravets",
@@ -2363,7 +2779,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 48.84,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 9.55,
+    "sk_ls_rate": 18.54,
+    "sp_flood_rate": 5.67,
+    "sp_ls_rate": 45.43
   },
   {
     "district": "Lankapura",
@@ -2382,7 +2802,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.21,
     "ls_rate": 2.63,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.77,
+    "sk_ls_rate": 5.36,
+    "sp_flood_rate": 5.41,
+    "sp_ls_rate": 8.32
   },
   {
     "district": "Weligama",
@@ -2401,7 +2825,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.98,
     "ls_rate": 22.9,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.46,
+    "sk_ls_rate": 5.54,
+    "sp_flood_rate": 5.51,
+    "sp_ls_rate": 12.66
   },
   {
     "district": "Vavuniya North",
@@ -2420,7 +2848,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.11,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.04,
+    "sk_ls_rate": 0.2,
+    "sp_flood_rate": 6.25,
+    "sp_ls_rate": 0.15
   },
   {
     "district": "Nawagattegama",
@@ -2439,7 +2871,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.82,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.06,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 7.74,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Bentota",
@@ -2458,7 +2894,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.06,
     "ls_rate": 5.79,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.06,
+    "sk_ls_rate": 4.82,
+    "sp_flood_rate": 7.81,
+    "sp_ls_rate": 8.97
   },
   {
     "district": "Nikaweratiya",
@@ -2477,7 +2917,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.12,
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.41,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 6.5,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Padiyathalawa",
@@ -2496,7 +2940,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.17,
     "ls_rate": 6.81,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.72,
+    "sk_ls_rate": 6.47,
+    "sp_flood_rate": 4.86,
+    "sp_ls_rate": 6.79
   },
   {
     "district": "Anamaduwa",
@@ -2515,7 +2963,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.9,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.76,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 5.56,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Buttala",
@@ -2534,7 +2986,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.2,
     "ls_rate": 2.17,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.07,
+    "sk_ls_rate": 2.06,
+    "sp_flood_rate": 4.96,
+    "sp_ls_rate": 2.23
   },
   {
     "district": "Hikkaduwa",
@@ -2553,7 +3009,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.84,
     "ls_rate": 4.12,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.03,
+    "sk_ls_rate": 3.45,
+    "sp_flood_rate": 7.72,
+    "sp_ls_rate": 6.38
   },
   {
     "district": "Kaduwela",
@@ -2572,7 +3032,11 @@ const DS_DIVISIONS = [
     "flood_rate": 13.16,
     "ls_rate": 1.21,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.7,
+    "sk_ls_rate": 1.44,
+    "sp_flood_rate": 4.71,
+    "sp_ls_rate": 0.78
   },
   {
     "district": "Muttur",
@@ -2591,7 +3055,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.7,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 20.42,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 10.69,
+    "sp_ls_rate": 0.11
   },
   {
     "district": "Dompe",
@@ -2610,7 +3078,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.0,
     "ls_rate": 8.79,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.5,
+    "sk_ls_rate": 2.97,
+    "sp_flood_rate": 3.03,
+    "sp_ls_rate": 7.68
   },
   {
     "district": "Gomarankadawala",
@@ -2629,7 +3101,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.78,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.94,
+    "sk_ls_rate": 0.19,
+    "sp_flood_rate": 4.96,
+    "sp_ls_rate": 0.13
   },
   {
     "district": "Dehiwala-Mount Lavinia",
@@ -2648,7 +3124,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 2.08,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.22,
+    "sk_ls_rate": 1.31,
+    "sp_flood_rate": 5.33,
+    "sp_ls_rate": 1.0
   },
   {
     "district": "Galgamuwa",
@@ -2667,7 +3147,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.72,
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.97,
+    "sk_ls_rate": 0.06,
+    "sp_flood_rate": 8.49,
+    "sp_ls_rate": 0.04
   },
   {
     "district": "Siyambalanduwa",
@@ -2686,7 +3170,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.48,
     "ls_rate": 5.09,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.56,
+    "sk_ls_rate": 4.75,
+    "sp_flood_rate": 5.17,
+    "sp_ls_rate": 5.2
   },
   {
     "district": "Katuwana",
@@ -2705,7 +3193,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.52,
     "ls_rate": 11.43,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.8,
+    "sk_ls_rate": 9.26,
+    "sp_flood_rate": 4.39,
+    "sp_ls_rate": 10.66
   },
   {
     "district": "Kobeigane",
@@ -2724,7 +3216,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.19,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.34,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 3.32,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Uhana",
@@ -2743,7 +3239,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.2,
     "ls_rate": 5.22,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.91,
+    "sk_ls_rate": 5.39,
+    "sp_flood_rate": 4.94,
+    "sp_ls_rate": 5.56
   },
   {
     "district": "Wariyapola",
@@ -2762,7 +3262,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.76,
     "ls_rate": 2.37,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.89,
+    "sk_ls_rate": 1.77,
+    "sp_flood_rate": 5.79,
+    "sp_ls_rate": 1.92
   },
   {
     "district": "Thissamaharama",
@@ -2781,7 +3285,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.99,
     "ls_rate": 0.33,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.88,
+    "sk_ls_rate": 0.35,
+    "sp_flood_rate": 5.9,
+    "sp_ls_rate": 0.41
   },
   {
     "district": "Ja-Ela",
@@ -2800,7 +3308,11 @@ const DS_DIVISIONS = [
     "flood_rate": 10.2,
     "ls_rate": 2.66,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.6,
+    "sk_ls_rate": 1.48,
+    "sp_flood_rate": 3.91,
+    "sp_ls_rate": 1.3
   },
   {
     "district": "Naula",
@@ -2819,7 +3331,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.33,
     "ls_rate": 32.25,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.48,
+    "sk_ls_rate": 22.65,
+    "sp_flood_rate": 5.66,
+    "sp_ls_rate": 27.28
   },
   {
     "district": "Palugaswewa",
@@ -2838,7 +3354,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.05,
     "ls_rate": 0.71,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.93,
+    "sk_ls_rate": 1.03,
+    "sp_flood_rate": 5.99,
+    "sp_ls_rate": 0.8
   },
   {
     "district": "Mahawa",
@@ -2857,7 +3377,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.45,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.84,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 5.04,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Tangalle",
@@ -2876,7 +3400,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.78,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.36,
+    "sk_ls_rate": 0.13,
+    "sp_flood_rate": 7.02,
+    "sp_ls_rate": 0.08
   },
   {
     "district": "Medadumbara",
@@ -2895,7 +3423,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.49,
     "ls_rate": 44.37,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.64,
+    "sk_ls_rate": 42.81,
+    "sp_flood_rate": 7.9,
+    "sp_ls_rate": 48.15
   },
   {
     "district": "Wellawaya",
@@ -2914,7 +3446,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.43,
     "ls_rate": 8.18,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.17,
+    "sk_ls_rate": 7.03,
+    "sp_flood_rate": 4.85,
+    "sp_ls_rate": 8.14
   },
   {
     "district": "Nattandiya",
@@ -2933,7 +3469,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.16,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.89,
+    "sk_ls_rate": 0.52,
+    "sp_flood_rate": 3.92,
+    "sp_ls_rate": 0.49
   },
   {
     "district": "Kekirawa",
@@ -2952,7 +3492,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.39,
     "ls_rate": 3.39,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.59,
+    "sk_ls_rate": 3.3,
+    "sp_flood_rate": 8.24,
+    "sp_ls_rate": 3.58
   },
   {
     "district": "Laggala-Pallegama",
@@ -2971,7 +3515,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.57,
     "ls_rate": 39.83,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.49,
+    "sk_ls_rate": 34.37,
+    "sp_flood_rate": 4.31,
+    "sp_ls_rate": 41.35
   },
   {
     "district": "Madampe",
@@ -2990,7 +3538,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.43,
     "ls_rate": 0.88,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.98,
+    "sk_ls_rate": 0.2,
+    "sp_flood_rate": 4.34,
+    "sp_ls_rate": 0.86
   },
   {
     "district": "Devinuwara",
@@ -3009,7 +3561,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.86,
     "ls_rate": 4.99,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.7,
+    "sk_ls_rate": 2.25,
+    "sp_flood_rate": 3.92,
+    "sp_ls_rate": 2.67
   },
   {
     "district": "Pallama",
@@ -3028,7 +3584,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.41,
     "ls_rate": 0.18,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.07,
+    "sk_ls_rate": 0.12,
+    "sp_flood_rate": 4.37,
+    "sp_ls_rate": 0.34
   },
   {
     "district": "Kelaniya",
@@ -3047,7 +3607,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.56,
     "ls_rate": 2.28,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.63,
+    "sk_ls_rate": 1.35,
+    "sp_flood_rate": 5.31,
+    "sp_ls_rate": 1.24
   },
   {
     "district": "Musali",
@@ -3066,7 +3630,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.78,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.59,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 5.5,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Embilipitiya",
@@ -3085,7 +3653,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.08,
     "ls_rate": 8.12,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.54,
+    "sk_ls_rate": 7.81,
+    "sp_flood_rate": 5.86,
+    "sp_ls_rate": 8.79
   },
   {
     "district": "Kahatagasdigiliya",
@@ -3104,7 +3676,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.02,
     "ls_rate": 0.04,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.47,
+    "sk_ls_rate": 0.15,
+    "sp_flood_rate": 7.96,
+    "sp_ls_rate": 0.11
   },
   {
     "district": "Hingurakgoda",
@@ -3123,7 +3699,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.48,
     "ls_rate": 1.34,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.63,
+    "sk_ls_rate": 1.61,
+    "sp_flood_rate": 5.0,
+    "sp_ls_rate": 2.11
   },
   {
     "district": "Ganewatta",
@@ -3142,7 +3722,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.33,
     "ls_rate": 2.57,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.46,
+    "sk_ls_rate": 1.86,
+    "sp_flood_rate": 5.32,
+    "sp_ls_rate": 2.13
   },
   {
     "district": "Wilgamuwa",
@@ -3161,7 +3745,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.48,
     "ls_rate": 5.83,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.99,
+    "sk_ls_rate": 5.46,
+    "sp_flood_rate": 3.82,
+    "sp_ls_rate": 6.14
   },
   {
     "district": "Malimbada",
@@ -3180,7 +3768,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.63,
     "ls_rate": 14.84,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.48,
+    "sk_ls_rate": 4.0,
+    "sp_flood_rate": 2.25,
+    "sp_ls_rate": 12.73
   },
   {
     "district": "Ambanpola",
@@ -3199,7 +3791,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.65,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.75,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 4.67,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Kirinda-Puhulwella",
@@ -3218,7 +3814,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.23,
     "ls_rate": 11.22,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.71,
+    "sk_ls_rate": 3.34,
+    "sp_flood_rate": 2.34,
+    "sp_ls_rate": 6.31
   },
   {
     "district": "Thampalakamam",
@@ -3237,7 +3837,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.57,
     "ls_rate": 0.58,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.46,
+    "sk_ls_rate": 1.78,
+    "sp_flood_rate": 4.85,
+    "sp_ls_rate": 3.61
   },
   {
     "district": "Galenbindunuwewa",
@@ -3256,7 +3860,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.9,
     "ls_rate": 0.45,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.66,
+    "sk_ls_rate": 0.49,
+    "sp_flood_rate": 7.94,
+    "sp_ls_rate": 0.52
   },
   {
     "district": "Palagala",
@@ -3275,7 +3883,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.87,
     "ls_rate": 0.58,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.9,
+    "sk_ls_rate": 0.7,
+    "sp_flood_rate": 6.23,
+    "sp_ls_rate": 0.78
   },
   {
     "district": "Minipe",
@@ -3294,7 +3906,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.47,
     "ls_rate": 18.65,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.89,
+    "sk_ls_rate": 19.29,
+    "sp_flood_rate": 4.21,
+    "sp_ls_rate": 20.66
   },
   {
     "district": "Rideemaliyadda",
@@ -3313,7 +3929,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.92,
     "ls_rate": 19.35,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.39,
+    "sk_ls_rate": 11.9,
+    "sp_flood_rate": 4.15,
+    "sp_ls_rate": 17.71
   },
   {
     "district": "Samanthurai",
@@ -3332,7 +3952,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.04,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.74,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 5.73,
+    "sp_ls_rate": 0.02
   },
   {
     "district": "Lahugala",
@@ -3351,7 +3975,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.4,
     "ls_rate": 0.17,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.43,
+    "sk_ls_rate": 0.18,
+    "sp_flood_rate": 3.9,
+    "sp_ls_rate": 0.16
   },
   {
     "district": "Attanagalla",
@@ -3370,7 +3998,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 12.77,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 4.18,
+    "sk_ls_rate": 4.49,
+    "sp_flood_rate": 1.04,
+    "sp_ls_rate": 10.09
   },
   {
     "district": "Horana",
@@ -3389,7 +4021,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 3.93,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 5.04,
+    "sk_ls_rate": 2.32,
+    "sp_flood_rate": 1.62,
+    "sp_ls_rate": 7.21
   },
   {
     "district": "Medawachchiya",
@@ -3408,7 +4044,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.46,
     "ls_rate": 0.24,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.19,
+    "sk_ls_rate": 0.29,
+    "sp_flood_rate": 7.16,
+    "sp_ls_rate": 0.34
   },
   {
     "district": "Rambewa",
@@ -3427,7 +4067,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.38,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 17.31,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 8.32,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Homagama",
@@ -3446,7 +4090,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.26,
     "ls_rate": 1.11,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.63,
+    "sk_ls_rate": 1.34,
+    "sp_flood_rate": 2.36,
+    "sp_ls_rate": 0.88
   },
   {
     "district": "Giribawa",
@@ -3465,7 +4113,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.33,
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.8,
+    "sk_ls_rate": 0.49,
+    "sp_flood_rate": 7.87,
+    "sp_ls_rate": 0.57
   },
   {
     "district": "Maspotha",
@@ -3484,7 +4136,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.65,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.68,
+    "sk_ls_rate": 1.14,
+    "sp_flood_rate": 2.64,
+    "sp_ls_rate": 0.78
   },
   {
     "district": "Hanwella",
@@ -3503,7 +4159,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 9.25,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 3.33,
+    "sk_ls_rate": 5.5,
+    "sp_flood_rate": 1.85,
+    "sp_ls_rate": 17.23
   },
   {
     "district": "Okewela",
@@ -3522,7 +4182,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.03,
     "ls_rate": 1.93,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.95,
+    "sk_ls_rate": 1.32,
+    "sp_flood_rate": 2.49,
+    "sp_ls_rate": 1.38
   },
   {
     "district": "Bingiriya",
@@ -3541,7 +4205,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.81,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.46,
+    "sk_ls_rate": 0.34,
+    "sp_flood_rate": 1.81,
+    "sp_ls_rate": 0.83
   },
   {
     "district": "Beruwala",
@@ -3560,7 +4228,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.08,
     "ls_rate": 8.52,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.63,
+    "sk_ls_rate": 4.19,
+    "sp_flood_rate": 4.62,
+    "sp_ls_rate": 11.99
   },
   {
     "district": "Padavi Sri Pura",
@@ -3579,7 +4251,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.13,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.92,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 6.29,
+    "sp_ls_rate": 0.05
   },
   {
     "district": "Seruvila",
@@ -3598,7 +4274,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.49,
     "ls_rate": 0.38,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.29,
+    "sk_ls_rate": 1.77,
+    "sp_flood_rate": 5.41,
+    "sp_ls_rate": 1.9
   },
   {
     "district": "Mihinthale",
@@ -3617,7 +4297,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.46,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.34,
+    "sk_ls_rate": 0.08,
+    "sp_flood_rate": 7.71,
+    "sp_ls_rate": 0.05
   },
   {
     "district": "Dambulla",
@@ -3636,7 +4320,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.12,
     "ls_rate": 7.77,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.41,
+    "sk_ls_rate": 7.97,
+    "sp_flood_rate": 4.76,
+    "sp_ls_rate": 8.62
   },
   {
     "district": "Panduwasnuwara",
@@ -3655,7 +4343,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.57,
     "ls_rate": 1.37,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.05,
+    "sk_ls_rate": 0.84,
+    "sp_flood_rate": 2.09,
+    "sp_ls_rate": 0.77
   },
   {
     "district": "Vavuniya South",
@@ -3674,7 +4366,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.91,
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.74,
+    "sk_ls_rate": 0.17,
+    "sp_flood_rate": 6.89,
+    "sp_ls_rate": 0.07
   },
   {
     "district": "Vanathavilluwa",
@@ -3693,7 +4389,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.97,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.58,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 6.22,
+    "sp_ls_rate": 0.03
   },
   {
     "district": "Biyagama",
@@ -3712,7 +4412,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 1.79,
     "risk_category": "Moderate Risk",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 6.02,
+    "sk_ls_rate": 1.74,
+    "sp_flood_rate": 2.79,
+    "sp_ls_rate": 1.06
   },
   {
     "district": "Ibbagamuwa",
@@ -3731,7 +4435,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.78,
     "ls_rate": 13.82,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.88,
+    "sk_ls_rate": 10.8,
+    "sp_flood_rate": 3.94,
+    "sp_ls_rate": 12.38
   },
   {
     "district": "Welipitiya",
@@ -3750,7 +4458,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.22,
     "ls_rate": 24.42,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.52,
+    "sk_ls_rate": 6.7,
+    "sp_flood_rate": 1.75,
+    "sp_ls_rate": 19.21
   },
   {
     "district": "Colombo",
@@ -3769,7 +4481,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.54,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 15.9,
+    "sk_ls_rate": 0.77,
+    "sp_flood_rate": 6.55,
+    "sp_ls_rate": 0.96
   },
   {
     "district": "Kundasale",
@@ -3788,7 +4504,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.94,
     "ls_rate": 30.29,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.05,
+    "sk_ls_rate": 16.3,
+    "sp_flood_rate": 4.61,
+    "sp_ls_rate": 29.98
   },
   {
     "district": "Maha Vilachchiya",
@@ -3807,7 +4527,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.89,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.73,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 6.08,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Katharagama",
@@ -3826,7 +4550,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.23,
     "ls_rate": 0.48,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.65,
+    "sk_ls_rate": 0.47,
+    "sp_flood_rate": 2.03,
+    "sp_ls_rate": 0.53
   },
   {
     "district": "Elahera",
@@ -3845,7 +4573,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.99,
     "ls_rate": 7.7,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.26,
+    "sk_ls_rate": 6.21,
+    "sp_flood_rate": 2.88,
+    "sp_ls_rate": 6.75
   },
   {
     "district": "K.F.G. & G. Korale",
@@ -3864,7 +4596,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.0,
     "ls_rate": 78.62,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.48,
+    "sk_ls_rate": 43.72,
+    "sp_flood_rate": 3.8,
+    "sp_ls_rate": 71.96
   },
   {
     "district": "Katana",
@@ -3883,7 +4619,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.45,
     "ls_rate": 1.96,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.52,
+    "sk_ls_rate": 1.25,
+    "sp_flood_rate": 3.06,
+    "sp_ls_rate": 1.01
   },
   {
     "district": "Matale",
@@ -3902,7 +4642,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 60.22,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.91,
+    "sk_ls_rate": 34.75,
+    "sp_flood_rate": 2.92,
+    "sp_ls_rate": 56.43
   },
   {
     "district": "Ambalangoda",
@@ -3921,7 +4665,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.68,
     "ls_rate": 5.33,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.49,
+    "sk_ls_rate": 4.21,
+    "sp_flood_rate": 4.55,
+    "sp_ls_rate": 10.86
   },
   {
     "district": "Kebithigollewa",
@@ -3940,7 +4688,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.41,
     "ls_rate": 0.05,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.88,
+    "sk_ls_rate": 0.23,
+    "sp_flood_rate": 3.43,
+    "sp_ls_rate": 0.1
   },
   {
     "district": "Thirappane",
@@ -3959,7 +4711,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.27,
     "ls_rate": 1.24,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 14.04,
+    "sk_ls_rate": 1.17,
+    "sp_flood_rate": 6.21,
+    "sp_ls_rate": 1.26
   },
   {
     "district": "Hakmana",
@@ -3978,7 +4734,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.44,
     "ls_rate": 19.11,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.97,
+    "sk_ls_rate": 10.31,
+    "sp_flood_rate": 2.95,
+    "sp_ls_rate": 19.19
   },
   {
     "district": "Angunakolapelessa",
@@ -3997,7 +4757,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.08,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 9.09,
+    "sk_ls_rate": 0.05,
+    "sp_flood_rate": 2.34,
+    "sp_ls_rate": 0.07
   },
   {
     "district": "Pathahewaheta",
@@ -4016,7 +4780,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.88,
     "ls_rate": 64.65,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.77,
+    "sk_ls_rate": 41.01,
+    "sp_flood_rate": 3.63,
+    "sp_ls_rate": 63.23
   },
   {
     "district": "Weligepola",
@@ -4035,7 +4803,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.11,
     "ls_rate": 17.78,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.82,
+    "sk_ls_rate": 14.88,
+    "sp_flood_rate": 2.42,
+    "sp_ls_rate": 15.61
   },
   {
     "district": "Mirigama",
@@ -4054,7 +4826,11 @@ const DS_DIVISIONS = [
     "flood_rate": 8.67,
     "ls_rate": 22.12,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.22,
+    "sk_ls_rate": 7.45,
+    "sp_flood_rate": 0.71,
+    "sp_ls_rate": 19.23
   },
   {
     "district": "Mahara",
@@ -4073,7 +4849,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 8.8,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.08,
+    "sk_ls_rate": 2.93,
+    "sp_flood_rate": 1.01,
+    "sp_ls_rate": 4.86
   },
   {
     "district": "Bope-Poddala",
@@ -4092,7 +4872,11 @@ const DS_DIVISIONS = [
     "flood_rate": 14.29,
     "ls_rate": 7.94,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.47,
+    "sk_ls_rate": 3.27,
+    "sp_flood_rate": 2.6,
+    "sp_ls_rate": 5.6
   },
   {
     "district": "Thalawa",
@@ -4111,7 +4895,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.3,
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 12.63,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 5.65,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Udubaddawa",
@@ -4130,7 +4918,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.92,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.28,
+    "sk_ls_rate": 0.4,
+    "sp_flood_rate": 1.54,
+    "sp_ls_rate": 0.13
   },
   {
     "district": "Galewela",
@@ -4149,7 +4941,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.85,
     "ls_rate": 10.06,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.5,
+    "sk_ls_rate": 8.33,
+    "sp_flood_rate": 3.69,
+    "sp_ls_rate": 9.83
   },
   {
     "district": "Ruwanwella",
@@ -4168,7 +4964,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.09,
     "ls_rate": 22.78,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.64,
+    "sk_ls_rate": 12.23,
+    "sp_flood_rate": 1.43,
+    "sp_ls_rate": 26.26
   },
   {
     "district": "Imbulpe",
@@ -4187,7 +4987,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.33,
     "ls_rate": 48.38,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.21,
+    "sk_ls_rate": 38.23,
+    "sp_flood_rate": 3.48,
+    "sp_ls_rate": 44.78
   },
   {
     "district": "Polpithigama",
@@ -4206,7 +5010,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.89,
     "ls_rate": 2.66,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 8.16,
+    "sk_ls_rate": 2.6,
+    "sp_flood_rate": 3.03,
+    "sp_ls_rate": 2.88
   },
   {
     "district": "Minuwangoda",
@@ -4225,7 +5033,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.85,
     "ls_rate": 25.31,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.21,
+    "sk_ls_rate": 5.5,
+    "sp_flood_rate": 1.29,
+    "sp_ls_rate": 24.27
   },
   {
     "district": "N. Palatha Central",
@@ -4244,7 +5056,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.85,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 13.38,
+    "sk_ls_rate": 0.03,
+    "sp_flood_rate": 5.78,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Ipalogama",
@@ -4263,7 +5079,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.85,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.52,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 4.31,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Dankotuwa",
@@ -4282,7 +5102,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.59,
     "ls_rate": 1.16,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 7.18,
+    "sk_ls_rate": 0.63,
+    "sp_flood_rate": 1.93,
+    "sp_ls_rate": 0.38
   },
   {
     "district": "Kamburupitiya",
@@ -4301,7 +5125,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.92,
     "ls_rate": 30.07,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.28,
+    "sk_ls_rate": 7.43,
+    "sp_flood_rate": 1.66,
+    "sp_ls_rate": 25.68
   },
   {
     "district": "Meegahakivula",
@@ -4320,7 +5148,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.37,
     "ls_rate": 47.75,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.99,
+    "sk_ls_rate": 43.0,
+    "sp_flood_rate": 3.47,
+    "sp_ls_rate": 46.86
   },
   {
     "district": "Millaniya",
@@ -4339,7 +5171,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 4.85,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 4.28,
+    "sk_ls_rate": 3.41,
+    "sp_flood_rate": 2.41,
+    "sp_ls_rate": 9.48
   },
   {
     "district": "Ingiriya",
@@ -4358,7 +5194,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 37.2,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 3.44,
+    "sk_ls_rate": 11.46,
+    "sp_flood_rate": 1.21,
+    "sp_ls_rate": 29.98
   },
   {
     "district": "Beliatta",
@@ -4377,7 +5217,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.57,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.35,
+    "sk_ls_rate": 1.11,
+    "sp_flood_rate": 1.58,
+    "sp_ls_rate": 0.75
   },
   {
     "district": "Mulatiyana",
@@ -4396,7 +5240,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.05,
     "ls_rate": 30.54,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.52,
+    "sk_ls_rate": 12.46,
+    "sp_flood_rate": 1.06,
+    "sp_ls_rate": 26.12
   },
   {
     "district": "Katupotha",
@@ -4415,7 +5263,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.04,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.05,
+    "sk_ls_rate": 0.73,
+    "sp_flood_rate": 1.43,
+    "sp_ls_rate": 0.48
   },
   {
     "district": "Badulla",
@@ -4434,7 +5286,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 91.29,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.76,
+    "sk_ls_rate": 60.95,
+    "sp_flood_rate": 2.18,
+    "sp_ls_rate": 85.88
   },
   {
     "district": "Udadumbara",
@@ -4453,7 +5309,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.7,
     "ls_rate": 52.69,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.51,
+    "sk_ls_rate": 48.04,
+    "sp_flood_rate": 3.47,
+    "sp_ls_rate": 53.28
   },
   {
     "district": "Maharagama",
@@ -4462,7 +5322,7 @@ const DS_DIVISIONS = [
     "cells": 28,
     "flood": 1,
     "landslide": 0,
-    "compound": 0,
+    "compound": 1,
     "lat": 6.8546,
     "lon": 79.9421,
     "elevation": 22.9,
@@ -4471,8 +5331,12 @@ const DS_DIVISIONS = [
     "ndvi": 0.693,
     "flood_rate": 5.0,
     "ls_rate": 1.47,
-    "risk_category": "Moderate Risk",
-    "flood_corrected": true
+    "risk_category": "Compound Hazard",
+    "flood_corrected": true,
+    "sk_flood_rate": 3.94,
+    "sk_ls_rate": 1.72,
+    "sp_flood_rate": 2.35,
+    "sp_ls_rate": 1.44
   },
   {
     "district": "Kurunegala",
@@ -4491,7 +5355,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.33,
     "ls_rate": 11.91,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.6,
+    "sk_ls_rate": 10.27,
+    "sp_flood_rate": 2.42,
+    "sp_ls_rate": 10.84
   },
   {
     "district": "Karuwalagaswewa",
@@ -4510,7 +5378,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.19,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.91,
+    "sk_ls_rate": 0.04,
+    "sp_flood_rate": 4.71,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Moneragala",
@@ -4529,7 +5401,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.42,
     "ls_rate": 16.11,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.19,
+    "sk_ls_rate": 14.09,
+    "sp_flood_rate": 1.88,
+    "sp_ls_rate": 15.48
   },
   {
     "district": "Narammala",
@@ -4548,7 +5424,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.27,
     "ls_rate": 1.97,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.78,
+    "sk_ls_rate": 1.84,
+    "sp_flood_rate": 1.01,
+    "sp_ls_rate": 1.14
   },
   {
     "district": "Gampaha",
@@ -4567,7 +5447,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.6,
     "ls_rate": 5.85,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.91,
+    "sk_ls_rate": 2.06,
+    "sp_flood_rate": 1.63,
+    "sp_ls_rate": 2.02
   },
   {
     "district": "Divulapitiya",
@@ -4586,7 +5470,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.42,
     "ls_rate": 8.69,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.5,
+    "sk_ls_rate": 3.36,
+    "sp_flood_rate": 1.51,
+    "sp_ls_rate": 6.74
   },
   {
     "district": "Dickwella",
@@ -4605,7 +5493,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.82,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.25,
+    "sk_ls_rate": 1.31,
+    "sp_flood_rate": 1.33,
+    "sp_ls_rate": 1.21
   },
   {
     "district": "Pannala",
@@ -4624,7 +5516,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.98,
     "ls_rate": 2.47,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.81,
+    "sk_ls_rate": 1.51,
+    "sp_flood_rate": 1.11,
+    "sp_ls_rate": 1.22
   },
   {
     "district": "Kuliyapitiya West",
@@ -4643,7 +5539,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.48,
     "ls_rate": 1.08,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 6.05,
+    "sk_ls_rate": 0.67,
+    "sp_flood_rate": 1.65,
+    "sp_ls_rate": 0.33
   },
   {
     "district": "Ambagamuwa",
@@ -4662,7 +5562,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.55,
     "ls_rate": 40.62,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.92,
+    "sk_ls_rate": 34.51,
+    "sp_flood_rate": 2.32,
+    "sp_ls_rate": 40.29
   },
   {
     "district": "Alawwa",
@@ -4681,7 +5585,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.74,
     "ls_rate": 14.76,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.28,
+    "sk_ls_rate": 10.13,
+    "sp_flood_rate": 0.75,
+    "sp_ls_rate": 13.05
   },
   {
     "district": "Polgahawela",
@@ -4700,7 +5608,11 @@ const DS_DIVISIONS = [
     "flood_rate": 9.52,
     "ls_rate": 7.37,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.37,
+    "sk_ls_rate": 5.97,
+    "sp_flood_rate": 1.08,
+    "sp_ls_rate": 6.83
   },
   {
     "district": "Galnewa",
@@ -4719,7 +5631,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.82,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 11.14,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 4.02,
+    "sp_ls_rate": 0.01
   },
   {
     "district": "Mawathagama",
@@ -4738,7 +5654,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.33,
     "ls_rate": 20.3,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.29,
+    "sk_ls_rate": 18.45,
+    "sp_flood_rate": 1.3,
+    "sp_ls_rate": 20.15
   },
   {
     "district": "Ehetuwewa",
@@ -4757,7 +5677,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.69,
     "ls_rate": 3.49,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.05,
+    "sk_ls_rate": 3.43,
+    "sp_flood_rate": 3.47,
+    "sp_ls_rate": 3.75
   },
   {
     "district": "Kandaketiya",
@@ -4776,7 +5700,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 38.02,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.56,
+    "sk_ls_rate": 31.31,
+    "sp_flood_rate": 1.23,
+    "sp_ls_rate": 35.76
   },
   {
     "district": "Kuliyapitiya East",
@@ -4795,7 +5723,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 1.22,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 5.34,
+    "sk_ls_rate": 1.02,
+    "sp_flood_rate": 1.3,
+    "sp_ls_rate": 0.39
   },
   {
     "district": "Akmeemana",
@@ -4814,7 +5746,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.0,
     "ls_rate": 8.99,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.58,
+    "sk_ls_rate": 4.47,
+    "sp_flood_rate": 2.39,
+    "sp_ls_rate": 11.75
   },
   {
     "district": "Bamunakotuwa",
@@ -4833,7 +5769,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 4.08,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.53,
+    "sk_ls_rate": 2.83,
+    "sp_flood_rate": 0.9,
+    "sp_ls_rate": 2.79
   },
   {
     "district": "Walapane",
@@ -4852,7 +5792,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.63,
     "ls_rate": 54.99,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.66,
+    "sk_ls_rate": 44.88,
+    "sp_flood_rate": 2.75,
+    "sp_ls_rate": 54.63
   },
   {
     "district": "Harispattuwa",
@@ -4871,7 +5815,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.44,
     "ls_rate": 69.54,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.16,
+    "sk_ls_rate": 31.84,
+    "sp_flood_rate": 2.14,
+    "sp_ls_rate": 68.21
   },
   {
     "district": "Udapalatha",
@@ -4890,7 +5838,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.11,
     "ls_rate": 62.16,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.74,
+    "sk_ls_rate": 33.92,
+    "sp_flood_rate": 1.67,
+    "sp_ls_rate": 58.65
   },
   {
     "district": "Mawanella",
@@ -4909,7 +5861,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.3,
     "ls_rate": 37.31,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.11,
+    "sk_ls_rate": 25.96,
+    "sp_flood_rate": 1.48,
+    "sp_ls_rate": 35.57
   },
   {
     "district": "Nochchiyagama",
@@ -4928,7 +5884,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.0,
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.94,
+    "sk_ls_rate": 0.02,
+    "sp_flood_rate": 4.38,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Madurawala",
@@ -4937,7 +5897,7 @@ const DS_DIVISIONS = [
     "cells": 47,
     "flood": 1,
     "landslide": 12,
-    "compound": 1,
+    "compound": 2,
     "lat": 6.6478,
     "lon": 80.0959,
     "elevation": 33.3,
@@ -4947,7 +5907,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.13,
     "ls_rate": 26.11,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.98,
+    "sk_ls_rate": 9.74,
+    "sp_flood_rate": 0.74,
+    "sp_ls_rate": 30.98
   },
   {
     "district": "Pasbage Korale",
@@ -4966,7 +5930,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 53.81,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.19,
+    "sk_ls_rate": 34.6,
+    "sp_flood_rate": 1.34,
+    "sp_ls_rate": 44.84
   },
   {
     "district": "Bulathsinhala",
@@ -4985,7 +5953,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 35.45,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.06,
+    "sk_ls_rate": 12.25,
+    "sp_flood_rate": 0.58,
+    "sp_ls_rate": 34.53
   },
   {
     "district": "Padukka",
@@ -5004,7 +5976,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 11.76,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.93,
+    "sk_ls_rate": 8.13,
+    "sp_flood_rate": 1.02,
+    "sp_ls_rate": 19.84
   },
   {
     "district": "Bibile",
@@ -5023,7 +5999,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.26,
     "ls_rate": 16.2,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.13,
+    "sk_ls_rate": 15.45,
+    "sp_flood_rate": 1.04,
+    "sp_ls_rate": 16.6
   },
   {
     "district": "Medagama",
@@ -5042,7 +6022,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 12.95,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.09,
+    "sk_ls_rate": 11.96,
+    "sp_flood_rate": 1.09,
+    "sp_ls_rate": 13.67
   },
   {
     "district": "Baddegama",
@@ -5061,7 +6045,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 6.72,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 4.28,
+    "sk_ls_rate": 3.37,
+    "sp_flood_rate": 1.37,
+    "sp_ls_rate": 8.43
   },
   {
     "district": "Kothmale",
@@ -5080,7 +6068,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.89,
     "ls_rate": 71.5,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.11,
+    "sk_ls_rate": 37.51,
+    "sp_flood_rate": 1.85,
+    "sp_ls_rate": 65.31
   },
   {
     "district": "Imaduwa",
@@ -5099,7 +6091,11 @@ const DS_DIVISIONS = [
     "flood_rate": 12.24,
     "ls_rate": 38.55,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.73,
+    "sk_ls_rate": 12.43,
+    "sp_flood_rate": 1.43,
+    "sp_ls_rate": 33.82
   },
   {
     "district": "Nuwara Eliya",
@@ -5118,7 +6114,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.8,
     "ls_rate": 61.5,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.35,
+    "sk_ls_rate": 36.91,
+    "sp_flood_rate": 2.06,
+    "sp_ls_rate": 55.79
   },
   {
     "district": "Kegalle",
@@ -5137,7 +6137,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 49.05,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.5,
+    "sk_ls_rate": 21.96,
+    "sp_flood_rate": 0.81,
+    "sp_ls_rate": 43.24
   },
   {
     "district": "Thambuttegama",
@@ -5156,7 +6160,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 10.69,
+    "sk_ls_rate": 0.01,
+    "sp_flood_rate": 2.93,
+    "sp_ls_rate": 0.0
   },
   {
     "district": "Galigamuwa",
@@ -5175,7 +6183,11 @@ const DS_DIVISIONS = [
     "flood_rate": 7.34,
     "ls_rate": 47.29,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.12,
+    "sk_ls_rate": 17.58,
+    "sp_flood_rate": 0.26,
+    "sp_ls_rate": 44.38
   },
   {
     "district": "Welivitiya-Divithura",
@@ -5194,7 +6206,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 9.4,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.59,
+    "sk_ls_rate": 5.09,
+    "sp_flood_rate": 0.75,
+    "sp_ls_rate": 12.96
   },
   {
     "district": "Mallawapitiya",
@@ -5213,7 +6229,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 18.58,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.54,
+    "sk_ls_rate": 15.38,
+    "sp_flood_rate": 0.81,
+    "sp_ls_rate": 18.47
   },
   {
     "district": "Kiriella",
@@ -5232,7 +6252,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 15.1,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.83,
+    "sk_ls_rate": 11.1,
+    "sp_flood_rate": 0.87,
+    "sp_ls_rate": 21.08
   },
   {
     "district": "Kuruvita",
@@ -5251,7 +6275,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 24.3,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.74,
+    "sk_ls_rate": 20.47,
+    "sp_flood_rate": 0.62,
+    "sp_ls_rate": 29.86
   },
   {
     "district": "Weerambugedara",
@@ -5270,7 +6298,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.32,
     "ls_rate": 1.41,
     "risk_category": "Low Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 4.29,
+    "sk_ls_rate": 1.33,
+    "sp_flood_rate": 0.71,
+    "sp_ls_rate": 0.79
   },
   {
     "district": "Warakapola",
@@ -5289,7 +6321,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.52,
     "ls_rate": 41.54,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.04,
+    "sk_ls_rate": 16.76,
+    "sp_flood_rate": 0.24,
+    "sp_ls_rate": 41.44
   },
   {
     "district": "Balangoda",
@@ -5308,7 +6344,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.72,
     "ls_rate": 30.72,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.64,
+    "sk_ls_rate": 21.37,
+    "sp_flood_rate": 0.82,
+    "sp_ls_rate": 27.04
   },
   {
     "district": "Pelmadulla",
@@ -5327,7 +6367,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 29.18,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.28,
+    "sk_ls_rate": 22.65,
+    "sp_flood_rate": 0.23,
+    "sp_ls_rate": 29.6
   },
   {
     "district": "Hildummulla",
@@ -5346,7 +6390,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.31,
     "ls_rate": 46.78,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.77,
+    "sk_ls_rate": 36.42,
+    "sp_flood_rate": 0.83,
+    "sp_ls_rate": 45.34
   },
   {
     "district": "Doluwa",
@@ -5365,7 +6413,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.56,
     "ls_rate": 57.99,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.79,
+    "sk_ls_rate": 33.92,
+    "sp_flood_rate": 1.27,
+    "sp_ls_rate": 56.16
   },
   {
     "district": "Dodangoda",
@@ -5384,7 +6436,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.92,
     "ls_rate": 29.77,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.17,
+    "sk_ls_rate": 11.02,
+    "sp_flood_rate": 1.62,
+    "sp_ls_rate": 27.03
   },
   {
     "district": "Athuraliya",
@@ -5403,7 +6459,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 21.01,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 3.02,
+    "sk_ls_rate": 9.16,
+    "sp_flood_rate": 0.98,
+    "sp_ls_rate": 22.04
   },
   {
     "district": "Badalkumbura",
@@ -5422,7 +6482,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 29.78,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.96,
+    "sk_ls_rate": 22.38,
+    "sp_flood_rate": 0.85,
+    "sp_ls_rate": 30.59
   },
   {
     "district": "Rambukkana",
@@ -5441,7 +6505,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.6,
     "ls_rate": 20.46,
     "risk_category": "Moderate Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.72,
+    "sk_ls_rate": 15.64,
+    "sp_flood_rate": 0.43,
+    "sp_ls_rate": 19.4
   },
   {
     "district": "Ambanganga Korale",
@@ -5460,7 +6528,11 @@ const DS_DIVISIONS = [
     "flood_rate": 4.26,
     "ls_rate": 50.96,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.32,
+    "sk_ls_rate": 38.46,
+    "sp_flood_rate": 0.67,
+    "sp_ls_rate": 49.22
   },
   {
     "district": "Godakawela",
@@ -5479,7 +6551,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.11,
     "ls_rate": 19.52,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.53,
+    "sk_ls_rate": 18.21,
+    "sp_flood_rate": 0.41,
+    "sp_ls_rate": 20.13
   },
   {
     "district": "Pallepola",
@@ -5498,7 +6574,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 43.78,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.42,
+    "sk_ls_rate": 27.35,
+    "sp_flood_rate": 0.71,
+    "sp_ls_rate": 39.53
   },
   {
     "district": "Ratnapura",
@@ -5517,7 +6597,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 41.72,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.12,
+    "sk_ls_rate": 31.8,
+    "sp_flood_rate": 0.35,
+    "sp_ls_rate": 42.31
   },
   {
     "district": "Haputale",
@@ -5536,7 +6620,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 72.17,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 3.03,
+    "sk_ls_rate": 56.19,
+    "sp_flood_rate": 1.29,
+    "sp_ls_rate": 73.04
   },
   {
     "district": "Hanguranketha",
@@ -5555,7 +6643,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.17,
     "ls_rate": 65.79,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.91,
+    "sk_ls_rate": 49.01,
+    "sp_flood_rate": 0.77,
+    "sp_ls_rate": 62.6
   },
   {
     "district": "Welimada",
@@ -5574,7 +6666,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.66,
     "ls_rate": 58.89,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.07,
+    "sk_ls_rate": 42.68,
+    "sp_flood_rate": 1.06,
+    "sp_ls_rate": 58.97
   },
   {
     "district": "Rideegama",
@@ -5593,7 +6689,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 45.81,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.57,
+    "sk_ls_rate": 30.96,
+    "sp_flood_rate": 0.48,
+    "sp_ls_rate": 41.54
   },
   {
     "district": "Yakkalamulla",
@@ -5612,7 +6712,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 17.21,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.15,
+    "sk_ls_rate": 6.88,
+    "sp_flood_rate": 0.32,
+    "sp_ls_rate": 15.55
   },
   {
     "district": "Bulathkohupitiya",
@@ -5631,7 +6735,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.21,
     "ls_rate": 51.8,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.09,
+    "sk_ls_rate": 35.01,
+    "sp_flood_rate": 0.22,
+    "sp_ls_rate": 53.42
   },
   {
     "district": "Opanayaka",
@@ -5650,7 +6758,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.35,
     "ls_rate": 42.63,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.5,
+    "sk_ls_rate": 34.61,
+    "sp_flood_rate": 0.32,
+    "sp_ls_rate": 42.24
   },
   {
     "district": "Kolonna",
@@ -5669,7 +6781,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 29.79,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.4,
+    "sk_ls_rate": 29.83,
+    "sp_flood_rate": 0.34,
+    "sp_ls_rate": 31.54
   },
   {
     "district": "Karandeniya",
@@ -5688,7 +6804,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 8.48,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 3.71,
+    "sk_ls_rate": 6.03,
+    "sp_flood_rate": 1.39,
+    "sp_ls_rate": 15.46
   },
   {
     "district": "Yatiyanthota",
@@ -5707,7 +6827,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.52,
     "ls_rate": 44.96,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.81,
+    "sk_ls_rate": 37.44,
+    "sp_flood_rate": 0.15,
+    "sp_ls_rate": 47.58
   },
   {
     "district": "Aranayaka",
@@ -5726,7 +6850,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 61.64,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.13,
+    "sk_ls_rate": 37.73,
+    "sp_flood_rate": 0.17,
+    "sp_ls_rate": 58.74
   },
   {
     "district": "Kahawatta",
@@ -5745,7 +6873,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 30.43,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.7,
+    "sk_ls_rate": 29.78,
+    "sp_flood_rate": 0.11,
+    "sp_ls_rate": 33.46
   },
   {
     "district": "Dehiovita",
@@ -5764,7 +6896,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 20.91,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.95,
+    "sk_ls_rate": 18.39,
+    "sp_flood_rate": 0.4,
+    "sp_ls_rate": 27.18
   },
   {
     "district": "Elapatha",
@@ -5783,7 +6919,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 48.44,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.4,
+    "sk_ls_rate": 20.88,
+    "sp_flood_rate": 0.55,
+    "sp_ls_rate": 42.69
   },
   {
     "district": "Bandarawela",
@@ -5802,7 +6942,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 82.53,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.8,
+    "sk_ls_rate": 59.38,
+    "sp_flood_rate": 0.71,
+    "sp_ls_rate": 78.17
   },
   {
     "district": "Delthota",
@@ -5821,7 +6965,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 69.79,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.45,
+    "sk_ls_rate": 49.95,
+    "sp_flood_rate": 0.43,
+    "sp_ls_rate": 68.87
   },
   {
     "district": "Akuressa",
@@ -5840,7 +6988,11 @@ const DS_DIVISIONS = [
     "flood_rate": 3.25,
     "ls_rate": 44.7,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.04,
+    "sk_ls_rate": 23.67,
+    "sp_flood_rate": 0.45,
+    "sp_ls_rate": 39.12
   },
   {
     "district": "Ganga Ihala Korale",
@@ -5859,7 +7011,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.63,
     "ls_rate": 72.77,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.93,
+    "sk_ls_rate": 46.09,
+    "sp_flood_rate": 0.33,
+    "sp_ls_rate": 63.83
   },
   {
     "district": "Ukuwela",
@@ -5878,7 +7034,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 67.94,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.3,
+    "sk_ls_rate": 42.92,
+    "sp_flood_rate": 0.72,
+    "sp_ls_rate": 62.21
   },
   {
     "district": "Pathadumbara",
@@ -5897,7 +7057,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 30.2,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.95,
+    "sk_ls_rate": 17.45,
+    "sp_flood_rate": 0.4,
+    "sp_ls_rate": 27.8
   },
   {
     "district": "Rattota",
@@ -5916,7 +7080,11 @@ const DS_DIVISIONS = [
     "flood_rate": 2.41,
     "ls_rate": 68.03,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.5,
+    "sk_ls_rate": 46.65,
+    "sp_flood_rate": 0.42,
+    "sp_ls_rate": 64.69
   },
   {
     "district": "Uva Paranagama",
@@ -5935,7 +7103,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 74.16,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.14,
+    "sk_ls_rate": 50.69,
+    "sp_flood_rate": 0.55,
+    "sp_ls_rate": 73.01
   },
   {
     "district": "Udunuwara",
@@ -5954,7 +7126,11 @@ const DS_DIVISIONS = [
     "flood_rate": 1.79,
     "ls_rate": 55.98,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.75,
+    "sk_ls_rate": 28.48,
+    "sp_flood_rate": 0.54,
+    "sp_ls_rate": 51.52
   },
   {
     "district": "Thumpane",
@@ -5973,7 +7149,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 41.2,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 2.0,
+    "sk_ls_rate": 32.54,
+    "sp_flood_rate": 0.43,
+    "sp_ls_rate": 40.16
   },
   {
     "district": "Mathugama",
@@ -5992,7 +7172,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 27.4,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 2.09,
+    "sk_ls_rate": 8.79,
+    "sp_flood_rate": 0.73,
+    "sp_ls_rate": 24.99
   },
   {
     "district": "Yatinuwara",
@@ -6011,7 +7195,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.36,
     "ls_rate": 70.62,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.99,
+    "sk_ls_rate": 33.12,
+    "sp_flood_rate": 0.61,
+    "sp_ls_rate": 64.35
   },
   {
     "district": "Deraniyagala",
@@ -6030,7 +7218,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 58.83,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.77,
+    "sk_ls_rate": 46.19,
+    "sp_flood_rate": 0.24,
+    "sp_ls_rate": 59.1
   },
   {
     "district": "Nagoda",
@@ -6049,7 +7241,11 @@ const DS_DIVISIONS = [
     "flood_rate": 6.47,
     "ls_rate": 21.0,
     "risk_category": "Compound Hazard",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.29,
+    "sk_ls_rate": 12.32,
+    "sp_flood_rate": 0.22,
+    "sp_ls_rate": 16.74
   },
   {
     "district": "Eheliyagoda",
@@ -6068,7 +7264,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 20.22,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.33,
+    "sk_ls_rate": 17.69,
+    "sp_flood_rate": 0.52,
+    "sp_ls_rate": 29.82
   },
   {
     "district": "Panvila",
@@ -6087,7 +7287,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 38.99,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.93,
+    "sk_ls_rate": 36.81,
+    "sp_flood_rate": 0.17,
+    "sp_ls_rate": 40.45
   },
   {
     "district": "Elpitiya",
@@ -6106,7 +7310,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 4.53,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.66,
+    "sk_ls_rate": 4.57,
+    "sp_flood_rate": 0.4,
+    "sp_ls_rate": 11.85
   },
   {
     "district": "Soranathota",
@@ -6125,7 +7333,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 82.11,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.11,
+    "sk_ls_rate": 63.32,
+    "sp_flood_rate": 0.21,
+    "sp_ls_rate": 79.31
   },
   {
     "district": "Lunugala",
@@ -6144,7 +7356,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 48.81,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.46,
+    "sk_ls_rate": 43.4,
+    "sp_flood_rate": 0.37,
+    "sp_ls_rate": 49.8
   },
   {
     "district": "Hatharaliyadda",
@@ -6163,7 +7379,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.56,
     "ls_rate": 37.57,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.07,
+    "sk_ls_rate": 31.45,
+    "sp_flood_rate": 0.15,
+    "sp_ls_rate": 36.89
   },
   {
     "district": "Nivithigala",
@@ -6182,7 +7402,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 25.31,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.82,
+    "sk_ls_rate": 23.73,
+    "sp_flood_rate": 0.16,
+    "sp_ls_rate": 31.44
   },
   {
     "district": "Passara",
@@ -6201,7 +7425,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 80.3,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.14,
+    "sk_ls_rate": 62.67,
+    "sp_flood_rate": 0.34,
+    "sp_ls_rate": 77.71
   },
   {
     "district": "Pitabeddara",
@@ -6220,7 +7448,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 48.09,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.42,
+    "sk_ls_rate": 25.17,
+    "sp_flood_rate": 0.28,
+    "sp_ls_rate": 47.55
   },
   {
     "district": "Hali-Ela",
@@ -6239,7 +7471,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 83.87,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.88,
+    "sk_ls_rate": 58.44,
+    "sp_flood_rate": 0.26,
+    "sp_ls_rate": 82.23
   },
   {
     "district": "Akurana",
@@ -6258,7 +7494,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 64.78,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.87,
+    "sk_ls_rate": 38.97,
+    "sp_flood_rate": 0.2,
+    "sp_ls_rate": 62.08
   },
   {
     "district": "Pasgoda",
@@ -6277,7 +7517,11 @@ const DS_DIVISIONS = [
     "flood_rate": 5.0,
     "ls_rate": 24.63,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.09,
+    "sk_ls_rate": 18.43,
+    "sp_flood_rate": 0.17,
+    "sp_ls_rate": 23.96
   },
   {
     "district": "Yatawatta",
@@ -6296,7 +7540,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 45.8,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 1.59,
+    "sk_ls_rate": 28.33,
+    "sp_flood_rate": 0.25,
+    "sp_ls_rate": 41.27
   },
   {
     "district": "Thawalama",
@@ -6315,7 +7563,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 29.71,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.88,
+    "sk_ls_rate": 22.12,
+    "sp_flood_rate": 0.19,
+    "sp_ls_rate": 32.33
   },
   {
     "district": "Ella",
@@ -6334,7 +7586,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 80.68,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.86,
+    "sk_ls_rate": 58.7,
+    "sp_flood_rate": 0.3,
+    "sp_ls_rate": 80.32
   },
   {
     "district": "Poojapitiya",
@@ -6353,7 +7609,11 @@ const DS_DIVISIONS = [
     "flood_rate": 0.0,
     "ls_rate": 66.18,
     "risk_category": "High Risk",
-    "flood_corrected": false
+    "flood_corrected": false,
+    "sk_flood_rate": 0.63,
+    "sk_ls_rate": 36.48,
+    "sp_flood_rate": 0.21,
+    "sp_ls_rate": 60.78
   },
   {
     "district": "Kalawana",
@@ -6372,7 +7632,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 26.85,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.65,
+    "sk_ls_rate": 27.15,
+    "sp_flood_rate": 0.14,
+    "sp_ls_rate": 28.8
   },
   {
     "district": "Agalawatta",
@@ -6391,7 +7655,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 71.34,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.09,
+    "sk_ls_rate": 27.43,
+    "sp_flood_rate": 0.19,
+    "sp_ls_rate": 54.41
   },
   {
     "district": "Walallawita",
@@ -6410,7 +7678,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 21.49,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.34,
+    "sk_ls_rate": 13.35,
+    "sp_flood_rate": 0.3,
+    "sp_ls_rate": 25.7
   },
   {
     "district": "Niyagama",
@@ -6429,7 +7701,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 3.84,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 1.35,
+    "sk_ls_rate": 4.9,
+    "sp_flood_rate": 0.17,
+    "sp_ls_rate": 6.58
   },
   {
     "district": "Neluwa",
@@ -6448,7 +7724,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 29.16,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.82,
+    "sk_ls_rate": 24.73,
+    "sp_flood_rate": 0.19,
+    "sp_ls_rate": 33.88
   },
   {
     "district": "Kotapola",
@@ -6467,7 +7747,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 31.86,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.6,
+    "sk_ls_rate": 26.38,
+    "sp_flood_rate": 0.25,
+    "sp_ls_rate": 34.58
   },
   {
     "district": "Palindanuwara",
@@ -6486,7 +7770,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 37.04,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.92,
+    "sk_ls_rate": 24.76,
+    "sp_flood_rate": 0.19,
+    "sp_ls_rate": 40.09
   },
   {
     "district": "Ayagama",
@@ -6505,7 +7793,11 @@ const DS_DIVISIONS = [
     "flood_rate": 15.0,
     "ls_rate": 38.58,
     "risk_category": "Compound Hazard",
-    "flood_corrected": true
+    "flood_corrected": true,
+    "sk_flood_rate": 0.68,
+    "sk_ls_rate": 33.04,
+    "sp_flood_rate": 0.15,
+    "sp_ls_rate": 44.46
   }
 ];
 
@@ -6518,7 +7810,7 @@ const ADM_DISTRICTS = [
     "cells": 1406,
     "flood": 175,
     "landslide": 356,
-    "compound": 17,
+    "compound": 18,
     "ds_divs": 15,
     "rain": 66.88,
     "flood_rate": 11.31,
@@ -6563,7 +7855,7 @@ const ADM_DISTRICTS = [
     "cells": 756,
     "flood": 68,
     "landslide": 38,
-    "compound": 6,
+    "compound": 7,
     "ds_divs": 14,
     "rain": 54.37,
     "flood_rate": 7.8,
@@ -7011,32 +8303,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 45.8,
-        "sklT": 3.3,
+        "sparkT": 49.3,
+        "sklT": 4.0,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 24.6,
-        "sklT": 6.1,
+        "sparkT": 25.1,
+        "sklT": 7.0,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 33.2,
-        "sklT": 8.5,
+        "sparkT": 34.2,
+        "sklT": 8.9,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 34.7,
-        "sklT": 11.1,
+        "sparkT": 38.2,
+        "sklT": 11.0,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -7045,32 +8337,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 15.6,
-        "sklT": 1.6,
+        "sparkT": 15.7,
+        "sklT": 1.5,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 21.5,
-        "sklT": 3.9,
+        "sparkT": 25.3,
+        "sklT": 3.2,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 29.2,
-        "sklT": 4.7,
+        "sparkT": 30.1,
+        "sklT": 6.4,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 34.8,
-        "sklT": 6.7,
+        "sparkT": 35.3,
+        "sklT": 8.0,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
