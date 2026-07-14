@@ -782,5 +782,5 @@ function initClock(){
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme(); initClock(); initNav();
-  renderPage('overview'); initializedPages.add('overview');
+  renderPage('map'); initializedPages.add('map');
 });

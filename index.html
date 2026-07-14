@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HazardWatch · Compound Flood & Landslide Risk Platform — Sri Lanka</title>
+  <title>HazardWatch · Compound Flood & Landslide Risk Platform - Sri Lanka</title>
   <meta name="description" content="Distributed machine learning framework for compound flood and landslide risk prediction across Sri Lanka. MSc Big Data Analytics research platform.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <style>
 /* ===================================================================
-   HazardWatch — Compound Risk Intelligence Platform
+   HazardWatch - Compound Risk Intelligence Platform
    Redesigned UI · RGU MSc Big Data Analytics · Student 2506651
    
    Design language: "Operational cartography"
-   — The aesthetic of real disaster operations centres:
+   - The aesthetic of real disaster operations centres:
      precise, data-dense, calm under pressure. Dark-capable from
      the ground up. Colour encodes hazard type consistently across
      every component. No decoration that doesn't carry information.
@@ -39,14 +39,14 @@
   --text-2:    #52616d;
   --text-3:    #8b96a0;
 
-  /* Brand — deep teal, authority not playfulness */
+  /* Brand - deep teal, authority not playfulness */
   --brand:      #0e7a6b;
   --brand-mid:  #11a08c;
   --brand-light:#e6f4f2;
 
   /*
-    Hazard palette — grounded in real meteorological/geological conventions:
-    Flood    = water-blue (not orange — orange is fire/heat in every real ops system)
+    Hazard palette - grounded in real meteorological/geological conventions:
+    Flood    = water-blue (not orange - orange is fire/heat in every real ops system)
     Landslide= earth-brown/amber
     Compound = deep crimson (both hazards coincide = maximum alert)
   */
@@ -72,7 +72,7 @@
   --radius-lg: 10px;
   --radius-xl: 14px;
 
-  /* Elevation — minimal, purposeful */
+  /* Elevation - minimal, purposeful */
   --shadow-sm: 0 1px 2px rgba(12,20,30,0.05);
   --shadow:    0 1px 4px rgba(12,20,30,0.07), 0 2px 8px rgba(12,20,30,0.04);
   --shadow-md: 0 4px 12px rgba(12,20,30,0.10), 0 1px 3px rgba(12,20,30,0.06);
@@ -82,7 +82,7 @@
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
-/* Dark mode — same token names, different values */
+/* Dark mode - same token names, different values */
 [data-theme="dark"] {
   --bg:        #0a0f14;
   --surface:   #111820;
@@ -139,7 +139,7 @@ body {
   z-index: 100;
 }
 
-/* Logo — the mark uses the hazard-red + brand-teal split */
+/* Logo - the mark uses the hazard-red + brand-teal split */
 .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
 .logo-mark {
   width: 34px;
@@ -171,7 +171,7 @@ body {
 
 .topbar-right { display: flex; align-items: center; gap: 8px; }
 
-/* Live pill — calm, not blinking aggressively */
+/* Live pill - calm, not blinking aggressively */
 .live-pill {
   display: flex;
   align-items: center;
@@ -429,7 +429,7 @@ body {
 .search-item { padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
 .search-item:hover { background: var(--surface-2); }
 
-/* Layer toggle — used on Live map */
+/* Layer toggle - used on Live map */
 .layer-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .layer-btn {
   padding: 8px 16px;
@@ -610,12 +610,15 @@ input[type=range]::-moz-range-thumb {
 .hw-sl-lbl { font-size: 11px; font-weight: 500; color: var(--text-2); display: flex; justify-content: space-between; align-items: center; }
 .hw-sl-val { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); }
 .hw-range { width: 100%; height: 4px; accent-color: var(--brand); cursor: pointer; }
-.hw-mtabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.hw-mtabs { display: flex; gap: 6px; margin-bottom: 6px; }
 .hw-mt {
   padding: 6px 14px; background: var(--surface-2); border: 1px solid var(--border);
   border-radius: var(--radius); color: var(--text-2);
   font-size: 12px; font-weight: 600; cursor: pointer;
   transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.hw-mnote {
+  font-size: 10.5px; color: var(--text-3); margin: 0 0 16px; line-height: 1.4;
 }
 .hw-mt.on { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
 .hw-gitem { margin-bottom: 18px; }
@@ -783,7 +786,7 @@ input[type=range]::-moz-range-thumb {
     <section class="page" id="page-overview">
       <div class="page-head">
         <h1>Analytics</h1>
-        <p>Model performance summary — AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
+        <p>Model performance summary - AUC-ROC, PR-AUC, training time, and 5-fold CV confidence intervals.</p>
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">Feature store</div><div class="kpi-val" id="statCells">53,945</div><div class="kpi-sub">grid cells × 15 features</div></div>
@@ -798,16 +801,16 @@ input[type=range]::-moz-range-thumb {
           <div class="legend"><span class="lg"><span class="lg-dot" style="background:var(--dist)"></span>Distributed</span><span class="lg"><span class="lg-dot" style="background:var(--cent)"></span>Centralised</span></div>
         </div>
         <div class="card">
-          <div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC — key metric for 2.8% imbalance</div>
+          <div class="card-head"><i class="ti ti-chart-area"></i> PR-AUC - key metric for 2.8% imbalance</div>
           <div class="chart-box" style="height:220px"><canvas id="ovPrauc"></canvas></div>
-          <p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) — most relevant for hazard detection.</p>
+          <p class="note"><i class="ti ti-star"></i> PySpark RF leads on PR-AUC (0.6651) - most relevant for hazard detection.</p>
         </div>
       </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-head"><i class="ti ti-clock"></i> Training time comparison</div>
           <div class="chart-box" style="height:200px"><canvas id="ovTime"></canvas></div>
-          <p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3× — not 157×.</p>
+          <p class="note">Without 5-fold CV: Spark 38s vs sklearn 13s = 3× - not 157×.</p>
         </div>
         <div class="card">
           <div class="card-head"><i class="ti ti-percentage"></i> 5-fold CV confidence intervals</div>
@@ -820,7 +823,7 @@ input[type=range]::-moz-range-thumb {
     <section class="page active" id="page-map">
       <div class="page-head">
         <h1>Live risk map</h1>
-        <p>DS Division-level hazard risk — 323 Divisional Secretariats mapped individually from <code>feature_store.parquet</code>. Circle size and colour reflect actual flood, landslide, and compound risk. Click any circle for details.</p>
+        <p>DS Division-level hazard risk - 323 Divisional Secretariats mapped individually from <code>feature_store.parquet</code>. Circle size and colour reflect actual flood, landslide, and compound risk. Click any circle for details.</p>
         <p id="hw-map-count" style="font-size:12px;color:var(--text-3);margin-top:2px;"></p>
       </div>
 
@@ -847,11 +850,11 @@ input[type=range]::-moz-range-thumb {
       <!-- map + list grid -->
       <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;">
 
-        <!-- Leaflet card — brand-new element, no existing class dependency -->
+        <!-- Leaflet card - brand-new element, no existing class dependency -->
         <div class="card" id="hw-leaflet-card"
              style="padding:0;overflow:hidden;position:relative;min-height:460px;">
           <div id="hwLeafletMap" style="width:100%;height:460px;"></div>
-          <!-- legend — top-right, clear of zoom control (bottom-right) -->
+          <!-- legend - top-right, clear of zoom control (bottom-right) -->
           <div id="hw-legend" style="position:absolute;top:10px;right:10px;z-index:500;
                       background:var(--surface);border:1px solid var(--border);
                       border-radius:7px;padding:9px 13px;font-size:11px;color:var(--text-2);
@@ -868,7 +871,7 @@ input[type=range]::-moz-range-thumb {
         <div class="card" style="padding:0;overflow:hidden;">
           <div class="card-head" style="padding:12px 14px 10px;">
             <i class="ti ti-list"></i>
-            <span id="hw-list-title">Risk-ranked DS divisions — Flood</span>
+            <span id="hw-list-title">Risk-ranked DS divisions - Flood</span>
             <span id="hw-list-count" style="margin-left:auto;font-size:10px;color:var(--text-3);font-weight:400;"></span>
           </div>
           <div id="hw-district-list" style="max-height:420px;overflow-y:auto;padding:4px 6px;"></div>
@@ -879,28 +882,28 @@ input[type=range]::-moz-range-thumb {
       <div class="card" id="hw-detail-card" style="display:none;margin-top:14px;">
         <div class="card-head">
           <i class="ti ti-map-pin"></i>
-          <span id="hw-sel-district">—</span>
+          <span id="hw-sel-district">-</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:8px 0 4px;">
           <div id="hw-dcol-flood">
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Flood Risk</div>
-            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--flood);margin-bottom:4px;">—</div>
+            <div id="hw-df" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--flood);margin-bottom:4px;">-</div>
             <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dfb" style="height:100%;background:var(--flood);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div id="hw-dcol-land">
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Landslide Risk</div>
-            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--land);margin-bottom:4px;">—</div>
+            <div id="hw-dl" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--land);margin-bottom:4px;">-</div>
             <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dlb" style="height:100%;background:var(--land);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
           <div id="hw-dcol-compound">
             <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Compound Risk</div>
-            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--compound);margin-bottom:4px;">—</div>
+            <div id="hw-dc" style="font-family:monospace;font-size:22px;font-weight:700;color:var(--compound);margin-bottom:4px;">-</div>
             <div style="height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;"><div id="hw-dcb" style="height:100%;background:var(--compound);border-radius:3px;width:0;transition:width .5s;"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- ═══ HIDDEN STUBS — app.js interacts with these safely, none are visible ═══ -->
+      <!-- ═══ HIDDEN STUBS - app.js interacts with these safely, none are visible ═══ -->
       <div style="display:none;visibility:hidden;position:absolute;width:0;height:0;overflow:hidden;"
            aria-hidden="true">
         <div class="map-toolbar">
@@ -927,7 +930,7 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="card">
           <div class="card-head"><i class="ti ti-map-pin"></i>
-            <span id="selDistrict">Sri Lanka — national overview</span>
+            <span id="selDistrict">Sri Lanka - national overview</span>
           </div>
           <div class="kpi-grid" id="districtDetail"></div>
           <div class="chart-box"><canvas id="forecastChart"></canvas></div>
@@ -997,10 +1000,11 @@ input[type=range]::-moz-range-thumb {
 
           <div class="hw-pred-label" style="margin-top:18px;">Model</div>
           <div class="hw-mtabs">
-            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)">XGBoost</button>
-            <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)">sklearn RF</button>
-            <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)">PySpark RF</button>
+            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)" title="Reference only - does not change the prediction below">XGBoost</button>
+            <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)"  title="Reference only - does not change the prediction below">sklearn RF</button>
+            <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)"  title="Reference only - does not change the prediction below">PySpark RF</button>
           </div>
+          <p class="hw-mnote" id="hw-mnote">Reference only - the prediction below uses this division's stored best-model output; the individual algorithms don't have separate per-division predictions to switch between.</p>
 
           <button class="btn-primary" onclick="hwRun()" style="display:flex;align-items:center;gap:6px;">
             <i class="ti ti-player-play"></i> Run Prediction
@@ -1027,7 +1031,7 @@ input[type=range]::-moz-range-thumb {
             <div class="hw-gitem">
               <div class="hw-g-head">
                 <span class="hw-g-label">Flood Risk</span>
-                <span class="hw-g-val" id="hw-gv-f" style="color:#3B9EFF">—</span>
+                <span class="hw-g-val" id="hw-gv-f" style="color:#3B9EFF">-</span>
               </div>
               <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-f" style="background:#3B9EFF;width:0;"></div></div>
               <span class="hw-g-sev" id="hw-gs-f"></span>
@@ -1035,7 +1039,7 @@ input[type=range]::-moz-range-thumb {
             <div class="hw-gitem">
               <div class="hw-g-head">
                 <span class="hw-g-label">Landslide Risk</span>
-                <span class="hw-g-val" id="hw-gv-l" style="color:#FF8C42">—</span>
+                <span class="hw-g-val" id="hw-gv-l" style="color:#FF8C42">-</span>
               </div>
               <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-l" style="background:#FF8C42;width:0;"></div></div>
               <span class="hw-g-sev" id="hw-gs-l"></span>
@@ -1043,7 +1047,7 @@ input[type=range]::-moz-range-thumb {
             <div class="hw-gitem">
               <div class="hw-g-head">
                 <span class="hw-g-label">Compound Risk</span>
-                <span class="hw-g-val" id="hw-gv-c" style="color:#FF4757">—</span>
+                <span class="hw-g-val" id="hw-gv-c" style="color:#FF4757">-</span>
               </div>
               <div class="hw-g-track"><div class="hw-g-fill" id="hw-gf-c" style="background:#FF4757;width:0;"></div></div>
               <span class="hw-g-sev" id="hw-gs-c"></span>
@@ -1060,7 +1064,7 @@ input[type=range]::-moz-range-thumb {
     <section class="page" id="page-models">
       <div class="page-head">
         <h1>Model comparison</h1>
-        <p>All 12 trained models — distributed PySpark vs centralised scikit-learn.</p>
+        <p>All 12 trained models - distributed PySpark vs centralised scikit-learn.</p>
       </div>
       <div class="kpi-grid kpi-3">
         <div class="kpi"><div class="kpi-label">Best flood AUC (distributed)</div><div class="kpi-val" style="color:var(--dist)" id="mdlBestDistAuc">0.9166</div><div class="kpi-sub" id="mdlBestDistAucSub">PySpark GBT · 1451.8s</div></div>
@@ -1090,18 +1094,18 @@ input[type=range]::-moz-range-thumb {
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-list-numbers"></i> Feature importance ranking</div><div id="featList"></div></div>
         <div class="card">
-          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers — compound evidence</div>
+          <div class="card-head"><i class="ti ti-share-2"></i> Shared drivers - compound evidence</div>
           <div id="sharedDrivers"></div>
           <div class="card-head" style="margin-top:18px"><i class="ti ti-chart-area"></i> Label correlation screen</div>
           <div id="corrList"></div>
           <div class="leak-box">
-            <div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence — confirmed leakage</div>
+            <div class="leak-title"><i class="ti ti-alert-triangle"></i> jrc_occurrence - confirmed leakage</div>
             <p>Threshold &gt;10 reproduces flood_risk with 99.9% accuracy. Excluded via Cell 1.5. Linear correlation (0.657) alone did not flag it.</p>
           </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-head"><i class="ti ti-flask"></i> Ablation study — jrc_occurrence effect</div>
+        <div class="card-head"><i class="ti ti-flask"></i> Ablation study - jrc_occurrence effect</div>
         <div class="kpi-grid kpi-3">
           <div class="kpi"><div class="kpi-label">sklearn RF baseline</div><div class="kpi-val">0.9235</div><div class="kpi-sub">15 clean features</div></div>
           <div class="kpi danger"><div class="kpi-label">sklearn RF + jrc</div><div class="kpi-val" style="color:var(--danger)">1.0000</div><div class="kpi-sub">16 features (leaky)</div></div>
@@ -1125,7 +1129,7 @@ input[type=range]::-moz-range-thumb {
       </div>
       <div class="grid-2">
         <div class="card"><div class="card-head"><i class="ti ti-chart-line"></i> Training time vs dataset size</div><div class="chart-box" style="height:240px"><canvas id="scaleChart"></canvas></div><p class="note">At 100% without CV: Spark 38.2s vs sklearn 12.9s = 3.0×. Crossover needs multi-node cluster.</p></div>
-        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data — both targets</div><div class="sub-head">Flood (Cell 8)</div><div id="scaleFlood"></div><div class="sub-head">Landslide (Cell 14.2)</div><div id="scaleLand"></div></div>
+        <div class="card"><div class="card-head"><i class="ti ti-table"></i> Scalability data - both targets</div><div class="sub-head">Flood (Cell 8)</div><div id="scaleFlood"></div><div class="sub-head">Landslide (Cell 14.2)</div><div id="scaleLand"></div></div>
       </div>
       <div class="grid-2">
         <div class="card framing"><div class="card-head">Why distributed appears slower</div><ul><li>JVM + serialisation overhead on single Colab node</li><li>5-fold × 9-param = 45 Spark fits (sklearn used no CV)</li><li>54K rows below distributed-advantage threshold</li></ul></div>
@@ -1163,7 +1167,7 @@ input[type=range]::-moz-range-thumb {
           <table class="data-table" id="ditwahReport"></table>
           <div class="leak-box">
             <div class="leak-title"><i class="ti ti-alert-triangle"></i> Landslide caveat (n=21)</div>
-            <p>Bootstrap 95% CI = [1.0000, 1.0000]. CI is tight but sample is extremely small — reported as preliminary evidence warranting validation with richer northern inventory data.</p>
+            <p>Bootstrap 95% CI = [1.0000, 1.0000]. CI is tight but sample is extremely small - reported as preliminary evidence warranting validation with richer northern inventory data.</p>
           </div>
         </div>
       </div>
@@ -1213,7 +1217,7 @@ input[type=range]::-moz-range-thumb {
         <div class="card">
           <div class="card-head"><i class="ti ti-alert-triangle"></i> Leakage detection pipeline</div>
           <div class="pipeline">
-            <div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) — did NOT catch jrc_occurrence (corr=0.657)</span></div>
+            <div class="pl-step"><span class="pl-tag ok">1</span><span>Correlation screen (&gt;0.9) - did NOT catch jrc_occurrence (corr=0.657)</span></div>
             <div class="pl-step"><span class="pl-tag ok">2</span><span>Ablation: AUC jump +0.0765 with jrc → red flag triggered</span></div>
             <div class="pl-step"><span class="pl-tag ok">3</span><span>Threshold test: jrc &gt; 10 → 99.9% match with flood_risk</span></div>
             <div class="pl-step"><span class="pl-tag danger">Guard</span><span>Cell 1.5 hard-excludes jrc permanently</span></div>
