@@ -566,7 +566,12 @@ function hwRun(){
 
   const mb = document.getElementById('hw-mbadge');
   const HW_MODEL_LABEL = { xgb:'XGBoost', sk:'sklearn RF', sp:'PySpark RF' };
-  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}-derived rates, not a synthetic estimate.`;
+  const flFld = (HW_MODEL_FIELD[hwCurModel] || HW_MODEL_FIELD.xgb).flood;
+  const usedFallback = hwCurModel !== 'xgb' && rawMatch[flFld] == null;
+  const modelNote = usedFallback
+    ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N, so this shows the XGBoost rate instead)`
+    : '';
+  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}-derived rates, not a synthetic estimate.${modelNote}`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
