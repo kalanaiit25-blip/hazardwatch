@@ -456,13 +456,20 @@ function hwFilter(q){
    drive the nearest-division lookup; only fields that exist in the real
    data do. This is an honest nearest-neighbour lookup, not a fabricated
    sigmoid/coefficient formula. */
-const HW_S = { rain:120, elev:250, slope:12, sm:45, rd:8, ndvi:.42 };
+/* Rain/slope values recalibrated to the real DS_DIVISIONS range confirmed
+   against data.js (rain 23.9-76.7mm 7-day mean, slope 0.02-20.8°) — the
+   old values (rain up to 350, slope up to 42) were daily-extreme-scale
+   numbers that sat entirely outside the feature's real range, so every
+   preset except Dry Highland was clipping to the same "wettest division"
+   match regardless of which preset was picked. sm/rd/ndvi are illustrative
+   context only (see predictNearest note) and are left as-is. */
+const HW_S = { rain:40, elev:250, slope:3, sm:45, rd:8, ndvi:.42 };
 const HW_PRESETS = {
-  base:   { rain:120, elev:250,  slope:12, sm:45, rd:8,  ndvi:.42 },
-  ditwah: { rain:350, elev:180,  slope:25, sm:85, rd:3,  ndvi:.28 },
-  low:    { rain:200, elev:15,   slope:3,  sm:78, rd:2,  ndvi:.35 },
-  dry:    { rain:50,  elev:1800, slope:8,  sm:20, rd:25, ndvi:.55 },
-  hill:   { rain:280, elev:900,  slope:42, sm:72, rd:12, ndvi:.31 },
+  base:   { rain:40, elev:186,  slope:3.3, sm:45, rd:8,  ndvi:.42 },
+  ditwah: { rain:75, elev:180,  slope:15,  sm:85, rd:3,  ndvi:.28 },
+  low:    { rain:65, elev:15,   slope:2,   sm:78, rd:2,  ndvi:.35 },
+  dry:    { rain:28, elev:1700, slope:6,   sm:20, rd:25, ndvi:.55 },
+  hill:   { rain:55, elev:700,  slope:19,  sm:72, rd:12, ndvi:.31 },
 };
 let hwCurModel = 'xgb'; // now genuinely selects the model — see hwRun()
 
@@ -518,18 +525,72 @@ function hwGaugeSeverity(mode, d){
 /* Finds the real DS division whose actual (elevation, slope, rain) is
    closest to the user's slider inputs and returns its real model-derived
    rates. */
-function predictNearest(state){
+/* BUG FIX: this used to normalize rain/elevation/slope against generous
+   hardcoded bounds (rain 0-400, elevation 0-2500, slope 0-60) sized for
+   the slider UI. The real DS_DIVISIONS data these inputs get matched
+   against is far narrower (confirmed against actual data.js: rain
+   23.9-76.7 mm/day, slope 0.02-20.8°, elevation 4.4-1696.8m) because the
+   underlying feature is a division-level aggregate, not a daily-extreme
+   value. Any slider rain input above ~77mm (almost the entire slider
+   range, and every scenario preset except Dry Highland) was clipping to
+   1.0 while every real division sat in a tiny sliver near 0.06-0.19 — so
+   the nearest-neighbour search collapsed onto the 1-2 divisions with the
+   single highest real rainfall regardless of the actual slider position,
+   producing the "stuck at 3.8%/15%" symptom. Fix: derive lo/hi per
+   feature from the real data itself so normalization always reflects the
+   actual distribution being matched against. */
+let HW_NORM_BOUNDS = null;
+function computeNormBounds(){
+  const mm = (key) => {
+    let lo = Infinity, hi = -Infinity;
+    for(const d of HW_D){
+      const v = d[key];
+      if(v == null) continue;
+      if(v < lo) lo = v;
+      if(v > hi) hi = v;
+    }
+    if(!isFinite(lo) || !isFinite(hi) || lo === hi){ lo = 0; hi = 1; }
+    return [lo, hi];
+  };
+  HW_NORM_BOUNDS = { rain: mm('rain'), elevation: mm('elevation'), slope: mm('slope') };
+}
+
+/* Blends the k nearest real DS divisions (inverse-distance weighted) instead
+   of returning a single nearest match. This is still 100% grounded in real
+   model-predicted per-division rates — nothing here is a fabricated
+   sigmoid/coefficient formula — but averaging several nearby real divisions
+   means the output changes smoothly as sliders move instead of jumping in
+   discrete steps every time the single nearest division changes. */
+function predictWeighted(state, k){
   if(!HW_D.length) return null;
+  if(!HW_NORM_BOUNDS) computeNormBounds();
+  k = k || 8;
   const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v-lo)/(hi-lo)));
-  let best = null, bestDist = Infinity;
-  for(const d of HW_D){
-    const dr = norm(d.rain,0,400)      - norm(state.rain,0,400);
-    const de = norm(d.elevation,0,2500)- norm(state.elev,0,2500);
-    const ds = norm(d.slope,0,60)      - norm(state.slope,0,60);
-    const dist = dr*dr + de*de + ds*ds;
-    if(dist < bestDist){ bestDist = dist; best = d; }
-  }
-  return best;
+  const [rLo,rHi] = HW_NORM_BOUNDS.rain, [eLo,eHi] = HW_NORM_BOUNDS.elevation, [sLo,sHi] = HW_NORM_BOUNDS.slope;
+  const ranked = HW_D.map(d => {
+    const dr = norm(d.rain,rLo,rHi)      - norm(state.rain,rLo,rHi);
+    const de = norm(d.elevation,eLo,eHi) - norm(state.elev,eLo,eHi);
+    const ds = norm(d.slope,sLo,sHi)     - norm(state.slope,sLo,sHi);
+    return { d, dist: Math.sqrt(dr*dr + de*de + ds*ds) };
+  }).sort((a,b) => a.dist - b.dist).slice(0, Math.min(k, HW_D.length));
+
+  const EPS = 1e-4; // guards against divide-by-zero on an exact match
+  const raw = ranked.map(r => 1 / (r.dist + EPS));
+  const wSum = raw.reduce((a,b) => a+b, 0);
+  return ranked.map((r,i) => ({ d: r.d, w: raw[i]/wSum }));
+}
+
+/* Compound risk's map tier (HW_CFG.compound.tier) reads the raw integer
+   cell count (0/1/2) from a single division, which doesn't carry over to a
+   weighted blend across several divisions. This gives the Predict tool its
+   own rate-based tiering for compound risk, calibrated against the real
+   compoundRate distribution (max 5.3%, p90=1.7%, p99=4.8% across all 323
+   divisions), so the gauge severity still reflects genuine data spread. */
+function predictCompoundTier(rate){
+  if(rate >= 0.03) return 3;
+  if(rate >= 0.015) return 2;
+  if(rate > 0) return 1;
+  return 0;
 }
 
 /* Called from markup: onclick="hwRun()" */
@@ -538,54 +599,54 @@ function hwRun(){
     const raw = (typeof DS_DIVISIONS !== 'undefined' ? DS_DIVISIONS : []).filter(d => d.lat != null);
     HW_D = raw.map(d => ({ ...d, floodProb: dsFloodProb(d), landProb: dsLandProb(d), compoundRate: dsCompoundRate(d) }));
   }
-  const rawMatch = predictNearest(HW_S);
+  const neighbours = predictWeighted(HW_S, 8);
   const ph = document.getElementById('hw-res-ph'), gw = document.getElementById('hw-gauges');
-  if(!rawMatch){ if(ph) ph.textContent = 'No division data available to match against.'; return; }
+  if(!neighbours){ if(ph) ph.textContent = 'No division data available to predict from.'; return; }
   if(ph) ph.style.display = 'none';
   if(gw) gw.style.display = 'block';
 
-  /* HW_D's floodProb/landProb are always the xgb-based rate (that's what the
-     map uses too). For the Predict tool specifically, re-derive both from
-     the currently selected Model tab so switching models actually changes
-     the gauges below, without touching the shared HW_D the map reads from. */
-  const match = { ...rawMatch,
-    floodProb: dsFloodProb(rawMatch, hwCurModel),
-    landProb:  dsLandProb(rawMatch, hwCurModel) };
+  /* Weighted-average the currently selected model's rate across the k
+     nearest real divisions — this is what makes switching model tabs
+     actually change the gauges, without touching the shared HW_D the map
+     reads from. Any neighbour missing a model-specific rate falls back to
+     its xgb rate before being weighted in. */
+  let floodProb = 0, landProb = 0, compoundRate = 0, fallbackWeight = 0;
+  const flFld = (HW_MODEL_FIELD[hwCurModel] || HW_MODEL_FIELD.xgb).flood;
+  neighbours.forEach(({d, w}) => {
+    floodProb    += w * dsFloodProb(d, hwCurModel);
+    landProb     += w * dsLandProb(d, hwCurModel);
+    compoundRate += w * dsCompoundRate(d);
+    if(hwCurModel !== 'xgb' && d[flFld] == null) fallbackWeight += w;
+  });
+  const match = { floodProb, landProb, compoundRate };
 
-  const setGauge = (valId, barId, sevId, mode) => {
+  const setGauge = (valId, barId, sevId, mode, sevOverride) => {
     const val = Number(HW_CFG[mode].value(match)) || 0;
-    const sev = hwGaugeSeverity(mode, match);
+    const sev = sevOverride || hwGaugeSeverity(mode, match);
     const ve = document.getElementById(valId), be = document.getElementById(barId), se = document.getElementById(sevId);
     if(ve){ ve.textContent = hwValText(val); ve.style.color = sev.col; }
     if(be){ be.style.width = Math.min(100, val*100)+'%'; be.style.background = sev.col; }
     if(se){ se.textContent = sev.gauge; se.style.cssText = `background:${sev.bg};color:${sev.col};`; }
   };
+  const compoundSev = HW_SEVERITY[predictCompoundTier(compoundRate)];
   setGauge('hw-gv-f','hw-gf-f','hw-gs-f', 'flood');
   setGauge('hw-gv-l','hw-gf-l','hw-gs-l', 'land');
-  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound');
+  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound', compoundSev);
 
   const mb = document.getElementById('hw-mbadge');
   const HW_MODEL_LABEL = { xgb:'XGBoost', sk:'sklearn RF', sp:'PySpark RF' };
-  const flFld = (HW_MODEL_FIELD[hwCurModel] || HW_MODEL_FIELD.xgb).flood;
-  const usedFallback = hwCurModel !== 'xgb' && rawMatch[flFld] == null;
-  const modelNote = usedFallback
-    ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N, so this shows the XGBoost rate instead)`
+  const modelNote = fallbackWeight > 0.5
+    ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N for most of the matched area, so this leans on the XGBoost rate instead)`
     : '';
-  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) — showing its actual ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}-derived rates, not a synthetic estimate.${modelNote}`;
+  if(mb) mb.innerHTML = `Prediction from ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}, blended across the nearest real DS divisions to your inputs.${modelNote}`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
-    const cc = hwGaugeSeverity('compound', match);
-    /* Compares each hazard's own calibrated tier, not the raw probabilities
-       directly — Landslide's real range runs far higher than Flood's, so
-       comparing raw floodProb vs landProb would call a division
-       "landslide-dominated" almost every time, even when its flood rate is
-       the more unusual/severe reading relative to other divisions. */
     const fT = HW_CFG.flood.tier(match), lT = HW_CFG.land.tier(match);
     const dom = fT !== lT ? (fT > lT ? 'flood' : 'landslide')
                           : ((match.floodProb||0) >= (match.landProb||0) ? 'flood' : 'landslide');
-    ip.textContent = `${cc.gauge} compound risk, dominated by ${dom} risk, based on the closest-matching real DS division (${match.district}).`;
-    ip.style.borderColor = cc.col; ip.style.background = cc.bg;
+    ip.textContent = `${compoundSev.gauge} compound risk, dominated by ${dom} risk, based on the nearest real DS divisions to your inputs.`;
+    ip.style.borderColor = compoundSev.col; ip.style.background = compoundSev.bg;
   }
 }
 
