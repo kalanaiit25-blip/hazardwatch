@@ -1,9 +1,9 @@
 /* ===================================================================
-   HazardWatch — Compound Risk Intelligence Platform
+   HazardWatch - Compound Risk Intelligence Platform
    Redesigned UI · RGU MSc Big Data Analytics · Student 2506651
    
    Design language: "Operational cartography"
-   — The aesthetic of real disaster operations centres:
+   - The aesthetic of real disaster operations centres:
      precise, data-dense, calm under pressure. Dark-capable from
      the ground up. Colour encodes hazard type consistently across
      every component. No decoration that doesn't carry information.
@@ -26,14 +26,14 @@
   --text-2:    #52616d;
   --text-3:    #8b96a0;
 
-  /* Brand — deep teal, authority not playfulness */
+  /* Brand - deep teal, authority not playfulness */
   --brand:      #0e7a6b;
   --brand-mid:  #11a08c;
   --brand-light:#e6f4f2;
 
   /*
-    Hazard palette — grounded in real meteorological/geological conventions:
-    Flood    = water-blue (not orange — orange is fire/heat in every real ops system)
+    Hazard palette - grounded in real meteorological/geological conventions:
+    Flood    = water-blue (not orange - orange is fire/heat in every real ops system)
     Landslide= earth-brown/amber
     Compound = deep crimson (both hazards coincide = maximum alert)
   */
@@ -59,7 +59,7 @@
   --radius-lg: 10px;
   --radius-xl: 14px;
 
-  /* Elevation — minimal, purposeful */
+  /* Elevation - minimal, purposeful */
   --shadow-sm: 0 1px 2px rgba(12,20,30,0.05);
   --shadow:    0 1px 4px rgba(12,20,30,0.07), 0 2px 8px rgba(12,20,30,0.04);
   --shadow-md: 0 4px 12px rgba(12,20,30,0.10), 0 1px 3px rgba(12,20,30,0.06);
@@ -69,7 +69,7 @@
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
-/* Dark mode — same token names, different values */
+/* Dark mode - same token names, different values */
 [data-theme="dark"] {
   --bg:        #0a0f14;
   --surface:   #111820;
@@ -126,7 +126,7 @@ body {
   z-index: 100;
 }
 
-/* Logo — the mark uses the hazard-red + brand-teal split */
+/* Logo - the mark uses the hazard-red + brand-teal split */
 .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
 .logo-mark {
   width: 34px;
@@ -158,7 +158,7 @@ body {
 
 .topbar-right { display: flex; align-items: center; gap: 8px; }
 
-/* Live pill — calm, not blinking aggressively */
+/* Live pill - calm, not blinking aggressively */
 .live-pill {
   display: flex;
   align-items: center;
@@ -416,7 +416,7 @@ body {
 .search-item { padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
 .search-item:hover { background: var(--surface-2); }
 
-/* Layer toggle — used on Live map */
+/* Layer toggle - used on Live map */
 .layer-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .layer-btn {
   padding: 8px 16px;
@@ -650,17 +650,6 @@ input[type=range]::-moz-range-thumb {
 .pl-tag.danger { background: var(--compound-bg);    color: var(--compound); }
 
 /* ── Research ────────────────────────────────────────────────────────── */
-.rq-banner { border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 18px; font-size: 14px; }
-.rq-banner.info { background: rgba(26,111,186,0.08); border: 1px solid rgba(26,111,186,0.25); color: var(--text); }
-.rq-banner.warn { background: var(--land-bg); border: 1px solid rgba(138,92,15,0.25); color: var(--text); }
-.rq-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--info); margin-bottom: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
-.rq-banner.warn .rq-tag { color: var(--warn); }
-.rq-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; background: var(--surface); }
-.rq-num { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
-.rq-q { font-size: 14px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
-.rq-a { font-size: 13px; color: var(--text-2); line-height: 1.7; }
-.rq-foot { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-.rq-status { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: 600; }
 
 /* ── Framing lists ───────────────────────────────────────────────────── */
 .framing ul { list-style: none; }

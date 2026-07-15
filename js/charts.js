@@ -1,9 +1,9 @@
 /* ===================================================================
-   charts.js — Chart.js rendering for all dashboard pages
+   charts.js - Chart.js rendering for all dashboard pages
    Colours pulled from CSS custom properties so light/dark mode
    is handled automatically without any JS theme detection.
 
-   FIX (v7): confirmed directly against an actual generated data.js —
+   FIX (v7): confirmed directly against an actual generated data.js -
    MODELS[].target is 'flood' / 'landslide'. (An earlier pass here had
    assumed 'flood_risk'/'landslide_risk' from notebook-cell text output;
    the real emitted file uses the short form, so that assumption is
@@ -58,7 +58,7 @@ function yAxis(opts){
 }
 
 /* Which target the Overview page focuses on. Defaults to 'flood' (the harder,
-   more imbalanced target) — matches the literal values MODELS[].target holds
+   more imbalanced target) - matches the literal values MODELS[].target holds
    in the real data.js: 'flood' / 'landslide'. */
 function modelsFor(target){
   return (typeof MODELS !== 'undefined' ? MODELS : []).filter(m => m.target === target);
@@ -172,7 +172,7 @@ function chartModelMetric(id, metric, min, max){
 
 /* Forecast: driven by a real DS_DIVISIONS record, enriched by app.js's
    renderMap()/hwRun() with floodProb/landProb (derived from the real
-   flood_rate/ls_rate fields — see app.js dsFloodProb/dsLandProb). Not a
+   flood_rate/ls_rate fields - see app.js dsFloodProb/dsLandProb). Not a
    fabricated formula. */
 function chartForecast(division){
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -214,7 +214,7 @@ function chartForecast(division){
   });
   const note = document.getElementById('forecastNote');
   if(note) note.textContent = division
-    ? `Illustrative 7-day trend around ${division.district}'s current model-predicted rate — not a time-series forecast model.`
+    ? `Illustrative 7-day trend around ${division.district}'s current model-predicted rate - not a time-series forecast model.`
     : 'Select a DS division on the map to see its predicted risk level here.';
 }
 function _clamp(v){ return Math.max(0.01, Math.min(0.97, v)); }

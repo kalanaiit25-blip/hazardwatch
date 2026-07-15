@@ -665,19 +665,6 @@ input[type=range]::-moz-range-thumb {
 .pl-tag.ok     { background: rgba(14,122,107,0.12); color: var(--ok); }
 .pl-tag.danger { background: var(--compound-bg);    color: var(--compound); }
 
-/* ── Research ────────────────────────────────────────────────────────── */
-.rq-banner { border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 18px; font-size: 14px; }
-.rq-banner.info { background: rgba(26,111,186,0.08); border: 1px solid rgba(26,111,186,0.25); color: var(--text); }
-.rq-banner.warn { background: var(--land-bg); border: 1px solid rgba(138,92,15,0.25); color: var(--text); }
-.rq-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--info); margin-bottom: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
-.rq-banner.warn .rq-tag { color: var(--warn); }
-.rq-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; background: var(--surface); }
-.rq-num { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 6px; }
-.rq-q { font-size: 14px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
-.rq-a { font-size: 13px; color: var(--text-2); line-height: 1.7; }
-.rq-foot { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-.rq-status { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: 600; }
-
 /* ── Framing lists ───────────────────────────────────────────────────── */
 .framing ul { list-style: none; }
 .framing li { font-size: 12px; color: var(--text-2); padding: 5px 0 5px 18px; position: relative; line-height: 1.65; }
@@ -777,7 +764,6 @@ input[type=range]::-moz-range-thumb {
     <button class="nav-tab" data-page="ditwah"><i class="ti ti-wind"></i> Ditwah</button>
     <button class="nav-tab" data-page="geography"><i class="ti ti-map-pin"></i> Geography</button>
     <button class="nav-tab" data-page="data"><i class="ti ti-database"></i> Data</button>
-    <button class="nav-tab" data-page="research"><i class="ti ti-file-text"></i> Research</button>
   </nav>
 
   <main class="content">
@@ -973,16 +959,16 @@ input[type=range]::-moz-range-thumb {
           <div class="hw-pred-label" style="margin-top:18px;">Environmental inputs</div>
           <div class="hw-sliders">
             <div class="hw-sg">
-              <div class="hw-sl-lbl">Rainfall, 7-day mean (mm)<span class="hw-sl-val" id="hw-v-rain">40</span></div>
-              <input type="range" class="hw-range" id="hw-r-rain" min="0" max="90" value="40" oninput="hwUpd('rain',this.value)">
+              <div class="hw-sl-lbl">Rainfall (mm/day)<span class="hw-sl-val" id="hw-v-rain">120</span></div>
+              <input type="range" class="hw-range" id="hw-r-rain" min="0" max="400" value="120" oninput="hwUpd('rain',this.value)">
             </div>
             <div class="hw-sg">
               <div class="hw-sl-lbl">Elevation (m)<span class="hw-sl-val" id="hw-v-elev">250</span></div>
               <input type="range" class="hw-range" id="hw-r-elev" min="0" max="2500" value="250" oninput="hwUpd('elev',this.value)">
             </div>
             <div class="hw-sg">
-              <div class="hw-sl-lbl">Slope (°)<span class="hw-sl-val" id="hw-v-slope">3</span></div>
-              <input type="range" class="hw-range" id="hw-r-slope" min="0" max="22" value="3" oninput="hwUpd('slope',this.value)">
+              <div class="hw-sl-lbl">Slope (°)<span class="hw-sl-val" id="hw-v-slope">12</span></div>
+              <input type="range" class="hw-range" id="hw-r-slope" min="0" max="60" value="12" oninput="hwUpd('slope',this.value)">
             </div>
             <div class="hw-sg">
               <div class="hw-sl-lbl">Soil Moisture (%)<span class="hw-sl-val" id="hw-v-sm">45</span></div>
@@ -1004,6 +990,7 @@ input[type=range]::-moz-range-thumb {
             <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)"  title="sklearn RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">sklearn RF</button>
             <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)"  title="PySpark RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">PySpark RF</button>
           </div>
+          <p class="hw-mnote" id="hw-mnote">Model tabs select which model's rate is shown below. sklearn RF and PySpark RF differ from XGBoost only for divisions north of 8°N latitude - the domain those two models were trained and validated on for flood risk; elsewhere they fall back to the XGBoost rate.</p>
 
           <button class="btn-primary" onclick="hwRun()" style="display:flex;align-items:center;gap:6px;">
             <i class="ti ti-player-play"></i> Run Prediction
@@ -1115,11 +1102,7 @@ input[type=range]::-moz-range-thumb {
 
     <!-- ===== SCALABILITY ===== -->
     <section class="page" id="page-scalability">
-      <div class="page-head"><h1>Scalability analysis · RQ4</h1></div>
-      <div class="rq-banner info">
-        <span class="rq-tag">Research Question 4</span>
-        To what extent does a distributed architecture improve predictive performance and computational efficiency vs a centralised approach?
-      </div>
+      <div class="page-head"><h1>Scalability analysis</h1></div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">AUC diff (flood)</div><div class="kpi-val" id="mdlAucDiff">+0.0077</div><div class="kpi-sub" id="mdlAucDiffSub">Distributed leads</div></div>
         <div class="kpi"><div class="kpi-label">PR-AUC diff</div><div class="kpi-val" style="color:var(--ok)" id="mdlPraucDiff">+0.0288</div><div class="kpi-sub" id="mdlPraucDiffSub">Distributed leads</div></div>
@@ -1138,11 +1121,7 @@ input[type=range]::-moz-range-thumb {
 
     <!-- ===== DITWAH ===== -->
     <section class="page" id="page-ditwah">
-      <div class="page-head"><h1>Cyclone Ditwah validation · RQ5</h1></div>
-      <div class="rq-banner warn">
-        <span class="rq-tag">Research Question 5 · OO6</span>
-        How robust is the framework when applied to extreme real-world hazard events?
-      </div>
+      <div class="page-head"><h1>Cyclone Ditwah validation</h1></div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">PySpark RF flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9282</div><div class="kpi-sub">Northern zone</div></div>
         <div class="kpi"><div class="kpi-label">XGBoost flood AUC</div><div class="kpi-val" style="color:var(--flood)">0.9174</div><div class="kpi-sub">Northern zone</div></div>
@@ -1223,12 +1202,6 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- ===== RESEARCH ===== -->
-    <section class="page" id="page-research">
-      <div class="page-head"><h1>Research questions &amp; answers</h1><p>Evidence-based answers mapped to objectives RO1–RO5.</p></div>
-      <div id="rqList"></div>
     </section>
 
   </main>

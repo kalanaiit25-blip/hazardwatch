@@ -1,9 +1,9 @@
 /* ===================================================================
-   app.js — Application logic: navigation, page rendering, map, predict
+   app.js - Application logic: navigation, page rendering, map, predict
    Single source of truth for all rendering (index.html has no inline
    duplicate copies of any of this).
 
-   FIXES (v6) — corrected against the ACTUAL data.js schema written by
+   FIXES (v6) - corrected against the ACTUAL data.js schema written by
    05_Dashboard.ipynb's generate_data_js() (verified cell-by-cell against
    the notebook output, not assumed):
 
@@ -14,11 +14,11 @@
       risk_category, flood_corrected. Previous versions invented fields
       (ds_division, flood_prob, landslide_prob, compound_risk, rain_7d,
       n_cells, flood_obs/landslide_obs, flood_pct/landslide_pct) that do
-      not exist anywhere in data.js — every marker, popup, gauge, and
+      not exist anywhere in data.js - every marker, popup, gauge, and
       geography-table row was silently rendering blank/NaN.
    2. MODELS[].target is 'flood' / 'landslide' (confirmed against an actual
-      generated data.js) — not 'flood_risk'/'landslide_risk'.
-   3. SUMMARY_STATS does not exist in data.js — Overview stats and the
+      generated data.js) - not 'flood_risk'/'landslide_risk'.
+   3. SUMMARY_STATS does not exist in data.js - Overview stats and the
       Models-tab / Ditwah-tab KPI cards are now computed client-side from
       MODELS, HAZARD_CATEGORIES, DS_DIVISIONS, ADM_DISTRICTS, SCALABILITY,
       and DITWAH_REPORT, all of which DO exist.
@@ -45,7 +45,7 @@ function riskBadge(cat){
 /* ── Data helpers (real data.js field names) ───────────────────────────
    flood_rate / ls_rate are already 0-100 percentages. compound is a raw
    cell COUNT (not a rate), so a 0-1 "compound rate" is derived here as
-   compound / cells — this is a direct computation from real fields, not
+   compound / cells - this is a direct computation from real fields, not
    a fabricated number. */
 /* Maps a Predict-tool model tab to the data.js fields it should read.
    'xgb' fields (flood_rate/ls_rate) are the ones the map/dashboard have
@@ -99,11 +99,10 @@ function renderPage(page){
     case 'ditwah':       return renderDitwah();
     case 'geography':    return renderGeography();
     case 'data':         return renderData();
-    case 'research':     return renderResearch();
   }
 }
 
-/* ── Summary stats (computed client-side — data.js has no SUMMARY_STATS) ─ */
+/* ── Summary stats (computed client-side - data.js has no SUMMARY_STATS) ─ */
 function computeSummaryStats(){
   const models = (typeof MODELS !== 'undefined' ? MODELS : []);
   const ds = (typeof DS_DIVISIONS !== 'undefined' ? DS_DIVISIONS : []);
@@ -170,7 +169,7 @@ const HW_CFG = {
     title:'Flood risk (model-predicted rate)',
     cols:['#1b7c5e','#1a6fba','#a35f0a','#b91c1c'],
     /* Legend rows in the markup are ordered High -> Minimal (top to bottom),
-       i.e. legend[0]=High..legend[3]=Minimal — the reverse of cols/tier order. */
+       i.e. legend[0]=High..legend[3]=Minimal - the reverse of cols/tier order. */
     legend:['High (\u226513%)','Moderate (6\u201313%)','Low (2\u20136%)','Minimal (<2%)'],
     value: d => d.floodProb,
     /* Thresholds calibrated against the real flood_rate distribution across
@@ -186,7 +185,7 @@ const HW_CFG = {
     legend:['High (\u226550%)','Moderate (25\u201350%)','Low (3\u201325%)','Minimal (<3%)'],
     value: d => d.landProb,
     /* ls_rate has a genuinely wide spread (p50=2.5%, p75=26%, p90=52%,
-       p99=82%) — these thresholds roughly track that spread. */
+       p99=82%) - these thresholds roughly track that spread. */
     tier: d => tierByThresholds(d.landProb, [0.03, 0.25, 0.50]),
   },
   compound: {
@@ -194,7 +193,7 @@ const HW_CFG = {
     cols:['#1b7c5e','#c084fc','#8a5c0f','#b91c1c'],
     /* Legend rewritten to match the real data range. `compound` (raw cell
        count) only ever takes the values 0, 1, or 2 across all 323 DS
-       divisions — 2 is the true dataset maximum, there is no "3+". The
+       divisions - 2 is the true dataset maximum, there is no "3+". The
        previous legend ('High: 3+ cells') described a bucket that could
        never be reached, so every division capped out at "Moderate" no
        matter how compound-affected it actually was relative to the rest
@@ -219,14 +218,14 @@ function tierByThresholds(v, th){
 }
 
 /* Single source of truth for what each tier (0=Minimal..3=High) looks like.
-   Used by modeRiskBadge (map popup) AND by the predict-tool gauges below —
+   Used by modeRiskBadge (map popup) AND by the predict-tool gauges below -
    previously the predict tool used its own generic 0.15/0.40/0.70
    probability thresholds (predictSeverity) applied identically to Flood,
    Landslide, AND Compound. That mismatched the map's per-hazard calibrated
    thresholds (HW_CFG.<mode>.tier) in two ways: Flood's real range (max
    ~25%) could barely reach "MEDIUM" in the predict tool even for the
    worst division on the map's own "High" tier, and Compound's range
-   (max ~5% as a rate) could never clear even the lowest 15% threshold —
+   (max ~5% as a rate) could never clear even the lowest 15% threshold -
    so the predict tool's Compound gauge always read "LOW" no matter what.
    Now every view (map marker colour, map badge, ranked list, predict
    gauge) derives its tier from the same HW_CFG[mode].tier(d) function, so
@@ -239,7 +238,7 @@ const HW_SEVERITY = [
   { badge:'High Risk',    badgeClass:'badge-high',     gauge:'CRITICAL', col:'#a32d2d', bg:'rgba(226,75,74,.10)' },
 ];
 
-/* Mode-specific severity badge for the map popup — deliberately NOT
+/* Mode-specific severity badge for the map popup - deliberately NOT
    d.risk_category, which is the division's single OVERALL classification
    across all hazards combined. Using it inside a mode-specific popup was
    the root cause of e.g. a division showing "HIGH RISK" while the
@@ -263,7 +262,7 @@ function modeRiskBadge(mode, d){
    ranked-list panel title to the active mode. Previously both were static
    markup in index.html and never updated on hwSetMode(), so switching to
    Landslide/Compound still showed the Flood legend thresholds and the
-   "— Flood" panel title. */
+   "- Flood" panel title. */
 function updateLegendAndTitle(mode){
   const cfg = HW_CFG[mode];
   // legend rows are ordered High(0)->Minimal(3); cols/tier are ordered Minimal(0)->High(3)
@@ -275,7 +274,7 @@ function updateLegendAndTitle(mode){
   }
   const modeLabel = HW_MODE_LABEL[mode] || mode;
   const listTitle = document.getElementById('hw-list-title');
-  if(listTitle) listTitle.textContent = `Risk-ranked DS divisions — ${modeLabel}`;
+  if(listTitle) listTitle.textContent = `Risk-ranked DS divisions - ${modeLabel}`;
 }
 
 function renderMap(){
@@ -307,11 +306,11 @@ function renderMap(){
   setTimeout(() => hwMap.invalidateSize(), 100);
 }
 
-/* Shared by the map markers and the ranked list — a division is excluded
+/* Shared by the map markers and the ranked list - a division is excluded
    for a given mode unless it's at least "Low" tier for that hazard
    (HW_CFG[mode].tier(d) > 0). Previously this only excluded a literal
-   0.0% reading, so a division sitting at e.g. 1.5% flood — below the 2%
-   "Low" threshold, i.e. "Minimal" by the map's own legend — still showed
+   0.0% reading, so a division sitting at e.g. 1.5% flood - below the 2%
+   "Low" threshold, i.e. "Minimal" by the map's own legend - still showed
    up as a marker/list row. Requiring tier > 0 keeps the map to divisions
    with a genuinely meaningful reading for the hazard being viewed, and
    also subsumes the old zero-check (a true zero always resolves to tier
@@ -345,7 +344,7 @@ function hwDraw(mode){
 }
 
 /* True when a value rounds to 0.0% at the dashboard's normal 1dp display
-   precision — the same test hwNonZero()/modeRiskBadge() already use, so a
+   precision - the same test hwNonZero()/modeRiskBadge() already use, so a
    category is only ever called "No Risk" here if it would also fail the
    marker/list nonzero filter. Kept as one function so every place that
    renders a hazard value (marker filter, badge, popup, detail card) agrees
@@ -354,7 +353,7 @@ function hwIsZero(v){
   return Number((v||0)*100).toFixed(1) === '0.0';
 }
 /* Renders a hazard value as its percentage, or as "No Risk" when it's a
-   true (rounds-to-zero) zero — so the popup/detail card never show a bare
+   true (rounds-to-zero) zero - so the popup/detail card never show a bare
    "0.0%" next to a hazard label as if it were just a low reading. */
 function hwValText(v){
   return hwIsZero(v) ? 'No Risk' : pct(v*100);
@@ -374,7 +373,7 @@ function hwShowDetail(d, mode){
   const card = document.getElementById('hw-detail-card');
   if(card) card.style.display = 'block';
   const header = document.getElementById('hw-sel-district');
-  if(header) header.textContent = `${d.district} — ${d.admin_district}, ${d.province}`;
+  if(header) header.textContent = `${d.district} - ${d.admin_district}, ${d.province}`;
   const cols = { flood:'hw-dcol-flood', land:'hw-dcol-land', compound:'hw-dcol-compound' };
   Object.keys(cols).forEach(m => {
     const el = document.getElementById(cols[m]);
@@ -405,7 +404,7 @@ function hwBuildList(mode){
   const el = document.getElementById('hw-district-list');
   if(!el) return;
   const cfg = HW_CFG[mode];
-  /* Filter out divisions below "Low" tier for THIS mode — see hwNonZero().
+  /* Filter out divisions below "Low" tier for THIS mode - see hwNonZero().
      Excludes true zeros and "Minimal" readings alike (e.g. 1.5% flood is
      below the 2% Low threshold and would otherwise clutter the map with a
      barely-there reading). Same filter as the map markers, so the two
@@ -451,27 +450,20 @@ function hwFilter(q){
 /* ── Predict (nearest-neighbour against actual model-predicted rates) ──
    The markup's sliders (rain, elev, slope, sm, rd, ndvi) come from the
    original design, but DS_DIVISIONS only carries real elevation/slope/
-   rain per division — soil moisture and 'rd' aren't in the aggregated
+   rain per division - soil moisture and 'rd' aren't in the aggregated
    output, so they're kept as illustrative context inputs but do NOT
    drive the nearest-division lookup; only fields that exist in the real
    data do. This is an honest nearest-neighbour lookup, not a fabricated
    sigmoid/coefficient formula. */
-/* Rain/slope values recalibrated to the real DS_DIVISIONS range confirmed
-   against data.js (rain 23.9-76.7mm 7-day mean, slope 0.02-20.8°) — the
-   old values (rain up to 350, slope up to 42) were daily-extreme-scale
-   numbers that sat entirely outside the feature's real range, so every
-   preset except Dry Highland was clipping to the same "wettest division"
-   match regardless of which preset was picked. sm/rd/ndvi are illustrative
-   context only (see predictNearest note) and are left as-is. */
-const HW_S = { rain:40, elev:250, slope:3, sm:45, rd:8, ndvi:.42 };
+const HW_S = { rain:120, elev:250, slope:12, sm:45, rd:8, ndvi:.42 };
 const HW_PRESETS = {
-  base:   { rain:40, elev:186,  slope:3.3, sm:45, rd:8,  ndvi:.42 },
-  ditwah: { rain:75, elev:180,  slope:15,  sm:85, rd:3,  ndvi:.28 },
-  low:    { rain:65, elev:15,   slope:2,   sm:78, rd:2,  ndvi:.35 },
-  dry:    { rain:28, elev:1700, slope:6,   sm:20, rd:25, ndvi:.55 },
-  hill:   { rain:55, elev:700,  slope:19,  sm:72, rd:12, ndvi:.31 },
+  base:   { rain:120, elev:250,  slope:12, sm:45, rd:8,  ndvi:.42 },
+  ditwah: { rain:350, elev:180,  slope:25, sm:85, rd:3,  ndvi:.28 },
+  low:    { rain:200, elev:15,   slope:3,  sm:78, rd:2,  ndvi:.35 },
+  dry:    { rain:50,  elev:1800, slope:8,  sm:20, rd:25, ndvi:.55 },
+  hill:   { rain:280, elev:900,  slope:42, sm:72, rd:12, ndvi:.31 },
 };
-let hwCurModel = 'xgb'; // now genuinely selects the model — see hwRun()
+let hwCurModel = 'xgb'; // now genuinely selects the model - see hwRun()
 
 function renderPredict(){
   hwPreset('base', document.getElementById('hw-p-base'));
@@ -499,7 +491,7 @@ function hwPreset(key, btn){
   if(btn) btn.classList.add('on');
 }
 
-/* Called from markup: onclick="hwModel('sk'|'sp'|'xgb', this)" — genuinely
+/* Called from markup: onclick="hwModel('sk'|'sp'|'xgb', this)" - genuinely
    changes which model's rates hwRun() looks up (see HW_MODEL_FIELD /
    dsFloodProb / dsLandProb above). Falls back to the xgb rate for a model
    until data.js has that model's dedicated fields (see 05_Dashboard notebook
@@ -513,7 +505,7 @@ function hwModel(m, btn){
 /* Looks up the shared severity info for a hazard using that hazard's own
    calibrated tier (HW_CFG[mode].tier), not a generic probability cutoff.
    Replaces the old predictSeverity(v) which applied one flat 0.15/0.40/0.70
-   threshold to Flood, Landslide, and Compound alike — since those three
+   threshold to Flood, Landslide, and Compound alike - since those three
    have wildly different real ranges (Flood tops out ~25%, Landslide ~82%,
    Compound-as-a-rate ~5%), that flat threshold meant Flood could barely
    reach "MEDIUM" and Compound could never clear "LOW" here, even for
@@ -525,72 +517,18 @@ function hwGaugeSeverity(mode, d){
 /* Finds the real DS division whose actual (elevation, slope, rain) is
    closest to the user's slider inputs and returns its real model-derived
    rates. */
-/* BUG FIX: this used to normalize rain/elevation/slope against generous
-   hardcoded bounds (rain 0-400, elevation 0-2500, slope 0-60) sized for
-   the slider UI. The real DS_DIVISIONS data these inputs get matched
-   against is far narrower (confirmed against actual data.js: rain
-   23.9-76.7 mm/day, slope 0.02-20.8°, elevation 4.4-1696.8m) because the
-   underlying feature is a division-level aggregate, not a daily-extreme
-   value. Any slider rain input above ~77mm (almost the entire slider
-   range, and every scenario preset except Dry Highland) was clipping to
-   1.0 while every real division sat in a tiny sliver near 0.06-0.19 — so
-   the nearest-neighbour search collapsed onto the 1-2 divisions with the
-   single highest real rainfall regardless of the actual slider position,
-   producing the "stuck at 3.8%/15%" symptom. Fix: derive lo/hi per
-   feature from the real data itself so normalization always reflects the
-   actual distribution being matched against. */
-let HW_NORM_BOUNDS = null;
-function computeNormBounds(){
-  const mm = (key) => {
-    let lo = Infinity, hi = -Infinity;
-    for(const d of HW_D){
-      const v = d[key];
-      if(v == null) continue;
-      if(v < lo) lo = v;
-      if(v > hi) hi = v;
-    }
-    if(!isFinite(lo) || !isFinite(hi) || lo === hi){ lo = 0; hi = 1; }
-    return [lo, hi];
-  };
-  HW_NORM_BOUNDS = { rain: mm('rain'), elevation: mm('elevation'), slope: mm('slope') };
-}
-
-/* Blends the k nearest real DS divisions (inverse-distance weighted) instead
-   of returning a single nearest match. This is still 100% grounded in real
-   model-predicted per-division rates — nothing here is a fabricated
-   sigmoid/coefficient formula — but averaging several nearby real divisions
-   means the output changes smoothly as sliders move instead of jumping in
-   discrete steps every time the single nearest division changes. */
-function predictWeighted(state, k){
+function predictNearest(state){
   if(!HW_D.length) return null;
-  if(!HW_NORM_BOUNDS) computeNormBounds();
-  k = k || 8;
   const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v-lo)/(hi-lo)));
-  const [rLo,rHi] = HW_NORM_BOUNDS.rain, [eLo,eHi] = HW_NORM_BOUNDS.elevation, [sLo,sHi] = HW_NORM_BOUNDS.slope;
-  const ranked = HW_D.map(d => {
-    const dr = norm(d.rain,rLo,rHi)      - norm(state.rain,rLo,rHi);
-    const de = norm(d.elevation,eLo,eHi) - norm(state.elev,eLo,eHi);
-    const ds = norm(d.slope,sLo,sHi)     - norm(state.slope,sLo,sHi);
-    return { d, dist: Math.sqrt(dr*dr + de*de + ds*ds) };
-  }).sort((a,b) => a.dist - b.dist).slice(0, Math.min(k, HW_D.length));
-
-  const EPS = 1e-4; // guards against divide-by-zero on an exact match
-  const raw = ranked.map(r => 1 / (r.dist + EPS));
-  const wSum = raw.reduce((a,b) => a+b, 0);
-  return ranked.map((r,i) => ({ d: r.d, w: raw[i]/wSum }));
-}
-
-/* Compound risk's map tier (HW_CFG.compound.tier) reads the raw integer
-   cell count (0/1/2) from a single division, which doesn't carry over to a
-   weighted blend across several divisions. This gives the Predict tool its
-   own rate-based tiering for compound risk, calibrated against the real
-   compoundRate distribution (max 5.3%, p90=1.7%, p99=4.8% across all 323
-   divisions), so the gauge severity still reflects genuine data spread. */
-function predictCompoundTier(rate){
-  if(rate >= 0.03) return 3;
-  if(rate >= 0.015) return 2;
-  if(rate > 0) return 1;
-  return 0;
+  let best = null, bestDist = Infinity;
+  for(const d of HW_D){
+    const dr = norm(d.rain,0,400)      - norm(state.rain,0,400);
+    const de = norm(d.elevation,0,2500)- norm(state.elev,0,2500);
+    const ds = norm(d.slope,0,60)      - norm(state.slope,0,60);
+    const dist = dr*dr + de*de + ds*ds;
+    if(dist < bestDist){ bestDist = dist; best = d; }
+  }
+  return best;
 }
 
 /* Called from markup: onclick="hwRun()" */
@@ -599,54 +537,54 @@ function hwRun(){
     const raw = (typeof DS_DIVISIONS !== 'undefined' ? DS_DIVISIONS : []).filter(d => d.lat != null);
     HW_D = raw.map(d => ({ ...d, floodProb: dsFloodProb(d), landProb: dsLandProb(d), compoundRate: dsCompoundRate(d) }));
   }
-  const neighbours = predictWeighted(HW_S, 8);
+  const rawMatch = predictNearest(HW_S);
   const ph = document.getElementById('hw-res-ph'), gw = document.getElementById('hw-gauges');
-  if(!neighbours){ if(ph) ph.textContent = 'No division data available to predict from.'; return; }
+  if(!rawMatch){ if(ph) ph.textContent = 'No division data available to match against.'; return; }
   if(ph) ph.style.display = 'none';
   if(gw) gw.style.display = 'block';
 
-  /* Weighted-average the currently selected model's rate across the k
-     nearest real divisions — this is what makes switching model tabs
-     actually change the gauges, without touching the shared HW_D the map
-     reads from. Any neighbour missing a model-specific rate falls back to
-     its xgb rate before being weighted in. */
-  let floodProb = 0, landProb = 0, compoundRate = 0, fallbackWeight = 0;
-  const flFld = (HW_MODEL_FIELD[hwCurModel] || HW_MODEL_FIELD.xgb).flood;
-  neighbours.forEach(({d, w}) => {
-    floodProb    += w * dsFloodProb(d, hwCurModel);
-    landProb     += w * dsLandProb(d, hwCurModel);
-    compoundRate += w * dsCompoundRate(d);
-    if(hwCurModel !== 'xgb' && d[flFld] == null) fallbackWeight += w;
-  });
-  const match = { floodProb, landProb, compoundRate };
+  /* HW_D's floodProb/landProb are always the xgb-based rate (that's what the
+     map uses too). For the Predict tool specifically, re-derive both from
+     the currently selected Model tab so switching models actually changes
+     the gauges below, without touching the shared HW_D the map reads from. */
+  const match = { ...rawMatch,
+    floodProb: dsFloodProb(rawMatch, hwCurModel),
+    landProb:  dsLandProb(rawMatch, hwCurModel) };
 
-  const setGauge = (valId, barId, sevId, mode, sevOverride) => {
+  const setGauge = (valId, barId, sevId, mode) => {
     const val = Number(HW_CFG[mode].value(match)) || 0;
-    const sev = sevOverride || hwGaugeSeverity(mode, match);
+    const sev = hwGaugeSeverity(mode, match);
     const ve = document.getElementById(valId), be = document.getElementById(barId), se = document.getElementById(sevId);
     if(ve){ ve.textContent = hwValText(val); ve.style.color = sev.col; }
     if(be){ be.style.width = Math.min(100, val*100)+'%'; be.style.background = sev.col; }
     if(se){ se.textContent = sev.gauge; se.style.cssText = `background:${sev.bg};color:${sev.col};`; }
   };
-  const compoundSev = HW_SEVERITY[predictCompoundTier(compoundRate)];
   setGauge('hw-gv-f','hw-gf-f','hw-gs-f', 'flood');
   setGauge('hw-gv-l','hw-gf-l','hw-gs-l', 'land');
-  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound', compoundSev);
+  setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound');
 
   const mb = document.getElementById('hw-mbadge');
-  if(mb){ mb.innerHTML = ''; mb.style.display = 'none'; }
   const HW_MODEL_LABEL = { xgb:'XGBoost', sk:'sklearn RF', sp:'PySpark RF' };
-  const modelNote = fallbackWeight > 0.5
-    ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N for most of the matched area, so this leans on the XGBoost rate instead)`
+  const flFld = (HW_MODEL_FIELD[hwCurModel] || HW_MODEL_FIELD.xgb).flood;
+  const usedFallback = hwCurModel !== 'xgb' && rawMatch[flFld] == null;
+  const modelNote = usedFallback
+    ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N, so this shows the XGBoost rate instead)`
     : '';
+  if(mb) mb.innerHTML = `Nearest real DS division to your inputs: <strong>${esc(match.district)}</strong> (${esc(match.admin_district)}) - showing its actual ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}-derived rates, not a synthetic estimate.${modelNote}`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
+    const cc = hwGaugeSeverity('compound', match);
+    /* Compares each hazard's own calibrated tier, not the raw probabilities
+       directly - Landslide's real range runs far higher than Flood's, so
+       comparing raw floodProb vs landProb would call a division
+       "landslide-dominated" almost every time, even when its flood rate is
+       the more unusual/severe reading relative to other divisions. */
     const fT = HW_CFG.flood.tier(match), lT = HW_CFG.land.tier(match);
     const dom = fT !== lT ? (fT > lT ? 'flood' : 'landslide')
                           : ((match.floodProb||0) >= (match.landProb||0) ? 'flood' : 'landslide');
-    ip.textContent = `${compoundSev.gauge} compound risk, dominated by ${dom} risk, based on the nearest real DS divisions to your inputs.${modelNote}`;
-    ip.style.borderColor = compoundSev.col; ip.style.background = compoundSev.bg;
+    ip.textContent = `${cc.gauge} compound risk, dominated by ${dom} risk, based on the closest-matching real DS division (${match.district}).`;
+    ip.style.borderColor = cc.col; ip.style.background = cc.bg;
   }
 }
 
@@ -714,7 +652,7 @@ function renderFeatures(){
   if(list){
     list.innerHTML = sorted.map(([k,v]) => `<div class="feat-row">
       <div class="feat-name">${esc(meta[k]?.label || k)}</div>
-      <div class="feat-src"><span class="badge b-blue">${esc(meta[k]?.src || '—')}</span></div>
+      <div class="feat-src"><span class="badge b-blue">${esc(meta[k]?.src || '-')}</span></div>
       <div class="feat-track"><div class="feat-bar" style="width:${(v/maxV*100).toFixed(1)}%;background:${color}"></div></div>
       <div class="feat-val">${(v*100).toFixed(1)}%</div></div>`).join('');
   }
@@ -748,7 +686,7 @@ function renderDitwah(){
   /* Test-cell count IS derivable from DITWAH_REPORT (sum of support).
      Per-model AUC breakdowns shown elsewhere on this tab are not part of
      the DITWAH_REPORT schema and are documented separately in the
-     dissertation methodology — left as-is rather than fabricated here. */
+     dissertation methodology - left as-is rather than fabricated here. */
   const totalSupport = rows.reduce((s,r) => s + (parseInt(r.support,10) || 0), 0);
   const el2 = document.getElementById('ditwahTestCells');
   if(el2 && totalSupport) el2.textContent = totalSupport.toLocaleString();
@@ -781,7 +719,7 @@ function renderHazardClasses(){
 }
 
 /* Populates the #dsAdm select with real admin-district names (label says
-   "All Admin Districts", so it must list admin_district, not province —
+   "All Admin Districts", so it must list admin_district, not province -
    province already has its own static #dsProv select in the markup). */
 function populateAdminFilter(){
   const sel = document.getElementById('dsAdm');
@@ -845,22 +783,13 @@ function renderAdmTable(){
     <td>${riskBadge(d.risk_category)}</td></tr>`).join('');
 }
 
-/* ── Data sources / Research tabs ───────────────────────────────────── */
+/* ── Data sources tab ──────────────────────────────────────────────── */
 function renderData(){
   const el = document.getElementById('dataTable');
   const rows = (typeof DATA_SOURCES !== 'undefined' ? DATA_SOURCES : []);
   if(el) el.innerHTML = `<thead><tr><th>Feature</th><th>Description</th><th>Source</th><th>Null %</th></tr></thead>
     <tbody>${rows.map(r=>`<tr><td>${esc(r.f)}</td><td>${esc(r.desc)}</td><td><span class="badge b-blue">${esc(r.src)}</span></td><td>${esc(r.null)}</td></tr>`).join('')}</tbody>`;
   if(typeof chartDataSrc === 'function') chartDataSrc();
-}
-
-function renderResearch(){
-  const el = document.getElementById('rqList');
-  const rows = (typeof RESEARCH_QS !== 'undefined' ? RESEARCH_QS : []);
-  if(el) el.innerHTML = rows.map(r => `<div class="rq-card">
-    <div class="rq-num">${esc(r.n)} · Objective ${esc(r.obj)}</div>
-    <div class="rq-q">${esc(r.q)}</div><div class="rq-a">${esc(r.a)}</div>
-    <div class="rq-foot"><span class="rq-status ${r.status==='answered'?'b-green':'b-amber'}">${r.status === 'answered' ? 'Fully answered' : 'Partially answered'}</span></div></div>`).join('');
 }
 
 /* ── Theme / clock / boot ───────────────────────────────────────────── */
