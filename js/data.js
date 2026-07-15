@@ -388,9 +388,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 45.21,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 34.74,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -549,9 +549,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 33.75,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.07,
-    "sp_flood_rate": 20.61,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -572,9 +572,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.05,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 37.13,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.09,
-    "sp_flood_rate": 15.64,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.08
   },
   {
@@ -595,9 +595,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 35.3,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.08,
-    "sp_flood_rate": 22.45,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -618,9 +618,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 41.13,
+    "sk_flood_rate": 41.9,
     "sk_ls_rate": 0.22,
-    "sp_flood_rate": 22.69,
+    "sp_flood_rate": 24.11,
     "sp_ls_rate": 0.12
   },
   {
@@ -641,9 +641,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 31.58,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.1,
-    "sp_flood_rate": 18.22,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.12
   },
   {
@@ -664,9 +664,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.06,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 35.36,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.03,
-    "sp_flood_rate": 18.31,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.03
   },
   {
@@ -733,9 +733,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 36.02,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.03,
-    "sp_flood_rate": 23.05,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.03
   },
   {
@@ -848,9 +848,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 25.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 14.75,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -894,9 +894,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 32.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 16.37,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.08
   },
   {
@@ -963,9 +963,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.14,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 23.78,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.28,
-    "sp_flood_rate": 20.28,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.53
   },
   {
@@ -1009,9 +1009,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.44,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 17.47,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.17,
-    "sp_flood_rate": 11.96,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.33
   },
   {
@@ -1055,9 +1055,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 25.15,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.18,
-    "sp_flood_rate": 14.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.18
   },
   {
@@ -1078,9 +1078,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 32.39,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 14.61,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -1124,9 +1124,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.06,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 22.93,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.05,
-    "sp_flood_rate": 13.07,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.42
   },
   {
@@ -1147,9 +1147,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.67,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 17.73,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.62,
-    "sp_flood_rate": 12.77,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.81
   },
   {
@@ -1170,9 +1170,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 20.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 11.76,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -1193,9 +1193,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 19.03,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 10.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -1216,9 +1216,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 25.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.16,
-    "sp_flood_rate": 12.4,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.17
   },
   {
@@ -1239,9 +1239,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 23.88,
+    "sk_flood_rate": 22.96,
     "sk_ls_rate": 0.05,
-    "sp_flood_rate": 15.37,
+    "sp_flood_rate": 12.8,
     "sp_ls_rate": 0.04
   },
   {
@@ -1262,9 +1262,9 @@ const DS_DIVISIONS = [
     "ls_rate": 7.05,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.39,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.66,
-    "sp_flood_rate": 8.47,
+    "sp_flood_rate": null,
     "sp_ls_rate": 5.46
   },
   {
@@ -1285,9 +1285,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 21.35,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 11.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -1308,9 +1308,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 24.03,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 12.93,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.04
   },
   {
@@ -1354,9 +1354,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 20.11,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 13.23,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -1377,9 +1377,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.1,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 16.02,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.11,
-    "sp_flood_rate": 8.08,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.14
   },
   {
@@ -1400,9 +1400,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.09,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 21.1,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.07,
-    "sp_flood_rate": 11.66,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.14
   },
   {
@@ -1446,9 +1446,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 20.04,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.06,
-    "sp_flood_rate": 10.73,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.03
   },
   {
@@ -1469,9 +1469,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.85,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 15.11,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.91,
-    "sp_flood_rate": 8.08,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.97
   },
   {
@@ -1492,9 +1492,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.01,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 17.32,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 9.5,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -1515,9 +1515,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.19,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.9,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.54,
-    "sp_flood_rate": 10.77,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.28
   },
   {
@@ -1584,9 +1584,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.44,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 17.27,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.44,
-    "sp_flood_rate": 8.5,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.44
   },
   {
@@ -1630,9 +1630,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.36,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 15.78,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.29,
-    "sp_flood_rate": 7.98,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.27
   },
   {
@@ -1699,9 +1699,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.86,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 18.37,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.29,
-    "sp_flood_rate": 12.68,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.26
   },
   {
@@ -1745,9 +1745,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.05,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 19.73,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 11.94,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -1768,9 +1768,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.78,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 16.42,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.06,
-    "sp_flood_rate": 12.47,
+    "sp_flood_rate": null,
     "sp_ls_rate": 3.02
   },
   {
@@ -1791,9 +1791,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.04,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 17.19,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 9.22,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.04
   },
   {
@@ -1814,9 +1814,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.62,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 16.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.23,
-    "sp_flood_rate": 6.92,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.49
   },
   {
@@ -1837,9 +1837,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.23,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 16.0,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.19,
-    "sp_flood_rate": 9.6,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.34
   },
   {
@@ -1860,9 +1860,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 18.01,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 8.27,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -1883,9 +1883,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.49,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 16.32,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.07,
-    "sp_flood_rate": 10.05,
+    "sp_flood_rate": null,
     "sp_ls_rate": 5.07
   },
   {
@@ -1906,9 +1906,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.17,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 8.78,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -1929,9 +1929,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.34,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.08,
+    "sk_flood_rate": 13.69,
     "sk_ls_rate": 0.44,
-    "sp_flood_rate": 6.99,
+    "sp_flood_rate": 6.41,
     "sp_ls_rate": 0.5
   },
   {
@@ -1952,9 +1952,9 @@ const DS_DIVISIONS = [
     "ls_rate": 9.13,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 15.14,
+    "sk_flood_rate": 6.78,
     "sk_ls_rate": 5.44,
-    "sp_flood_rate": 10.3,
+    "sp_flood_rate": 1.59,
     "sp_ls_rate": 8.82
   },
   {
@@ -2021,9 +2021,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.82,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.59,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.57,
-    "sp_flood_rate": 7.72,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.32
   },
   {
@@ -2090,9 +2090,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.06,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.0,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.03,
-    "sp_flood_rate": 7.35,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.04
   },
   {
@@ -2113,9 +2113,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 18.58,
+    "sk_flood_rate": 18.99,
     "sk_ls_rate": 0.03,
-    "sp_flood_rate": 8.73,
+    "sp_flood_rate": 9.22,
     "sp_ls_rate": 0.04
   },
   {
@@ -2136,9 +2136,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.9,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.42,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.68,
-    "sp_flood_rate": 5.7,
+    "sp_flood_rate": null,
     "sp_ls_rate": 3.12
   },
   {
@@ -2159,9 +2159,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.23,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.79,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.12,
-    "sp_flood_rate": 7.83,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.48
   },
   {
@@ -2251,9 +2251,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.05,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 15.33,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.0,
-    "sp_flood_rate": 10.52,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.9
   },
   {
@@ -2297,9 +2297,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.59,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.67,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.92,
-    "sp_flood_rate": 7.8,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.09
   },
   {
@@ -2320,9 +2320,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.09,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 28.69,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.08,
-    "sp_flood_rate": 22.51,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -2366,9 +2366,9 @@ const DS_DIVISIONS = [
     "ls_rate": 21.59,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 12.83,
+    "sk_flood_rate": null,
     "sk_ls_rate": 9.41,
-    "sp_flood_rate": 9.68,
+    "sp_flood_rate": null,
     "sp_ls_rate": 24.6
   },
   {
@@ -2389,9 +2389,9 @@ const DS_DIVISIONS = [
     "ls_rate": 9.71,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.27,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.56,
-    "sp_flood_rate": 13.18,
+    "sp_flood_rate": null,
     "sp_ls_rate": 14.87
   },
   {
@@ -2412,9 +2412,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.15,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.23,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.3,
-    "sp_flood_rate": 5.96,
+    "sp_flood_rate": null,
     "sp_ls_rate": 3.03
   },
   {
@@ -2435,9 +2435,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.26,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.38,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.53,
-    "sp_flood_rate": 4.27,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.17
   },
   {
@@ -2458,9 +2458,9 @@ const DS_DIVISIONS = [
     "ls_rate": 14.77,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.51,
+    "sk_flood_rate": null,
     "sk_ls_rate": 13.92,
-    "sp_flood_rate": 9.19,
+    "sp_flood_rate": null,
     "sp_ls_rate": 15.05
   },
   {
@@ -2504,9 +2504,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.68,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.05,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.58,
-    "sp_flood_rate": 4.41,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.88
   },
   {
@@ -2573,9 +2573,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.02,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 5.53,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -2596,9 +2596,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.64,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 6.77,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -2619,9 +2619,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.43,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.06,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.35,
-    "sp_flood_rate": 4.73,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.33
   },
   {
@@ -2642,9 +2642,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.07,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.87,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.08,
-    "sp_flood_rate": 7.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 4.69
   },
   {
@@ -2734,9 +2734,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 6.05,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -2757,9 +2757,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.91,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.23,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.38,
-    "sp_flood_rate": 6.02,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.21
   },
   {
@@ -2780,9 +2780,9 @@ const DS_DIVISIONS = [
     "ls_rate": 48.84,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 9.55,
+    "sk_flood_rate": null,
     "sk_ls_rate": 18.54,
-    "sp_flood_rate": 5.67,
+    "sp_flood_rate": null,
     "sp_ls_rate": 45.43
   },
   {
@@ -2803,9 +2803,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.63,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.77,
+    "sk_flood_rate": 12.07,
     "sk_ls_rate": 5.36,
-    "sp_flood_rate": 5.41,
+    "sp_flood_rate": 5.57,
     "sp_ls_rate": 8.32
   },
   {
@@ -2826,9 +2826,9 @@ const DS_DIVISIONS = [
     "ls_rate": 22.9,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.46,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.54,
-    "sp_flood_rate": 5.51,
+    "sp_flood_rate": null,
     "sp_ls_rate": 12.66
   },
   {
@@ -2872,9 +2872,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.06,
+    "sk_flood_rate": 12.76,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 7.74,
+    "sp_flood_rate": 6.25,
     "sp_ls_rate": 0.0
   },
   {
@@ -2895,9 +2895,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.79,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.06,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.82,
-    "sp_flood_rate": 7.81,
+    "sp_flood_rate": null,
     "sp_ls_rate": 8.97
   },
   {
@@ -2918,9 +2918,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.41,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 6.5,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -2941,9 +2941,9 @@ const DS_DIVISIONS = [
     "ls_rate": 6.81,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.72,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.47,
-    "sp_flood_rate": 4.86,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.79
   },
   {
@@ -2964,9 +2964,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.76,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 5.56,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.0
   },
   {
@@ -2987,9 +2987,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.17,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.07,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.06,
-    "sp_flood_rate": 4.96,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.23
   },
   {
@@ -3010,9 +3010,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.12,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.03,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.45,
-    "sp_flood_rate": 7.72,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.38
   },
   {
@@ -3033,9 +3033,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.21,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 7.7,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.44,
-    "sp_flood_rate": 4.71,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.78
   },
   {
@@ -3079,9 +3079,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.79,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 5.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.97,
-    "sp_flood_rate": 3.03,
+    "sp_flood_rate": null,
     "sp_ls_rate": 7.68
   },
   {
@@ -3125,9 +3125,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.08,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.22,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.31,
-    "sp_flood_rate": 5.33,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.0
   },
   {
@@ -3148,9 +3148,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.97,
+    "sk_flood_rate": 14.33,
     "sk_ls_rate": 0.06,
-    "sp_flood_rate": 8.49,
+    "sp_flood_rate": 7.79,
     "sp_ls_rate": 0.04
   },
   {
@@ -3171,9 +3171,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.09,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.56,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.75,
-    "sp_flood_rate": 5.17,
+    "sp_flood_rate": null,
     "sp_ls_rate": 5.2
   },
   {
@@ -3194,9 +3194,9 @@ const DS_DIVISIONS = [
     "ls_rate": 11.43,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.8,
+    "sk_flood_rate": null,
     "sk_ls_rate": 9.26,
-    "sp_flood_rate": 4.39,
+    "sp_flood_rate": null,
     "sp_ls_rate": 10.66
   },
   {
@@ -3217,9 +3217,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.19,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.34,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.03,
-    "sp_flood_rate": 3.32,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -3240,9 +3240,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.22,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.91,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.39,
-    "sp_flood_rate": 4.94,
+    "sp_flood_rate": null,
     "sp_ls_rate": 5.56
   },
   {
@@ -3263,9 +3263,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.37,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.89,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.77,
-    "sp_flood_rate": 5.79,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.92
   },
   {
@@ -3286,9 +3286,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.33,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.88,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.35,
-    "sp_flood_rate": 5.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.41
   },
   {
@@ -3309,9 +3309,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.66,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.6,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.48,
-    "sp_flood_rate": 3.91,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.3
   },
   {
@@ -3332,9 +3332,9 @@ const DS_DIVISIONS = [
     "ls_rate": 32.25,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.48,
+    "sk_flood_rate": null,
     "sk_ls_rate": 22.65,
-    "sp_flood_rate": 5.66,
+    "sp_flood_rate": null,
     "sp_ls_rate": 27.28
   },
   {
@@ -3355,9 +3355,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.71,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.93,
+    "sk_flood_rate": 12.0,
     "sk_ls_rate": 1.03,
-    "sp_flood_rate": 5.99,
+    "sp_flood_rate": 5.91,
     "sp_ls_rate": 0.8
   },
   {
@@ -3378,9 +3378,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.84,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 5.04,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -3401,9 +3401,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.36,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.13,
-    "sp_flood_rate": 7.02,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.08
   },
   {
@@ -3424,9 +3424,9 @@ const DS_DIVISIONS = [
     "ls_rate": 44.37,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 8.64,
+    "sk_flood_rate": null,
     "sk_ls_rate": 42.81,
-    "sp_flood_rate": 7.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 48.15
   },
   {
@@ -3447,9 +3447,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.18,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.17,
+    "sk_flood_rate": null,
     "sk_ls_rate": 7.03,
-    "sp_flood_rate": 4.85,
+    "sp_flood_rate": null,
     "sp_ls_rate": 8.14
   },
   {
@@ -3470,9 +3470,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.16,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.89,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.52,
-    "sp_flood_rate": 3.92,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.49
   },
   {
@@ -3493,9 +3493,9 @@ const DS_DIVISIONS = [
     "ls_rate": 3.39,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 14.59,
+    "sk_flood_rate": 14.97,
     "sk_ls_rate": 3.3,
-    "sp_flood_rate": 8.24,
+    "sp_flood_rate": 8.43,
     "sp_ls_rate": 3.58
   },
   {
@@ -3516,9 +3516,9 @@ const DS_DIVISIONS = [
     "ls_rate": 39.83,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.49,
+    "sk_flood_rate": null,
     "sk_ls_rate": 34.37,
-    "sp_flood_rate": 4.31,
+    "sp_flood_rate": null,
     "sp_ls_rate": 41.35
   },
   {
@@ -3539,9 +3539,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.88,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.98,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.2,
-    "sp_flood_rate": 4.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.86
   },
   {
@@ -3562,9 +3562,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.99,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.7,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.25,
-    "sp_flood_rate": 3.92,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.67
   },
   {
@@ -3585,9 +3585,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.18,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.07,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.12,
-    "sp_flood_rate": 4.37,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.34
   },
   {
@@ -3608,9 +3608,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.28,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 12.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.35,
-    "sp_flood_rate": 5.31,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.24
   },
   {
@@ -3654,9 +3654,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.12,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.54,
+    "sk_flood_rate": null,
     "sk_ls_rate": 7.81,
-    "sp_flood_rate": 5.86,
+    "sp_flood_rate": null,
     "sp_ls_rate": 8.79
   },
   {
@@ -3700,9 +3700,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.34,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.63,
+    "sk_flood_rate": 9.29,
     "sk_ls_rate": 1.61,
-    "sp_flood_rate": 5.0,
+    "sp_flood_rate": 4.68,
     "sp_ls_rate": 2.11
   },
   {
@@ -3723,9 +3723,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.57,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.46,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.86,
-    "sp_flood_rate": 5.32,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.13
   },
   {
@@ -3746,9 +3746,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.83,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.99,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.46,
-    "sp_flood_rate": 3.82,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.14
   },
   {
@@ -3769,9 +3769,9 @@ const DS_DIVISIONS = [
     "ls_rate": 14.84,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.48,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.0,
-    "sp_flood_rate": 2.25,
+    "sp_flood_rate": null,
     "sp_ls_rate": 12.73
   },
   {
@@ -3792,9 +3792,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.03,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.75,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.01,
-    "sp_flood_rate": 4.67,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.01
   },
   {
@@ -3815,9 +3815,9 @@ const DS_DIVISIONS = [
     "ls_rate": 11.22,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.71,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.34,
-    "sp_flood_rate": 2.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.31
   },
   {
@@ -3884,9 +3884,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.58,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.9,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.7,
-    "sp_flood_rate": 6.23,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.78
   },
   {
@@ -3907,9 +3907,9 @@ const DS_DIVISIONS = [
     "ls_rate": 18.65,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.89,
+    "sk_flood_rate": null,
     "sk_ls_rate": 19.29,
-    "sp_flood_rate": 4.21,
+    "sp_flood_rate": null,
     "sp_ls_rate": 20.66
   },
   {
@@ -3930,9 +3930,9 @@ const DS_DIVISIONS = [
     "ls_rate": 19.35,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 8.39,
+    "sk_flood_rate": null,
     "sk_ls_rate": 11.9,
-    "sp_flood_rate": 4.15,
+    "sp_flood_rate": null,
     "sp_ls_rate": 17.71
   },
   {
@@ -3953,9 +3953,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 13.74,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 5.73,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.02
   },
   {
@@ -3976,9 +3976,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.17,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.43,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.18,
-    "sp_flood_rate": 3.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.16
   },
   {
@@ -3999,9 +3999,9 @@ const DS_DIVISIONS = [
     "ls_rate": 12.77,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 4.18,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.49,
-    "sp_flood_rate": 1.04,
+    "sp_flood_rate": null,
     "sp_ls_rate": 10.09
   },
   {
@@ -4022,9 +4022,9 @@ const DS_DIVISIONS = [
     "ls_rate": 3.93,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 5.04,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.32,
-    "sp_flood_rate": 1.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 7.21
   },
   {
@@ -4091,9 +4091,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.11,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 5.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.34,
-    "sp_flood_rate": 2.36,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.88
   },
   {
@@ -4137,9 +4137,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.65,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.68,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.14,
-    "sp_flood_rate": 2.64,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.78
   },
   {
@@ -4160,9 +4160,9 @@ const DS_DIVISIONS = [
     "ls_rate": 9.25,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 3.33,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.5,
-    "sp_flood_rate": 1.85,
+    "sp_flood_rate": null,
     "sp_ls_rate": 17.23
   },
   {
@@ -4183,9 +4183,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.93,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.95,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.32,
-    "sp_flood_rate": 2.49,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.38
   },
   {
@@ -4206,9 +4206,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.81,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.46,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.34,
-    "sp_flood_rate": 1.81,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.83
   },
   {
@@ -4229,9 +4229,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.52,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.19,
-    "sp_flood_rate": 4.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 11.99
   },
   {
@@ -4321,9 +4321,9 @@ const DS_DIVISIONS = [
     "ls_rate": 7.77,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.41,
+    "sk_flood_rate": 8.34,
     "sk_ls_rate": 7.97,
-    "sp_flood_rate": 4.76,
+    "sp_flood_rate": 2.06,
     "sp_ls_rate": 8.62
   },
   {
@@ -4344,9 +4344,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.37,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.05,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.84,
-    "sp_flood_rate": 2.09,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.77
   },
   {
@@ -4413,9 +4413,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.79,
     "risk_category": "Moderate Risk",
     "flood_corrected": true,
-    "sk_flood_rate": 6.02,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.74,
-    "sp_flood_rate": 2.79,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.06
   },
   {
@@ -4436,9 +4436,9 @@ const DS_DIVISIONS = [
     "ls_rate": 13.82,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.88,
+    "sk_flood_rate": null,
     "sk_ls_rate": 10.8,
-    "sp_flood_rate": 3.94,
+    "sp_flood_rate": null,
     "sp_ls_rate": 12.38
   },
   {
@@ -4459,9 +4459,9 @@ const DS_DIVISIONS = [
     "ls_rate": 24.42,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.52,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.7,
-    "sp_flood_rate": 1.75,
+    "sp_flood_rate": null,
     "sp_ls_rate": 19.21
   },
   {
@@ -4482,9 +4482,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.54,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 15.9,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.77,
-    "sp_flood_rate": 6.55,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.96
   },
   {
@@ -4505,9 +4505,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.29,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.05,
+    "sk_flood_rate": null,
     "sk_ls_rate": 16.3,
-    "sp_flood_rate": 4.61,
+    "sp_flood_rate": null,
     "sp_ls_rate": 29.98
   },
   {
@@ -4551,9 +4551,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.48,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.65,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.47,
-    "sp_flood_rate": 2.03,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.53
   },
   {
@@ -4574,9 +4574,9 @@ const DS_DIVISIONS = [
     "ls_rate": 7.7,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.26,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.21,
-    "sp_flood_rate": 2.88,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.75
   },
   {
@@ -4597,9 +4597,9 @@ const DS_DIVISIONS = [
     "ls_rate": 78.62,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.48,
+    "sk_flood_rate": null,
     "sk_ls_rate": 43.72,
-    "sp_flood_rate": 3.8,
+    "sp_flood_rate": null,
     "sp_ls_rate": 71.96
   },
   {
@@ -4620,9 +4620,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.96,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.52,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.25,
-    "sp_flood_rate": 3.06,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.01
   },
   {
@@ -4643,9 +4643,9 @@ const DS_DIVISIONS = [
     "ls_rate": 60.22,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.91,
+    "sk_flood_rate": null,
     "sk_ls_rate": 34.75,
-    "sp_flood_rate": 2.92,
+    "sp_flood_rate": null,
     "sp_ls_rate": 56.43
   },
   {
@@ -4666,9 +4666,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.33,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.49,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.21,
-    "sp_flood_rate": 4.55,
+    "sp_flood_rate": null,
     "sp_ls_rate": 10.86
   },
   {
@@ -4735,9 +4735,9 @@ const DS_DIVISIONS = [
     "ls_rate": 19.11,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.97,
+    "sk_flood_rate": null,
     "sk_ls_rate": 10.31,
-    "sp_flood_rate": 2.95,
+    "sp_flood_rate": null,
     "sp_ls_rate": 19.19
   },
   {
@@ -4758,9 +4758,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.08,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 9.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.05,
-    "sp_flood_rate": 2.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.07
   },
   {
@@ -4781,9 +4781,9 @@ const DS_DIVISIONS = [
     "ls_rate": 64.65,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.77,
+    "sk_flood_rate": null,
     "sk_ls_rate": 41.01,
-    "sp_flood_rate": 3.63,
+    "sp_flood_rate": null,
     "sp_ls_rate": 63.23
   },
   {
@@ -4804,9 +4804,9 @@ const DS_DIVISIONS = [
     "ls_rate": 17.78,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.82,
+    "sk_flood_rate": null,
     "sk_ls_rate": 14.88,
-    "sp_flood_rate": 2.42,
+    "sp_flood_rate": null,
     "sp_ls_rate": 15.61
   },
   {
@@ -4827,9 +4827,9 @@ const DS_DIVISIONS = [
     "ls_rate": 22.12,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 4.22,
+    "sk_flood_rate": null,
     "sk_ls_rate": 7.45,
-    "sp_flood_rate": 0.71,
+    "sp_flood_rate": null,
     "sp_ls_rate": 19.23
   },
   {
@@ -4850,9 +4850,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.8,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 4.08,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.93,
-    "sp_flood_rate": 1.01,
+    "sp_flood_rate": null,
     "sp_ls_rate": 4.86
   },
   {
@@ -4873,9 +4873,9 @@ const DS_DIVISIONS = [
     "ls_rate": 7.94,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 6.47,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.27,
-    "sp_flood_rate": 2.6,
+    "sp_flood_rate": null,
     "sp_ls_rate": 5.6
   },
   {
@@ -4919,9 +4919,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.92,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.4,
-    "sp_flood_rate": 1.54,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.13
   },
   {
@@ -4942,9 +4942,9 @@ const DS_DIVISIONS = [
     "ls_rate": 10.06,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 8.33,
-    "sp_flood_rate": 3.69,
+    "sp_flood_rate": null,
     "sp_ls_rate": 9.83
   },
   {
@@ -4965,9 +4965,9 @@ const DS_DIVISIONS = [
     "ls_rate": 22.78,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.64,
+    "sk_flood_rate": null,
     "sk_ls_rate": 12.23,
-    "sp_flood_rate": 1.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 26.26
   },
   {
@@ -4988,9 +4988,9 @@ const DS_DIVISIONS = [
     "ls_rate": 48.38,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.21,
+    "sk_flood_rate": null,
     "sk_ls_rate": 38.23,
-    "sp_flood_rate": 3.48,
+    "sp_flood_rate": null,
     "sp_ls_rate": 44.78
   },
   {
@@ -5011,9 +5011,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.66,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 8.16,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.6,
-    "sp_flood_rate": 3.03,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.88
   },
   {
@@ -5034,9 +5034,9 @@ const DS_DIVISIONS = [
     "ls_rate": 25.31,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.21,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.5,
-    "sp_flood_rate": 1.29,
+    "sp_flood_rate": null,
     "sp_ls_rate": 24.27
   },
   {
@@ -5080,9 +5080,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.52,
+    "sk_flood_rate": 11.39,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 4.31,
+    "sp_flood_rate": 4.25,
     "sp_ls_rate": 0.01
   },
   {
@@ -5103,9 +5103,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.16,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 7.18,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.63,
-    "sp_flood_rate": 1.93,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.38
   },
   {
@@ -5126,9 +5126,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.07,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 7.43,
-    "sp_flood_rate": 1.66,
+    "sp_flood_rate": null,
     "sp_ls_rate": 25.68
   },
   {
@@ -5149,9 +5149,9 @@ const DS_DIVISIONS = [
     "ls_rate": 47.75,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.99,
+    "sk_flood_rate": null,
     "sk_ls_rate": 43.0,
-    "sp_flood_rate": 3.47,
+    "sp_flood_rate": null,
     "sp_ls_rate": 46.86
   },
   {
@@ -5172,9 +5172,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.85,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 4.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.41,
-    "sp_flood_rate": 2.41,
+    "sp_flood_rate": null,
     "sp_ls_rate": 9.48
   },
   {
@@ -5195,9 +5195,9 @@ const DS_DIVISIONS = [
     "ls_rate": 37.2,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 3.44,
+    "sk_flood_rate": null,
     "sk_ls_rate": 11.46,
-    "sp_flood_rate": 1.21,
+    "sp_flood_rate": null,
     "sp_ls_rate": 29.98
   },
   {
@@ -5218,9 +5218,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.57,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.35,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.11,
-    "sp_flood_rate": 1.58,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.75
   },
   {
@@ -5241,9 +5241,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.54,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 3.52,
+    "sk_flood_rate": null,
     "sk_ls_rate": 12.46,
-    "sp_flood_rate": 1.06,
+    "sp_flood_rate": null,
     "sp_ls_rate": 26.12
   },
   {
@@ -5264,9 +5264,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.04,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.05,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.73,
-    "sp_flood_rate": 1.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.48
   },
   {
@@ -5287,9 +5287,9 @@ const DS_DIVISIONS = [
     "ls_rate": 91.29,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.76,
+    "sk_flood_rate": null,
     "sk_ls_rate": 60.95,
-    "sp_flood_rate": 2.18,
+    "sp_flood_rate": null,
     "sp_ls_rate": 85.88
   },
   {
@@ -5310,9 +5310,9 @@ const DS_DIVISIONS = [
     "ls_rate": 52.69,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 4.51,
+    "sk_flood_rate": null,
     "sk_ls_rate": 48.04,
-    "sp_flood_rate": 3.47,
+    "sp_flood_rate": null,
     "sp_ls_rate": 53.28
   },
   {
@@ -5333,9 +5333,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.47,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 3.94,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.72,
-    "sp_flood_rate": 2.35,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.44
   },
   {
@@ -5356,9 +5356,9 @@ const DS_DIVISIONS = [
     "ls_rate": 11.91,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.6,
+    "sk_flood_rate": null,
     "sk_ls_rate": 10.27,
-    "sp_flood_rate": 2.42,
+    "sp_flood_rate": null,
     "sp_ls_rate": 10.84
   },
   {
@@ -5379,9 +5379,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.01,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.91,
+    "sk_flood_rate": 10.92,
     "sk_ls_rate": 0.04,
-    "sp_flood_rate": 4.71,
+    "sp_flood_rate": 4.84,
     "sp_ls_rate": 0.0
   },
   {
@@ -5402,9 +5402,9 @@ const DS_DIVISIONS = [
     "ls_rate": 16.11,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.19,
+    "sk_flood_rate": null,
     "sk_ls_rate": 14.09,
-    "sp_flood_rate": 1.88,
+    "sp_flood_rate": null,
     "sp_ls_rate": 15.48
   },
   {
@@ -5425,9 +5425,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.97,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.78,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.84,
-    "sp_flood_rate": 1.01,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.14
   },
   {
@@ -5448,9 +5448,9 @@ const DS_DIVISIONS = [
     "ls_rate": 5.85,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.91,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.06,
-    "sp_flood_rate": 1.63,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.02
   },
   {
@@ -5471,9 +5471,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.69,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.36,
-    "sp_flood_rate": 1.51,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.74
   },
   {
@@ -5494,9 +5494,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.82,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.25,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.31,
-    "sp_flood_rate": 1.33,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.21
   },
   {
@@ -5517,9 +5517,9 @@ const DS_DIVISIONS = [
     "ls_rate": 2.47,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.81,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.51,
-    "sp_flood_rate": 1.11,
+    "sp_flood_rate": null,
     "sp_ls_rate": 1.22
   },
   {
@@ -5540,9 +5540,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.08,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 6.05,
+    "sk_flood_rate": null,
     "sk_ls_rate": 0.67,
-    "sp_flood_rate": 1.65,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.33
   },
   {
@@ -5563,9 +5563,9 @@ const DS_DIVISIONS = [
     "ls_rate": 40.62,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.92,
+    "sk_flood_rate": null,
     "sk_ls_rate": 34.51,
-    "sp_flood_rate": 2.32,
+    "sp_flood_rate": null,
     "sp_ls_rate": 40.29
   },
   {
@@ -5586,9 +5586,9 @@ const DS_DIVISIONS = [
     "ls_rate": 14.76,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 10.13,
-    "sp_flood_rate": 0.75,
+    "sp_flood_rate": null,
     "sp_ls_rate": 13.05
   },
   {
@@ -5609,9 +5609,9 @@ const DS_DIVISIONS = [
     "ls_rate": 7.37,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.37,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.97,
-    "sp_flood_rate": 1.08,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.83
   },
   {
@@ -5632,9 +5632,9 @@ const DS_DIVISIONS = [
     "ls_rate": 0.02,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 11.14,
+    "sk_flood_rate": 12.02,
     "sk_ls_rate": 0.02,
-    "sp_flood_rate": 4.02,
+    "sp_flood_rate": 4.78,
     "sp_ls_rate": 0.01
   },
   {
@@ -5655,9 +5655,9 @@ const DS_DIVISIONS = [
     "ls_rate": 20.3,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.29,
+    "sk_flood_rate": null,
     "sk_ls_rate": 18.45,
-    "sp_flood_rate": 1.3,
+    "sp_flood_rate": null,
     "sp_ls_rate": 20.15
   },
   {
@@ -5678,9 +5678,9 @@ const DS_DIVISIONS = [
     "ls_rate": 3.49,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 10.05,
+    "sk_flood_rate": 9.41,
     "sk_ls_rate": 3.43,
-    "sp_flood_rate": 3.47,
+    "sp_flood_rate": 3.29,
     "sp_ls_rate": 3.75
   },
   {
@@ -5701,9 +5701,9 @@ const DS_DIVISIONS = [
     "ls_rate": 38.02,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.56,
+    "sk_flood_rate": null,
     "sk_ls_rate": 31.31,
-    "sp_flood_rate": 1.23,
+    "sp_flood_rate": null,
     "sp_ls_rate": 35.76
   },
   {
@@ -5724,9 +5724,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.22,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 5.34,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.02,
-    "sp_flood_rate": 1.3,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.39
   },
   {
@@ -5747,9 +5747,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.99,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 4.58,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.47,
-    "sp_flood_rate": 2.39,
+    "sp_flood_rate": null,
     "sp_ls_rate": 11.75
   },
   {
@@ -5770,9 +5770,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.08,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.53,
+    "sk_flood_rate": null,
     "sk_ls_rate": 2.83,
-    "sp_flood_rate": 0.9,
+    "sp_flood_rate": null,
     "sp_ls_rate": 2.79
   },
   {
@@ -5793,9 +5793,9 @@ const DS_DIVISIONS = [
     "ls_rate": 54.99,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.66,
+    "sk_flood_rate": null,
     "sk_ls_rate": 44.88,
-    "sp_flood_rate": 2.75,
+    "sp_flood_rate": null,
     "sp_ls_rate": 54.63
   },
   {
@@ -5816,9 +5816,9 @@ const DS_DIVISIONS = [
     "ls_rate": 69.54,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 3.16,
+    "sk_flood_rate": null,
     "sk_ls_rate": 31.84,
-    "sp_flood_rate": 2.14,
+    "sp_flood_rate": null,
     "sp_ls_rate": 68.21
   },
   {
@@ -5839,9 +5839,9 @@ const DS_DIVISIONS = [
     "ls_rate": 62.16,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.74,
+    "sk_flood_rate": null,
     "sk_ls_rate": 33.92,
-    "sp_flood_rate": 1.67,
+    "sp_flood_rate": null,
     "sp_ls_rate": 58.65
   },
   {
@@ -5862,9 +5862,9 @@ const DS_DIVISIONS = [
     "ls_rate": 37.31,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.11,
+    "sk_flood_rate": null,
     "sk_ls_rate": 25.96,
-    "sp_flood_rate": 1.48,
+    "sp_flood_rate": null,
     "sp_ls_rate": 35.57
   },
   {
@@ -5908,9 +5908,9 @@ const DS_DIVISIONS = [
     "ls_rate": 26.11,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.98,
+    "sk_flood_rate": null,
     "sk_ls_rate": 9.74,
-    "sp_flood_rate": 0.74,
+    "sp_flood_rate": null,
     "sp_ls_rate": 30.98
   },
   {
@@ -5931,9 +5931,9 @@ const DS_DIVISIONS = [
     "ls_rate": 53.81,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.19,
+    "sk_flood_rate": null,
     "sk_ls_rate": 34.6,
-    "sp_flood_rate": 1.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 44.84
   },
   {
@@ -5954,9 +5954,9 @@ const DS_DIVISIONS = [
     "ls_rate": 35.45,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.06,
+    "sk_flood_rate": null,
     "sk_ls_rate": 12.25,
-    "sp_flood_rate": 0.58,
+    "sp_flood_rate": null,
     "sp_ls_rate": 34.53
   },
   {
@@ -5977,9 +5977,9 @@ const DS_DIVISIONS = [
     "ls_rate": 11.76,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.93,
+    "sk_flood_rate": null,
     "sk_ls_rate": 8.13,
-    "sp_flood_rate": 1.02,
+    "sp_flood_rate": null,
     "sp_ls_rate": 19.84
   },
   {
@@ -6000,9 +6000,9 @@ const DS_DIVISIONS = [
     "ls_rate": 16.2,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.13,
+    "sk_flood_rate": null,
     "sk_ls_rate": 15.45,
-    "sp_flood_rate": 1.04,
+    "sp_flood_rate": null,
     "sp_ls_rate": 16.6
   },
   {
@@ -6023,9 +6023,9 @@ const DS_DIVISIONS = [
     "ls_rate": 12.95,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 11.96,
-    "sp_flood_rate": 1.09,
+    "sp_flood_rate": null,
     "sp_ls_rate": 13.67
   },
   {
@@ -6046,9 +6046,9 @@ const DS_DIVISIONS = [
     "ls_rate": 6.72,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 4.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 3.37,
-    "sp_flood_rate": 1.37,
+    "sp_flood_rate": null,
     "sp_ls_rate": 8.43
   },
   {
@@ -6069,9 +6069,9 @@ const DS_DIVISIONS = [
     "ls_rate": 71.5,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.11,
+    "sk_flood_rate": null,
     "sk_ls_rate": 37.51,
-    "sp_flood_rate": 1.85,
+    "sp_flood_rate": null,
     "sp_ls_rate": 65.31
   },
   {
@@ -6092,9 +6092,9 @@ const DS_DIVISIONS = [
     "ls_rate": 38.55,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 3.73,
+    "sk_flood_rate": null,
     "sk_ls_rate": 12.43,
-    "sp_flood_rate": 1.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 33.82
   },
   {
@@ -6115,9 +6115,9 @@ const DS_DIVISIONS = [
     "ls_rate": 61.5,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.35,
+    "sk_flood_rate": null,
     "sk_ls_rate": 36.91,
-    "sp_flood_rate": 2.06,
+    "sp_flood_rate": null,
     "sp_ls_rate": 55.79
   },
   {
@@ -6138,9 +6138,9 @@ const DS_DIVISIONS = [
     "ls_rate": 49.05,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 21.96,
-    "sp_flood_rate": 0.81,
+    "sp_flood_rate": null,
     "sp_ls_rate": 43.24
   },
   {
@@ -6184,9 +6184,9 @@ const DS_DIVISIONS = [
     "ls_rate": 47.29,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.12,
+    "sk_flood_rate": null,
     "sk_ls_rate": 17.58,
-    "sp_flood_rate": 0.26,
+    "sp_flood_rate": null,
     "sp_ls_rate": 44.38
   },
   {
@@ -6207,9 +6207,9 @@ const DS_DIVISIONS = [
     "ls_rate": 9.4,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.59,
+    "sk_flood_rate": null,
     "sk_ls_rate": 5.09,
-    "sp_flood_rate": 0.75,
+    "sp_flood_rate": null,
     "sp_ls_rate": 12.96
   },
   {
@@ -6230,9 +6230,9 @@ const DS_DIVISIONS = [
     "ls_rate": 18.58,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.54,
+    "sk_flood_rate": null,
     "sk_ls_rate": 15.38,
-    "sp_flood_rate": 0.81,
+    "sp_flood_rate": null,
     "sp_ls_rate": 18.47
   },
   {
@@ -6253,9 +6253,9 @@ const DS_DIVISIONS = [
     "ls_rate": 15.1,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.83,
+    "sk_flood_rate": null,
     "sk_ls_rate": 11.1,
-    "sp_flood_rate": 0.87,
+    "sp_flood_rate": null,
     "sp_ls_rate": 21.08
   },
   {
@@ -6276,9 +6276,9 @@ const DS_DIVISIONS = [
     "ls_rate": 24.3,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.74,
+    "sk_flood_rate": null,
     "sk_ls_rate": 20.47,
-    "sp_flood_rate": 0.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 29.86
   },
   {
@@ -6299,9 +6299,9 @@ const DS_DIVISIONS = [
     "ls_rate": 1.41,
     "risk_category": "Low Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 4.29,
+    "sk_flood_rate": null,
     "sk_ls_rate": 1.33,
-    "sp_flood_rate": 0.71,
+    "sp_flood_rate": null,
     "sp_ls_rate": 0.79
   },
   {
@@ -6322,9 +6322,9 @@ const DS_DIVISIONS = [
     "ls_rate": 41.54,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.04,
+    "sk_flood_rate": null,
     "sk_ls_rate": 16.76,
-    "sp_flood_rate": 0.24,
+    "sp_flood_rate": null,
     "sp_ls_rate": 41.44
   },
   {
@@ -6345,9 +6345,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.72,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.64,
+    "sk_flood_rate": null,
     "sk_ls_rate": 21.37,
-    "sp_flood_rate": 0.82,
+    "sp_flood_rate": null,
     "sp_ls_rate": 27.04
   },
   {
@@ -6368,9 +6368,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.18,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.28,
+    "sk_flood_rate": null,
     "sk_ls_rate": 22.65,
-    "sp_flood_rate": 0.23,
+    "sp_flood_rate": null,
     "sp_ls_rate": 29.6
   },
   {
@@ -6391,9 +6391,9 @@ const DS_DIVISIONS = [
     "ls_rate": 46.78,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.77,
+    "sk_flood_rate": null,
     "sk_ls_rate": 36.42,
-    "sp_flood_rate": 0.83,
+    "sp_flood_rate": null,
     "sp_ls_rate": 45.34
   },
   {
@@ -6414,9 +6414,9 @@ const DS_DIVISIONS = [
     "ls_rate": 57.99,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.79,
+    "sk_flood_rate": null,
     "sk_ls_rate": 33.92,
-    "sp_flood_rate": 1.27,
+    "sp_flood_rate": null,
     "sp_ls_rate": 56.16
   },
   {
@@ -6437,9 +6437,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.77,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 3.17,
+    "sk_flood_rate": null,
     "sk_ls_rate": 11.02,
-    "sp_flood_rate": 1.62,
+    "sp_flood_rate": null,
     "sp_ls_rate": 27.03
   },
   {
@@ -6460,9 +6460,9 @@ const DS_DIVISIONS = [
     "ls_rate": 21.01,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 3.02,
+    "sk_flood_rate": null,
     "sk_ls_rate": 9.16,
-    "sp_flood_rate": 0.98,
+    "sp_flood_rate": null,
     "sp_ls_rate": 22.04
   },
   {
@@ -6483,9 +6483,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.78,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.96,
+    "sk_flood_rate": null,
     "sk_ls_rate": 22.38,
-    "sp_flood_rate": 0.85,
+    "sp_flood_rate": null,
     "sp_ls_rate": 30.59
   },
   {
@@ -6506,9 +6506,9 @@ const DS_DIVISIONS = [
     "ls_rate": 20.46,
     "risk_category": "Moderate Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.72,
+    "sk_flood_rate": null,
     "sk_ls_rate": 15.64,
-    "sp_flood_rate": 0.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 19.4
   },
   {
@@ -6529,9 +6529,9 @@ const DS_DIVISIONS = [
     "ls_rate": 50.96,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.32,
+    "sk_flood_rate": null,
     "sk_ls_rate": 38.46,
-    "sp_flood_rate": 0.67,
+    "sp_flood_rate": null,
     "sp_ls_rate": 49.22
   },
   {
@@ -6552,9 +6552,9 @@ const DS_DIVISIONS = [
     "ls_rate": 19.52,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 1.53,
+    "sk_flood_rate": null,
     "sk_ls_rate": 18.21,
-    "sp_flood_rate": 0.41,
+    "sp_flood_rate": null,
     "sp_ls_rate": 20.13
   },
   {
@@ -6575,9 +6575,9 @@ const DS_DIVISIONS = [
     "ls_rate": 43.78,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.42,
+    "sk_flood_rate": null,
     "sk_ls_rate": 27.35,
-    "sp_flood_rate": 0.71,
+    "sp_flood_rate": null,
     "sp_ls_rate": 39.53
   },
   {
@@ -6598,9 +6598,9 @@ const DS_DIVISIONS = [
     "ls_rate": 41.72,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.12,
+    "sk_flood_rate": null,
     "sk_ls_rate": 31.8,
-    "sp_flood_rate": 0.35,
+    "sp_flood_rate": null,
     "sp_ls_rate": 42.31
   },
   {
@@ -6621,9 +6621,9 @@ const DS_DIVISIONS = [
     "ls_rate": 72.17,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 3.03,
+    "sk_flood_rate": null,
     "sk_ls_rate": 56.19,
-    "sp_flood_rate": 1.29,
+    "sp_flood_rate": null,
     "sp_ls_rate": 73.04
   },
   {
@@ -6644,9 +6644,9 @@ const DS_DIVISIONS = [
     "ls_rate": 65.79,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.91,
+    "sk_flood_rate": null,
     "sk_ls_rate": 49.01,
-    "sp_flood_rate": 0.77,
+    "sp_flood_rate": null,
     "sp_ls_rate": 62.6
   },
   {
@@ -6667,9 +6667,9 @@ const DS_DIVISIONS = [
     "ls_rate": 58.89,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.07,
+    "sk_flood_rate": null,
     "sk_ls_rate": 42.68,
-    "sp_flood_rate": 1.06,
+    "sp_flood_rate": null,
     "sp_ls_rate": 58.97
   },
   {
@@ -6690,9 +6690,9 @@ const DS_DIVISIONS = [
     "ls_rate": 45.81,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.57,
+    "sk_flood_rate": null,
     "sk_ls_rate": 30.96,
-    "sp_flood_rate": 0.48,
+    "sp_flood_rate": null,
     "sp_ls_rate": 41.54
   },
   {
@@ -6713,9 +6713,9 @@ const DS_DIVISIONS = [
     "ls_rate": 17.21,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.15,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.88,
-    "sp_flood_rate": 0.32,
+    "sp_flood_rate": null,
     "sp_ls_rate": 15.55
   },
   {
@@ -6736,9 +6736,9 @@ const DS_DIVISIONS = [
     "ls_rate": 51.8,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 1.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 35.01,
-    "sp_flood_rate": 0.22,
+    "sp_flood_rate": null,
     "sp_ls_rate": 53.42
   },
   {
@@ -6759,9 +6759,9 @@ const DS_DIVISIONS = [
     "ls_rate": 42.63,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 1.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 34.61,
-    "sp_flood_rate": 0.32,
+    "sp_flood_rate": null,
     "sp_ls_rate": 42.24
   },
   {
@@ -6782,9 +6782,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.79,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.4,
+    "sk_flood_rate": null,
     "sk_ls_rate": 29.83,
-    "sp_flood_rate": 0.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 31.54
   },
   {
@@ -6805,9 +6805,9 @@ const DS_DIVISIONS = [
     "ls_rate": 8.48,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 3.71,
+    "sk_flood_rate": null,
     "sk_ls_rate": 6.03,
-    "sp_flood_rate": 1.39,
+    "sp_flood_rate": null,
     "sp_ls_rate": 15.46
   },
   {
@@ -6828,9 +6828,9 @@ const DS_DIVISIONS = [
     "ls_rate": 44.96,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 0.81,
+    "sk_flood_rate": null,
     "sk_ls_rate": 37.44,
-    "sp_flood_rate": 0.15,
+    "sp_flood_rate": null,
     "sp_ls_rate": 47.58
   },
   {
@@ -6851,9 +6851,9 @@ const DS_DIVISIONS = [
     "ls_rate": 61.64,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.13,
+    "sk_flood_rate": null,
     "sk_ls_rate": 37.73,
-    "sp_flood_rate": 0.17,
+    "sp_flood_rate": null,
     "sp_ls_rate": 58.74
   },
   {
@@ -6874,9 +6874,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.43,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.7,
+    "sk_flood_rate": null,
     "sk_ls_rate": 29.78,
-    "sp_flood_rate": 0.11,
+    "sp_flood_rate": null,
     "sp_ls_rate": 33.46
   },
   {
@@ -6897,9 +6897,9 @@ const DS_DIVISIONS = [
     "ls_rate": 20.91,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.95,
+    "sk_flood_rate": null,
     "sk_ls_rate": 18.39,
-    "sp_flood_rate": 0.4,
+    "sp_flood_rate": null,
     "sp_ls_rate": 27.18
   },
   {
@@ -6920,9 +6920,9 @@ const DS_DIVISIONS = [
     "ls_rate": 48.44,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.4,
+    "sk_flood_rate": null,
     "sk_ls_rate": 20.88,
-    "sp_flood_rate": 0.55,
+    "sp_flood_rate": null,
     "sp_ls_rate": 42.69
   },
   {
@@ -6943,9 +6943,9 @@ const DS_DIVISIONS = [
     "ls_rate": 82.53,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.8,
+    "sk_flood_rate": null,
     "sk_ls_rate": 59.38,
-    "sp_flood_rate": 0.71,
+    "sp_flood_rate": null,
     "sp_ls_rate": 78.17
   },
   {
@@ -6966,9 +6966,9 @@ const DS_DIVISIONS = [
     "ls_rate": 69.79,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.45,
+    "sk_flood_rate": null,
     "sk_ls_rate": 49.95,
-    "sp_flood_rate": 0.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 68.87
   },
   {
@@ -6989,9 +6989,9 @@ const DS_DIVISIONS = [
     "ls_rate": 44.7,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 2.04,
+    "sk_flood_rate": null,
     "sk_ls_rate": 23.67,
-    "sp_flood_rate": 0.45,
+    "sp_flood_rate": null,
     "sp_ls_rate": 39.12
   },
   {
@@ -7012,9 +7012,9 @@ const DS_DIVISIONS = [
     "ls_rate": 72.77,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 0.93,
+    "sk_flood_rate": null,
     "sk_ls_rate": 46.09,
-    "sp_flood_rate": 0.33,
+    "sp_flood_rate": null,
     "sp_ls_rate": 63.83
   },
   {
@@ -7035,9 +7035,9 @@ const DS_DIVISIONS = [
     "ls_rate": 67.94,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.3,
+    "sk_flood_rate": null,
     "sk_ls_rate": 42.92,
-    "sp_flood_rate": 0.72,
+    "sp_flood_rate": null,
     "sp_ls_rate": 62.21
   },
   {
@@ -7058,9 +7058,9 @@ const DS_DIVISIONS = [
     "ls_rate": 30.2,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.95,
+    "sk_flood_rate": null,
     "sk_ls_rate": 17.45,
-    "sp_flood_rate": 0.4,
+    "sp_flood_rate": null,
     "sp_ls_rate": 27.8
   },
   {
@@ -7081,9 +7081,9 @@ const DS_DIVISIONS = [
     "ls_rate": 68.03,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.5,
+    "sk_flood_rate": null,
     "sk_ls_rate": 46.65,
-    "sp_flood_rate": 0.42,
+    "sp_flood_rate": null,
     "sp_ls_rate": 64.69
   },
   {
@@ -7104,9 +7104,9 @@ const DS_DIVISIONS = [
     "ls_rate": 74.16,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.14,
+    "sk_flood_rate": null,
     "sk_ls_rate": 50.69,
-    "sp_flood_rate": 0.55,
+    "sp_flood_rate": null,
     "sp_ls_rate": 73.01
   },
   {
@@ -7127,9 +7127,9 @@ const DS_DIVISIONS = [
     "ls_rate": 55.98,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.75,
+    "sk_flood_rate": null,
     "sk_ls_rate": 28.48,
-    "sp_flood_rate": 0.54,
+    "sp_flood_rate": null,
     "sp_ls_rate": 51.52
   },
   {
@@ -7150,9 +7150,9 @@ const DS_DIVISIONS = [
     "ls_rate": 41.2,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 2.0,
+    "sk_flood_rate": null,
     "sk_ls_rate": 32.54,
-    "sp_flood_rate": 0.43,
+    "sp_flood_rate": null,
     "sp_ls_rate": 40.16
   },
   {
@@ -7173,9 +7173,9 @@ const DS_DIVISIONS = [
     "ls_rate": 27.4,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 2.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 8.79,
-    "sp_flood_rate": 0.73,
+    "sp_flood_rate": null,
     "sp_ls_rate": 24.99
   },
   {
@@ -7196,9 +7196,9 @@ const DS_DIVISIONS = [
     "ls_rate": 70.62,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.99,
+    "sk_flood_rate": null,
     "sk_ls_rate": 33.12,
-    "sp_flood_rate": 0.61,
+    "sp_flood_rate": null,
     "sp_ls_rate": 64.35
   },
   {
@@ -7219,9 +7219,9 @@ const DS_DIVISIONS = [
     "ls_rate": 58.83,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.77,
+    "sk_flood_rate": null,
     "sk_ls_rate": 46.19,
-    "sp_flood_rate": 0.24,
+    "sp_flood_rate": null,
     "sp_ls_rate": 59.1
   },
   {
@@ -7242,9 +7242,9 @@ const DS_DIVISIONS = [
     "ls_rate": 21.0,
     "risk_category": "Compound Hazard",
     "flood_corrected": false,
-    "sk_flood_rate": 1.29,
+    "sk_flood_rate": null,
     "sk_ls_rate": 12.32,
-    "sp_flood_rate": 0.22,
+    "sp_flood_rate": null,
     "sp_ls_rate": 16.74
   },
   {
@@ -7265,9 +7265,9 @@ const DS_DIVISIONS = [
     "ls_rate": 20.22,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.33,
+    "sk_flood_rate": null,
     "sk_ls_rate": 17.69,
-    "sp_flood_rate": 0.52,
+    "sp_flood_rate": null,
     "sp_ls_rate": 29.82
   },
   {
@@ -7288,9 +7288,9 @@ const DS_DIVISIONS = [
     "ls_rate": 38.99,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.93,
+    "sk_flood_rate": null,
     "sk_ls_rate": 36.81,
-    "sp_flood_rate": 0.17,
+    "sp_flood_rate": null,
     "sp_ls_rate": 40.45
   },
   {
@@ -7311,9 +7311,9 @@ const DS_DIVISIONS = [
     "ls_rate": 4.53,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.66,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.57,
-    "sp_flood_rate": 0.4,
+    "sp_flood_rate": null,
     "sp_ls_rate": 11.85
   },
   {
@@ -7334,9 +7334,9 @@ const DS_DIVISIONS = [
     "ls_rate": 82.11,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.11,
+    "sk_flood_rate": null,
     "sk_ls_rate": 63.32,
-    "sp_flood_rate": 0.21,
+    "sp_flood_rate": null,
     "sp_ls_rate": 79.31
   },
   {
@@ -7357,9 +7357,9 @@ const DS_DIVISIONS = [
     "ls_rate": 48.81,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.46,
+    "sk_flood_rate": null,
     "sk_ls_rate": 43.4,
-    "sp_flood_rate": 0.37,
+    "sp_flood_rate": null,
     "sp_ls_rate": 49.8
   },
   {
@@ -7380,9 +7380,9 @@ const DS_DIVISIONS = [
     "ls_rate": 37.57,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.07,
+    "sk_flood_rate": null,
     "sk_ls_rate": 31.45,
-    "sp_flood_rate": 0.15,
+    "sp_flood_rate": null,
     "sp_ls_rate": 36.89
   },
   {
@@ -7403,9 +7403,9 @@ const DS_DIVISIONS = [
     "ls_rate": 25.31,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.82,
+    "sk_flood_rate": null,
     "sk_ls_rate": 23.73,
-    "sp_flood_rate": 0.16,
+    "sp_flood_rate": null,
     "sp_ls_rate": 31.44
   },
   {
@@ -7426,9 +7426,9 @@ const DS_DIVISIONS = [
     "ls_rate": 80.3,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.14,
+    "sk_flood_rate": null,
     "sk_ls_rate": 62.67,
-    "sp_flood_rate": 0.34,
+    "sp_flood_rate": null,
     "sp_ls_rate": 77.71
   },
   {
@@ -7449,9 +7449,9 @@ const DS_DIVISIONS = [
     "ls_rate": 48.09,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.42,
+    "sk_flood_rate": null,
     "sk_ls_rate": 25.17,
-    "sp_flood_rate": 0.28,
+    "sp_flood_rate": null,
     "sp_ls_rate": 47.55
   },
   {
@@ -7472,9 +7472,9 @@ const DS_DIVISIONS = [
     "ls_rate": 83.87,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 0.88,
+    "sk_flood_rate": null,
     "sk_ls_rate": 58.44,
-    "sp_flood_rate": 0.26,
+    "sp_flood_rate": null,
     "sp_ls_rate": 82.23
   },
   {
@@ -7495,9 +7495,9 @@ const DS_DIVISIONS = [
     "ls_rate": 64.78,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 0.87,
+    "sk_flood_rate": null,
     "sk_ls_rate": 38.97,
-    "sp_flood_rate": 0.2,
+    "sp_flood_rate": null,
     "sp_ls_rate": 62.08
   },
   {
@@ -7518,9 +7518,9 @@ const DS_DIVISIONS = [
     "ls_rate": 24.63,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 18.43,
-    "sp_flood_rate": 0.17,
+    "sp_flood_rate": null,
     "sp_ls_rate": 23.96
   },
   {
@@ -7541,9 +7541,9 @@ const DS_DIVISIONS = [
     "ls_rate": 45.8,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 1.59,
+    "sk_flood_rate": null,
     "sk_ls_rate": 28.33,
-    "sp_flood_rate": 0.25,
+    "sp_flood_rate": null,
     "sp_ls_rate": 41.27
   },
   {
@@ -7564,9 +7564,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.71,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.88,
+    "sk_flood_rate": null,
     "sk_ls_rate": 22.12,
-    "sp_flood_rate": 0.19,
+    "sp_flood_rate": null,
     "sp_ls_rate": 32.33
   },
   {
@@ -7587,9 +7587,9 @@ const DS_DIVISIONS = [
     "ls_rate": 80.68,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 0.86,
+    "sk_flood_rate": null,
     "sk_ls_rate": 58.7,
-    "sp_flood_rate": 0.3,
+    "sp_flood_rate": null,
     "sp_ls_rate": 80.32
   },
   {
@@ -7610,9 +7610,9 @@ const DS_DIVISIONS = [
     "ls_rate": 66.18,
     "risk_category": "High Risk",
     "flood_corrected": false,
-    "sk_flood_rate": 0.63,
+    "sk_flood_rate": null,
     "sk_ls_rate": 36.48,
-    "sp_flood_rate": 0.21,
+    "sp_flood_rate": null,
     "sp_ls_rate": 60.78
   },
   {
@@ -7633,9 +7633,9 @@ const DS_DIVISIONS = [
     "ls_rate": 26.85,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.65,
+    "sk_flood_rate": null,
     "sk_ls_rate": 27.15,
-    "sp_flood_rate": 0.14,
+    "sp_flood_rate": null,
     "sp_ls_rate": 28.8
   },
   {
@@ -7656,9 +7656,9 @@ const DS_DIVISIONS = [
     "ls_rate": 71.34,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.09,
+    "sk_flood_rate": null,
     "sk_ls_rate": 27.43,
-    "sp_flood_rate": 0.19,
+    "sp_flood_rate": null,
     "sp_ls_rate": 54.41
   },
   {
@@ -7679,9 +7679,9 @@ const DS_DIVISIONS = [
     "ls_rate": 21.49,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.34,
+    "sk_flood_rate": null,
     "sk_ls_rate": 13.35,
-    "sp_flood_rate": 0.3,
+    "sp_flood_rate": null,
     "sp_ls_rate": 25.7
   },
   {
@@ -7702,9 +7702,9 @@ const DS_DIVISIONS = [
     "ls_rate": 3.84,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 1.35,
+    "sk_flood_rate": null,
     "sk_ls_rate": 4.9,
-    "sp_flood_rate": 0.17,
+    "sp_flood_rate": null,
     "sp_ls_rate": 6.58
   },
   {
@@ -7725,9 +7725,9 @@ const DS_DIVISIONS = [
     "ls_rate": 29.16,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.82,
+    "sk_flood_rate": null,
     "sk_ls_rate": 24.73,
-    "sp_flood_rate": 0.19,
+    "sp_flood_rate": null,
     "sp_ls_rate": 33.88
   },
   {
@@ -7748,9 +7748,9 @@ const DS_DIVISIONS = [
     "ls_rate": 31.86,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.6,
+    "sk_flood_rate": null,
     "sk_ls_rate": 26.38,
-    "sp_flood_rate": 0.25,
+    "sp_flood_rate": null,
     "sp_ls_rate": 34.58
   },
   {
@@ -7771,9 +7771,9 @@ const DS_DIVISIONS = [
     "ls_rate": 37.04,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.92,
+    "sk_flood_rate": null,
     "sk_ls_rate": 24.76,
-    "sp_flood_rate": 0.19,
+    "sp_flood_rate": null,
     "sp_ls_rate": 40.09
   },
   {
@@ -7794,9 +7794,9 @@ const DS_DIVISIONS = [
     "ls_rate": 38.58,
     "risk_category": "Compound Hazard",
     "flood_corrected": true,
-    "sk_flood_rate": 0.68,
+    "sk_flood_rate": null,
     "sk_ls_rate": 33.04,
-    "sp_flood_rate": 0.15,
+    "sp_flood_rate": null,
     "sp_ls_rate": 44.46
   }
 ];
@@ -8303,32 +8303,32 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 49.3,
-        "sklT": 4.0,
+        "sparkT": 39.1,
+        "sklT": 3.3,
         "sparkAuc": 0.9109,
         "sklAuc": 0.8922
     },
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 25.1,
-        "sklT": 7.0,
+        "sparkT": 22.0,
+        "sklT": 5.8,
         "sparkAuc": 0.9268,
         "sklAuc": 0.9456
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 34.2,
-        "sklT": 8.9,
+        "sparkT": 29.3,
+        "sklT": 5.9,
         "sparkAuc": 0.9385,
         "sklAuc": 0.9353
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 38.2,
-        "sklT": 11.0,
+        "sparkT": 32.5,
+        "sklT": 9.8,
         "sparkAuc": 0.9365,
         "sklAuc": 0.9367
     }
@@ -8337,7 +8337,7 @@ const SCALABILITY = {
     {
         "frac": 0.25,
         "n": 13486,
-        "sparkT": 15.7,
+        "sparkT": 16.0,
         "sklT": 1.5,
         "sparkAuc": 0.9848,
         "sklAuc": 0.9871
@@ -8345,24 +8345,24 @@ const SCALABILITY = {
     {
         "frac": 0.5,
         "n": 26972,
-        "sparkT": 25.3,
-        "sklT": 3.2,
+        "sparkT": 22.4,
+        "sklT": 3.0,
         "sparkAuc": 0.9836,
         "sklAuc": 0.9833
     },
     {
         "frac": 0.75,
         "n": 40458,
-        "sparkT": 30.1,
-        "sklT": 6.4,
+        "sparkT": 26.6,
+        "sklT": 4.6,
         "sparkAuc": 0.9874,
         "sklAuc": 0.9892
     },
     {
         "frac": 1.0,
         "n": 53945,
-        "sparkT": 35.3,
-        "sklT": 8.0,
+        "sparkT": 31.9,
+        "sklT": 6.7,
         "sparkAuc": 0.9875,
         "sklAuc": 0.9895
     }
