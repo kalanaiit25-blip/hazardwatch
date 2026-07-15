@@ -517,15 +517,34 @@ function hwGaugeSeverity(mode, d){
 
 /* Finds the real DS division whose actual (elevation, slope, rain) is
    closest to the user's slider inputs and returns its real model-derived
-   rates. */
+   rates.
+
+   Distance is normalized against each field's REAL observed range in HW_D,
+   not an arbitrary fixed scale. The sliders go up to round numbers (rain
+   0-400, elevation 0-2500, slope 0-60) for a clean UI, but the 323 real
+   divisions only actually span a fraction of each: rain ~24-77, elevation
+   ~4-1700, slope ~0-21. Normalizing all three against the same fixed 0-400/
+   0-2500/0-60 scale squeezed rain into a tiny sliver of its axis relative to
+   elevation and slope, so elevation/slope differences dominated the nearest-
+   neighbour match almost entirely and moving the Rainfall slider barely
+   changed which division got picked. Normalizing against each field's own
+   real min/max (computed once from HW_D) gives all three sliders comparable
+   influence on the match. */
+let HW_RANGE = null;
+function hwComputeRanges(){
+  const mm = (f) => { let lo=Infinity, hi=-Infinity; for(const d of HW_D){ const v=Number(d[f]); if(v<lo) lo=v; if(v>hi) hi=v; } return [lo,hi]; };
+  HW_RANGE = { rain: mm('rain'), elevation: mm('elevation'), slope: mm('slope') };
+}
 function predictNearest(state){
   if(!HW_D.length) return null;
-  const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v-lo)/(hi-lo)));
+  if(!HW_RANGE) hwComputeRanges();
+  const norm = (v, lo, hi) => hi > lo ? Math.max(0, Math.min(1, (v-lo)/(hi-lo))) : 0;
+  const [rLo,rHi] = HW_RANGE.rain, [eLo,eHi] = HW_RANGE.elevation, [sLo,sHi] = HW_RANGE.slope;
   let best = null, bestDist = Infinity;
   for(const d of HW_D){
-    const dr = norm(d.rain,0,400)      - norm(state.rain,0,400);
-    const de = norm(d.elevation,0,2500)- norm(state.elev,0,2500);
-    const ds = norm(d.slope,0,60)      - norm(state.slope,0,60);
+    const dr = norm(d.rain,rLo,rHi)           - norm(state.rain,rLo,rHi);
+    const de = norm(d.elevation,eLo,eHi)      - norm(state.elev,eLo,eHi);
+    const ds = norm(d.slope,sLo,sHi)          - norm(state.slope,sLo,sHi);
     const dist = dr*dr + de*de + ds*ds;
     if(dist < bestDist){ bestDist = dist; best = d; }
   }
