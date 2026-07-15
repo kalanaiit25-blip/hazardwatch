@@ -665,6 +665,8 @@ input[type=range]::-moz-range-thumb {
 .pl-tag.ok     { background: rgba(14,122,107,0.12); color: var(--ok); }
 .pl-tag.danger { background: var(--compound-bg);    color: var(--compound); }
 
+/* ── Research ────────────────────────────────────────────────────────── */
+
 /* ── Framing lists ───────────────────────────────────────────────────── */
 .framing ul { list-style: none; }
 .framing li { font-size: 12px; color: var(--text-2); padding: 5px 0 5px 18px; position: relative; line-height: 1.65; }
@@ -959,16 +961,16 @@ input[type=range]::-moz-range-thumb {
           <div class="hw-pred-label" style="margin-top:18px;">Environmental inputs</div>
           <div class="hw-sliders">
             <div class="hw-sg">
-              <div class="hw-sl-lbl">Rainfall (mm/day)<span class="hw-sl-val" id="hw-v-rain">120</span></div>
-              <input type="range" class="hw-range" id="hw-r-rain" min="0" max="400" value="120" oninput="hwUpd('rain',this.value)">
+              <div class="hw-sl-lbl">Rainfall, 7-day mean (mm)<span class="hw-sl-val" id="hw-v-rain">40</span></div>
+              <input type="range" class="hw-range" id="hw-r-rain" min="0" max="90" value="40" oninput="hwUpd('rain',this.value)">
             </div>
             <div class="hw-sg">
               <div class="hw-sl-lbl">Elevation (m)<span class="hw-sl-val" id="hw-v-elev">250</span></div>
               <input type="range" class="hw-range" id="hw-r-elev" min="0" max="2500" value="250" oninput="hwUpd('elev',this.value)">
             </div>
             <div class="hw-sg">
-              <div class="hw-sl-lbl">Slope (°)<span class="hw-sl-val" id="hw-v-slope">12</span></div>
-              <input type="range" class="hw-range" id="hw-r-slope" min="0" max="60" value="12" oninput="hwUpd('slope',this.value)">
+              <div class="hw-sl-lbl">Slope (°)<span class="hw-sl-val" id="hw-v-slope">3</span></div>
+              <input type="range" class="hw-range" id="hw-r-slope" min="0" max="22" value="3" oninput="hwUpd('slope',this.value)">
             </div>
             <div class="hw-sg">
               <div class="hw-sl-lbl">Soil Moisture (%)<span class="hw-sl-val" id="hw-v-sm">45</span></div>
@@ -990,7 +992,6 @@ input[type=range]::-moz-range-thumb {
             <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)"  title="sklearn RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">sklearn RF</button>
             <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)"  title="PySpark RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">PySpark RF</button>
           </div>
-          <p class="hw-mnote" id="hw-mnote">Model tabs select which model's rate is shown below. sklearn RF and PySpark RF differ from XGBoost only for divisions north of 8°N latitude - the domain those two models were trained and validated on for flood risk; elsewhere they fall back to the XGBoost rate.</p>
 
           <button class="btn-primary" onclick="hwRun()" style="display:flex;align-items:center;gap:6px;">
             <i class="ti ti-player-play"></i> Run Prediction
