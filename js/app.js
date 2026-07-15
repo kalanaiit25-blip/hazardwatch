@@ -634,18 +634,18 @@ function hwRun(){
   setGauge('hw-gv-c','hw-gf-c','hw-gs-c', 'compound', compoundSev);
 
   const mb = document.getElementById('hw-mbadge');
+  if(mb){ mb.innerHTML = ''; mb.style.display = 'none'; }
   const HW_MODEL_LABEL = { xgb:'XGBoost', sk:'sklearn RF', sp:'PySpark RF' };
   const modelNote = fallbackWeight > 0.5
     ? ` (${esc(HW_MODEL_LABEL[hwCurModel])} has no validated flood rate south of 8°N for most of the matched area, so this leans on the XGBoost rate instead)`
     : '';
-  if(mb) mb.innerHTML = `Prediction from ${esc(HW_MODEL_LABEL[hwCurModel] || hwCurModel)}, blended across the nearest real DS divisions to your inputs.${modelNote}`;
 
   const ip = document.getElementById('hw-interp');
   if(ip){
     const fT = HW_CFG.flood.tier(match), lT = HW_CFG.land.tier(match);
     const dom = fT !== lT ? (fT > lT ? 'flood' : 'landslide')
                           : ((match.floodProb||0) >= (match.landProb||0) ? 'flood' : 'landslide');
-    ip.textContent = `${compoundSev.gauge} compound risk, dominated by ${dom} risk, based on the nearest real DS divisions to your inputs.`;
+    ip.textContent = `${compoundSev.gauge} compound risk, dominated by ${dom} risk, based on the nearest real DS divisions to your inputs.${modelNote}`;
     ip.style.borderColor = compoundSev.col; ip.style.background = compoundSev.bg;
   }
 }
