@@ -1000,11 +1000,10 @@ input[type=range]::-moz-range-thumb {
 
           <div class="hw-pred-label" style="margin-top:18px;">Model</div>
           <div class="hw-mtabs">
-            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)" title="Baseline — always uses this division's XGBoost-derived rate">XGBoost</button>
+            <button class="hw-mt on" id="hw-m-xgb" onclick="hwModel('xgb',this)" title="Baseline - always uses this division's XGBoost-derived rate">XGBoost</button>
             <button class="hw-mt"    id="hw-m-sk"  onclick="hwModel('sk',this)"  title="sklearn RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">sklearn RF</button>
             <button class="hw-mt"    id="hw-m-sp"  onclick="hwModel('sp',this)"  title="PySpark RF's own rate for divisions north of 8°N; falls back to XGBoost's rate south of 8°N (outside this model's validated flood domain)">PySpark RF</button>
           </div>
-          <p class="hw-mnote" id="hw-mnote">Model tabs select which model's rate is shown below. sklearn RF and PySpark RF differ from XGBoost only for divisions north of 8°N latitude — the domain those two models were trained and validated on for flood risk; elsewhere they fall back to the XGBoost rate.</p>
 
           <button class="btn-primary" onclick="hwRun()" style="display:flex;align-items:center;gap:6px;">
             <i class="ti ti-player-play"></i> Run Prediction
